@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
 
-<!-- Balises pour WhatsApp - Version corrigée avec image valide -->
+<!-- Balises pour WhatsApp -->
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
 <meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours.">
 <meta property="og:image" content="https://placehold.co/1200x630/1a5a3a/white?text=Nexus+Cr%C3%A9dit+-+Pr%C3%AAt+Rapide">
@@ -809,17 +809,6 @@ function openContratComplet() {
     font-weight: bold;
   }
   .close-btn:hover { background: #0e3d26; }
-  .signature-block {
-    display: flex;
-    gap: 40px;
-    margin: 40px 0;
-  }
-  .sig-box {
-    flex: 1;
-    text-align: center;
-    border-top: 1px solid #999;
-    padding-top: 15px;
-  }
   @media print {
     .close-btn { display: none; }
     body { padding: 20px; }
@@ -960,7 +949,6 @@ function openContratComplet() {
 </body>
 </html>`;
     
-    // Utilisation d'un blob pour éviter les blocages de popup sur mobile
     const blob = new Blob([contratCompletHTML], {type: 'text/html'});
     const url = URL.createObjectURL(blob);
     const newWindow = window.open(url, '_blank');
@@ -1261,7 +1249,7 @@ newValidateBtn.addEventListener('click', function() {
   validateFields();
 });
 
-// ===== OUVERTURE DU CONTRAT PDF - Version corrigée pour mobile =====
+// ===== OUVERTURE DU CONTRAT PDF - VERSION CORRIGÉE POUR TOUS LES MOBILES =====
 const openContractBtn = document.getElementById('openContractBtn');
 
 const newOpenContractBtn = openContractBtn.cloneNode(true);
@@ -1441,10 +1429,38 @@ newOpenContractBtn.addEventListener('click', function() {
     letter-spacing: 1px;
   }
   
+  /* SOLUTION POUR LES COULEURS ROUGES DANS LE PDF - Compatible iPhone ET Android */
   @media print {
+    .stamp-encadrement::before {
+      border: 2px solid #b91c1c !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    .stamp-circle {
+      box-shadow: 0 0 0 2px #b91c1c, 0 0 0 4px #ef4444 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    .stamp-text-top, .stamp-center, .stamp-text-bottom {
+      color: #b91c1c !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    .stamp-star {
+      color: #b91c1c !important;
+    }
+    .reminder-box {
+      border: 2px solid #d4a017 !important;
+      background: #fff8e7 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
     .print-btn { display: none; }
     body { padding: 20px; }
-    .stamp-encadrement, .stamp-circle { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
   
   @media (max-width: 600px) {
@@ -1545,7 +1561,6 @@ newOpenContractBtn.addEventListener('click', function() {
 </body>
 </html>`;
   
-  // Solution pour mobile : blob + nouvelle fenêtre
   const blob = new Blob([contratHTML], {type: 'text/html'});
   const url = URL.createObjectURL(blob);
   const newWindow = window.open(url, '_blank');
