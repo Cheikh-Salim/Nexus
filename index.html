@@ -5,13 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
 
-<!-- Balises pour WhatsApp -->
+<!-- Balises pour WhatsApp - Version corrigée avec image valide -->
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
 <meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours.">
+<meta property="og:image" content="https://placehold.co/1200x630/1a5a3a/white?text=Nexus+Cr%C3%A9dit+-+Pr%C3%AAt+Rapide">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://nexus-credit.onrender.com">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nexus Crédit">
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
+<meta name="twitter:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%.">
+<meta name="twitter:image" content="https://placehold.co/1200x630/1a5a3a/white?text=Nexus+Cr%C3%A9dit+-+Pr%C3%AAt+Rapide">
 
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
@@ -41,23 +48,23 @@
     background: rgba(11,15,10,0.95);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    padding: 0 16px;
-    height: 60px;
+    padding: 0 32px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   .nav-logo {
     font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 900;
     color: var(--green);
   }
   .nav-logo span { color: var(--gold); }
-  .nav-links { display: flex; gap: 4px; }
+  .nav-links { display: flex; gap: 6px; }
   .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 500;
-    padding: 5px 12px; border-radius: 999px;
+    color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
+    padding: 7px 16px; border-radius: 999px;
     border: 1px solid transparent;
     transition: all .2s;
   }
@@ -65,26 +72,27 @@
   .nav-cta {
     background: var(--green); color: #000 !important;
     font-weight: 700 !important;
-    padding: 6px 14px !important;
+    padding: 8px 20px !important;
   }
   .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding: 80px 16px 40px;
+    padding: 100px 32px 60px;
   }
   .hero-inner {
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1fr 380px;
+    gap: 50px;
+    align-items: center;
   }
   .hero h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2rem, 8vw, 4rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 900;
-    line-height: 1.2;
+    line-height: 1.1;
   }
   .hero h1 em { color: var(--green); }
   .hero h1 .line2 { color: var(--gold); }
@@ -112,58 +120,63 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 20px;
+    padding: 24px;
   }
   .hero-card .rate {
     display: flex;
     justify-content: space-between;
     background: var(--surface2);
     border-radius: 12px;
-    padding: 12px;
-    margin: 12px 0;
+    padding: 15px;
+    margin: 15px 0;
   }
-  .rate-val { font-size: 1.5rem; font-weight: 900; }
+  .rate-val { font-size: 1.8rem; font-weight: 900; }
   .rate-green { color: var(--green); }
   .rate-gold { color: var(--gold); }
   .chip {
     background: rgba(34,197,94,0.12);
     border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 11px;
+    padding: 4px 12px;
+    font-size: 12px;
     display: inline-block;
-    margin-right: 6px;
+    margin-right: 8px;
   }
-  .section { padding: 50px 16px; max-width: 1100px; margin: 0 auto; }
+  .section { padding: 70px 32px; max-width: 1100px; margin: 0 auto; }
   .section-title {
     font-family: 'Fraunces', serif;
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
     font-weight: 900;
     margin-bottom: 15px;
   }
+  .section-intro { color: var(--muted); margin-bottom: 40px; }
   .taux-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
   }
   .taux-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 18px;
-    padding: 20px;
-    transition: transform 0.3s ease;
+    padding: 24px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .taux-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(34,197,94,0.15);
   }
   .taux-card.featured { border-color: var(--gold); }
-  .taux-duration { font-size: 2rem; font-weight: 900; }
-  .taux-rate { font-size: 2.5rem; font-weight: 900; color: var(--green); margin: 8px 0; }
+  .taux-duration { font-size: 2.5rem; font-weight: 900; }
+  .taux-rate { font-size: 2.8rem; font-weight: 900; color: var(--green); margin: 10px 0; }
   .featured .taux-rate { color: var(--gold); }
   .taux-example {
     background: var(--surface2);
     border-radius: 12px;
-    padding: 12px;
-    margin-top: 12px;
-    font-size: 12px;
+    padding: 14px;
+    margin-top: 15px;
+    font-size: 13px;
   }
-  .ex-row { display: flex; justify-content: space-between; padding: 4px 0; }
+  .ex-row { display: flex; justify-content: space-between; padding: 5px 0; }
   .green { color: var(--green); }
   .red { color: var(--red); }
   .form-section {
@@ -175,12 +188,13 @@
   }
   .form-header {
     background: linear-gradient(135deg, var(--green-dark), #0d5c2a);
-    padding: 20px;
+    padding: 28px;
   }
-  .form-header h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; color: #fff; }
-  .form-body { padding: 20px; }
-  .form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .form-header h3 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: #fff; }
+  .form-body { padding: 28px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
   .field label { font-size: 13px; font-weight: 700; }
   .field label span { color: var(--green); }
   .field input, .field select, .field textarea {
@@ -191,16 +205,19 @@
     padding: 12px 14px;
     font-family: inherit;
     outline: none;
-    font-size: 16px;
+    transition: all 0.2s;
   }
   .field input:focus, .field select:focus, .field textarea:focus {
     border-color: var(--green);
-    box-shadow: 0 0 0 2px rgba(34,197,94,0.3);
+    box-shadow: 0 0 0 3px var(--green-dim), 0 0 0 1px var(--green);
+    outline: none;
+    transform: scale(1.01);
   }
   .simulateur {
     background: var(--surface2);
     border-radius: 14px;
-    padding: 16px;
+    padding: 18px;
+    grid-column: 1 / -1;
     display: none;
   }
   .simulateur.show { display: block; }
@@ -210,20 +227,21 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 20px;
-    margin-top: 10px;
+    padding: 24px;
+    margin-top: 20px;
+    grid-column: 1 / -1;
   }
   .signature-title {
     font-family: 'Fraunces', serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 900;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: var(--gold);
   }
   .canvas-container {
     background: white;
     border-radius: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     overflow: hidden;
     border: 1px solid #ddd;
   }
@@ -234,12 +252,16 @@
     background: white;
     cursor: crosshair;
     touch-action: none;
+    transition: box-shadow 0.3s ease;
+  }
+  canvas:hover {
+    box-shadow: 0 0 0 2px var(--green);
   }
   .sign-buttons {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
   }
   .sign-btn {
     background: var(--surface);
@@ -249,96 +271,143 @@
     color: var(--text);
     cursor: pointer;
     font-size: 13px;
+    transition: all 0.3s;
+  }
+  .sign-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+    transform: translateY(-2px);
   }
   .sign-check-label {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 12px;
+    margin-bottom: 15px;
     color: var(--muted);
   }
-  .sign-check-label input { width: 18px; height: 18px; accent-color: var(--green); }
+  .sign-check-label input { width: 20px; height: 20px; accent-color: var(--green); }
   .btn-sign {
     background: var(--gold);
     color: #000;
     font-weight: 800;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  .btn-pdf {
-    background: var(--green);
-    color: #000;
-    font-weight: 800;
-    padding: 12px;
+    padding: 12px 20px;
     border-radius: 12px;
     border: none;
     cursor: pointer;
     width: 100%;
     font-size: 15px;
+    margin-bottom: 12px;
+    transition: all 0.3s;
   }
-  .btn-submit {
+  .btn-sign:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245,158,11,0.3);
+  }
+  .btn-pdf {
     background: var(--green);
     color: #000;
     font-weight: 800;
-    padding: 14px;
+    padding: 14px 24px;
     border-radius: 12px;
     border: none;
     cursor: pointer;
     width: 100%;
     font-size: 16px;
+    margin-top: 10px;
+    transition: all 0.3s;
+  }
+  .btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34,197,94,0.3);
+  }
+  .btn-submit {
+    background: var(--green);
+    color: #000;
+    font-weight: 800;
+    padding: 16px 32px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    grid-column: 1 / -1;
+    transition: all 0.3s;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34,197,94,0.3);
   }
   .instruction-box {
     background: rgba(34,197,94,0.15);
     border: 1px solid var(--green);
     border-radius: 16px;
-    padding: 16px;
+    padding: 20px;
+    margin-top: 20px;
+    grid-column: 1 / -1;
     text-align: center;
   }
-  .instruction-box h4 { color: var(--gold); margin-bottom: 8px; font-size: 14px; }
-  .instruction-box p { font-size: 12px; margin-bottom: 5px; }
+  .instruction-box h4 {
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .instruction-box p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
   .success-msg {
     display: none;
     text-align: center;
-    padding: 20px;
+    padding: 30px;
     background: rgba(34,197,94,0.12);
     border-radius: 16px;
+    grid-column: 1 / -1;
+    animation: scaleIn 0.4s ease-out;
   }
   footer {
     background: var(--surface);
-    padding: 30px 16px;
+    padding: 40px 32px;
     text-align: center;
     border-top: 1px solid var(--border2);
+    animation: fadeInUp 0.6s ease-out 0.2s both;
   }
   .reminder-date {
     background: rgba(245,158,11,0.15);
     border: 1px solid var(--gold);
     border-radius: 12px;
-    padding: 10px;
+    padding: 12px;
     text-align: center;
+    margin-top: 15px;
+    grid-column: 1 / -1;
+    transition: all 0.3s ease;
   }
-  .reminder-date p { color: var(--gold); font-weight: bold; font-size: 13px; }
+  .reminder-date:hover {
+    transform: scale(1.01);
+    box-shadow: 0 5px 20px rgba(245,158,11,0.2);
+  }
+  .reminder-date p {
+    color: var(--gold);
+    font-weight: bold;
+  }
   .progress-container {
     background: var(--surface2);
     border-radius: 30px;
-    padding: 4px;
+    padding: 5px;
+    margin-bottom: 20px;
+    grid-column: 1/-1;
   }
   .progress-bar {
     background: var(--green);
     width: 0%;
-    height: 8px;
+    height: 10px;
     border-radius: 30px;
-    transition: width 0.3s;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .progress-steps {
     display: flex;
     justify-content: space-between;
-    margin-top: 6px;
-    font-size: 9px;
+    margin-top: 8px;
+    font-size: 10px;
     color: var(--muted);
   }
   .progress-steps span.active { color: var(--green); font-weight: bold; }
@@ -346,51 +415,137 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 8px;
+    padding: 10px;
     margin-top: 10px;
     cursor: pointer;
     color: var(--text);
     width: 100%;
-    font-size: 12px;
+    font-size: 13px;
+    transition: all 0.3s;
+  }
+  .btn-copy:hover {
+    border-color: var(--green);
+    color: var(--green);
+    transform: translateY(-2px);
   }
   .reminder-whatsapp {
     background: rgba(37, 211, 102, 0.15);
     border: 1px solid #25D366;
     border-radius: 12px;
-    padding: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    grid-column: 1 / -1;
     text-align: center;
   }
-  .reminder-whatsapp p { color: #25D366; font-size: 12px; margin: 4px 0; }
-  .whatsapp-number { font-weight: bold; font-size: 14px; background: rgba(37,211,102,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; }
+  .reminder-whatsapp p {
+    color: #25D366;
+    font-size: 13px;
+    margin: 5px 0;
+  }
+  .reminder-whatsapp .whatsapp-number {
+    color: #25D366;
+    font-weight: bold;
+    font-size: 16px;
+    background: rgba(37, 211, 102, 0.2);
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-top: 5px;
+  }
   .aperçu-contrat {
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 20px;
+    grid-column: 1 / -1;
   }
   .aperçu-title {
     font-family: 'Fraunces', serif;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 900;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   .aperçu-content {
     background: rgba(0,0,0,0.2);
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 12px;
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.5;
   }
-  .preview-row { display: flex; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
-  .preview-key { width: 120px; color: var(--muted); }
-  .preview-val { font-weight: 600; color: var(--green); }
-  .hf-item { display: inline-block; margin-right: 15px; margin-bottom: 8px; font-size: 13px; }
-  .hero-btns { margin-top: 20px; }
-  
-  @media (min-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr 380px; }
-    .form-grid { grid-template-columns: 1fr 1fr; }
-    .field.full { grid-column: 1 / -1; }
+  .aperçu-content .contrat-preview {
+    color: var(--text);
+  }
+  .aperçu-content .preview-row {
+    display: flex;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .aperçu-content .preview-key {
+    width: 140px;
+    color: var(--muted);
+  }
+  .aperçu-content .preview-val {
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes navPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  }
+  @keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 5px rgba(34,197,94,0.3); }
+    50% { text-shadow: 0 0 15px rgba(34,197,94,0.6); }
+  }
+
+  .hero h1 { animation: fadeInUp 0.8s ease-out; }
+  .hero-desc { animation: fadeInUp 0.8s ease-out 0.2s both; }
+  .hero-btns { animation: fadeInUp 0.8s ease-out 0.4s both; }
+  .hero-features { animation: fadeInUp 0.8s ease-out 0.3s both; }
+  .hero-card { animation: fadeInRight 0.8s ease-out; }
+  .taux-card { animation: fadeInUp 0.6s ease-out backwards; }
+  .taux-card:nth-child(1) { animation-delay: 0.1s; }
+  .taux-card:nth-child(2) { animation-delay: 0.2s; }
+  .taux-card:nth-child(3) { animation-delay: 0.3s; }
+  .form-section { animation: scaleIn 0.5s ease-out; }
+  .nav-cta { animation: navPulse 2s infinite; }
+  .nav-cta:hover { animation: none; }
+  .hero h1 em { animation: textGlow 3s ease-in-out infinite; }
+  .chip { transition: all 0.2s ease; }
+  .chip:hover { transform: translateY(-2px); background: var(--green-dim); box-shadow: 0 2px 8px rgba(34,197,94,0.2); }
+  .hf-icon { transition: all 0.3s ease; }
+  .hf-item:hover .hf-icon { transform: rotate(5deg) scale(1.1); background: var(--green-dim); }
+  .taux-card { position: relative; overflow: hidden; }
+  .taux-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: left 0.5s ease; }
+  .taux-card:hover::before { left: 100%; }
+
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-card { display: none; }
+    .form-grid { grid-template-columns: 1fr; }
+    .section { padding: 50px 16px; }
+    nav { padding: 0 16px; }
+    canvas { min-height: 150px; }
   }
 </style>
 </head>
@@ -411,10 +566,10 @@
       <h1>Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
       <p class="hero-desc">Un besoin urgent d'argent ? Nexus Crédit vous accompagne avec des prêts rapides, transparents et sans complication.</p>
       <div class="hero-features">
-        <div class="hf-item">⚡ Réponse rapide après votre demande</div>
-        <div class="hf-item">📋 Contrat clair et transparent</div>
-        <div class="hf-item">🔒 Données confidentielles et sécurisées</div>
-        <div class="hf-item">📱 Suivi direct par téléphone</div>
+        <div class="hf-item"><div class="hf-icon">⚡</div>Réponse rapide après votre demande</div>
+        <div class="hf-item"><div class="hf-icon">📋</div>Contrat clair et transparent</div>
+        <div class="hf-item"><div class="hf-icon">🔒</div>Données confidentielles et sécurisées</div>
+        <div class="hf-item"><div class="hf-icon">📱</div>Suivi direct par téléphone</div>
       </div>
       <div class="hero-btns">
         <a href="#demande" class="btn-primary">💰 Faire une demande</a>
@@ -600,7 +755,7 @@ compteur++;
 localStorage.setItem('nexusVisites', compteur);
 document.getElementById('visiteCount').innerHTML = compteur;
 
-// ===== FONCTION POUR OUVRIR LE CONTRAT COMPLET (Version originale avec tampons) =====
+// ===== FONCTION POUR OUVRIR LE CONTRAT COMPLET =====
 function openContratComplet() {
     const contratCompletHTML = `<!DOCTYPE html>
 <html>
@@ -805,13 +960,18 @@ function openContratComplet() {
 </body>
 </html>`;
     
-    const newWindow = window.open();
-    if (newWindow) {
-        newWindow.document.write(contratCompletHTML);
-        newWindow.document.close();
-    } else {
-        alert("Veuillez autoriser les popups pour voir le contrat");
+    // Utilisation d'un blob pour éviter les blocages de popup sur mobile
+    const blob = new Blob([contratCompletHTML], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const newWindow = window.open(url, '_blank');
+    if (!newWindow) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'contrat_nexus_credit.html';
+      link.click();
+      alert("Le contrat s'ouvre dans votre navigateur. Si rien ne s'affiche, vérifiez que les popups sont autorisés.");
     }
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 // ===== LIENS POUR VOIR LE CONTRAT =====
@@ -918,7 +1078,6 @@ function validateFields() {
     document.getElementById('step1')?.classList.toggle('active', progress >= 20);
     document.getElementById('step2')?.classList.toggle('active', progress >= 60);
     document.getElementById('step3')?.classList.toggle('active', progress >= 80);
-    document.getElementById('step4')?.classList.toggle('active', progress >= 100);
 }
 
 // ===== CANVAS SIGNATURE =====
@@ -1102,7 +1261,7 @@ newValidateBtn.addEventListener('click', function() {
   validateFields();
 });
 
-// ===== OUVERTURE DU CONTRAT PDF - Version avec TOUS les tampons et encadrements =====
+// ===== OUVERTURE DU CONTRAT PDF - Version corrigée pour mobile =====
 const openContractBtn = document.getElementById('openContractBtn');
 
 const newOpenContractBtn = openContractBtn.cloneNode(true);
@@ -1159,16 +1318,17 @@ newOpenContractBtn.addEventListener('click', function() {
     font-weight: bold;
     text-transform: uppercase;
   }
-  .row { display: flex; padding: 6px 0; border-bottom: 1px solid #eee; }
+  .row { display: flex; padding: 6px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
   .key { width: 220px; color: #555; font-weight: 500; }
   .val { font-weight: bold; color: #000; }
-  .signatures { display: flex; gap: 40px; margin-top: 50px; margin-bottom: 30px; }
+  .signatures { display: flex; gap: 40px; margin-top: 50px; margin-bottom: 30px; flex-wrap: wrap; }
   .sig-box { 
     flex: 1; 
     text-align: center; 
     position: relative;
     padding: 20px 10px 10px 10px;
     border-top: 1px solid #999;
+    min-width: 200px;
   }
   .signature-image { 
     max-width: 100%; 
@@ -1196,7 +1356,6 @@ newOpenContractBtn.addEventListener('click', function() {
     margin-right: auto;
     font-weight: bold;
   }
-  .print-btn:hover { background: #0e3d26; }
   .reminder-box {
     background: #fff8e7;
     border: 2px solid #d4a017;
@@ -1286,6 +1445,13 @@ newOpenContractBtn.addEventListener('click', function() {
     .print-btn { display: none; }
     body { padding: 20px; }
     .stamp-encadrement, .stamp-circle { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  
+  @media (max-width: 600px) {
+    body { padding: 15px; }
+    .row { flex-direction: column; }
+    .key { width: 100%; }
+    .signatures { flex-direction: column; }
   }
 </style>
 </head>
@@ -1379,16 +1545,22 @@ newOpenContractBtn.addEventListener('click', function() {
 </body>
 </html>`;
   
-  const newWindow = window.open();
-  if (newWindow) {
-      newWindow.document.write(contratHTML);
-      newWindow.document.close();
-      setTimeout(() => {
-          alert("📄 Contrat généré !\n\nAppuyez sur 'Imprimer / Enregistrer en PDF' puis choisissez 'Enregistrer au format PDF' pour sauvegarder le contrat.");
-      }, 500);
-  } else {
-      alert("Veuillez autoriser les popups pour générer le PDF");
+  // Solution pour mobile : blob + nouvelle fenêtre
+  const blob = new Blob([contratHTML], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const newWindow = window.open(url, '_blank');
+  
+  if (!newWindow) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `contrat_nexus_${nom}.html`;
+    link.click();
+    alert("📄 Le contrat s'ouvre dans votre navigateur. Appuyez sur 'Imprimer' → 'Enregistrer au format PDF' pour le sauvegarder.");
   }
+  
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 60000);
 });
 
 // ===== ENVOI WHATSAPP =====
