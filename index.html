@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
 
-<!-- Balises pour WhatsApp / Facebook (Open Graph) -->
+<!-- Balises pour WhatsApp -->
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
 <meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours.">
 <meta property="og:image" content="https://nexus-credit.onrender.com/apercu-nexus.jpg">
@@ -960,9 +960,25 @@ function openContratComplet() {
 </body>
 </html>`;
     
-    const newWindow = window.open();
-    newWindow.document.write(contratCompletHTML);
-    newWindow.document.close();
+    // Utiliser un iframe pour éviter le blocage des popups sur mobile
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.top = '-9999px';
+    iframe.style.left = '-9999px';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    document.body.appendChild(iframe);
+    iframe.contentWindow.document.write(contratCompletHTML);
+    iframe.contentWindow.document.close();
+    
+    // Afficher l'iframe
+    setTimeout(() => {
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.zIndex = '9999';
+        iframe.style.backgroundColor = 'white';
+    }, 100);
 }
 
 // ===== LIENS POUR VOIR LE CONTRAT =====
@@ -1267,7 +1283,7 @@ newValidateBtn.addEventListener('click', function() {
   validateFields();
 });
 
-// ===== OUVERTURE DU CONTRAT PDF - Version qui fonctionne sur tous les appareils =====
+// ===== OUVERTURE DU CONTRAT PDF - Version qui fonctionne sur tous les mobiles =====
 const openContractBtn = document.getElementById('openContractBtn');
 
 const newOpenContractBtn = openContractBtn.cloneNode(true);
@@ -1544,12 +1560,29 @@ newOpenContractBtn.addEventListener('click', function() {
 </body>
 </html>`;
   
-  const newWindow = window.open();
-  newWindow.document.write(contratHTML);
-  newWindow.document.close();
+  // Utiliser un iframe pour éviter le blocage des popups sur mobile
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'fixed';
+  iframe.style.top = '-9999px';
+  iframe.style.left = '-9999px';
+  iframe.style.width = '100%';
+  iframe.style.height = '100%';
+  iframe.style.border = 'none';
+  iframe.style.zIndex = '9999';
+  document.body.appendChild(iframe);
+  iframe.contentWindow.document.write(contratHTML);
+  iframe.contentWindow.document.close();
   
-  // Message clair pour l'utilisateur
-  alert("✅ Contrat généré !\n\n📱 Sur mobile : cliquez sur les 3 points (menu) → 'Imprimer' → 'Enregistrer au format PDF'\n\n💻 Sur ordinateur : Ctrl+P (ou Cmd+P) → 'Enregistrer au format PDF'");
+  // Afficher l'iframe
+  setTimeout(() => {
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+  }, 100);
+  
+  // Message pour l'utilisateur
+  setTimeout(() => {
+      alert("📄 Contrat généré !\n\nAppuyez sur les 3 points (menu) → 'Imprimer' → 'Enregistrer au format PDF' pour sauvegarder le contrat.");
+  }, 500);
 });
 
 // ===== ENVOI WHATSAPP =====
