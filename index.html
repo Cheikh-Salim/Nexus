@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
 
-<!-- ========== BALISES POUR WHATSAPP / FACEBOOK (Open Graph) ========== -->
+<!-- Balises pour WhatsApp / Facebook (Open Graph) -->
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
-<meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours. Sans garantie pour les petits montants.">
+<meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours.">
 <meta property="og:image" content="https://nexus-credit.onrender.com/apercu-nexus.jpg">
 <meta property="og:url" content="https://nexus-credit.onrender.com">
 <meta property="og:type" content="website">
@@ -19,10 +19,8 @@
 <meta name="twitter:image" content="https://nexus-credit.onrender.com/apercu-nexus.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<!-- ================================================================ -->
 
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
     --bg: #0b0f0a;
@@ -161,6 +159,11 @@
     border: 1px solid var(--border);
     border-radius: 18px;
     padding: 24px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .taux-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(34,197,94,0.15);
   }
   .taux-card.featured { border-color: var(--gold); }
   .taux-duration { font-size: 2.5rem; font-weight: 900; }
@@ -177,7 +180,8 @@
   .green { color: var(--green); }
   .red { color: var(--red); }
   .form-section {
-    background: var(--surface);
+    background: rgba(18, 23, 18, 0.8);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: 24px;
     overflow: hidden;
@@ -201,9 +205,14 @@
     padding: 12px 14px;
     font-family: inherit;
     outline: none;
+    transition: all 0.2s;
   }
-  .field.success input, .field.success select { border-color: var(--green); }
-  .field.error input, .field.error select { border-color: var(--red); }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px var(--green-dim), 0 0 0 1px var(--green);
+    outline: none;
+    transform: scale(1.01);
+  }
   .simulateur {
     background: var(--surface2);
     border-radius: 14px;
@@ -243,6 +252,10 @@
     background: white;
     cursor: crosshair;
     touch-action: none;
+    transition: box-shadow 0.3s ease;
+  }
+  canvas:hover {
+    box-shadow: 0 0 0 2px var(--green);
   }
   .sign-buttons {
     display: flex;
@@ -258,11 +271,12 @@
     color: var(--text);
     cursor: pointer;
     font-size: 13px;
-    transition: all .2s;
+    transition: all 0.3s;
   }
   .sign-btn:hover {
     border-color: var(--green);
     color: var(--green);
+    transform: translateY(-2px);
   }
   .sign-check-label {
     display: flex;
@@ -283,6 +297,11 @@
     width: 100%;
     font-size: 15px;
     margin-bottom: 12px;
+    transition: all 0.3s;
+  }
+  .btn-sign:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245,158,11,0.3);
   }
   .btn-pdf {
     background: var(--green);
@@ -295,6 +314,11 @@
     width: 100%;
     font-size: 16px;
     margin-top: 10px;
+    transition: all 0.3s;
+  }
+  .btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34,197,94,0.3);
   }
   .btn-submit {
     background: var(--green);
@@ -307,6 +331,11 @@
     width: 100%;
     font-size: 16px;
     grid-column: 1 / -1;
+    transition: all 0.3s;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34,197,94,0.3);
   }
   .instruction-box {
     background: rgba(34,197,94,0.15);
@@ -333,12 +362,14 @@
     background: rgba(34,197,94,0.12);
     border-radius: 16px;
     grid-column: 1 / -1;
+    animation: scaleIn 0.4s ease-out;
   }
   footer {
     background: var(--surface);
     padding: 40px 32px;
     text-align: center;
     border-top: 1px solid var(--border2);
+    animation: fadeInUp 0.6s ease-out 0.2s both;
   }
   .reminder-date {
     background: rgba(245,158,11,0.15);
@@ -348,6 +379,11 @@
     text-align: center;
     margin-top: 15px;
     grid-column: 1 / -1;
+    transition: all 0.3s ease;
+  }
+  .reminder-date:hover {
+    transform: scale(1.01);
+    box-shadow: 0 5px 20px rgba(245,158,11,0.2);
   }
   .reminder-date p {
     color: var(--gold);
@@ -365,7 +401,7 @@
     width: 0%;
     height: 10px;
     border-radius: 30px;
-    transition: width 0.3s ease;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .progress-steps {
     display: flex;
@@ -385,11 +421,12 @@
     color: var(--text);
     width: 100%;
     font-size: 13px;
-    transition: all .2s;
+    transition: all 0.3s;
   }
   .btn-copy:hover {
     border-color: var(--green);
     color: var(--green);
+    transform: translateY(-2px);
   }
   .reminder-whatsapp {
     background: rgba(37, 211, 102, 0.15);
@@ -459,280 +496,49 @@
     color: var(--green);
   }
 
-  /* ========== ANIMATIONS AJOUTÉES ========== */
-  
-  /* Animation d'apparition des éléments au scroll */
+  /* Animations */
   @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  
-  @keyframes fadeInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
   @keyframes fadeInRight {
-    from {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
   }
-  
   @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
   }
-  
-  @keyframes glowPulse {
-    0%, 100% {
-      box-shadow: 0 0 5px rgba(34,197,94,0.3);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba(34,197,94,0.6);
-    }
+  @keyframes navPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
   }
-  
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
+  @keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 5px rgba(34,197,94,0.3); }
+    50% { text-shadow: 0 0 15px rgba(34,197,94,0.6); }
   }
-  
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
-  }
-  
-  /* Appliquer les animations */
-  .hero h1 {
-    animation: fadeInUp 0.8s ease-out;
-  }
-  
-  .hero-desc {
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-  }
-  
-  .hero-btns {
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-  }
-  
-  .hero-features {
-    animation: fadeInUp 0.8s ease-out 0.3s both;
-  }
-  
-  .hero-card {
-    animation: fadeInRight 0.8s ease-out;
-  }
-  
-  .taux-card {
-    animation: fadeInUp 0.6s ease-out backwards;
-  }
-  
+
+  .hero h1 { animation: fadeInUp 0.8s ease-out; }
+  .hero-desc { animation: fadeInUp 0.8s ease-out 0.2s both; }
+  .hero-btns { animation: fadeInUp 0.8s ease-out 0.4s both; }
+  .hero-features { animation: fadeInUp 0.8s ease-out 0.3s both; }
+  .hero-card { animation: fadeInRight 0.8s ease-out; }
+  .taux-card { animation: fadeInUp 0.6s ease-out backwards; }
   .taux-card:nth-child(1) { animation-delay: 0.1s; }
   .taux-card:nth-child(2) { animation-delay: 0.2s; }
   .taux-card:nth-child(3) { animation-delay: 0.3s; }
-  
-  .form-section {
-    animation: scaleIn 0.5s ease-out;
-  }
-  
-  /* Animation au survol des cartes */
-  .taux-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .taux-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(34,197,94,0.15);
-  }
-  
-  /* Animation au survol des boutons */
-  .btn-primary, .btn-secondary, .btn-sign, .btn-pdf, .btn-submit, .btn-copy, .sign-btn {
-    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-  }
-  
-  .btn-primary:hover, .btn-sign:hover, .btn-pdf:hover, .btn-submit:hover, .btn-copy:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(34,197,94,0.3);
-  }
-  
-  .btn-secondary:hover {
-    transform: translateY(-3px);
-    background: rgba(34,197,94,0.1);
-  }
-  
-  /* Animation des champs de formulaire au focus */
-  .field input:focus, .field select:focus, .field textarea:focus {
-    transform: scale(1.01);
-    transition: all 0.2s ease;
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px var(--green-dim);
-  }
-  
-  /* Animation de la barre de progression */
-  .progress-bar {
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  /* Animation de pulsation pour le bouton de navigation */
-  @keyframes navPulse {
-    0%, 100% {
-      box-shadow: 0 0 0 0 rgba(34,197,94,0.4);
-    }
-    50% {
-      box-shadow: 0 0 0 8px rgba(34,197,94,0);
-    }
-  }
-  
-  .nav-cta {
-    animation: navPulse 2s infinite;
-  }
-  
-  .nav-cta:hover {
-    animation: none;
-  }
-  
-  /* Animation des chips */
-  .chip {
-    transition: all 0.2s ease;
-  }
-  
-  .chip:hover {
-    transform: translateY(-2px);
-    background: var(--green-dim);
-    box-shadow: 0 2px 8px rgba(34,197,94,0.2);
-  }
-  
-  /* Animation du canvas de signature */
-  canvas {
-    transition: box-shadow 0.3s ease;
-  }
-  
-  canvas:hover {
-    box-shadow: 0 0 0 2px var(--green);
-  }
-  
-  /* Animation des sections au scroll (apparition progressive) */
-  .section {
-    opacity: 0;
-    animation: fadeInUp 0.6s ease-out forwards;
-  }
-  
-  .section:nth-child(1) { animation-delay: 0.1s; }
-  .section:nth-child(2) { animation-delay: 0.2s; }
-  .section:nth-child(3) { animation-delay: 0.3s; }
-  
-  /* Animation du footer */
-  footer {
-    animation: fadeInUp 0.6s ease-out 0.2s both;
-  }
-  
-  /* Effet de brillance au survol des cartes de taux */
-  .taux-card {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .taux-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-    transition: left 0.5s ease;
-  }
-  
-  .taux-card:hover::before {
-    left: 100%;
-  }
-  
-  /* Animation du loader (si présent) */
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  
-  /* Animation de la reminder box */
-  .reminder-date {
-    transition: all 0.3s ease;
-  }
-  
-  .reminder-date:hover {
-    transform: scale(1.01);
-    box-shadow: 0 5px 20px rgba(245,158,11,0.2);
-  }
-  
-  /* Animation des étoiles dans le contrat */
-  @keyframes starTwinkle {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.1); }
-  }
-  
-  /* Animation du message de succès */
-  .success-msg {
-    animation: scaleIn 0.4s ease-out;
-  }
-  
-  /* Animation des icônes dans les features */
-  .hf-icon {
-    transition: all 0.3s ease;
-  }
-  
-  .hf-item:hover .hf-icon {
-    transform: rotate(5deg) scale(1.1);
-    background: var(--green-dim);
-  }
-  
-  /* Animation du texte du titre */
-  @keyframes textGlow {
-    0%, 100% {
-      text-shadow: 0 0 5px rgba(34,197,94,0.3);
-    }
-    50% {
-      text-shadow: 0 0 15px rgba(34,197,94,0.6);
-    }
-  }
-  
-  .hero h1 em {
-    animation: textGlow 3s ease-in-out infinite;
-  }
-  
-  /* Animation de transition pour les inputs */
-  .field input, .field select, .field textarea {
-    transition: all 0.2s ease;
-  }
-  
+  .form-section { animation: scaleIn 0.5s ease-out; }
+  .nav-cta { animation: navPulse 2s infinite; }
+  .nav-cta:hover { animation: none; }
+  .hero h1 em { animation: textGlow 3s ease-in-out infinite; }
+  .chip { transition: all 0.2s ease; }
+  .chip:hover { transform: translateY(-2px); background: var(--green-dim); box-shadow: 0 2px 8px rgba(34,197,94,0.2); }
+  .hf-icon { transition: all 0.3s ease; }
+  .hf-item:hover .hf-icon { transform: rotate(5deg) scale(1.1); background: var(--green-dim); }
+  .taux-card { position: relative; overflow: hidden; }
+  .taux-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: left 0.5s ease; }
+  .taux-card:hover::before { left: 100%; }
+
   @media (max-width: 768px) {
     .hero-inner { grid-template-columns: 1fr; }
     .hero-card { display: none; }
@@ -911,9 +717,10 @@
             <p>1️⃣ Lisez attentivement le contrat en cliquant sur "📄 Voir le contrat" en haut de la page</p>
             <p>2️⃣ Remplissez tous les champs et signez dans le cadre</p>
             <p>3️⃣ Cliquez sur "VALIDER MA SIGNATURE" puis sur "GÉNÉRER MON CONTRAT PDF"</p>
-            <p>4️⃣ Dans la nouvelle fenêtre, cliquez sur "IMPRIMER / ENREGISTRER EN PDF"</p>
-            <p>5️⃣ Sauvegardez le fichier et revenez sur cette page</p>
-            <p>6️⃣ Cliquez sur "📤 Envoyer ma demande" et envoyez le PDF sur WhatsApp au <strong>78 664 90 62</strong></p>
+            <p>4️⃣ Une nouvelle fenêtre s'ouvre avec votre contrat</p>
+            <p>5️⃣ Sur mobile : cliquez sur les 3 points (menu) → "Imprimer" → "Enregistrer au format PDF"</p>
+            <p>6️⃣ Sur ordinateur : Ctrl+P (ou Cmd+P) → "Enregistrer au format PDF"</p>
+            <p>7️⃣ Envoyez le PDF sur WhatsApp au <strong>78 664 90 62</strong></p>
             <p style="color:var(--gold); margin-top:8px;">⚠️ Votre demande ne sera traitée qu'après réception du PDF signé !</p>
             
             <button type="button" id="copyLinkBtn" class="btn-copy">🔗 Copier le lien de l'application</button>
@@ -1036,7 +843,7 @@ function openContratComplet() {
     <div class="section-title">SECTION 1 - LES INTERVENANTS</div>
     <div class="section-content">
       <p><strong>Entre les personnes ci-dessous désignées :</strong></p>
-      <p>Le Bailleur de fonds : <strong>NEXUS CRÉDIT</strong> (Entreprise enregistrée au Sénégal), joignable au numéro WhatsApp<strong>78 664 90 62</strong>, ayant son siège social à Dakar.</p>
+      <p>Le Bailleur de fonds : <strong>NEXUS CRÉDIT</strong> (Entreprise enregistrée au Sénégal), joignable au <strong>78 664 90 62</strong>, ayant son siège social à Dakar.</p>
       <p>Et l'Emprunteur : La personne physique dont les coordonnées complètes (nom, numéro de téléphone WhatsApp, numéro de passeport) sont fournies dans le formulaire de demande.</p>
     </div>
   </div>
@@ -1415,26 +1222,22 @@ document.getElementById('telephone').addEventListener('input', function() { upda
 document.getElementById('passeport').addEventListener('input', function() { updateApercu(); validateFields(); });
 document.getElementById('garantie').addEventListener('input', function() { updateApercu(); validateFields(); });
 
-// ===== VALIDATION SIGNATURE (CORRIGÉE - LE BOUTON MARCHE MAINTENANT) =====
+// ===== VALIDATION SIGNATURE =====
 const signCheckbox = document.getElementById('signCheck');
 const signatureDisplayArea = document.getElementById('signatureDisplayArea');
 const signatureNameArea = document.getElementById('signatureNameArea');
 const validateBtn = document.getElementById('validateSignBtn');
 
-// Supprimer les anciens écouteurs pour éviter les doublons
 const newValidateBtn = validateBtn.cloneNode(true);
 validateBtn.parentNode.replaceChild(newValidateBtn, validateBtn);
 
 newValidateBtn.addEventListener('click', function() {
-  console.log("Bouton cliqué !");
-  
   const nomForm = document.getElementById('nom').value.trim();
   const telephoneForm = document.getElementById('telephone').value.trim();
   const passeportForm = document.getElementById('passeport').value.trim();
   const garantieForm = document.getElementById('garantie').value.trim();
   const isChecked = signCheckbox.checked;
   
-  // Vérifier si le canvas contient une signature
   const pixelData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   let hasSignature = false;
   for (let i = 0; i < pixelData.data.length; i += 4) {
@@ -1447,7 +1250,7 @@ newValidateBtn.addEventListener('click', function() {
   if (nomForm === "") { alert("❌ Remplissez d'abord votre NOM"); return; }
   if (telephoneForm === "") { alert("❌ Remplissez d'abord votre TÉLÉPHONE WHATSAPP"); return; }
   if (passeportForm === "") { alert("❌ Remplissez d'abord votre NUMÉRO DE PASSEPORT"); return; }
-  if (garantieForm === "") { alert("❌ Remplissez d'abord votre GARANTIE (Passeport + téléphone, ordinateur, etc.)"); return; }
+  if (garantieForm === "") { alert("❌ Remplissez d'abord votre GARANTIE"); return; }
   if (!hasSignature) { alert("❌ Veuillez dessiner votre signature dans le cadre"); return; }
   if (!isChecked) { alert("❌ Cochez la case d'acceptation"); return; }
   
@@ -1459,16 +1262,14 @@ newValidateBtn.addEventListener('click', function() {
   signatureDisplayArea.innerHTML = `<img src="${signatureDataURL}" style="max-width:100%; max-height:80px; border:1px solid #22c55e; border-radius:8px;"><div style="font-size:10px; margin-top:5px;">Signé le ${dateSignature} par ${nomSignature}</div>`;
   signatureNameArea.innerHTML = `Signé par : ${nomSignature}`;
   
-  // ✅ MESSAGE DE CONFIRMATION
   alert("✅ Signature enregistrée avec succès !");
   
   validateFields();
 });
 
-// ===== OUVERTURE DU CONTRAT PDF =====
+// ===== OUVERTURE DU CONTRAT PDF - Version qui fonctionne sur tous les appareils =====
 const openContractBtn = document.getElementById('openContractBtn');
 
-// Supprimer les anciens écouteurs
 const newOpenContractBtn = openContractBtn.cloneNode(true);
 openContractBtn.parentNode.replaceChild(newOpenContractBtn, openContractBtn);
 
@@ -1746,7 +1547,9 @@ newOpenContractBtn.addEventListener('click', function() {
   const newWindow = window.open();
   newWindow.document.write(contratHTML);
   newWindow.document.close();
-  alert("✅ Contrat généré ! Cliquez sur 'IMPRIMER / ENREGISTRER EN PDF' pour sauvegarder.");
+  
+  // Message clair pour l'utilisateur
+  alert("✅ Contrat généré !\n\n📱 Sur mobile : cliquez sur les 3 points (menu) → 'Imprimer' → 'Enregistrer au format PDF'\n\n💻 Sur ordinateur : Ctrl+P (ou Cmd+P) → 'Enregistrer au format PDF'");
 });
 
 // ===== ENVOI WHATSAPP =====
