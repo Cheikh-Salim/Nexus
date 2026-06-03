@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
 
-<!-- Balises pour WhatsApp - Version corrigée avec image valide -->
+<!-- Balises pour WhatsApp -->
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
 <meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours.">
 <meta property="og:image" content="https://placehold.co/1200x630/1a5a3a/white?text=Nexus+Cr%C3%A9dit+-+Pr%C3%AAt+Rapide">
@@ -720,8 +720,8 @@
             <p>4️⃣ Une nouvelle fenêtre s'ouvre avec votre contrat</p>
             <p>5️⃣ Sur mobile : cliquez sur les 3 points (menu) → "Imprimer" → "Enregistrer au format PDF"</p>
             <p>6️⃣ Sur ordinateur : Ctrl+P (ou Cmd+P) → "Enregistrer au format PDF"</p>
-            <p>7️⃣ Envoyez le PDF sur WhatsApp au <strong>78 664 90 62</strong></p>
-            <p style="color:var(--gold); margin-top:8px;">⚠️ Votre demande ne sera traitée qu'après réception du PDF signé !</p>
+            <p>7️⃣ <strong style="color:var(--green);">📸 OU PLUS FACILE : Faites une capture d'écran du contrat et envoyez-la sur WhatsApp au 78 664 90 62</strong></p>
+            <p style="color:var(--gold); margin-top:8px;">⚠️ Votre demande ne sera traitée qu'après réception du PDF signé OU de la capture d'écran !</p>
             
             <button type="button" id="copyLinkBtn" class="btn-copy">🔗 Copier le lien de l'application</button>
           </div>
@@ -729,7 +729,7 @@
           <div class="success-msg" id="successMsg">
             <span style="font-size:48px;">✅</span>
             <h4>Demande envoyée !</h4>
-            <p>N'oubliez pas d'envoyer le PDF signé sur WhatsApp au 78 664 90 62</p>
+            <p>N'oubliez pas d'envoyer le PDF signé ou la capture d'écran sur WhatsApp au 78 664 90 62</p>
           </div>
 
           <button type="submit" class="btn-submit" id="submitBtn">📤 Envoyer ma demande</button>
@@ -809,17 +809,6 @@ function openContratComplet() {
     font-weight: bold;
   }
   .close-btn:hover { background: #0e3d26; }
-  .signature-block {
-    display: flex;
-    gap: 40px;
-    margin: 40px 0;
-  }
-  .sig-box {
-    flex: 1;
-    text-align: center;
-    border-top: 1px solid #999;
-    padding-top: 15px;
-  }
   @media print {
     .close-btn { display: none; }
     body { padding: 20px; }
@@ -960,7 +949,6 @@ function openContratComplet() {
 </body>
 </html>`;
     
-    // Utilisation d'un blob pour éviter les blocages de popup sur mobile
     const blob = new Blob([contratCompletHTML], {type: 'text/html'});
     const url = URL.createObjectURL(blob);
     const newWindow = window.open(url, '_blank');
@@ -1261,7 +1249,7 @@ newValidateBtn.addEventListener('click', function() {
   validateFields();
 });
 
-// ===== OUVERTURE DU CONTRAT PDF - Version corrigée pour mobile =====
+// ===== OUVERTURE DU CONTRAT PDF =====
 const openContractBtn = document.getElementById('openContractBtn');
 
 const newOpenContractBtn = openContractBtn.cloneNode(true);
@@ -1442,9 +1430,32 @@ newOpenContractBtn.addEventListener('click', function() {
   }
   
   @media print {
+    .stamp-encadrement::before {
+      border: 2px solid #b91c1c !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .stamp-circle {
+      box-shadow: 0 0 0 2px #b91c1c, 0 0 0 4px #ef4444 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .stamp-text-top, .stamp-center, .stamp-text-bottom {
+      color: #b91c1c !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .stamp-star {
+      color: #b91c1c !important;
+    }
+    .reminder-box {
+      border: 2px solid #d4a017 !important;
+      background: #fff8e7 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
     .print-btn { display: none; }
     body { padding: 20px; }
-    .stamp-encadrement, .stamp-circle { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
   
   @media (max-width: 600px) {
@@ -1458,6 +1469,7 @@ newOpenContractBtn.addEventListener('click', function() {
 <body>
 <div style="text-align:center;">
   <button class="print-btn" onclick="window.print();">🖨️ IMPRIMER / ENREGISTRER EN PDF</button>
+  <p style="margin-top: 10px; font-size: 12px; color: #666;">📸 OU FAITES UNE CAPTURE D'ÉCRAN ET ENVOYEZ-LA SUR WHATSAPP</p>
 </div>
 <div class="container">
   <div class="header">
@@ -1545,7 +1557,6 @@ newOpenContractBtn.addEventListener('click', function() {
 </body>
 </html>`;
   
-  // Solution pour mobile : blob + nouvelle fenêtre
   const blob = new Blob([contratHTML], {type: 'text/html'});
   const url = URL.createObjectURL(blob);
   const newWindow = window.open(url, '_blank');
@@ -1607,7 +1618,7 @@ Date : ${dateSignature}
 --------------------------------
 ${message ? 'Message : ' + message : ''}
 --------------------------------
-✅ Le contrat PDF a été généré. Je vais l'envoyer séparément.`;
+✅ Contrat signé. Je vais envoyer le PDF ou la capture d'écran.`;
 
   const url = `https://wa.me/221786649062?text=${encodeURIComponent(texte)}`;
 
