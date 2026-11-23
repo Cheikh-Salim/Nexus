@@ -1,738 +1,720 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
 
-<!-- Balises pour WhatsApp -->
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
-<meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%. Remboursement en 7 ou 14 jours.">
-<meta property="og:image" content="https://placehold.co/1200x630/1a5a3a/white?text=Nexus+Cr%C3%A9dit+-+Pr%C3%AAt+Rapide">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:url" content="https://nexus-credit.onrender.com">
+<meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%.">
+<meta property="og:image" content="https://placehold.co/1200x630/0d5c3a/white?text=Nexus+Cr%C3%A9dit">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Nexus Crédit">
-<meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
-<meta name="twitter:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%.">
-<meta name="twitter:image" content="https://placehold.co/1200x630/1a5a3a/white?text=Nexus+Cr%C3%A9dit+-+Pr%C3%AAt+Rapide">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0b0f0a;
-    --surface: #121712;
-    --surface2: #1a2118;
-    --green: #22c55e;
-    --green-dark: #16a34a;
-    --gold: #f59e0b;
-    --text: #e8f0e4;
-    --muted: #6b7e66;
-    --border: rgba(34,197,94,0.12);
-    --border2: rgba(255,255,255,0.06);
-    --red: #ef4444;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Manrope', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  nav {
-    position: fixed; top:0; left:0; right:0; z-index:100;
-    background: rgba(11,15,10,0.95);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .nav-logo {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: var(--green);
-  }
-  .nav-logo span { color: var(--gold); }
-  .nav-links { display: flex; gap: 6px; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
-    padding: 7px 16px; border-radius: 999px;
-    border: 1px solid transparent;
-    transition: all .2s;
-  }
-  .nav-links a:hover { color: var(--green); border-color: var(--border); }
-  .nav-cta {
-    background: var(--green); color: #000 !important;
-    font-weight: 700 !important;
-    padding: 8px 20px !important;
-  }
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 100px 32px 60px;
-  }
-  .hero-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 50px;
-    align-items: center;
-  }
-  .hero h1 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
-    line-height: 1.1;
-  }
-  .hero h1 em { color: var(--green); }
-  .hero h1 .line2 { color: var(--gold); }
-  .hero-desc { color: var(--muted); margin: 20px 0; }
-  .btn-primary {
-    background: var(--green);
-    color: #000;
-    font-weight: 800;
-    padding: 14px 28px;
-    border-radius: 12px;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    font-weight: 600;
-    padding: 14px 24px;
-    border-radius: 12px;
-    border: 1px solid var(--border2);
-    text-decoration: none;
-    margin-left: 12px;
-  }
-  .hero-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-  }
-  .hero-card .rate {
-    display: flex;
-    justify-content: space-between;
-    background: var(--surface2);
-    border-radius: 12px;
-    padding: 15px;
-    margin: 15px 0;
-  }
-  .rate-val { font-size: 1.8rem; font-weight: 900; }
-  .rate-green { color: var(--green); }
-  .rate-gold { color: var(--gold); }
-  .chip {
-    background: rgba(34,197,94,0.12);
-    border-radius: 999px;
-    padding: 4px 12px;
-    font-size: 12px;
-    display: inline-block;
-    margin-right: 8px;
-  }
-  .section { padding: 70px 32px; max-width: 1100px; margin: 0 auto; }
-  .section-title {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
-    font-weight: 900;
-    margin-bottom: 15px;
-  }
-  .section-intro { color: var(--muted); margin-bottom: 40px; }
-  .taux-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
-  .taux-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 24px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .taux-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(34,197,94,0.15);
-  }
-  .taux-card.featured { border-color: var(--gold); }
-  .taux-duration { font-size: 2.5rem; font-weight: 900; }
-  .taux-rate { font-size: 2.8rem; font-weight: 900; color: var(--green); margin: 10px 0; }
-  .featured .taux-rate { color: var(--gold); }
-  .taux-example {
-    background: var(--surface2);
-    border-radius: 12px;
-    padding: 14px;
-    margin-top: 15px;
-    font-size: 13px;
-  }
-  .ex-row { display: flex; justify-content: space-between; padding: 5px 0; }
-  .green { color: var(--green); }
-  .red { color: var(--red); }
-  .form-section {
-    background: rgba(18, 23, 18, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    overflow: hidden;
-  }
-  .form-header {
-    background: linear-gradient(135deg, var(--green-dark), #0d5c2a);
-    padding: 28px;
-  }
-  .form-header h3 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: #fff; }
-  .form-body { padding: 28px; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field.full { grid-column: 1 / -1; }
-  .field label { font-size: 13px; font-weight: 700; }
-  .field label span { color: var(--green); }
-  .field input, .field select, .field textarea {
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    color: var(--text);
-    padding: 12px 14px;
-    font-family: inherit;
-    outline: none;
-    transition: all 0.2s;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px var(--green-dim), 0 0 0 1px var(--green);
-    outline: none;
-    transform: scale(1.01);
-  }
-  .simulateur {
-    background: var(--surface2);
-    border-radius: 14px;
-    padding: 18px;
-    grid-column: 1 / -1;
-    display: none;
-  }
-  .simulateur.show { display: block; }
-  .sim-row { display: flex; justify-content: space-between; padding: 6px 0; }
-  
-  .signature-manuscrite {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    margin-top: 20px;
-    grid-column: 1 / -1;
-  }
-  .signature-title {
-    font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
-    font-weight: 900;
-    margin-bottom: 16px;
-    color: var(--gold);
-  }
-  .canvas-container {
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    overflow: hidden;
-    border: 1px solid #ddd;
-  }
-  canvas {
-    display: block;
-    width: 100%;
-    height: auto;
-    background: white;
-    cursor: crosshair;
-    touch-action: none;
-    transition: box-shadow 0.3s ease;
-  }
-  canvas:hover {
-    box-shadow: 0 0 0 2px var(--green);
-  }
-  .sign-buttons {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-  }
-  .sign-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 8px 16px;
-    border-radius: 10px;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 13px;
-    transition: all 0.3s;
-  }
-  .sign-btn:hover {
-    border-color: var(--green);
-    color: var(--green);
-    transform: translateY(-2px);
-  }
-  .sign-check-label {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 15px;
-    color: var(--muted);
-  }
-  .sign-check-label input { width: 20px; height: 20px; accent-color: var(--green); }
-  .btn-sign {
-    background: var(--gold);
-    color: #000;
-    font-weight: 800;
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    font-size: 15px;
-    margin-bottom: 12px;
-    transition: all 0.3s;
-  }
-  .btn-sign:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(245,158,11,0.3);
-  }
-  .btn-pdf {
-    background: var(--green);
-    color: #000;
-    font-weight: 800;
-    padding: 14px 24px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: all 0.3s;
-  }
-  .btn-pdf:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(34,197,94,0.3);
-  }
-  .btn-submit {
-    background: var(--green);
-    color: #000;
-    font-weight: 800;
-    padding: 16px 32px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    font-size: 16px;
-    grid-column: 1 / -1;
-    transition: all 0.3s;
-  }
-  .btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(34,197,94,0.3);
-  }
-  .instruction-box {
-    background: rgba(34,197,94,0.15);
-    border: 1px solid var(--green);
-    border-radius: 16px;
-    padding: 20px;
-    margin-top: 20px;
-    grid-column: 1 / -1;
-    text-align: center;
-  }
-  .instruction-box h4 {
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-  .instruction-box p {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 5px;
-  }
-  .success-msg {
-    display: none;
-    text-align: center;
-    padding: 30px;
-    background: rgba(34,197,94,0.12);
-    border-radius: 16px;
-    grid-column: 1 / -1;
-    animation: scaleIn 0.4s ease-out;
-  }
-  footer {
-    background: var(--surface);
-    padding: 40px 32px;
-    text-align: center;
-    border-top: 1px solid var(--border2);
-    animation: fadeInUp 0.6s ease-out 0.2s both;
-  }
-  .reminder-date {
-    background: rgba(245,158,11,0.15);
-    border: 1px solid var(--gold);
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
-    margin-top: 15px;
-    grid-column: 1 / -1;
-    transition: all 0.3s ease;
-  }
-  .reminder-date:hover {
-    transform: scale(1.01);
-    box-shadow: 0 5px 20px rgba(245,158,11,0.2);
-  }
-  .reminder-date p {
-    color: var(--gold);
-    font-weight: bold;
-  }
-  .progress-container {
-    background: var(--surface2);
-    border-radius: 30px;
-    padding: 5px;
-    margin-bottom: 20px;
-    grid-column: 1/-1;
-  }
-  .progress-bar {
-    background: var(--green);
-    width: 0%;
-    height: 10px;
-    border-radius: 30px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .progress-steps {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-    font-size: 10px;
-    color: var(--muted);
-  }
-  .progress-steps span.active { color: var(--green); font-weight: bold; }
-  .btn-copy {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    color: var(--text);
-    width: 100%;
-    font-size: 13px;
-    transition: all 0.3s;
-  }
-  .btn-copy:hover {
-    border-color: var(--green);
-    color: var(--green);
-    transform: translateY(-2px);
-  }
-  .reminder-whatsapp {
-    background: rgba(37, 211, 102, 0.15);
-    border: 1px solid #25D366;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 15px;
-    grid-column: 1 / -1;
-    text-align: center;
-  }
-  .reminder-whatsapp p {
-    color: #25D366;
-    font-size: 13px;
-    margin: 5px 0;
-  }
-  .reminder-whatsapp .whatsapp-number {
-    color: #25D366;
-    font-weight: bold;
-    font-size: 16px;
-    background: rgba(37, 211, 102, 0.2);
-    display: inline-block;
-    padding: 5px 15px;
-    border-radius: 20px;
-    margin-top: 5px;
-  }
-  .aperçu-contrat {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    margin-top: 20px;
-    grid-column: 1 / -1;
-  }
-  .aperçu-title {
-    font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
-    font-weight: 900;
-    margin-bottom: 16px;
-    color: var(--green);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .aperçu-content {
-    background: rgba(0,0,0,0.2);
-    border-radius: 12px;
-    padding: 20px;
-    max-height: 300px;
-    overflow-y: auto;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-  .aperçu-content .contrat-preview {
-    color: var(--text);
-  }
-  .aperçu-content .preview-row {
-    display: flex;
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .aperçu-content .preview-key {
-    width: 140px;
-    color: var(--muted);
-  }
-  .aperçu-content .preview-val {
-    font-weight: 600;
-    color: var(--green);
-  }
+/* ============ THEME SYSTEM ============ */
+:root, [data-theme="dark"] {
+  --bg: #0b0f0a;
+  --bg-grad-1: #0d140f;
+  --bg-grad-2: #0b0f0a;
+  --surface: #121712;
+  --surface2: #1a2118;
+  --surface-glass: rgba(18, 23, 18, 0.72);
+  --green: #22c55e;
+  --green-dark: #16a34a;
+  --green-dim: rgba(34,197,94,0.12);
+  --gold: #f59e0b;
+  --text: #e8f0e4;
+  --muted: #7d9178;
+  --border: rgba(34,197,94,0.14);
+  --border2: rgba(255,255,255,0.07);
+  --red: #ef4444;
+  --shadow: 0 10px 40px rgba(0,0,0,0.5);
+  --input-bg: #1a2118;
+}
+[data-theme="light"] {
+  --bg: #f6f8f4;
+  --bg-grad-1: #eef3ea;
+  --bg-grad-2: #f6f8f4;
+  --surface: #ffffff;
+  --surface2: #f0f4ec;
+  --surface-glass: rgba(255, 255, 255, 0.78);
+  --green: #16a34a;
+  --green-dark: #15803d;
+  --green-dim: rgba(22,163,74,0.10);
+  --gold: #d97706;
+  --text: #14210f;
+  --muted: #5d6b58;
+  --border: rgba(22,163,74,0.20);
+  --border2: rgba(0,0,0,0.07);
+  --red: #dc2626;
+  --shadow: 0 10px 40px rgba(20,33,15,0.10);
+  --input-bg: #f0f4ec;
+}
 
-  /* Animations */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  @keyframes navPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-    50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
-  }
-  @keyframes textGlow {
-    0%, 100% { text-shadow: 0 0 5px rgba(34,197,94,0.3); }
-    50% { text-shadow: 0 0 15px rgba(34,197,94,0.6); }
-  }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: radial-gradient(circle at 20% 0%, var(--bg-grad-1), var(--bg-grad-2) 60%);
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background 0.4s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
 
-  .hero h1 { animation: fadeInUp 0.8s ease-out; }
-  .hero-desc { animation: fadeInUp 0.8s ease-out 0.2s both; }
-  .hero-btns { animation: fadeInUp 0.8s ease-out 0.4s both; }
-  .hero-features { animation: fadeInUp 0.8s ease-out 0.3s both; }
-  .hero-card { animation: fadeInRight 0.8s ease-out; }
-  .taux-card { animation: fadeInUp 0.6s ease-out backwards; }
-  .taux-card:nth-child(1) { animation-delay: 0.1s; }
-  .taux-card:nth-child(2) { animation-delay: 0.2s; }
-  .taux-card:nth-child(3) { animation-delay: 0.3s; }
-  .form-section { animation: scaleIn 0.5s ease-out; }
-  .nav-cta { animation: navPulse 2s infinite; }
-  .nav-cta:hover { animation: none; }
-  .hero h1 em { animation: textGlow 3s ease-in-out infinite; }
-  .chip { transition: all 0.2s ease; }
-  .chip:hover { transform: translateY(-2px); background: var(--green-dim); box-shadow: 0 2px 8px rgba(34,197,94,0.2); }
-  .hf-icon { transition: all 0.3s ease; }
-  .hf-item:hover .hf-icon { transform: rotate(5deg) scale(1.1); background: var(--green-dim); }
-  .taux-card { position: relative; overflow: hidden; }
-  .taux-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: left 0.5s ease; }
-  .taux-card:hover::before { left: 100%; }
+/* ============ TOP BAR ============ */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  padding: 6px 20px;
+  font-size: 12px; color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border2);
+}
+.topbar .tb-item { display: flex; align-items: center; gap: 6px; }
+.topbar button {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--text); border-radius: 8px; padding: 3px 10px;
+  cursor: pointer; font-size: 12px; font-family: inherit;
+  transition: all .2s;
+}
+.topbar button:hover { border-color: var(--green); color: var(--green); }
 
-  @media (max-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr; }
-    .hero-card { display: none; }
-    .form-grid { grid-template-columns: 1fr; }
-    .section { padding: 50px 16px; }
-    nav { padding: 0 16px; }
-    canvas { min-height: 150px; }
-  }
+nav {
+  position: fixed; top: 33px; left: 0; right: 0; z-index: 100;
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.3s ease;
+}
+.nav-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--green);
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a, .nav-links button.navlink {
+  color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
+  padding: 7px 16px; border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent; cursor: pointer; font-family: inherit;
+  transition: all .2s;
+}
+.nav-links a:hover, .nav-links button.navlink:hover { color: var(--green); border-color: var(--border); }
+.nav-cta {
+  background: var(--green); color: #fff !important;
+  font-weight: 700 !important;
+  padding: 8px 20px !important;
+}
+.nav-cta:hover { background: var(--green-dark); }
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 140px 32px 60px;
+  position: relative;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 70% 30%, var(--green-dim), transparent 55%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1150px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 400px; gap: 50px; align-items: center;
+  position: relative;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.08;
+}
+.hero h1 em { color: var(--green); font-style: italic; }
+.hero h1 .line2 { color: var(--gold); }
+.hero-desc { color: var(--muted); margin: 20px 0; max-width: 520px; }
+.hero-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; }
+.hf-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.hf-icon {
+  width: 32px; height: 32px; display: grid; place-items: center;
+  background: var(--green-dim); border-radius: 9px; font-size: 15px;
+  transition: all .3s;
+}
+.hf-item:hover .hf-icon { transform: rotate(6deg) scale(1.12); }
+.btn-primary {
+  background: var(--green); color: #fff; font-weight: 800;
+  padding: 14px 28px; border-radius: 12px; text-decoration: none;
+  display: inline-block; border: none; cursor: pointer; font-family: inherit;
+  font-size: 15px; transition: all .25s;
+  box-shadow: 0 8px 24px rgba(34,197,94,0.28);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(34,197,94,0.4); }
+.btn-secondary {
+  background: transparent; color: var(--text); font-weight: 600;
+  padding: 14px 24px; border-radius: 12px; border: 1px solid var(--border2);
+  text-decoration: none; margin-left: 12px; display: inline-block;
+  cursor: pointer; font-family: inherit; font-size: 15px; transition: all .25s;
+}
+.btn-secondary:hover { border-color: var(--green); color: var(--green); }
+
+/* hero card */
+.hero-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 22px; padding: 24px;
+  box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: radial-gradient(circle, var(--gold), transparent 70%);
+  opacity: .25;
+}
+.hero-card .rate {
+  display: flex; justify-content: space-between;
+  background: var(--surface2); border-radius: 14px;
+  padding: 16px; margin: 15px 0;
+}
+.rate-val { font-size: 1.8rem; font-weight: 900; }
+.rate-green { color: var(--green); }
+.rate-gold { color: var(--gold); }
+.chip {
+  background: var(--green-dim); border-radius: 999px;
+  padding: 4px 12px; font-size: 12px; display: inline-block; margin-right: 8px;
+  transition: all .2s;
+}
+.chip:hover { transform: translateY(-2px); }
+
+/* ============ SECTIONS ============ */
+.section { padding: 70px 32px; max-width: 1150px; margin: 0 auto; }
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 900; margin-bottom: 12px;
+}
+.section-intro { color: var(--muted); margin-bottom: 40px; max-width: 620px; }
+
+/* taux cards */
+.taux-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.taux-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 26px; position: relative; overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s;
+}
+.taux-card:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(34,197,94,0.14); border-color: var(--green); }
+.taux-card.featured { border-color: var(--gold); }
+.taux-duration { font-size: 2.4rem; font-weight: 900; }
+.taux-rate { font-size: 2.8rem; font-weight: 900; color: var(--green); margin: 10px 0; }
+.featured .taux-rate { color: var(--gold); }
+.taux-example { background: var(--surface2); border-radius: 12px; padding: 14px; margin-top: 15px; font-size: 13px; }
+.ex-row { display: flex; justify-content: space-between; padding: 5px 0; }
+.green { color: var(--green); }
+.red { color: var(--red); }
+
+/* ============ CALCULATEUR AVANCÉ ============ */
+.calc-wrap {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 24px; padding: 32px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+  box-shadow: var(--shadow);
+}
+.calc-inputs label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 8px; }
+.calc-inputs .amt-display {
+  font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 900;
+  color: var(--green); margin: 6px 0 10px;
+}
+input[type="range"] {
+  -webkit-appearance: none; width: 100%; height: 8px; border-radius: 999px;
+  background: var(--surface2); outline: none; margin: 10px 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--green); cursor: pointer; border: 3px solid var(--surface);
+  box-shadow: 0 0 0 2px var(--green);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--green); cursor: pointer; border: 3px solid var(--surface);
+}
+.calc-tabs { display: flex; gap: 8px; margin: 16px 0; }
+.calc-tab {
+  flex: 1; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer;
+  border: 1px solid var(--border2); background: transparent; color: var(--muted);
+  font-family: inherit; font-weight: 700; font-size: 13px; transition: all .2s;
+}
+.calc-tab.active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.calc-results {
+  background: var(--surface2); border-radius: 16px; padding: 20px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.calc-results .res-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px dashed var(--border2); }
+.calc-results .res-row:last-child { border-bottom: none; }
+.calc-results .res-label { color: var(--muted); font-size: 13px; }
+.calc-results .res-val { font-weight: 800; }
+.calc-results .res-total { font-size: 1.4rem; color: var(--green); }
+.comparison-note {
+  margin-top: 14px; font-size: 12px; color: var(--muted);
+  background: var(--green-dim); padding: 10px 14px; border-radius: 10px;
+  border-left: 3px solid var(--green);
+}
+
+/* ============ DASHBOARD / HISTORIQUE ============ */
+.dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; padding: 22px; transition: transform .25s;
+}
+.kpi:hover { transform: translateY(-4px); }
+.kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.kpi-value { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 900; margin-top: 6px; }
+.history-list { display: flex; flex-direction: column; gap: 12px; }
+.history-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 18px;
+  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  flex-wrap: wrap; transition: all .2s;
+}
+.history-item:hover { border-color: var(--green); }
+.hist-status {
+  padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase;
+}
+.hist-status.pending { background: rgba(245,158,11,0.15); color: var(--gold); }
+.hist-status.ongoing { background: var(--green-dim); color: var(--green); }
+.hist-status.done { background: rgba(34,197,94,0.25); color: var(--green); }
+.empty-state {
+  text-align: center; color: var(--muted); padding: 40px;
+  border: 1px dashed var(--border2); border-radius: 16px;
+}
+.progress-remb {
+  width: 100%; height: 8px; background: var(--surface2);
+  border-radius: 999px; overflow: hidden; margin-top: 10px;
+}
+.progress-remb > div { height: 100%; background: linear-gradient(90deg, var(--green), var(--gold)); border-radius: 999px; }
+
+/* ============ FORMULAIRE ============ */
+.form-section {
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border); border-radius: 26px; overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.form-header {
+  background: linear-gradient(135deg, var(--green-dark), #0d5c2a);
+  padding: 30px;
+  position: relative; overflow: hidden;
+}
+.form-header::after {
+  content: ''; position: absolute; right: -40px; bottom: -40px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: radial-gradient(circle, var(--gold), transparent 70%);
+  opacity: .3;
+}
+.form-header h3 { font-family: 'Fraunces', serif; font-size: 1.6rem; color: #fff; position: relative; }
+.form-header p { color: rgba(255,255,255,0.82); font-size: 13px; position: relative; }
+.form-body { padding: 30px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* wizard steps */
+.wizard-bar {
+  grid-column: 1/-1; display: flex; gap: 8px; margin-bottom: 10px;
+}
+.wizard-step {
+  flex: 1; text-align: center; padding: 10px 6px; border-radius: 12px;
+  background: var(--surface2); font-size: 11px; font-weight: 700;
+  color: var(--muted); border: 1px solid transparent; transition: all .3s;
+}
+.wizard-step.active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.wizard-step .wz-num {
+  display: inline-grid; place-items: center; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--surface); font-size: 10px; margin-right: 4px;
+}
+.wizard-step.active .wz-num { background: var(--green); color: #fff; }
+
+.field { display: flex; flex-direction: column; gap: 6px; position: relative; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: 13px; font-weight: 700; }
+.field label span { color: var(--green); }
+.field input, .field select, .field textarea {
+  background: var(--input-bg);
+  border: 1px solid var(--border2);
+  border-radius: 10px; color: var(--text);
+  padding: 12px 14px; font-family: inherit; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  font-size: 14px;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-dim);
+}
+.field.error input, .field.error select, .field.error textarea { border-color: var(--red); }
+.field .error-msg { font-size: 11px; color: var(--red); display: none; }
+.field.error .error-msg { display: block; }
+.field.valid input, .field.valid select { border-color: var(--green); }
+
+/* simulateur */
+.simulateur { background: var(--surface2); border-radius: 14px; padding: 18px; grid-column: 1 / -1; display: none; }
+.simulateur.show { display: block; animation: fadeInUp .35s ease; }
+.sim-row { display: flex; justify-content: space-between; padding: 6px 0; }
+
+/* aperçu */
+.aperçu-contrat { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 24px; grid-column: 1 / -1; }
+.aperçu-title { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 900; margin-bottom: 16px; color: var(--green); display: flex; align-items: center; gap: 10px; }
+.aperçu-content { background: rgba(0,0,0,0.15); border-radius: 12px; padding: 18px; max-height: 320px; overflow-y: auto; font-size: 13px; }
+.preview-row { display: flex; padding: 6px 0; border-bottom: 1px solid var(--border2); gap: 10px; flex-wrap: wrap; }
+.preview-key { width: 170px; color: var(--muted); }
+.preview-val { font-weight: 600; color: var(--green); }
+
+/* signature */
+.signature-manuscrite { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 24px; grid-column: 1 / -1; }
+.signature-title { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 900; margin-bottom: 16px; color: var(--gold); }
+.canvas-container { background: #fff; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 1px solid var(--border2); }
+canvas { display: block; width: 100%; height: auto; background: #fff; cursor: crosshair; touch-action: none; }
+.sign-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
+.sign-btn { background: var(--surface); border: 1px solid var(--border); padding: 8px 16px; border-radius: 10px; color: var(--text); cursor: pointer; font-size: 13px; font-family: inherit; transition: all .25s; }
+.sign-btn:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+.sign-check-label { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: var(--muted); font-size: 13px; }
+.sign-check-label input { width: 20px; height: 20px; accent-color: var(--green); }
+.btn-sign { background: var(--gold); color: #000; font-weight: 800; padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer; width: 100%; font-size: 15px; margin-bottom: 12px; font-family: inherit; transition: all .25s; }
+.btn-sign:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(245,158,11,0.3); }
+.btn-pdf { background: var(--green); color: #fff; font-weight: 800; padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; font-family: inherit; transition: all .25s; }
+.btn-pdf:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(34,197,94,0.35); }
+
+/* instruction box */
+.instruction-box { background: var(--green-dim); border: 1px solid var(--green); border-radius: 18px; padding: 22px; margin-top: 10px; grid-column: 1 / -1; }
+.instruction-box h4 { color: var(--gold); margin-bottom: 10px; font-family: 'Fraunces', serif; }
+.instruction-box p { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
+.btn-copy { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-top: 12px; cursor: pointer; color: var(--text); width: 100%; font-size: 13px; font-family: inherit; transition: all .2s; }
+.btn-copy:hover { border-color: var(--green); color: var(--green); }
+
+/* reminder */
+.reminder-date { background: var(--green-dim); border: 1px solid var(--green); border-radius: 12px; padding: 12px; text-align: center; margin-top: 15px; grid-column: 1 / -1; transition: all .3s; }
+.reminder-date p { color: var(--gold); font-weight: bold; font-size: 13px; }
+.reminder-whatsapp { background: rgba(37, 211, 102, 0.10); border: 1px solid #25D366; border-radius: 12px; padding: 16px; margin-top: 15px; grid-column: 1 / -1; text-align: center; }
+.reminder-whatsapp p { color: #25D366; font-size: 13px; margin: 4px 0; }
+.reminder-whatsapp .whatsapp-number { color: #25D366; font-weight: bold; font-size: 16px; background: rgba(37, 211, 102, 0.18); display: inline-block; padding: 5px 15px; border-radius: 20px; margin-top: 5px; }
+
+.success-msg { display: none; text-align: center; padding: 30px; background: var(--green-dim); border-radius: 16px; grid-column: 1 / -1; animation: scaleIn .4s ease-out; }
+
+.btn-submit { background: var(--green); color: #fff; font-weight: 800; padding: 16px 32px; border-radius: 14px; border: none; cursor: pointer; width: 100%; font-size: 16px; grid-column: 1 / -1; font-family: inherit; transition: all .25s; box-shadow: 0 8px 24px rgba(34,197,94,0.28); }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(34,197,94,0.4); }
+
+/* footer */
+footer { background: var(--surface); padding: 44px 32px; text-align: center; border-top: 1px solid var(--border2); margin-top: 40px; }
+
+/* toasts */
+.toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 10px; }
+.toast {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 14px 20px; border-radius: 12px; box-shadow: var(--shadow);
+  font-size: 13px; font-weight: 600; min-width: 240px;
+  display: flex; align-items: center; gap: 10px;
+  animation: slideIn .35s ease;
+  border-left: 4px solid var(--green);
+}
+.toast.error { border-left-color: var(--red); }
+.toast.info { border-left-color: var(--gold); }
+
+/* animations */
+@keyframes fadeInUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+@keyframes fadeInRight { from { opacity:0; transform: translateX(24px); } to { opacity:1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity:0; transform: scale(0.92); } to { opacity:1; transform: scale(1); } }
+@keyframes slideIn { from { opacity:0; transform: translateX(40px); } to { opacity:1; transform: translateX(0); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); } 50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } }
+.nav-cta { animation: pulse 2.4s infinite; }
+.nav-cta:hover { animation: none; }
+
+/* responsive */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-card { display: none; }
+  .calc-wrap { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .section { padding: 50px 16px; }
+  nav { padding: 0 16px; }
+  .nav-links button.navlink { display: none; }
+  .topbar { font-size: 11px; gap: 10px; padding: 5px 10px; }
+  .hero { padding-top: 130px; }
+  canvas { min-height: 150px; }
+}
 </style>
 </head>
 <body>
 
+<!-- TOPBAR : thème + langue -->
+<div class="topbar">
+  <span class="tb-item" id="tbPhone">📞 78 664 90 62</span>
+  <button id="themeBtn" title="Mode sombre / clair">🌙</button>
+  <select id="langSelect" style="background:transparent; border:1px solid var(--border2); color:var(--text); border-radius:8px; padding:3px 8px; font-size:12px; font-family:inherit;">
+    <option value="fr">🇫🇷 FR</option>
+    <option value="en">🇬🇧 EN</option>
+    <option value="wo">🇸🇳 WO</option>
+  </select>
+</div>
+
 <nav>
   <div class="nav-logo">Nexus<span>.</span>Crédit</div>
   <div class="nav-links">
-    <a href="#taux">Taux</a>
-    <a href="#" id="voirContratNav">📄 Voir le contrat</a>
-    <a href="#demande" class="nav-cta">Faire une demande →</a>
+    <button class="navlink" data-goto="calc" data-i18n="nav_calc">Calculateur</button>
+    <button class="navlink" data-goto="dashboard" data-i18n="nav_dash">Tableau de bord</button>
+    <a href="#" id="voirContratNav" data-i18n="nav_contract">📄 Contrat</a>
+    <a href="#demande" class="nav-cta" data-i18n="nav_apply">Faire une demande →</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
     <div>
-      <h1>Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
-      <p class="hero-desc">Un besoin urgent d'argent ? Nexus Crédit vous accompagne avec des prêts rapides, transparents et sans complication.</p>
+      <h1 data-i18n="hero_title_html">Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
+      <p class="hero-desc" data-i18n="hero_desc">Un besoin urgent d'argent ? Nexus Crédit vous accompagne avec des prêts rapides, transparents et sans complication.</p>
       <div class="hero-features">
-        <div class="hf-item"><div class="hf-icon">⚡</div>Réponse rapide après votre demande</div>
-        <div class="hf-item"><div class="hf-icon">📋</div>Contrat clair et transparent</div>
-        <div class="hf-item"><div class="hf-icon">🔒</div>Données confidentielles et sécurisées</div>
-        <div class="hf-item"><div class="hf-icon">📱</div>Suivi direct par téléphone</div>
+        <div class="hf-item"><div class="hf-icon">⚡</div><span data-i18n="f1">Réponse rapide</span></div>
+        <div class="hf-item"><div class="hf-icon">📋</div><span data-i18n="f2">Contrat transparent</span></div>
+        <div class="hf-item"><div class="hf-icon">🔒</div><span data-i18n="f3">Données sécurisées</span></div>
+        <div class="hf-item"><div class="hf-icon">📱</div><span data-i18n="f4">Suivi WhatsApp</span></div>
       </div>
       <div class="hero-btns">
-        <a href="#demande" class="btn-primary">💰 Faire une demande</a>
-        <a href="#" id="voirContratHero" class="btn-secondary">📄 Voir le contrat</a>
+        <a href="#demande" class="btn-primary" data-i18n="btn_apply">💰 Faire une demande</a>
+        <a href="#" id="voirContratHero" class="btn-secondary" data-i18n="btn_contract">📄 Voir le contrat</a>
       </div>
     </div>
     <div class="hero-card">
-      <div style="font-weight:800;">📊 Nos taux</div>
+      <div style="font-weight:800;" data-i18n="card_rates">📊 Nos taux</div>
       <div class="rate">
-        <div><div style="font-size:12px;">7 jours</div><div class="rate-val rate-green">+25%</div></div>
-        <div><div style="font-size:12px;">14 jours</div><div class="rate-val rate-gold">+35%</div></div>
+        <div><div style="font-size:12px;" data-i18n="days7">7 jours</div><div class="rate-val rate-green">+25%</div></div>
+        <div><div style="font-size:12px;" data-i18n="days14">14 jours</div><div class="rate-val rate-gold">+35%</div></div>
       </div>
-      <div><span class="chip">Durée max : 14 jours</span><span class="chip">Pénalité : 2 500 FCFA/jour</span></div>
+      <div><span class="chip" data-i18n="chip_dur">Durée max : 14 jours</span><span class="chip" data-i18n="chip_pen">Pénalité : 2 500 FCFA/jour</span></div>
       <div style="margin-top:15px; padding-top:15px; border-top:1px solid var(--border2);">
-        <div style="font-size:12px;">📞 Nous contacter</div>
-        <div style="background:var(--surface2); padding:10px; border-radius:10px;">78 664 90 62</div>
+        <div style="font-size:12px;" data-i18n="card_contact">📞 Nous contacter</div>
+        <div style="background:var(--surface2); padding:10px; border-radius:10px; font-weight:700;">78 664 90 62</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- TAUX -->
 <div class="section" id="taux">
-  <div class="section-title">Des taux clairs, sans surprise</div>
+  <div class="section-title" data-i18n="rates_title">Des taux clairs, sans surprise</div>
+  <div class="section-intro" data-i18n="rates_intro">Deux formules simples, une seule promesse : la transparence.</div>
   <div class="taux-grid">
     <div class="taux-card">
-      <div class="taux-duration">7 jours</div>
+      <div class="taux-duration" data-i18n="days7">7 jours</div>
       <div class="taux-rate">+25%</div>
       <div class="taux-example">
-        <div class="ex-row"><span>Emprunt 50 000 FCFA</span><span class="red">+12 500 FCFA</span></div>
-        <div class="ex-row"><span>Total</span><span class="green">62 500 FCFA</span></div>
+        <div class="ex-row"><span data-i18n="ex_borrow">Emprunt 50 000 FCFA</span><span class="red">+12 500 FCFA</span></div>
+        <div class="ex-row"><span data-i18n="ex_total">Total</span><span class="green">62 500 FCFA</span></div>
       </div>
     </div>
     <div class="taux-card featured">
-      <div class="taux-duration">14 jours</div>
+      <div class="taux-duration" data-i18n="days14">14 jours</div>
       <div class="taux-rate">+35%</div>
       <div class="taux-example">
-        <div class="ex-row"><span>Emprunt 50 000 FCFA</span><span class="red">+17 500 FCFA</span></div>
-        <div class="ex-row"><span>Total</span><span class="green">67 500 FCFA</span></div>
+        <div class="ex-row"><span data-i18n="ex_borrow">Emprunt 50 000 FCFA</span><span class="red">+17 500 FCFA</span></div>
+        <div class="ex-row"><span data-i18n="ex_total">Total</span><span class="green">67 500 FCFA</span></div>
       </div>
     </div>
     <div class="taux-card">
-      <div class="taux-duration" style="color:var(--red)">⚠️ Retard</div>
+      <div class="taux-duration" style="color:var(--red);" data-i18n="late_title">⚠️ Retard</div>
       <div class="taux-rate" style="color:var(--red); font-size:2rem;">2 500 FCFA/jour</div>
       <div class="taux-example">
-        <div class="ex-row"><span>Après 3 jours</span><span class="red">Remboursement total</span></div>
+        <div class="ex-row"><span data-i18n="late_after">Après 3 jours</span><span class="red" data-i18n="late_full">Remboursement total</span></div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- CALCULATEUR AVANCÉ -->
+<div class="section" id="calc">
+  <div class="section-title" data-i18n="calc_title">🧮 Calculateur avancé</div>
+  <div class="section-intro" data-i18n="calc_intro">Simulez votre prêt en temps réel et comparez les deux formules.</div>
+  <div class="calc-wrap">
+    <div class="calc-inputs">
+      <label data-i18n="calc_amount">Montant à emprunter</label>
+      <div class="amt-display"><span id="calcAmtDisplay">50 000</span> FCFA</div>
+      <input type="range" id="calcRange" min="5000" max="500000" step="5000" value="50000">
+      <div class="calc-tabs">
+        <button type="button" class="calc-tab active" data-dur="7" data-i18n="days7">7 jours (+25%)</button>
+        <button type="button" class="calc-tab" data-dur="14" data-i18n="days14">14 jours (+35%)</button>
+      </div>
+      <div class="comparison-note" id="calcCompare">—</div>
+    </div>
+    <div class="calc-results">
+      <div class="res-row"><span class="res-label" data-i18n="calc_borrowed">Montant emprunté</span><span class="res-val" id="calcBorrowed">50 000 FCFA</span></div>
+      <div class="res-row"><span class="res-label" data-i18n="calc_fees">Frais / intérêts</span><span class="res-val red" id="calcFees">+12 500 FCFA</span></div>
+      <div class="res-row"><span class="res-label" data-i18n="calc_due">Date d'échéance</span><span class="res-val" id="calcDue" style="color:var(--gold);">—</span></div>
+      <div class="res-row"><span class="res-label" data-i18n="calc_pen">Pénalité / jour de retard</span><span class="res-val red">2 500 FCFA</span></div>
+      <div class="res-row"><span class="res-label" data-i18n="calc_total">Total à rembourser</span><span class="res-val res-total" id="calcTotal">62 500 FCFA</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABLEAU DE BORD / HISTORIQUE -->
+<div class="section" id="dashboard">
+  <div class="section-title" data-i18n="dash_title">📊 Tableau de bord</div>
+  <div class="section-intro" data-i18n="dash_intro">Vos demandes enregistrées localement sur cet appareil.</div>
+  <div class="dash-grid">
+    <div class="kpi"><div class="kpi-label" data-i18n="kpi_req">Demandes</div><div class="kpi-value" id="kpiReq">0</div></div>
+    <div class="kpi"><div class="kpi-label" data-i18n="kpi_borrowed">Total emprunté</div><div class="kpi-value" id="kpiBorrowed">0 FCFA</div></div>
+    <div class="kpi"><div class="kpi-label" data-i18n="kpi_due">Total à rendre</div><div class="kpi-value" id="kpiDue">0 FCFA</div></div>
+    <div class="kpi"><div class="kpi-label" data-i18n="kpi_active">En cours</div><div class="kpi-value" id="kpiActive">0</div></div>
+  </div>
+  <div class="history-list" id="historyList">
+    <div class="empty-state" data-i18n="hist_empty">Aucune demande pour le moment. Faites votre première demande ci-dessous 👇</div>
+  </div>
+</div>
+
+<!-- FORMULAIRE -->
 <div class="section" id="demande">
-  <div class="section-title">Faites votre demande</div>
+  <div class="section-title" data-i18n="form_title">Faites votre demande</div>
   <div class="form-section">
     <div class="form-header">
-      <h3>📝 Formulaire de demande</h3>
-      <p style="color:rgba(255,255,255,0.7);">Remplissez toutes les informations honnêtement.</p>
+      <h3 data-i18n="form_h3">📝 Formulaire de demande</h3>
+      <p data-i18n="form_sub">Remplissez toutes les informations honnêtement.</p>
     </div>
     <div class="form-body">
-      <form id="loanForm">
+      <form id="loanForm" novalidate>
         <div class="form-grid">
-          
-          <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-            <div class="progress-steps">
-              <span id="step1">1. Infos</span>
-              <span id="step2">2. Signature</span>
-              <span id="step3">3. PDF</span>
-              <span id="step4">4. Envoi</span>
-            </div>
+
+          <div class="wizard-bar">
+            <div class="wizard-step active" id="wz1"><span class="wz-num">1</span><span data-i18n="wz_info">Infos</span></div>
+            <div class="wizard-step" id="wz2"><span class="wz-num">2</span><span data-i18n="wz_sign">Signature</span></div>
+            <div class="wizard-step" id="wz3"><span class="wz-num">3</span><span data-i18n="wz_pdf">PDF</span></div>
+            <div class="wizard-step" id="wz4"><span class="wz-num">4</span><span data-i18n="wz_send">Envoi</span></div>
           </div>
 
-          <div class="field" id="field-nom"><label>Nom complet <span>*</span></label><input type="text" id="nom" placeholder="Ex: Moussa Diallo" required></div>
-          <div class="field" id="field-tel"><label>Téléphone WhatsApp <span>*</span></label><input type="tel" id="telephone" placeholder="77 123 45 67" required></div>
-          <div class="field" id="field-passeport"><label>Numéro Passeport <span>*</span></label><input type="text" id="passeport" placeholder="Numéro de passeport" required></div>
-          
+          <div class="field" id="field-nom">
+            <label><span data-i18n="lbl_name">Nom complet</span> <span>*</span></label>
+            <input type="text" id="nom" placeholder="Ex: Moussa Diallo" required>
+            <div class="error-msg" data-i18n="err_name">Veuillez saisir votre nom complet.</div>
+          </div>
+          <div class="field" id="field-tel">
+            <label><span data-i18n="lbl_phone">Téléphone WhatsApp</span> <span>*</span></label>
+            <input type="tel" id="telephone" placeholder="77 123 45 67" required>
+            <div class="error-msg" data-i18n="err_phone">Numéro invalide (9 chiffres min.).</div>
+          </div>
+          <div class="field" id="field-passeport">
+            <label><span data-i18n="lbl_pass">Numéro Passeport</span> <span>*</span></label>
+            <input type="text" id="passeport" placeholder="Numéro de passeport" required>
+            <div class="error-msg" data-i18n="err_pass">Numéro de passeport requis.</div>
+          </div>
+
           <div class="field full">
-            <label>Montant (FCFA) <span>*</span></label>
-            <input type="range" id="montantRange" min="5000" max="500000" step="5000" value="50000" style="width:100%; margin-bottom:10px;">
+            <label><span data-i18n="lbl_amount">Montant (FCFA)</span> <span>*</span></label>
+            <input type="range" id="montantRange" min="5000" max="500000" step="5000" value="50000">
             <input type="number" id="montant" placeholder="50000" min="5000" step="1000" required>
+            <div class="error-msg" data-i18n="err_amount">Montant invalide (min. 5 000 FCFA).</div>
           </div>
-          
-          <div class="field"><label>Durée <span>*</span></label><select id="duree" required><option value="">-- Choisir --</option><option value="7">7 jours (+25%)</option><option value="14">14 jours (+35%)</option></select></div>
-          <div class="field full"><label>Garantie <span>*</span></label>
-            <input type="text" id="garantie" placeholder="Ex: Passeport + Téléphone / Passeport + Ordinateur / Passeport + Bijoux" required>
-            <div style="font-size:11px; color:var(--gold); margin-top:4px;">⚠️ Le PASSEPORT est OBLIGATOIRE + un autre bien (téléphone, ordinateur, tablette, bijoux, etc.)</div>
+
+          <div class="field" id="field-duree">
+            <label><span data-i18n="lbl_dur">Durée</span> <span>*</span></label>
+            <select id="duree" required>
+              <option value="" data-i18n="choose">-- Choisir --</option>
+              <option value="7">7 jours (+25%)</option>
+              <option value="14">14 jours (+35%)</option>
+            </select>
+            <div class="error-msg" data-i18n="err_dur">Sélectionnez une durée.</div>
           </div>
-          
+
+          <div class="field full" id="field-garantie">
+            <label><span data-i18n="lbl_guar">Garantie</span> <span>*</span></label>
+            <input type="text" id="garantie" placeholder="Ex: Passeport + Téléphone / Passeport + Bijoux" required>
+            <div style="font-size:11px; color:var(--gold); margin-top:4px;" data-i18n="guar_note">⚠️ Le PASSEPORT est OBLIGATOIRE + un autre bien (téléphone, ordinateur, bijoux…).</div>
+            <div class="error-msg" data-i18n="err_guar">Garantie requise.</div>
+          </div>
+
           <div class="reminder-date" id="reminderDate">
-            <p>📅 <span id="reminderText">Sélectionnez une durée</span> 📅</p>
+            <p>📅 <span id="reminderText" data-i18n="reminder_choose">Sélectionnez une durée</span> 📅</p>
           </div>
-          
+
           <div class="simulateur" id="simulateur">
-            <div style="font-weight:700;">💡 Simulation</div>
-            <div class="sim-row"><span>Montant emprunté</span><span id="simMontant">—</span></div>
-            <div class="sim-row"><span>Intérêts</span><span id="simInterets" style="color:var(--red);">—</span></div>
-            <div class="sim-row"><span>Date de remboursement</span><span id="simDateRemboursement" style="color:var(--gold); font-weight:800;">—</span></div>
-            <div class="sim-row"><span style="font-weight:700;">Total à rembourser</span><span id="simTotal" style="color:var(--green); font-weight:800;">—</span></div>
+            <div style="font-weight:700;" data-i18n="sim_title">💡 Simulation</div>
+            <div class="sim-row"><span data-i18n="sim_borrow">Montant emprunté</span><span id="simMontant">—</span></div>
+            <div class="sim-row"><span data-i18n="sim_int">Intérêts</span><span id="simInterets" style="color:var(--red);">—</span></div>
+            <div class="sim-row"><span data-i18n="sim_due">Date de remboursement</span><span id="simDateRemboursement" style="color:var(--gold); font-weight:800;">—</span></div>
+            <div class="sim-row"><span style="font-weight:700;" data-i18n="sim_total">Total à rembourser</span><span id="simTotal" style="color:var(--green); font-weight:800;">—</span></div>
           </div>
 
           <div class="aperçu-contrat">
-            <div class="aperçu-title">
-              <span>📋</span> RÉCAPITULATIF DE VOTRE DEMANDE
-            </div>
-            <div class="aperçu-content" id="apercuContenu">
-              <div class="contrat-preview">
-                <div class="preview-row"><div class="preview-key">Emprunteur :</div><div class="preview-val" id="apercuNom">_____</div></div>
-                <div class="preview-row"><div class="preview-key">Téléphone :</div><div class="preview-val" id="apercuTel">_____</div></div>
-                <div class="preview-row"><div class="preview-key">Passeport :</div><div class="preview-val" id="apercuPasseport">_____</div></div>
-                <div class="preview-row"><div class="preview-key">Montant :</div><div class="preview-val" id="apercuMontant">0 FCFA</div></div>
-                <div class="preview-row"><div class="preview-key">Durée :</div><div class="preview-val" id="apercuDuree">—</div></div>
-                <div class="preview-row"><div class="preview-key">À rembourser avant le :</div><div class="preview-val" style="color:var(--gold);" id="apercuDate">—</div></div>
-                <div class="preview-row"><div class="preview-key">Total à rembourser :</div><div class="preview-val" style="color:var(--green);" id="apercuTotal">0 FCFA</div></div>
-                <div class="preview-row"><div class="preview-key">Garantie :</div><div class="preview-val" id="apercuGarantie">_____</div></div>
-              </div>
+            <div class="aperçu-title"><span>📋</span> <span data-i18n="sum_title">RÉCAPITULATIF DE VOTRE DEMANDE</span></div>
+            <div class="aperçu-content">
+              <div class="preview-row"><div class="preview-key" data-i18n="p_borrower">Emprunteur :</div><div class="preview-val" id="apercuNom">_____</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_phone">Téléphone :</div><div class="preview-val" id="apercuTel">_____</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_pass">Passeport :</div><div class="preview-val" id="apercuPasseport">_____</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_amount">Montant :</div><div class="preview-val" id="apercuMontant">0 FCFA</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_dur">Durée :</div><div class="preview-val" id="apercuDuree">—</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_due">À rembourser avant le :</div><div class="preview-val" style="color:var(--gold);" id="apercuDate">—</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_total">Total à rembourser :</div><div class="preview-val" style="color:var(--green);" id="apercuTotal">0 FCFA</div></div>
+              <div class="preview-row"><div class="preview-key" data-i18n="p_guar">Garantie :</div><div class="preview-val" id="apercuGarantie">_____</div></div>
             </div>
           </div>
 
           <div class="reminder-whatsapp" id="reminderWhatsapp">
-            <p>📱 <strong>RAPPEL DE REMBOURSEMENT PAR WHATSAPP</strong> 📱</p>
-            <p>Un message de rappel vous sera envoyé sur WhatsApp à l'approche de votre date de remboursement.</p>
-            <p>Numéro enregistré :</p>
-            <div class="whatsapp-number" id="whatsappNumberDisplay">Non renseigné</div>
-            <p style="font-size: 11px; margin-top: 8px;">✅ Assurez-vous que votre numéro WhatsApp est correct !</p>
+            <p>📱 <strong data-i18n="wa_title">RAPPEL DE REMBOURSEMENT PAR WHATSAPP</strong> 📱</p>
+            <p data-i18n="wa_desc">Un message de rappel vous sera envoyé sur WhatsApp à l'approche de votre date de remboursement.</p>
+            <p data-i18n="wa_num">Numéro enregistré :</p>
+            <div class="whatsapp-number" id="whatsappNumberDisplay" data-i18n="wa_notset">Non renseigné</div>
+            <p style="font-size:11px; margin-top:8px;" data-i18n="wa_check">✅ Assurez-vous que votre numéro WhatsApp est correct !</p>
           </div>
 
-          <div class="field full"><label>Message (optionnel)</label><textarea id="message" placeholder="Raison du prêt, disponibilité..."></textarea></div>
+          <div class="field full">
+            <label data-i18n="lbl_msg">Message (optionnel)</label>
+            <textarea id="message" placeholder="Raison du prêt, disponibilité..."></textarea>
+          </div>
 
           <div class="signature-manuscrite">
-            <div class="signature-title">✍️ Signez avec votre doigt ou souris</div>
+            <div class="signature-title" data-i18n="sign_title">✍️ Signez avec votre doigt ou souris</div>
             <div class="canvas-container">
-              <canvas id="signatureCanvas" width="500" height="200" style="width:100%; height:auto; max-width:500px; background:white; border-radius:8px; touch-action:none;"></canvas>
+              <canvas id="signatureCanvas" width="500" height="200"></canvas>
             </div>
             <div class="sign-buttons">
-              <button type="button" id="clearCanvas" class="sign-btn">🗑️ Effacer</button>
+              <button type="button" id="clearCanvas" class="sign-btn" data-i18n="btn_clear">🗑️ Effacer</button>
             </div>
             <label class="sign-check-label">
-              <input type="checkbox" id="signCheck"> Je certifie que cette signature est la mienne et j'accepte le contrat
+              <input type="checkbox" id="signCheck">
+              <span data-i18n="sign_check">Je certifie que cette signature est la mienne et j'accepte le contrat.</span>
             </label>
-            <button type="button" id="validateSignBtn" class="btn-sign">✅ VALIDER MA SIGNATURE</button>
-            <button type="button" id="openContractBtn" class="btn-pdf">📄 GÉNÉRER MON CONTRAT PDF</button>
+            <button type="button" id="validateSignBtn" class="btn-sign" data-i18n="btn_valid_sign">✅ VALIDER MA SIGNATURE</button>
+            <button type="button" id="openContractBtn" class="btn-pdf" data-i18n="btn_gen_pdf">📄 GÉNÉRER MON CONTRAT PDF</button>
           </div>
 
           <div class="instruction-box">
-            <h4>📋 PROCÉDURE COMPLÈTE POUR OBTENIR VOTRE PRÊT</h4>
-            <p>1️⃣ Lisez attentivement le contrat en cliquant sur "📄 Voir le contrat" en haut de la page</p>
-            <p>2️⃣ Remplissez tous les champs et signez dans le cadre</p>
-            <p>3️⃣ Cliquez sur "VALIDER MA SIGNATURE" puis sur "GÉNÉRER MON CONTRAT PDF"</p>
-            <p>4️⃣ Une nouvelle fenêtre s'ouvre avec votre contrat</p>
-            <p>5️⃣ Sur mobile : cliquez sur les 3 points (menu) → "Imprimer" → "Enregistrer au format PDF"</p>
-            <p>6️⃣ Sur ordinateur : Ctrl+P (ou Cmd+P) → "Enregistrer au format PDF"</p>
-            <p>7️⃣ <strong style="color:var(--green);">📸 OU PLUS FACILE : Faites une capture d'écran du contrat et envoyez-la sur WhatsApp au 78 664 90 62</strong></p>
-            <p style="color:var(--gold); margin-top:8px;">⚠️ Votre demande ne sera traitée qu'après réception du PDF signé OU de la capture d'écran !</p>
-            
-            <button type="button" id="copyLinkBtn" class="btn-copy">🔗 Copier le lien de l'application</button>
+            <h4 data-i18n="instr_title">📋 PROCÉDURE COMPLÈTE POUR OBTENIR VOTRE PRÊT</h4>
+            <p data-i18n="instr_1">1️⃣ Lisez attentivement le contrat en cliquant sur "📄 Contrat" en haut de la page</p>
+            <p data-i18n="instr_2">2️⃣ Remplissez tous les champs et signez dans le cadre</p>
+            <p data-i18n="instr_3">3️⃣ Cliquez sur "VALIDER MA SIGNATURE" puis "GÉNÉRER MON CONTRAT PDF"</p>
+            <p data-i18n="instr_4">4️⃣ Une nouvelle fenêtre s'ouvre avec votre contrat</p>
+            <p data-i18n="instr_5">5️⃣ Sur mobile : menu → "Imprimer" → "Enregistrer au format PDF"</p>
+            <p data-i18n="instr_6">6️⃣ Sur ordinateur : Ctrl+P (ou Cmd+P) → "Enregistrer au format PDF"</p>
+            <p><strong style="color:var(--green);" data-i18n="instr_7">📸 OU PLUS FACILE : Faites une capture d'écran du contrat et envoyez-la sur WhatsApp au 78 664 90 62</strong></p>
+            <p style="color:var(--gold); margin-top:8px;" data-i18n="instr_8">⚠️ Votre demande ne sera traitée qu'après réception du PDF signé OU de la capture d'écran !</p>
+            <button type="button" id="copyLinkBtn" class="btn-copy" data-i18n="btn_copy">🔗 Copier le lien de l'application</button>
           </div>
 
           <div class="success-msg" id="successMsg">
             <span style="font-size:48px;">✅</span>
-            <h4>Demande envoyée !</h4>
-            <p>N'oubliez pas d'envoyer le PDF signé ou la capture d'écran sur WhatsApp au 78 664 90 62</p>
+            <h4 data-i18n="success_title">Demande envoyée !</h4>
+            <p data-i18n="success_desc">N'oubliez pas d'envoyer le PDF signé ou la capture d'écran sur WhatsApp au 78 664 90 62</p>
           </div>
 
-          <button type="submit" class="btn-submit" id="submitBtn">📤 Envoyer ma demande</button>
+          <button type="submit" class="btn-submit" id="submitBtn" data-i18n="btn_submit">📤 Envoyer ma demande</button>
         </div>
       </form>
     </div>
@@ -741,527 +723,418 @@
 
 <footer>
   <div style="font-family:'Fraunces'; font-weight:900; font-size:1.3rem; color:var(--green);">Nexus Crédit</div>
-  <div style="color:var(--muted); font-size:13px; margin:10px 0;">Rapide • Sécurisé • Fiable — Dakar, Sénégal</div>
+  <div style="color:var(--muted); font-size:13px; margin:10px 0;" data-i18n="foot_tag">Rapide • Sécurisé • Fiable — Dakar, Sénégal</div>
   <div><a href="tel:+221786649062" style="color:var(--text); text-decoration:none;">📞 78 664 90 62</a> | <a href="https://wa.me/221786649062" style="color:var(--text); text-decoration:none;">💬 WhatsApp</a></div>
-  <div style="font-size: 11px; color: var(--muted); margin-top: 10px;">
-    👁️ Page consultée <span id="visiteCount">0</span> fois
+  <div style="font-size:11px; color:var(--muted); margin-top:10px;">
+    <span data-i18n="foot_views">👁️ Page consultée</span> <span id="visiteCount">0</span> <span data-i18n="foot_times">fois</span>
   </div>
 </footer>
 
+<div class="toast-wrap" id="toastWrap"></div>
+
 <script>
-// ===== COMPTEUR DE VISITES =====
-let compteur = localStorage.getItem('nexusVisites') || 0;
-compteur++;
+/* =====================================================
+   NEXUS CRÉDIT — Application améliorée
+   ===================================================== */
+
+/* ---------- 1. THÈME ---------- */
+const html = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  localStorage.setItem('nexusTheme', t);
+  themeBtn.textContent = t === 'dark' ? '🌙' : '☀️';
+}
+const savedTheme = localStorage.getItem('nexusTheme') || 'dark';
+applyTheme(savedTheme);
+themeBtn.addEventListener('click', () => {
+  applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+/* ---------- 2. I18N ---------- */
+const I18N = {
+  fr: {},
+  en: {
+    nav_calc: "Calculator", nav_dash: "Dashboard", nav_contract: "📄 Contract", nav_apply: "Apply →",
+    hero_title_html: 'Get your <em>loan</em> in<br><span class="line2">just a few hours.</span>',
+    hero_desc: "Need cash urgently? Nexus Crédit gives you fast, transparent loans without hassle.",
+    f1:"Fast response", f2:"Transparent contract", f3:"Secure data", f4:"WhatsApp tracking",
+    btn_apply:"💰 Apply now", btn_contract:"📄 See contract",
+    card_rates:"📊 Our rates", days7:"7 days", days14:"14 days",
+    chip_dur:"Max duration: 14 days", chip_pen:"Penalty: 2,500 FCFA/day",
+    card_contact:"📞 Contact us",
+    rates_title:"Clear rates, no surprises", rates_intro:"Two simple plans, one promise: transparency.",
+    ex_borrow:"Borrow 50,000 FCFA", ex_total:"Total",
+    late_title:"⚠️ Late payment", late_after:"After 3 days", late_full:"Full repayment",
+    calc_title:"🧮 Advanced calculator", calc_intro:"Simulate your loan in real time and compare plans.",
+    calc_amount:"Amount to borrow", calc_borrowed:"Borrowed amount", calc_fees:"Fees / interest",
+    calc_due:"Due date", calc_pen:"Penalty / day late", calc_total:"Total to repay",
+    dash_title:"📊 Dashboard", dash_intro:"Your applications saved locally on this device.",
+    kpi_req:"Applications", kpi_borrowed:"Total borrowed", kpi_due:"Total to repay", kpi_active:"Ongoing",
+    hist_empty:"No application yet. Submit your first one below 👇",
+    form_title:"Submit your application", form_h3:"📝 Application form", form_sub:"Please fill in all fields honestly.",
+    wz_info:"Info", wz_sign:"Signature", wz_pdf:"PDF", wz_send:"Send",
+    lbl_name:"Full name", lbl_phone:"WhatsApp phone", lbl_pass:"Passport number",
+    lbl_amount:"Amount (FCFA)", lbl_dur:"Duration", lbl_guar:"Collateral", lbl_msg:"Message (optional)",
+    err_name:"Please enter your full name.", err_phone:"Invalid number (min 9 digits).",
+    err_pass:"Passport required.", err_amount:"Invalid amount (min 5,000 FCFA).",
+    err_dur:"Select a duration.", err_guar:"Collateral required.",
+    choose:"-- Choose --", guar_note:"⚠️ PASSPORT is MANDATORY + one other item (phone, computer, jewelry…).",
+    reminder_choose:"Select a duration",
+    sim_title:"💡 Simulation", sim_borrow:"Borrowed", sim_int:"Interest",
+    sim_due:"Repayment date", sim_total:"Total to repay",
+    sum_title:"SUMMARY OF YOUR APPLICATION",
+    p_borrower:"Borrower:", p_phone:"Phone:", p_pass:"Passport:",
+    p_amount:"Amount:", p_dur:"Duration:", p_due:"Repay before:", p_total:"Total to repay:", p_guar:"Collateral:",
+    wa_title:"WHATSAPP REPAYMENT REMINDER", wa_desc:"A reminder will be sent on WhatsApp near your due date.",
+    wa_num:"Registered number:", wa_notset:"Not set", wa_check:"✅ Make sure your WhatsApp number is correct!",
+    sign_title:"✍️ Sign with your finger or mouse", btn_clear:"🗑️ Clear", sign_check:"I certify this signature is mine and accept the contract.",
+    btn_valid_sign:"✅ VALIDATE MY SIGNATURE", btn_gen_pdf:"📄 GENERATE MY PDF CONTRACT",
+    instr_title:"📋 FULL PROCEDURE TO GET YOUR LOAN",
+    instr_1:'1️⃣ Read the contract carefully by clicking "📄 Contract" at the top',
+    instr_2:"2️⃣ Fill all fields and sign in the box",
+    instr_3:'3️⃣ Click "VALIDATE MY SIGNATURE" then "GENERATE MY PDF CONTRACT"',
+    instr_4:"4️⃣ A new window opens with your contract",
+    instr_5:'5️⃣ Mobile: menu → "Print" → "Save as PDF"',
+    instr_6:'6️⃣ Desktop: Ctrl+P (or Cmd+P) → "Save as PDF"',
+    instr_7:"📸 OR EASIER: screenshot the contract and send it on WhatsApp to 78 664 90 62",
+    instr_8:"⚠️ Your application is only processed after we receive the signed PDF OR the screenshot!",
+    btn_copy:"🔗 Copy application link",
+    success_title:"Application sent!", success_desc:"Don't forget to send the signed PDF or screenshot on WhatsApp to 78 664 90 62",
+    btn_submit:"📤 Send my application",
+    foot_tag:"Fast • Secure • Reliable — Dakar, Senegal", foot_views:"👁️ Page viewed", foot_times:"times"
+  },
+  wo: {
+    nav_calc:"Calculateur", nav_dash:"Tableau", nav_contract:"📄 Contrat", nav_apply:"Defar demande →",
+    hero_title_html:'Am nga sa <em>prêt</em> ci<br><span class="line2">ay heures yu néew.</span>',
+    hero_desc:"Ndimbal? Nexus Crédit di la jox prêt bu gaaw, bu leer te am jafe-jafe.",
+    f1:"Tontu gaaw", f2:"Contrat bu leer", f3:"Xibaar bu wóor", f4:"Topp ci WhatsApp",
+    btn_apply:"💰 Defar demande", btn_contract:"📄 Xool contrat",
+    card_rates:"📊 Sunu taux", days7:"7 fan", days14:"14 fan",
+    chip_dur:"Yoon: 14 fan", chip_pen:"Pénalité: 2 500 FCFA/fan",
+    card_contact:"📞 Jokkoo ak nun",
+    rates_title:"Taux yu leer, amul surprise", rates_intro:"Ñaari formule yu yomb, benn promise: leer.",
+    ex_borrow:"Moom 50 000 FCFA", ex_total:"Total",
+    late_title:"⚠️ Yéex", late_after:"Ginnaaw 3 fan", late_full:"Fey lépp",
+    calc_title:"🧮 Calculateur bu am solo", calc_intro:"Simule sa prêt ci saa si te seet ñaari formule yi.",
+    calc_amount:"Xaalis bi nga bëgg", calc_borrowed:"Xaalis bi nga moom", calc_fees:"Intérêts",
+    calc_due:"Bés bu fey", calc_pen:"Pénalité/fan", calc_total:"Total bu fey",
+    dash_title:"📊 Tableau de bord", dash_intro:"Sa demande yi ñu denc ci sa appareil.",
+    kpi_req:"Demandes", kpi_borrowed:"Total moom", kpi_due:"Total fey", kpi_active:"Ci jëm",
+    hist_empty:"Amul demande ba léegi. Defar sa bu njëkk ci suuf 👇",
+    form_title:"Defar sa demande", form_h3:"📝 Formulaire demande", form_sub:"Féexal njuréef ci yépp.",
+    wz_info:"Xibaar", wz_sign:"Signature", wz_pdf:"PDF", wz_send:"Yónnee",
+    lbl_name:"Tur wi", lbl_phone:"Telefon WhatsApp", lbl_pass:"Numéro passeport",
+    lbl_amount:"Xaalis (FCFA)", lbl_dur:"Yoon", lbl_guar:"Garantie", lbl_msg:"Bataaxal (soo bëggee)",
+    err_name:"Bindal sa tur.", err_phone:"Numéro baaxul (9 chiffres).",
+    err_pass:"Passeport war.", err_amount:"Xaalis baaxul (min 5 000 FCFA).",
+    err_dur:"Tannal yoon.", err_guar:"Garantie war.",
+    choose:"-- Tannal --", guar_note:"⚠️ PASSEPORT WAR + benn leneen (telefon, ordi, bijoux…).",
+    reminder_choose:"Tannal yoon",
+    sim_title:"💡 Simulation", sim_borrow:"Moom", sim_int:"Intérêts",
+    sim_due:"Bés bu fey", sim_total:"Total bu fey",
+    sum_title:"RÉSUMÉ SA DEMANDE",
+    p_borrower:"Moomkat:", p_phone:"Telefon:", p_pass:"Passeport:",
+    p_amount:"Xaalis:", p_dur:"Yoon:", p_due:"Fey lu tollu:", p_total:"Total:", p_guar:"Garantie:",
+    wa_title:"FATTALI CI WHATSAPP", wa_desc:"Dinañu la fattali ci WhatsApp bu bés bu fey jege.",
+    wa_num:"Numéro bi ñu denc:", wa_notset:"Amul", wa_check:"✅ Seetal sa numéro WhatsApp baax na!",
+    sign_title:"✍️ Sini ak sa baaraam walla souris", btn_clear:"🗑️ Far", sign_check:"Dama koo wóoral te nangu contrat bi.",
+    btn_valid_sign:"✅ DÉGGOOR SA SIGNATURE", btn_gen_pdf:"📄 DEFAR SA CONTRAT PDF",
+    instr_title:"📋 YOON WI NGIR AM SA PRÊT",
+    instr_1:'1️⃣ Jàng contrat bi ci "📄 Contrat" ci kaw',
+    instr_2:"2️⃣ Féexal lépp te sini ci case bi",
+    instr_3:'3️⃣ Bësal "DÉGGOOR SA SIGNATURE" te ginnaaw "DEFAR SA CONTRAT PDF"',
+    instr_4:"4️⃣ Benn fenet bu bees dina ubbi ak sa contrat",
+    instr_5:'5️⃣ Ci telefon: menu → "Imprimer" → "Denc PDF"',
+    instr_6:'6️⃣ Ci ordi: Ctrl+P → "Denc PDF"',
+    instr_7:"📸 WALLA YOMB: defar capture écran te yónnee ci WhatsApp 78 664 90 62",
+    instr_8:"⚠️ Sa demande dina traité ginnaaw ñu jot PDF bi walla capture bi!",
+    btn_copy:"🔗 Kopye lien bi",
+    success_title:"Demande yónnee!", success_desc:"Bàyyi wàññi yónnee PDF bi walla capture bi ci WhatsApp 78 664 90 62",
+    btn_submit:"📤 Yónnee sama demande",
+    foot_tag:"Gaaw • Wóor • Yéexul — Ndakaaru, Senegaal", foot_views:"👁️ Xool nañu", foot_times:"yoon"
+  }
+};
+let currentLang = localStorage.getItem('nexusLang') || 'fr';
+document.getElementById('langSelect').value = currentLang;
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('nexusLang', lang);
+  document.documentElement.lang = lang === 'wo' ? 'fr' : lang;
+  const dict = I18N[lang] || {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      if (key === 'hero_title_html') el.innerHTML = dict[key];
+      else el.textContent = dict[key];
+    }
+  });
+  updateCalc();
+  renderHistory();
+}
+document.getElementById('langSelect').addEventListener('change', e => applyLang(e.target.value));
+
+/* ---------- 3. TOASTS ---------- */
+function toast(msg, type='success') {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + (type === 'success' ? '' : type);
+  el.innerHTML = `<span>${type==='error'?'❌':type==='info'?'ℹ️':'✅'}</span><span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(40px)'; el.style.transition = 'all .3s'; }, 3200);
+  setTimeout(() => el.remove(), 3600);
+}
+
+/* ---------- 4. COMPTEUR VISITES ---------- */
+let compteur = parseInt(localStorage.getItem('nexusVisites') || '0') + 1;
 localStorage.setItem('nexusVisites', compteur);
-document.getElementById('visiteCount').innerHTML = compteur;
+document.getElementById('visiteCount').textContent = compteur;
 
-// ===== FONCTION POUR OUVRIR LE CONTRAT COMPLET =====
+/* ---------- 5. NAVIGATION INTERNE ---------- */
+document.querySelectorAll('[data-goto]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById(btn.dataset.goto).scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ---------- 6. CONTRAT (préservé) ---------- */
 function openContratComplet() {
-    const contratCompletHTML = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Contrat Nexus Crédit - Conditions Générales</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Times New Roman', Arial, sans-serif;
-    background: white;
-    padding: 40px;
+  const contratCompletHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contrat Nexus Crédit - Conditions Générales</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Times New Roman',Arial,sans-serif;background:#fff;padding:40px}
+.container{max-width:900px;margin:0 auto}.header{text-align:center;margin-bottom:30px}.logo{font-size:32px;font-weight:bold;color:#1a5a3a;letter-spacing:2px}
+.subtitle{font-size:12px;color:#666;letter-spacing:3px}.title{font-size:24px;font-weight:bold;text-align:center;margin:30px 0;text-transform:uppercase;color:#1a5a3a;border-bottom:2px solid #1a5a3a;display:inline-block;padding-bottom:8px}
+.title-container{text-align:center}.section{margin-bottom:25px}.section-title{color:#1a5a3a;border-bottom:2px solid #1a5a3a;padding-bottom:5px;margin-bottom:12px;font-size:18px;font-weight:bold;text-transform:uppercase}
+.section-content{padding:5px 0;line-height:1.6;text-align:justify}.warning{color:#dc2626;font-weight:bold}.green{color:#1a5a3a;font-weight:bold}
+.footer{margin-top:40px;font-size:10px;color:#999;text-align:center;border-top:1px solid #eee;padding-top:15px}
+.close-btn{background:#1a5a3a;color:#fff;border:none;padding:12px 25px;border-radius:8px;cursor:pointer;font-size:16px;margin-bottom:25px;display:block;margin-left:auto;margin-right:auto;font-weight:bold}
+@media print{.close-btn{display:none}body{padding:20px}}</style></head><body>
+<div style="text-align:center"><button class="close-btn" onclick="window.close();">✖ FERMER</button></div>
+<div class="container"><div class="header"><div class="logo">NEXUS CRÉDIT</div><div class="subtitle">RAPIDE • SÉCURISÉ • FIABLE</div></div>
+<div class="title-container"><div class="title">CONTRAT DE PRÊT D'ARGENT</div></div>
+<div class="section"><div class="section-title">SECTION 1 - LES INTERVENANTS</div><div class="section-content">
+<p><strong>Entre les personnes ci-dessous désignées :</strong></p>
+<p>Le Bailleur de fonds : <strong>NEXUS CRÉDIT</strong> (Entreprise enregistrée au Sénégal), joignable au numéro WhatsApp <strong>78 664 90 62</strong>, ayant son siège social à Dakar.</p>
+<p>Et l'Emprunteur : La personne physique dont les coordonnées complètes (nom, numéro de téléphone WhatsApp, numéro de passeport) sont fournies dans le formulaire de demande.</p></div></div>
+<div class="section"><div class="section-title">SECTION 2 - BUT DE L'ACCORD</div><div class="section-content">
+<p>Le présent document a pour but de formaliser l'octroi d'une avance de fonds à titre personnel. Le Bailleur s'engage à verser la somme convenue, et l'Emprunteur s'engage à restituer cette somme augmentée des frais et majorations stipulés ci-après.</p></div></div>
+<div class="section"><div class="section-title">SECTION 3 - SOMME AVANCÉE</div><div class="section-content">
+<p>Le montant accordé est déterminé selon la requête validée, libellé en Francs CFA. Ce montant sera transféré en une unique transaction à l'Emprunteur après validation du dossier.</p></div></div>
+<div class="section"><div class="section-title">SECTION 4 - CALENDRIER ET FRAIS</div><div class="section-content">
+<p>L'Emprunteur peut choisir entre deux formules de restitution :</p>
+<ul style="margin-left:30px;margin-top:10px"><li><strong>Formule express :</strong> 7 jours calendaires → +25% du capital emprunté</li>
+<li><strong>Formule classique :</strong> 14 jours calendaires → +35% du capital emprunté</li></ul>
+<p style="margin-top:10px"><strong>Cas pratique :</strong> Pour une avance de 50 000 FCFA :</p>
+<ul style="margin-left:30px"><li>Formule express : frais 12 500 FCFA → total à rendre <strong class="green">62 500 FCFA</strong></li>
+<li>Formule classique : frais 17 500 FCFA → total à rendre <strong class="green">67 500 FCFA</strong></li></ul>
+<p style="margin-top:10px">Par exemple, si vous demandez un nouveau prêt alors qu'un prêt est déjà en cours, le taux d'intérêt augmente : au lieu de 25 % pour une semaine, il passe à 35 % ; au lieu de 35 % pour deux semaines, il passe à 45 %.</p></div></div>
+<div class="section"><div class="section-title">SECTION 5 - ÉCHÉANCE DE REMBOURSEMENT</div><div class="section-content">
+<p>L'Emprunteur s'engage à reverser l'intégralité de la somme due (capital + frais) avant la date butoir calculée comme suit :</p>
+<p><strong>Date butoir = Date de signature du présent acte + Délai retenu (7 ou 14 jours)</strong></p>
+<p>Passé cette échéance, des majorations seront appliquées conformément à la section 6.</p></div></div>
+<div class="section"><div class="section-title">SECTION 6 - MAJORATIONS POUR RETARD</div><div class="section-content">
+<p>En cas de dépassement de la date butoir, les majorations suivantes entrent en vigueur :</p>
+<ul style="margin-left:30px;margin-top:10px"><li><strong class="warning">Majoration quotidienne : 2 500 FCFA par jour de retard</strong></li>
+<li><strong class="warning">À partir du 4ème jour de retard : exigibilité immédiate de la totalité de la somme due</strong></li>
+<li><strong class="warning">Au-delà de 3 jours de retard : engagement des procédures de recouvrement judiciaire</strong></li></ul></div></div>
+<div class="section"><div class="section-title">SECTION 7 - GARANTIES FOURNIES</div><div class="section-content">
+<p>L'Emprunteur remet à titre de garantie les éléments suivants :</p>
+<ol style="margin-left:30px;margin-top:10px"><li><strong>Son document d'identité (passeport original)</strong> – numéro enregistré dans le présent acte</li>
+<li><strong>Un objet de valeur supplémentaire</strong> (appareil téléphonique, ordinateur portable, tablette numérique, bijoux, ou tout autre équipement de valeur)</li></ol>
+<p class="warning" style="margin-top:10px">Ces biens resteront détenus par le Bailleur jusqu'à la libération complète de la dette.</p></div></div>
+<div class="section"><div class="section-title">SECTION 8 - OBLIGATIONS DE L'EMPRUNTEUR</div><div class="section-content">
+<p>L'Emprunteur certifie et s'engage sur l'honneur à :</p>
+<ul style="margin-left:30px;margin-top:10px"><li>Avoir effectivement perçu la somme convenue</li>
+<li>Avoir pris connaissance des taux et majorations applicables</li>
+<li>Restituer l'intégralité de la somme due avant l'échéance fixée</li>
+<li>Être âgé d'au moins 18 ans et juridiquement capable</li>
+<li>Avoir communiqué des informations exactes, sincères et vérifiables</li></ul></div></div>
+<div class="section"><div class="section-title">SECTION 9 - PROCÉDURE DE RECOUVREMENT</div><div class="section-content">
+<p>En cas de défaut de paiement à la date convenue, NEXUS CRÉDIT se réserve le droit d'entreprendre toute action nécessaire au recouvrement, notamment :</p>
+<ul style="margin-left:30px;margin-top:10px"><li>Envoi d'avis de mise en demeure</li><li>Saisie conservatoire des garanties (passeport et bien déposé)</li>
+<li>Poursuite judiciaire devant les juridictions compétentes du Sénégal</li>
+<li>Signalement auprès des organismes de gestion des incidents de crédit</li></ul></div></div>
+<div class="section"><div class="section-title">SECTION 10 - DISCRÉTION</div><div class="section-content">
+<p>L'ensemble des informations fournies par l'Emprunteur sont traitées de manière strictement confidentielle et ne seront utilisées que dans l'exécution du présent contrat.</p></div></div>
+<div class="section"><div class="section-title">SECTION 11 - RÈGLEMENT DES DIFFÉRENDS</div><div class="section-content">
+<p>Tout litige relatif à l'interprétation, l'exécution ou la résiliation du présent acte sera soumis aux tribunaux compétents du Sénégal.</p></div></div>
+<div class="footer"><p>Contrat à lire attentivement avant toute demande - Fait à Dakar, le ${new Date().toLocaleDateString('fr-FR')}</p>
+<p style="margin-top:5px">Conformément aux lois sénégalaises, ce contrat a valeur légale.</p></div></div></body></html>`;
+  const blob = new Blob([contratCompletHTML], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const w = window.open(url, '_blank');
+  if (!w) {
+    const a = document.createElement('a'); a.href = url; a.download = 'contrat_nexus_credit.html'; a.click();
+    toast('Contrat téléchargé.', 'info');
   }
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: white;
-    position: relative;
-  }
-  .header { text-align: center; margin-bottom: 30px; }
-  .logo { font-size: 32px; font-weight: bold; color: #1a5a3a; letter-spacing: 2px; }
-  .subtitle { font-size: 12px; color: #666; letter-spacing: 3px; }
-  .title { font-size: 24px; font-weight: bold; text-align: center; margin: 30px 0; text-transform: uppercase; color: #1a5a3a; border-bottom: 2px solid #1a5a3a; display: inline-block; width: auto; padding-bottom: 8px; }
-  .title-container { text-align: center; }
-  .section { margin-bottom: 25px; }
-  .section-title { 
-    color: #1a5a3a; 
-    border-bottom: 2px solid #1a5a3a; 
-    padding-bottom: 5px; 
-    margin-bottom: 12px; 
-    font-size: 18px; 
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  .section-content { padding: 5px 0; line-height: 1.6; text-align: justify; }
-  .warning { color: #dc2626; font-weight: bold; }
-  .green { color: #1a5a3a; font-weight: bold; }
-  .footer { margin-top: 40px; font-size: 10px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 15px; }
-  .close-btn {
-    background: #1a5a3a;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-bottom: 25px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: bold;
-  }
-  .close-btn:hover { background: #0e3d26; }
-  @media print {
-    .close-btn { display: none; }
-    body { padding: 20px; }
-  }
-</style>
-</head>
-<body>
-<div style="text-align:center;">
-  <button class="close-btn" onclick="window.close();">✖ FERMER</button>
-</div>
-<div class="container">
-  <div class="header">
-    <div class="logo">NEXUS CRÉDIT</div>
-    <div class="subtitle">RAPIDE • SÉCURISÉ • FIABLE</div>
-  </div>
-  <div class="title-container">
-    <div class="title">CONTRAT DE PRÊT D'ARGENT</div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 1 - LES INTERVENANTS</div>
-    <div class="section-content">
-      <p><strong>Entre les personnes ci-dessous désignées :</strong></p>
-      <p>Le Bailleur de fonds : <strong>NEXUS CRÉDIT</strong> (Entreprise enregistrée au Sénégal), joignable joignable au numéro WhatsApp <strong>78 664 90 62</strong>, ayant son siège social à Dakar.</p>
-      <p>Et l'Emprunteur : La personne physique dont les coordonnées complètes (nom, numéro de téléphone WhatsApp, numéro de passeport) sont fournies dans le formulaire de demande.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 2 - BUT DE L'ACCORD</div>
-    <div class="section-content">
-      <p>Le présent document a pour but de formaliser l'octroi d'une avance de fonds à titre personnel. Le Bailleur s'engage à verser la somme convenue, et l'Emprunteur s'engage à restituer cette somme augmentée des frais et majorations stipulés ci-après.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 3 - SOMME AVANCÉE</div>
-    <div class="section-content">
-      <p>Le montant accordé est déterminé selon la requête validée, libellé en Francs CFA. Ce montant sera transféré en une unique transaction à l'Emprunteur après validation du dossier.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 4 - CALENDRIER ET FRAIS</div>
-    <div class="section-content">
-      <p>L'Emprunteur peut choisir entre deux formules de restitution :</p>
-      <ul style="margin-left: 30px; margin-top: 10px;">
-        <li><strong>Formule express :</strong> 7 jours calendaires → +25% du capital emprunté</li>
-        <li><strong>Formule classique :</strong> 14 jours calendaires → +35% du capital emprunté</li>
-      </ul>
-      <p style="margin-top: 10px;"><strong>Cas pratique :</strong> Pour une avance de 50 000 FCFA :</p>
-      <ul style="margin-left: 30px;">
-        <li>Formule express : frais 12 500 FCFA → total à rendre <strong class="green">62 500 FCFA</strong></li>
-        <li>Formule classique : frais 17 500 FCFA → total à rendre <strong class="green">67 500 FCFA</strong></li>
-      </ul>
-      <p style="margin-top: 10px;">Par exemple, si vous demandez un nouveau prêt alors qu'un prêt est déjà en cours, le taux d'intérêt augmente : au lieu de 25 % pour une semaine, il passe à 35 % ; au lieu de 35 % pour deux semaines, il passe à 45 %.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 5 - ÉCHÉANCE DE REMBOURSEMENT</div>
-    <div class="section-content">
-      <p>L'Emprunteur s'engage à reverser l'intégralité de la somme due (capital + frais) avant la date butoir calculée comme suit :</p>
-      <p><strong>Date butoir = Date de signature du présent acte + Délai retenu (7 ou 14 jours)</strong></p>
-      <p>Passé cette échéance, des majorations seront appliquées conformément à la section 6.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 6 - MAJORATIONS POUR RETARD</div>
-    <div class="section-content">
-      <p>En cas de dépassement de la date butoir, les majorations suivantes entrent en vigueur :</p>
-      <ul style="margin-left: 30px; margin-top: 10px;">
-        <li><strong class="warning">Majoration quotidienne : 2 500 FCFA par jour de retard</strong></li>
-        <li><strong class="warning">À partir du 4ème jour de retard : exigibilité immédiate de la totalité de la somme due</strong></li>
-        <li><strong class="warning">Au-delà de 3 jours de retard : engagement des procédures de recouvrement judiciaire</strong></li>
-      </ul>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 7 - GARANTIES FOURNIES</div>
-    <div class="section-content">
-      <p>L'Emprunteur remet à titre de garantie les éléments suivants :</p>
-      <ol style="margin-left: 30px; margin-top: 10px;">
-        <li><strong>Son document d'identité (passeport original)</strong> – numéro enregistré dans le présent acte</li>
-        <li><strong>Un objet de valeur supplémentaire</strong> (appareil téléphonique, ordinateur portable, tablette numérique, bijoux, ou tout autre équipement de valeur)</li>
-      </ol>
-      <p class="warning" style="margin-top: 10px;">Ces biens resteront détenus par le Bailleur jusqu'à la libération complète de la dette.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 8 - OBLIGATIONS DE L'EMPRUNTEUR</div>
-    <div class="section-content">
-      <p>L'Emprunteur certifie et s'engage sur l'honneur à :</p>
-      <ul style="margin-left: 30px; margin-top: 10px;">
-        <li>Avoir effectivement perçu la somme convenue</li>
-        <li>Avoir pris connaissance des taux et majorations applicables</li>
-        <li>Restituer l'intégralité de la somme due avant l'échéance fixée</li>
-        <li>Être âgé d'au moins 18 ans et juridiquement capable</li>
-        <li>Avoir communiqué des informations exactes, sincères et vérifiables</li>
-      </ul>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 9 - PROCÉDURE DE RECOUVREMENT</div>
-    <div class="section-content">
-      <p>En cas de défaut de paiement à la date convenue, NEXUS CRÉDIT se réserve le droit d'entreprendre toute action nécessaire au recouvrement, notamment :</p>
-      <ul style="margin-left: 30px; margin-top: 10px;">
-        <li>Envoi d'avis de mise en demeure</li>
-        <li>Saisie conservatoire des garanties (passeport et bien déposé)</li>
-        <li>Poursuite judiciaire devant les juridictions compétentes du Sénégal</li>
-        <li>Signalement auprès des organismes de gestion des incidents de crédit</li>
-      </ul>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 10 - DISCRÉTION</div>
-    <div class="section-content">
-      <p>L'ensemble des informations fournies par l'Emprunteur sont traitées de manière strictement confidentielle et ne seront utilisées que dans l'exécution du présent contrat.</p>
-    </div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">SECTION 11 - RÈGLEMENT DES DIFFÉRENDS</div>
-    <div class="section-content">
-      <p>Tout litige relatif à l'interprétation, l'exécution ou la résiliation du présent acte sera soumis aux tribunaux compétents du Sénégal.</p>
-    </div>
-  </div>
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+document.getElementById('voirContratNav')?.addEventListener('click', e => { e.preventDefault(); openContratComplet(); });
+document.getElementById('voirContratHero')?.addEventListener('click', e => { e.preventDefault(); openContratComplet(); });
 
-  <div class="footer">
-    <p>Contrat à lire attentivement avant toute demande - Fait à Dakar, le ${new Date().toLocaleDateString('fr-FR')}</p>
-    <p style="margin-top: 5px;">Conformément aux lois sénégalaises, ce contrat a valeur légale.</p>
-  </div>
-</div>
-</body>
-</html>`;
-    
-    const blob = new Blob([contratCompletHTML], {type: 'text/html'});
-    const url = URL.createObjectURL(blob);
-    const newWindow = window.open(url, '_blank');
-    if (!newWindow) {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'contrat_nexus_credit.html';
-      link.click();
-      alert("Le contrat s'ouvre dans votre navigateur. Si rien ne s'affiche, vérifiez que les popups sont autorisés.");
-    }
-    setTimeout(() => URL.revokeObjectURL(url), 60000);
+/* ---------- 7. COPIER LIEN ---------- */
+document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
+  navigator.clipboard.writeText(window.location.href);
+  toast('Lien copié ! Partagez-le.');
+});
+
+/* ---------- 8. VALIDATION TEMPS RÉEL ---------- */
+const fields = {
+  nom: { el: document.getElementById('nom'), wrap: document.getElementById('field-nom'), valid: v => v.trim().length >= 3 },
+  telephone: { el: document.getElementById('telephone'), wrap: document.getElementById('field-tel'), valid: v => v.replace(/\D/g,'').length >= 9 },
+  passeport: { el: document.getElementById('passeport'), wrap: document.getElementById('field-passeport'), valid: v => v.trim().length >= 4 },
+  montant: { el: document.getElementById('montant'), wrap: document.getElementById('field-nom').parentElement ? null : null, valid: v => parseInt(v) >= 5000 },
+  duree: { el: document.getElementById('duree'), wrap: document.getElementById('field-duree'), valid: v => v !== '' },
+  garantie: { el: document.getElementById('garantie'), wrap: document.getElementById('field-garantie'), valid: v => v.trim().length >= 3 }
+};
+function checkField(key) {
+  const f = fields[key];
+  if (!f || !f.wrap) return;
+  const ok = f.valid(f.el.value);
+  f.wrap.classList.toggle('valid', ok && f.el.value.length > 0);
+  f.wrap.classList.toggle('error', !ok && f.el.value.length > 0);
+  return ok;
+}
+['nom','telephone','passeport','duree','garantie'].forEach(k => {
+  fields[k].el.addEventListener('input', () => { checkField(k); updateProgress(); updateApercu(); });
+});
+document.getElementById('montant').addEventListener('input', () => { updateProgress(); updateApercu(); });
+
+/* ---------- 9. PROGRESSION WIZARD ---------- */
+function updateProgress() {
+  const nomOk = fields.nom.valid(fields.nom.el.value);
+  const telOk = fields.telephone.valid(fields.telephone.el.value);
+  const passOk = fields.passeport.valid(fields.passeport.el.value);
+  const amtOk = fields.montant.valid(fields.montant.el.value);
+  const durOk = fields.duree.valid(fields.duree.el.value);
+  const guarOk = fields.garantie.valid(fields.garantie.el.value);
+  const infoOk = nomOk && telOk && passOk && amtOk && durOk && guarOk;
+
+  document.getElementById('wz1').classList.toggle('active', !infoOk || true);
+  document.getElementById('wz2').classList.toggle('active', infoOk);
+  document.getElementById('wz3').classList.toggle('active', infoOk && signatureValidee);
+  document.getElementById('wz4').classList.toggle('active', infoOk && signatureValidee);
 }
 
-// ===== LIENS POUR VOIR LE CONTRAT =====
-document.getElementById('voirContratNav')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    openContratComplet();
-});
-
-document.getElementById('voirContratHero')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    openContratComplet();
-});
-
-// ===== BOUTON COPIER LIEN =====
-document.getElementById('copyLinkBtn')?.addEventListener('click', function() {
-    navigator.clipboard.writeText(window.location.href);
-    alert("✅ Lien copié ! Partagez-le avec vos proches.");
-});
-
-// ===== APERÇU EN TEMPS RÉEL =====
+/* ---------- 10. APERÇU TEMPS RÉEL ---------- */
 function updateApercu() {
-    const nom = document.getElementById('nom').value.trim() || '_____';
-    const telephone = document.getElementById('telephone').value.trim() || '_____';
-    const passeport = document.getElementById('passeport').value.trim() || '_____';
-    const montant = parseInt(document.getElementById('montant').value) || 0;
-    const garantie = document.getElementById('garantie').value.trim() || '_____';
-    const duree = document.getElementById('duree').value;
-    
-    document.getElementById('apercuNom').innerHTML = nom;
-    document.getElementById('apercuTel').innerHTML = telephone;
-    document.getElementById('apercuPasseport').innerHTML = passeport;
-    document.getElementById('apercuMontant').innerHTML = montant.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('apercuGarantie').innerHTML = garantie;
-    
-    if (duree && montant > 0) {
-        const taux = duree === '7' ? 0.25 : 0.35;
-        const interets = Math.round(montant * taux);
-        const total = montant + interets;
-        const dateRemboursement = getDateRemboursement(duree);
-        document.getElementById('apercuDuree').innerHTML = duree + ' jours';
-        document.getElementById('apercuTotal').innerHTML = total.toLocaleString('fr-FR') + ' FCFA';
-        document.getElementById('apercuDate').innerHTML = dateRemboursement;
-    } else {
-        document.getElementById('apercuDuree').innerHTML = '—';
-        document.getElementById('apercuTotal').innerHTML = '0 FCFA';
-        document.getElementById('apercuDate').innerHTML = '—';
-    }
+  const nom = document.getElementById('nom').value.trim() || '_____';
+  const telephone = document.getElementById('telephone').value.trim() || '_____';
+  const passeport = document.getElementById('passeport').value.trim() || '_____';
+  const montant = parseInt(document.getElementById('montant').value) || 0;
+  const garantie = document.getElementById('garantie').value.trim() || '_____';
+  const duree = document.getElementById('duree').value;
+
+  document.getElementById('apercuNom').textContent = nom;
+  document.getElementById('apercuTel').textContent = telephone;
+  document.getElementById('apercuPasseport').textContent = passeport;
+  document.getElementById('apercuMontant').textContent = montant.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('apercuGarantie').textContent = garantie;
+
+  if (duree && montant > 0) {
+    const taux = duree === '7' ? 0.25 : 0.35;
+    const interets = Math.round(montant * taux);
+    const total = montant + interets;
+    document.getElementById('apercuDuree').textContent = duree + ' jours';
+    document.getElementById('apercuTotal').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+    document.getElementById('apercuDate').textContent = getDateRemboursement(duree);
+  } else {
+    document.getElementById('apercuDuree').textContent = '—';
+    document.getElementById('apercuTotal').textContent = '0 FCFA';
+    document.getElementById('apercuDate').textContent = '—';
+  }
 }
 
-// ===== MISE À JOUR NUMÉRO WHATSAPP =====
+/* ---------- 11. WHATSAPP NUM DISPLAY ---------- */
 const telephoneInput = document.getElementById('telephone');
 const whatsappNumberDisplay = document.getElementById('whatsappNumberDisplay');
-
 function updateWhatsappNumber() {
-    const phone = telephoneInput.value.trim();
-    if (phone && phone.length >= 9) {
-        whatsappNumberDisplay.innerHTML = phone;
-        whatsappNumberDisplay.style.color = '#25D366';
-    } else {
-        whatsappNumberDisplay.innerHTML = 'Non renseigné';
-        whatsappNumberDisplay.style.color = '#999';
-    }
+  const phone = telephoneInput.value.trim();
+  whatsappNumberDisplay.textContent = (phone.length >= 9) ? phone : 'Non renseigné';
 }
-telephoneInput.addEventListener('input', function() {
-    updateWhatsappNumber();
-    updateApercu();
-});
+telephoneInput.addEventListener('input', updateWhatsappNumber);
 
-// ===== CURSEUR DE MONTANT =====
+/* ---------- 12. SLIDER MONTANT ---------- */
 const rangeMontant = document.getElementById('montantRange');
-const montantInputOrig = document.getElementById('montant');
-if (rangeMontant && montantInputOrig) {
-    rangeMontant.addEventListener('input', function() {
-        montantInputOrig.value = rangeMontant.value;
-        updateSim();
-        updateApercu();
-        validateFields();
-    });
-    montantInputOrig.addEventListener('input', function() {
-        rangeMontant.value = montantInputOrig.value;
-        updateSim();
-        updateApercu();
-        validateFields();
-    });
-}
+const montantInput = document.getElementById('montant');
+rangeMontant.addEventListener('input', () => { montantInput.value = rangeMontant.value; updateSim(); updateApercu(); });
+montantInput.addEventListener('input', () => { rangeMontant.value = montantInput.value; updateSim(); updateApercu(); });
 
-// ===== VALIDATION DES CHAMPS =====
-function validateFields() {
-    const nom = document.getElementById('nom').value.trim();
-    const tel = document.getElementById('telephone').value.trim();
-    const passeport = document.getElementById('passeport').value.trim();
-    const montant = document.getElementById('montant').value.trim();
-    const duree = document.getElementById('duree').value;
-    const garantie = document.getElementById('garantie').value.trim();
-    
-    let progress = 0;
-    if (nom !== "") progress += 20;
-    if (tel !== "") progress += 20;
-    if (passeport !== "") progress += 20;
-    if (montant !== "" && duree !== "" && garantie !== "") progress += 20;
-    if (signatureValidee) progress += 20;
-    
-    document.getElementById('progressBar').style.width = progress + '%';
-    document.getElementById('step1')?.classList.toggle('active', progress >= 20);
-    document.getElementById('step2')?.classList.toggle('active', progress >= 60);
-    document.getElementById('step3')?.classList.toggle('active', progress >= 80);
-}
-
-// ===== CANVAS SIGNATURE =====
+/* ---------- 13. SIGNATURE CANVAS ---------- */
 const canvas = document.getElementById('signatureCanvas');
 let ctx = canvas.getContext('2d');
 let isDrawing = false;
 let signatureImageData = null;
+let signatureValidee = false;
+let signatureDataURL = '';
+let montantActuel = 0, dureeActuelle = '', totalActuel = 0;
 
 function resizeCanvas() {
-  const container = canvas.parentElement;
-  const width = Math.min(500, container.clientWidth - 20);
-  canvas.width = width;
-  canvas.height = 180;
+  const w = Math.min(500, canvas.parentElement.clientWidth - 20);
+  canvas.width = w; canvas.height = 180;
   ctx = canvas.getContext('2d');
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = '#000';
-  ctx.lineWidth = 2;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  
+  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   if (signatureImageData) {
     const img = new Image();
-    img.onload = () => { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+    img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     img.src = signatureImageData;
   }
 }
-
-function startDrawing(e) {
-  isDrawing = true;
-  const pos = getCanvasCoordinates(e);
-  ctx.beginPath();
-  ctx.moveTo(pos.x, pos.y);
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
-  e.preventDefault();
-}
-
-function draw(e) {
-  if (!isDrawing) return;
-  e.preventDefault();
-  const pos = getCanvasCoordinates(e);
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(pos.x, pos.y);
-}
-
-function stopDrawing() {
-  isDrawing = false;
-  ctx.beginPath();
-}
-
-function getCanvasCoordinates(e) {
+function getPos(e) {
   const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  
-  let clientX, clientY;
-  if (e.touches) {
-    clientX = e.touches[0].clientX;
-    clientY = e.touches[0].clientY;
-  } else {
-    clientX = e.clientX;
-    clientY = e.clientY;
-  }
-  
-  let x = (clientX - rect.left) * scaleX;
-  let y = (clientY - rect.top) * scaleY;
-  x = Math.max(0, Math.min(canvas.width, x));
-  y = Math.max(0, Math.min(canvas.height, y));
-  return { x, y };
+  const sx = canvas.width / rect.width, sy = canvas.height / rect.height;
+  let cx, cy;
+  if (e.touches) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
+  else { cx = e.clientX; cy = e.clientY; }
+  return { x: Math.max(0, Math.min(canvas.width, (cx-rect.left)*sx)), y: Math.max(0, Math.min(canvas.height, (cy-rect.top)*sy)) };
 }
-
-canvas.addEventListener('mousedown', startDrawing);
+function startDraw(e) { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); }
+function draw(e) { if (!isDrawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
+function stopDraw() { isDrawing = false; ctx.beginPath(); }
+canvas.addEventListener('mousedown', startDraw);
 canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener('mouseleave', stopDrawing);
-canvas.addEventListener('touchstart', startDrawing);
+canvas.addEventListener('mouseup', stopDraw);
+canvas.addEventListener('mouseleave', stopDraw);
+canvas.addEventListener('touchstart', startDraw);
 canvas.addEventListener('touchmove', draw);
-canvas.addEventListener('touchend', stopDrawing);
+canvas.addEventListener('touchend', stopDraw);
 
-document.getElementById('clearCanvas').addEventListener('click', function() {
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  signatureImageData = null;
-  signatureValidee = false;
+document.getElementById('clearCanvas').addEventListener('click', () => {
+  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  signatureImageData = null; signatureValidee = false;
   document.getElementById('signCheck').checked = false;
-  validateFields();
-  alert("🗑️ Signature effacée");
+  updateProgress(); toast('Signature effacée.', 'info');
 });
 
-// ===== DONNÉES =====
-let montantActuel = 0;
-let dureeActuelle = '';
-let totalActuel = 0;
-let signatureValidee = false;
-let signatureDataURL = '';
-
-function getDateRemboursement(dureeJours) {
-  const date = new Date();
-  date.setDate(date.getDate() + parseInt(dureeJours));
-  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-}
-
-// ===== SIMULATION =====
-const montantInput = document.getElementById('montant');
-const dureeSelect = document.getElementById('duree');
-
-function updateSim() {
-  const m = parseInt(montantInput.value) || 0;
-  const d = dureeSelect.value;
-  montantActuel = m;
-  dureeActuelle = d;
-  
-  if (m > 0 && d) {
-    const taux = d === '7' ? 0.25 : 0.35;
-    const interets = Math.round(m * taux);
-    totalActuel = m + interets;
-    const dateRemboursement = getDateRemboursement(d);
-    
-    document.getElementById('simMontant').innerHTML = m.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('simInterets').innerHTML = '+ ' + interets.toLocaleString('fr-FR') + ' FCFA (' + (taux*100) + '%)';
-    document.getElementById('simDateRemboursement').innerHTML = dateRemboursement;
-    document.getElementById('simTotal').innerHTML = totalActuel.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('simulateur').classList.add('show');
-    
-    document.getElementById('reminderText').innerHTML = `⚠️ À rembourser le ${dateRemboursement} ⚠️`;
-    document.getElementById('reminderDate').style.backgroundColor = 'rgba(245,158,11,0.2)';
-  } else {
-    document.getElementById('simulateur').classList.remove('show');
-    document.getElementById('reminderText').innerHTML = 'Sélectionnez une durée';
-    document.getElementById('reminderDate').style.backgroundColor = 'rgba(34,197,94,0.12)';
-  }
-  validateFields();
-  updateApercu();
-}
-
-montantInput.addEventListener('input', updateSim);
-dureeSelect.addEventListener('change', updateSim);
-document.getElementById('nom').addEventListener('input', function() { updateApercu(); validateFields(); });
-document.getElementById('telephone').addEventListener('input', function() { updateApercu(); validateFields(); });
-document.getElementById('passeport').addEventListener('input', function() { updateApercu(); validateFields(); });
-document.getElementById('garantie').addEventListener('input', function() { updateApercu(); validateFields(); });
-
-// ===== VALIDATION SIGNATURE =====
+/* ---------- 14. VALIDATION SIGNATURE ---------- */
 const signCheckbox = document.getElementById('signCheck');
 const validateBtn = document.getElementById('validateSignBtn');
-
 const newValidateBtn = validateBtn.cloneNode(true);
 validateBtn.parentNode.replaceChild(newValidateBtn, validateBtn);
-
-newValidateBtn.addEventListener('click', function() {
-  const nomForm = document.getElementById('nom').value.trim();
-  const telephoneForm = document.getElementById('telephone').value.trim();
-  const passeportForm = document.getElementById('passeport').value.trim();
-  const garantieForm = document.getElementById('garantie').value.trim();
-  const isChecked = signCheckbox.checked;
-  
-  const pixelData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  let hasSignature = false;
-  for (let i = 0; i < pixelData.data.length; i += 4) {
-    if (pixelData.data[i] < 250 || pixelData.data[i+1] < 250 || pixelData.data[i+2] < 250) {
-      hasSignature = true;
-      break;
-    }
-  }
-  
-  if (nomForm === "") { alert("❌ Remplissez d'abord votre NOM"); return; }
-  if (telephoneForm === "") { alert("❌ Remplissez d'abord votre TÉLÉPHONE WHATSAPP"); return; }
-  if (passeportForm === "") { alert("❌ Remplissez d'abord votre NUMÉRO DE PASSEPORT"); return; }
-  if (garantieForm === "") { alert("❌ Remplissez d'abord votre GARANTIE"); return; }
-  if (!hasSignature) { alert("❌ Veuillez dessiner votre signature dans le cadre"); return; }
-  if (!isChecked) { alert("❌ Cochez la case d'acceptation"); return; }
-  
+newValidateBtn.addEventListener('click', () => {
+  const nom = document.getElementById('nom').value.trim();
+  const tel = document.getElementById('telephone').value.trim();
+  const pass = document.getElementById('passeport').value.trim();
+  const guar = document.getElementById('garantie').value.trim();
+  const px = ctx.getImageData(0,0,canvas.width,canvas.height);
+  let hasSig = false;
+  for (let i=0;i<px.data.length;i+=4) if (px.data[i]<250||px.data[i+1]<250||px.data[i+2]<250) { hasSig = true; break; }
+  if (!nom) return toast('Remplissez votre NOM.', 'error');
+  if (!tel) return toast('Remplissez votre TÉLÉPHONE.', 'error');
+  if (!pass) return toast('Remplissez votre PASSEPORT.', 'error');
+  if (!guar) return toast('Remplissez votre GARANTIE.', 'error');
+  if (!hasSig) return toast('Dessinez votre signature.', 'error');
+  if (!signCheckbox.checked) return toast('Cochez la case d\'acceptation.', 'error');
   signatureDataURL = canvas.toDataURL();
   signatureValidee = true;
-  
-  alert("✅ Signature enregistrée avec succès !");
-  
-  validateFields();
+  updateProgress();
+  toast('Signature enregistrée !');
 });
 
-// ===== OUVERTURE DU CONTRAT PDF =====
-const openContractBtn = document.getElementById('openContractBtn');
-
-const newOpenContractBtn = openContractBtn.cloneNode(true);
-openContractBtn.parentNode.replaceChild(newOpenContractBtn, openContractBtn);
-
-newOpenContractBtn.addEventListener('click', function() {
-  if (!signatureValidee) {
-    alert("❌ Veuillez d'abord dessiner et valider votre signature avec le bouton 'VALIDER MA SIGNATURE'");
-    return;
-  }
-  
+/* ---------- 15. GÉNÉRATION PDF CONTRAT (préservé + amélioré) ---------- */
+document.getElementById('openContractBtn')?.addEventListener('click', function() {
+  if (!signatureValidee) return toast("Validez d'abord votre signature.", 'error');
   const nom = document.getElementById('nom').value.trim();
   const telephone = document.getElementById('telephone').value.trim();
   const passeport = document.getElementById('passeport').value.trim();
@@ -1273,312 +1146,168 @@ newOpenContractBtn.addEventListener('click', function() {
   const message = document.getElementById('message').value.trim();
   const dateSignature = new Date().toLocaleString('fr-FR');
   const dateRemboursement = getDateRemboursement(duree);
-  
-  const contratHTML = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Contrat Nexus Crédit - ${nom}</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Times New Roman', Arial, sans-serif;
-    background: white;
-    padding: 40px;
-  }
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: white;
-    position: relative;
-  }
-  .header { text-align: center; margin-bottom: 30px; }
-  .logo { font-size: 32px; font-weight: bold; color: #1a5a3a; letter-spacing: 2px; }
-  .subtitle { font-size: 12px; color: #666; letter-spacing: 3px; }
-  .title { font-size: 22px; font-weight: bold; text-align: center; margin: 25px 0; text-transform: uppercase; color: #1a5a3a; border-bottom: 2px solid #1a5a3a; display: inline-block; width: auto; padding-bottom: 5px; }
-  .title-container { text-align: center; }
-  .section { margin-bottom: 25px; }
-  .section-title { 
-    color: #1a5a3a; 
-    border-bottom: 2px solid #1a5a3a; 
-    padding-bottom: 5px; 
-    margin-bottom: 12px; 
-    font-size: 16px; 
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  .row { display: flex; padding: 6px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
-  .key { width: 220px; color: #555; font-weight: 500; }
-  .val { font-weight: bold; color: #000; }
-  .signatures { display: flex; gap: 40px; margin-top: 50px; margin-bottom: 30px; flex-wrap: wrap; }
-  .sig-box { 
-    flex: 1; 
-    text-align: center; 
-    position: relative;
-    padding: 20px 10px 10px 10px;
-    border-top: 1px solid #999;
-    min-width: 200px;
-  }
-  .signature-image { 
-    max-width: 100%; 
-    max-height: 70px; 
-    border: 1px solid #1a5a3a; 
-    border-radius: 5px; 
-    margin: 10px 0;
-    background: white;
-  }
-  .warning { color: #dc2626; }
-  .green { color: #1a5a3a; font-weight: bold; }
-  .gold { color: #d4a017; font-weight: bold; }
-  .footer { margin-top: 30px; font-size: 10px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 15px; }
-  .print-btn {
-    background: #1a5a3a;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-bottom: 25px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: bold;
-  }
-  .reminder-box {
-    background: #fff8e7;
-    border: 2px solid #d4a017;
-    border-radius: 12px;
-    padding: 15px;
-    margin: 25px 0;
-    text-align: center;
-  }
-  .reminder-box p { margin: 5px 0; color: #d4a017; font-weight: bold; }
-  
-  .stamp-encadrement {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border-radius: 15px;
-    background: radial-gradient(circle at 30% 30%, rgba(185, 28, 28, 0.03), rgba(185, 28, 28, 0.01));
-    pointer-events: none;
-    z-index: 5;
-  }
-  .stamp-encadrement::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 15px;
-    border: 2px solid #b91c1c;
-    box-shadow: 0 0 0 1px #ef4444, inset 0 0 0 1px rgba(185, 28, 28, 0.2);
-  }
-  .stamp-encadrement::after {
-    content: "";
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border-radius: 10px;
-    border: 1px dashed rgba(185, 28, 28, 0.3);
-  }
-  
-  .stamp-circle {
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 0 2px #b91c1c, 0 0 0 4px #ef4444;
-    z-index: 20;
-    background: rgba(255,255,255,0.98);
-  }
-  .stamp-text-top {
-    font-size: 8px;
-    font-weight: bold;
-    color: #b91c1c;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  .stamp-star {
-    font-size: 18px;
-    color: #b91c1c;
-    margin: 2px 0;
-  }
-  .stamp-center {
-    font-size: 9px;
-    font-weight: bold;
-    color: #b91c1c;
-    text-transform: uppercase;
-  }
-  .stamp-text-bottom {
-    font-size: 6px;
-    font-weight: bold;
-    color: #b91c1c;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  @media print {
-    .stamp-encadrement::before {
-      border: 2px solid #b91c1c !important;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    .stamp-circle {
-      box-shadow: 0 0 0 2px #b91c1c, 0 0 0 4px #ef4444 !important;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    .stamp-text-top, .stamp-center, .stamp-text-bottom {
-      color: #b91c1c !important;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    .stamp-star {
-      color: #b91c1c !important;
-    }
-    .reminder-box {
-      border: 2px solid #d4a017 !important;
-      background: #fff8e7 !important;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    .print-btn { display: none; }
-    body { padding: 20px; }
-  }
-  
-  @media (max-width: 600px) {
-    body { padding: 15px; }
-    .row { flex-direction: column; }
-    .key { width: 100%; }
-    .signatures { flex-direction: column; }
-  }
-</style>
-</head>
-<body>
-<div style="text-align:center;">
-  <button class="print-btn" onclick="window.print();">🖨️ IMPRIMER / ENREGISTRER EN PDF</button>
-  <p style="margin-top: 10px; font-size: 12px; color: #666;">📸 OU FAITES UNE CAPTURE D'ÉCRAN ET ENVOYEZ-LA SUR WHATSAPP</p>
-</div>
-<div class="container">
-  <div class="header">
-    <div class="logo">NEXUS CRÉDIT</div>
-    <div class="subtitle">RAPIDE • SÉCURISÉ • FIABLE</div>
-  </div>
-  <div class="title-container">
-    <div class="title">CONTRAT DE PRÊT D'ARGENT</div>
-  </div>
-  
-  <div class="reminder-box">
-    <p>📅 DATE LIMITE DE REMBOURSEMENT 📅</p>
-    <p style="font-size: 20px;">⚠️ ${dateRemboursement} ⚠️</p>
-    <p>Passé cette date, une pénalité de 2 500 FCFA par jour s'applique</p>
-    <p>Un rappel sera envoyé sur votre WhatsApp : ${telephone}</p>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">PARTIES</div>
-    <div class="row"><div class="key">Prêteur :</div><div class="val">Nexus Crédit (78 664 90 62)</div></div>
-    <div class="row"><div class="key">Emprunteur :</div><div class="val">${nom}</div></div>
-    <div class="row"><div class="key">Téléphone WhatsApp :</div><div class="val">${telephone}</div></div>
-    <div class="row"><div class="key">Passeport N° :</div><div class="val">${passeport}</div></div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">MONTANT & DURÉE</div>
-    <div class="row"><div class="key">Montant emprunté :</div><div class="val">${montant.toLocaleString('fr-FR')} FCFA</div></div>
-    <div class="row"><div class="key">Durée :</div><div class="val">${duree} jours</div></div>
-    <div class="row"><div class="key">Date de remboursement :</div><div class="val gold">${dateRemboursement}</div></div>
-    <div class="row"><div class="key">Taux d'intérêts :</div><div class="val">+${taux}</div></div>
-    <div class="row"><div class="key">Total à rembourser :</div><div class="val green">${total.toLocaleString('fr-FR')} FCFA</div></div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">GARANTIE</div>
-    <div class="row"><div class="key">Garantie :</div><div class="val">${garantie}</div></div>
-    <div class="row"><div class="key">Passeport :</div><div class="val green">✓ N° ${passeport} (remis en garantie)</div></div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">PÉNALITÉS DE RETARD</div>
-    <div class="row"><div class="key">Pénalité par jour :</div><div class="val warning">2 500 FCFA</div></div>
-    <div class="row"><div class="key">Délai maximum :</div><div class="val warning">3 jours de retard → remboursement total exigé</div></div>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">ENGAGEMENTS DE L'EMPRUNTEUR</div>
-    <div class="row"><div class="val">Je reconnais avoir reçu la somme de <strong>${montant.toLocaleString('fr-FR')} FCFA</strong> et m'engage à rembourser la somme totale de <strong class="green">${total.toLocaleString('fr-FR')} FCFA</strong> avant le <strong class="gold">${dateRemboursement}</strong>.</div></div>
-    <div class="row"><div class="val warning">En cas de non-paiement à la date convenue, Nexus Crédit se réserve le droit d'engager des poursuites judiciaires.</div></div>
-    ${message ? `<div class="row"><div class="key">Message :</div><div class="val">${message}</div></div>` : ''}
-  </div>
-  
-  <div class="signatures">
-    <div class="sig-box">
-      <div class="stamp-encadrement"></div>
-      <div class="stamp-circle">
-        <div class="stamp-text-top">NEXUS</div>
-        <div class="stamp-star">★</div>
-        <div class="stamp-center">CRÉDIT</div>
-        <div class="stamp-text-bottom">SÉNÉGAL</div>
-      </div>
-      <div><strong>Signature du Prêteur</strong></div>
-      <div style="margin-top: 8px;">Nexus Crédit</div>
-    </div>
-    <div class="sig-box">
-      <div class="stamp-encadrement"></div>
-      <div class="stamp-circle">
-        <div class="stamp-text-top">NEXUS</div>
-        <div class="stamp-star">★</div>
-        <div class="stamp-center">CRÉDIT</div>
-        <div class="stamp-text-bottom">CONTRAT VALIDE</div>
-      </div>
-      <div><strong>Signature de l'Emprunteur</strong></div>
-      <img src="${signatureDataURL}" class="signature-image" alt="Signature">
-      <div style="font-size: 11px; margin-top: 5px;">Signé le ${dateSignature} par ${nom}</div>
-    </div>
-  </div>
-  
-  <div class="footer">
-    <p>Contrat signé électroniquement - Fait à Dakar, le ${new Date().toLocaleDateString('fr-FR')}</p>
-    <p style="margin-top: 5px;">Conformément aux lois sénégalaises, ce contrat a valeur légale.</p>
-  </div>
-</div>
-</body>
-</html>`;
-  
-  const blob = new Blob([contratHTML], {type: 'text/html'});
+
+  const contratHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contrat Nexus Crédit - ${nom}</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Times New Roman',Arial,sans-serif;background:#fff;padding:40px}
+.container{max-width:900px;margin:0 auto}.header{text-align:center;margin-bottom:30px}.logo{font-size:32px;font-weight:bold;color:#1a5a3a;letter-spacing:2px}
+.subtitle{font-size:12px;color:#666;letter-spacing:3px}.title{font-size:22px;font-weight:bold;text-align:center;margin:25px 0;text-transform:uppercase;color:#1a5a3a;border-bottom:2px solid #1a5a3a;display:inline-block;padding-bottom:5px}
+.title-container{text-align:center}.section{margin-bottom:25px}.section-title{color:#1a5a3a;border-bottom:2px solid #1a5a3a;padding-bottom:5px;margin-bottom:12px;font-size:16px;font-weight:bold;text-transform:uppercase}
+.row{display:flex;padding:6px 0;border-bottom:1px solid #eee;flex-wrap:wrap}.key{width:220px;color:#555;font-weight:500}.val{font-weight:bold;color:#000}
+.signatures{display:flex;gap:40px;margin-top:50px;margin-bottom:30px;flex-wrap:wrap}.sig-box{flex:1;text-align:center;position:relative;padding:20px 10px 10px 10px;border-top:1px solid #999;min-width:200px}
+.signature-image{max-width:100%;max-height:70px;border:1px solid #1a5a3a;border-radius:5px;margin:10px 0;background:#fff}
+.warning{color:#dc2626}.green{color:#1a5a3a;font-weight:bold}.gold{color:#d4a017;font-weight:bold}
+.footer{margin-top:30px;font-size:10px;color:#999;text-align:center;border-top:1px solid #eee;padding-top:15px}
+.print-btn{background:#1a5a3a;color:#fff;border:none;padding:12px 25px;border-radius:8px;cursor:pointer;font-size:16px;margin-bottom:25px;display:block;margin-left:auto;margin-right:auto;font-weight:bold}
+.reminder-box{background:#fff8e7;border:2px solid #d4a017;border-radius:12px;padding:15px;margin:25px 0;text-align:center}
+.reminder-box p{margin:5px 0;color:#d4a017;font-weight:bold}
+.stamp-encadrement{position:absolute;top:-8px;left:-8px;right:-8px;bottom:-8px;border-radius:15px;background:radial-gradient(circle at 30% 30%,rgba(185,28,28,0.03),rgba(185,28,28,0.01));pointer-events:none;z-index:5}
+.stamp-encadrement::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;border-radius:15px;border:2px solid #b91c1c;box-shadow:0 0 0 1px #ef4444,inset 0 0 0 1px rgba(185,28,28,0.2)}
+.stamp-encadrement::after{content:"";position:absolute;top:5px;left:5px;right:5px;bottom:5px;border-radius:10px;border:1px dashed rgba(185,28,28,0.3)}
+.stamp-circle{position:absolute;top:-20px;right:-20px;width:65px;height:65px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 2px #b91c1c,0 0 0 4px #ef4444;z-index:20}
+.stamp-text-top{font-size:8px;font-weight:bold;color:#b91c1c;text-transform:uppercase;letter-spacing:2px}
+.stamp-star{font-size:18px;color:#b91c1c;margin:2px 0}.stamp-center{font-size:9px;font-weight:bold;color:#b91c1c;text-transform:uppercase}
+.stamp-text-bottom{font-size:6px;font-weight:bold;color:#b91c1c;text-transform:uppercase;letter-spacing:1px}
+@media print{.stamp-encadrement::before{border:2px solid #b91c1c!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+.stamp-circle{box-shadow:0 0 0 2px #b91c1c,0 0 0 4px #ef4444!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+.reminder-box{border:2px solid #d4a017!important;background:#fff8e7!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+.print-btn{display:none}body{padding:20px}}
+@media(max-width:600px){body{padding:15px}.row{flex-direction:column}.key{width:100%}.signatures{flex-direction:column}}</style></head><body>
+<div style="text-align:center"><button class="print-btn" onclick="window.print();">🖨️ IMPRIMER / ENREGISTRER EN PDF</button>
+<p style="margin-top:10px;font-size:12px;color:#666">📸 OU FAITES UNE CAPTURE D'ÉCRAN ET ENVOYEZ-LA SUR WHATSAPP</p></div>
+<div class="container"><div class="header"><div class="logo">NEXUS CRÉDIT</div><div class="subtitle">RAPIDE • SÉCURISÉ • FIABLE</div></div>
+<div class="title-container"><div class="title">CONTRAT DE PRÊT D'ARGENT</div></div>
+<div class="reminder-box"><p>📅 DATE LIMITE DE REMBOURSEMENT 📅</p><p style="font-size:20px">⚠️ ${dateRemboursement} ⚠️</p>
+<p>Passé cette date, une pénalité de 2 500 FCFA par jour s'applique</p>
+<p>Un rappel sera envoyé sur votre WhatsApp : ${telephone}</p></div>
+<div class="section"><div class="section-title">PARTIES</div>
+<div class="row"><div class="key">Prêteur :</div><div class="val">Nexus Crédit (78 664 90 62)</div></div>
+<div class="row"><div class="key">Emprunteur :</div><div class="val">${nom}</div></div>
+<div class="row"><div class="key">Téléphone WhatsApp :</div><div class="val">${telephone}</div></div>
+<div class="row"><div class="key">Passeport N° :</div><div class="val">${passeport}</div></div></div>
+<div class="section"><div class="section-title">MONTANT & DURÉE</div>
+<div class="row"><div class="key">Montant emprunté :</div><div class="val">${montant.toLocaleString('fr-FR')} FCFA</div></div>
+<div class="row"><div class="key">Durée :</div><div class="val">${duree} jours</div></div>
+<div class="row"><div class="key">Date de remboursement :</div><div class="val gold">${dateRemboursement}</div></div>
+<div class="row"><div class="key">Taux d'intérêts :</div><div class="val">+${taux}</div></div>
+<div class="row"><div class="key">Total à rembourser :</div><div class="val green">${total.toLocaleString('fr-FR')} FCFA</div></div></div>
+<div class="section"><div class="section-title">GARANTIE</div>
+<div class="row"><div class="key">Garantie :</div><div class="val">${garantie}</div></div>
+<div class="row"><div class="key">Passeport :</div><div class="val green">✓ N° ${passeport} (remis en garantie)</div></div></div>
+<div class="section"><div class="section-title">PÉNALITÉS DE RETARD</div>
+<div class="row"><div class="key">Pénalité par jour :</div><div class="val warning">2 500 FCFA</div></div>
+<div class="row"><div class="key">Délai maximum :</div><div class="val warning">3 jours de retard → remboursement total exigé</div></div></div>
+<div class="section"><div class="section-title">ENGAGEMENTS DE L'EMPRUNTEUR</div>
+<div class="row"><div class="val">Je reconnais avoir reçu la somme de <strong>${montant.toLocaleString('fr-FR')} FCFA</strong> et m'engage à rembourser la somme totale de <strong class="green">${total.toLocaleString('fr-FR')} FCFA</strong> avant le <strong class="gold">${dateRemboursement}</strong>.</div></div>
+<div class="row"><div class="val warning">En cas de non-paiement à la date convenue, Nexus Crédit se réserve le droit d'engager des poursuites judiciaires.</div></div>
+${message ? `<div class="row"><div class="key">Message :</div><div class="val">${message}</div></div>` : ''}</div>
+<div class="signatures">
+<div class="sig-box"><div class="stamp-encadrement"></div><div class="stamp-circle"><div class="stamp-text-top">NEXUS</div><div class="stamp-star">★</div><div class="stamp-center">CRÉDIT</div><div class="stamp-text-bottom">SÉNÉGAL</div></div>
+<div><strong>Signature du Prêteur</strong></div><div style="margin-top:8px">Nexus Crédit</div></div>
+<div class="sig-box"><div class="stamp-encadrement"></div><div class="stamp-circle"><div class="stamp-text-top">NEXUS</div><div class="stamp-star">★</div><div class="stamp-center">CRÉDIT</div><div class="stamp-text-bottom">CONTRAT VALIDE</div></div>
+<div><strong>Signature de l'Emprunteur</strong></div>
+<img src="${signatureDataURL}" class="signature-image" alt="Signature">
+<div style="font-size:11px;margin-top:5px">Signé le ${dateSignature} par ${nom}</div></div></div>
+<div class="footer"><p>Contrat signé électroniquement - Fait à Dakar, le ${new Date().toLocaleDateString('fr-FR')}</p>
+<p style="margin-top:5px">Conformément aux lois sénégalaises, ce contrat a valeur légale.</p></div></div></body></html>`;
+
+  const blob = new Blob([contratHTML], {type:'text/html'});
   const url = URL.createObjectURL(blob);
-  const newWindow = window.open(url, '_blank');
-  
-  if (!newWindow) {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `contrat_nexus_${nom}.html`;
-    link.click();
-    alert("📄 Le contrat s'ouvre dans votre navigateur. Appuyez sur 'Imprimer' → 'Enregistrer au format PDF' pour le sauvegarder.");
+  const w = window.open(url, '_blank');
+  if (!w) {
+    const a = document.createElement('a'); a.href = url; a.download = `contrat_nexus_${nom}.html`; a.click();
   }
-  
-  setTimeout(() => {
-    URL.revokeObjectURL(url);
-  }, 60000);
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 });
 
-// ===== ENVOI WHATSAPP =====
+/* ---------- 16. CALCULS / SIMULATION ---------- */
+function getDateRemboursement(jours) {
+  const d = new Date(); d.setDate(d.getDate() + parseInt(jours));
+  return d.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+}
+function updateSim() {
+  const m = parseInt(montantInput.value) || 0;
+  const d = document.getElementById('duree').value;
+  montantActuel = m; dureeActuelle = d;
+  if (m > 0 && d) {
+    const taux = d === '7' ? 0.25 : 0.35;
+    const interets = Math.round(m * taux);
+    totalActuel = m + interets;
+    document.getElementById('simMontant').textContent = m.toLocaleString('fr-FR') + ' FCFA';
+    document.getElementById('simInterets').textContent = '+ ' + interets.toLocaleString('fr-FR') + ' FCFA (' + (taux*100) + '%)';
+    document.getElementById('simDateRemboursement').textContent = getDateRemboursement(d);
+    document.getElementById('simTotal').textContent = totalActuel.toLocaleString('fr-FR') + ' FCFA';
+    document.getElementById('simulateur').classList.add('show');
+    document.getElementById('reminderText').textContent = `⚠️ À rembourser le ${getDateRemboursement(d)} ⚠️`;
+    document.getElementById('reminderDate').style.background = 'rgba(245,158,11,0.15)';
+  } else {
+    document.getElementById('simulateur').classList.remove('show');
+    document.getElementById('reminderText').textContent = I18N[currentLang]?.reminder_choose || 'Sélectionnez une durée';
+  }
+}
+document.getElementById('duree').addEventListener('change', updateSim);
+
+/* ---------- 17. CALCULATEUR AVANCÉ ---------- */
+let calcDur = 7;
+const calcRange = document.getElementById('calcRange');
+const calcAmtDisplay = document.getElementById('calcAmtDisplay');
+const calcTabs = document.querySelectorAll('.calc-tab');
+function updateCalc() {
+  const m = parseInt(calcRange.value) || 0;
+  calcAmtDisplay.textContent = m.toLocaleString('fr-FR');
+  const taux = calcDur === 7 ? 0.25 : 0.35;
+  const fees = Math.round(m * taux);
+  const total = m + fees;
+  document.getElementById('calcBorrowed').textContent = m.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('calcFees').textContent = '+ ' + fees.toLocaleString('fr-FR') + ' FCFA (' + (taux*100) + '%)';
+  document.getElementById('calcTotal').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('calcDue').textContent = getDateRemboursement(calcDur);
+  const m14 = Math.round(m * 0.35);
+  const diff = (m + m14) - total;
+  document.getElementById('calcCompare').innerHTML = calcDur === 7
+    ? `💡 En choisissant <strong>14 jours</strong>, vous rembourseriez <strong>${diff.toLocaleString('fr-FR')} FCFA</strong> de plus, mais avec 7 jours de plus pour payer.`
+    : `💡 En choisissant <strong>7 jours</strong>, vous économiseriez <strong>${diff.toLocaleString('fr-FR')} FCFA</strong>, mais vous auriez 7 jours de moins.`;
+  calcTabs.forEach(t => t.classList.toggle('active', parseInt(t.dataset.dur) === calcDur));
+}
+calcTabs.forEach(t => t.addEventListener('click', () => { calcDur = parseInt(t.dataset.dur); updateCalc(); }));
+calcRange.addEventListener('input', updateCalc);
+
+/* ---------- 18. HISTORIQUE / DASHBOARD ---------- */
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('nexusHistory') || '[]'); } catch { return []; }
+}
+function saveHistory(h) { localStorage.setItem('nexusHistory', JSON.stringify(h)); }
+function renderHistory() {
+  const h = loadHistory();
+  const list = document.getElementById('historyList');
+  const dict = I18N[currentLang] || {};
+  if (!h.length) {
+    list.innerHTML = `<div class="empty-state">${dict.hist_empty || 'Aucune demande pour le moment.'}</div>`;
+  } else {
+    list.innerHTML = h.slice().reverse().map(item => {
+      const progress = item.status === 'done' ? 100 : item.status === 'ongoing' ? 60 : 25;
+      return `<div class="history-item">
+        <div style="flex:1;min-width:200px">
+          <div style="font-weight:800">${item.nom} — ${item.montant.toLocaleString('fr-FR')} FCFA</div>
+          <div style="font-size:12px;color:var(--muted)">${item.duree} jours · ${item.dateCreation} · ${dict.p_total || 'Total'}: ${item.total.toLocaleString('fr-FR')} FCFA</div>
+          <div class="progress-remb"><div style="width:${progress}%"></div></div>
+        </div>
+        <span class="hist-status ${item.status}">${item.status === 'pending' ? '⏳ En attente' : item.status === 'ongoing' ? '🔄 En cours' : '✅ Terminé'}</span>
+      </div>`;
+    }).join('');
+  }
+  const req = h.length;
+  const borrowed = h.reduce((s,i) => s + i.montant, 0);
+  const due = h.reduce((s,i) => s + i.total, 0);
+  const active = h.filter(i => i.status !== 'done').length;
+  document.getElementById('kpiReq').textContent = req;
+  document.getElementById('kpiBorrowed').textContent = borrowed.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('kpiDue').textContent = due.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('kpiActive').textContent = active;
+}
+
+/* ---------- 19. SOUMISSION FORMULAIRE ---------- */
 document.getElementById('loanForm').addEventListener('submit', function(e) {
   e.preventDefault();
-
   const nom = document.getElementById('nom').value.trim();
   const tel = document.getElementById('telephone').value.trim();
   const passeport = document.getElementById('passeport').value.trim();
@@ -1586,21 +1315,23 @@ document.getElementById('loanForm').addEventListener('submit', function(e) {
   const duree = document.getElementById('duree').value;
   const garantie = document.getElementById('garantie').value.trim();
   const message = document.getElementById('message').value.trim();
-
-  if (!nom || !tel || !passeport || !montant || !duree || !garantie) {
-    alert("Veuillez remplir tous les champs obligatoires *");
-    return;
-  }
-
-  if (!signatureValidee) {
-    alert("❌ Veuillez d'abord dessiner et valider votre signature avec le bouton 'VALIDER MA SIGNATURE'");
-    return;
-  }
+  if (!nom || !tel || !passeport || !montant || !duree || !garantie) return toast('Remplissez tous les champs obligatoires.', 'error');
+  if (!signatureValidee) return toast("Validez d'abord votre signature.", 'error');
 
   const taux = duree === '7' ? 25 : 35;
   const total = Math.round(parseInt(montant) * (1 + taux/100));
   const dateSignature = new Date().toLocaleString('fr-FR');
   const dateRemboursement = getDateRemboursement(duree);
+
+  /* historique */
+  const h = loadHistory();
+  h.push({
+    nom, tel, passeport, montant: parseInt(montant), duree, total, garantie,
+    dateCreation: new Date().toLocaleDateString('fr-FR'),
+    dateRemboursement, status: 'pending'
+  });
+  saveHistory(h);
+  renderHistory();
 
   const texte = `NOUVELLE DEMANDE - NEXUS CREDIT
 --------------------------------
@@ -1622,20 +1353,24 @@ ${message ? 'Message : ' + message : ''}
 ✅ Contrat signé. Je vais envoyer le PDF ou la capture d'écran.`;
 
   const url = `https://wa.me/221786649062?text=${encodeURIComponent(texte)}`;
-
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '✅ Demande envoyée !';
+  btn.disabled = true; btn.textContent = '✅ Demande envoyée !';
   document.getElementById('successMsg').style.display = 'block';
-
-  setTimeout(() => { window.open(url, '_blank'); }, 600);
+  toast('Demande enregistrée !');
+  setTimeout(() => window.open(url, '_blank'), 600);
+  setTimeout(() => { btn.disabled = false; btn.textContent = I18N[currentLang]?.btn_submit || '📤 Envoyer ma demande'; }, 4000);
 });
 
+/* ---------- 20. INIT ---------- */
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
+applyLang(currentLang);
 updateApercu();
-validateFields();
 updateWhatsappNumber();
+updateCalc();
+renderHistory();
+updateProgress();
+setTimeout(() => toast('Bienvenue sur Nexus Crédit 👋', 'info'), 800);
 </script>
 </body>
 </html>
