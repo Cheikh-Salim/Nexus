@@ -2,1573 +2,1498 @@
 <html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus Crédit — Prêt Rapide au Sénégal</title>
-<meta name="theme-color" content="#0d5c3a">
+<meta name="theme-color" content="#070b08">
 <meta property="og:title" content="Nexus Crédit - Prêt Rapide au Sénégal">
-<meta property="og:description" content="💰 Obtenez votre prêt en quelques heures ! Taux à partir de +25%.">
+<meta property="og:description" content="💰 Prêt rapide, transparent et sécurisé au Sénégal.">
 <meta property="og:image" content="https://placehold.co/1200x630/0d5c3a/white?text=Nexus+Cr%C3%A9dit">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== DESIGN SYSTEM ===================== */
+/* ============================================================
+   1. DESIGN SYSTEM
+============================================================ */
 :root, [data-theme="dark"] {
-  --bg: #070b08;
-  --bg-1: #0a140e;
-  --bg-2: #070b08;
-  --surface: #0f1611;
-  --surface-2: #16201a;
-  --surface-3: #1e2b23;
-  --glass: rgba(15, 22, 17, 0.72);
-  --green: #34d97a;
-  --green-2: #22c55e;
-  --green-dark: #16a34a;
-  --green-glow: rgba(52,217,122,0.35);
-  --green-dim: rgba(52,217,122,0.12);
-  --gold: #fbbf24;
-  --gold-2: #f59e0b;
-  --gold-dim: rgba(251,191,36,0.12);
-  --text: #eef4ec;
-  --text-2: #c8d2c5;
-  --muted: #7f9180;
-  --border: rgba(52,217,122,0.16);
-  --border-2: rgba(255,255,255,0.08);
-  --red: #f87171;
-  --red-2: #ef4444;
+  --bg: #070b08; --bg-1: #0a140e; --bg-2: #070b08;
+  --surface: #0f1611; --surface-2: #16201a; --surface-3: #1e2b23;
+  --glass: rgba(15,22,17,0.75);
+  --green: #34d97a; --green-2: #22c55e; --green-dark: #16a34a;
+  --green-glow: rgba(52,217,122,0.35); --green-dim: rgba(52,217,122,0.12);
+  --gold: #fbbf24; --gold-2: #f59e0b; --gold-dim: rgba(251,191,36,0.12);
+  --text: #eef4ec; --text-2: #c8d2c5; --muted: #7f9180;
+  --border: rgba(52,217,122,0.16); --border-2: rgba(255,255,255,0.08);
+  --red: #f87171; --red-2: #ef4444; --blue: #60a5fa;
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
   --shadow: 0 10px 40px rgba(0,0,0,0.55);
   --shadow-lg: 0 24px 64px rgba(0,0,0,0.6);
-  --shadow-glow: 0 0 32px var(--green-glow);
   --input-bg: #131a15;
-  --radius: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+  --ease-bounce: cubic-bezier(0.34,1.56,0.64,1);
 }
 [data-theme="light"] {
-  --bg: #f7faf4;
-  --bg-1: #eef5ea;
-  --bg-2: #f7faf4;
-  --surface: #ffffff;
-  --surface-2: #f1f6ed;
-  --surface-3: #e6eee1;
-  --glass: rgba(255, 255, 255, 0.78);
-  --green: #16a34a;
-  --green-2: #15803d;
-  --green-dark: #166534;
-  --green-glow: rgba(22,163,74,0.28);
-  --green-dim: rgba(22,163,74,0.10);
-  --gold: #d97706;
-  --gold-2: #b45309;
-  --gold-dim: rgba(217,119,6,0.10);
-  --text: #0f1a0c;
-  --text-2: #283a22;
-  --muted: #5e7059;
-  --border: rgba(22,163,74,0.18);
-  --border-2: rgba(0,0,0,0.07);
-  --red: #dc2626;
-  --red-2: #b91c1c;
+  --bg: #f7faf4; --bg-1: #eef5ea; --bg-2: #f7faf4;
+  --surface: #ffffff; --surface-2: #f1f6ed; --surface-3: #e6eee1;
+  --glass: rgba(255,255,255,0.82);
+  --green: #16a34a; --green-2: #15803d; --green-dark: #166534;
+  --green-glow: rgba(22,163,74,0.28); --green-dim: rgba(22,163,74,0.10);
+  --gold: #d97706; --gold-2: #b45309; --gold-dim: rgba(217,119,6,0.10);
+  --text: #0f1a0c; --text-2: #283a22; --muted: #5e7059;
+  --border: rgba(22,163,74,0.18); --border-2: rgba(0,0,0,0.07);
+  --red: #dc2626; --red-2: #b91c1c; --blue: #2563eb;
   --shadow-sm: 0 2px 8px rgba(20,33,15,0.08);
   --shadow: 0 10px 40px rgba(20,33,15,0.12);
   --shadow-lg: 0 24px 64px rgba(20,33,15,0.18);
-  --shadow-glow: 0 0 24px rgba(22,163,74,0.15);
   --input-bg: #f1f6ed;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body {
   background: radial-gradient(circle at 15% -10%, var(--bg-1), var(--bg-2) 55%);
-  color: var(--text);
-  font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
+  color: var(--text); font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden;
   transition: background .4s var(--ease), color .3s var(--ease);
 }
 ::selection { background: var(--green-dim); color: var(--green); }
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
 ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--green-dark); }
-
 h1,h2,h3,h4 { font-family: 'Fraunces', serif; font-weight: 900; letter-spacing: -0.02em; }
 .mono { font-family: 'JetBrains Mono', monospace; }
+a { color: inherit; }
 
-/* ===================== TOPBAR ===================== */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-  display: flex; align-items: center; justify-content: center; gap: 16px;
-  padding: 6px 20px;
-  font-size: 12px; color: var(--muted);
-  background: var(--surface); border-bottom: 1px solid var(--border-2);
-  backdrop-filter: blur(8px);
-}
-.tb-item { display: flex; align-items: center; gap: 6px; }
-.topbar button, .topbar select {
-  background: transparent; border: 1px solid var(--border-2);
-  color: var(--text); border-radius: 8px; padding: 3px 10px;
-  cursor: pointer; font-size: 12px; font-family: inherit;
-  transition: all .2s var(--ease);
-}
-.topbar button:hover, .topbar select:hover { border-color: var(--green); color: var(--green); }
+/* ============================================================
+   2. LAYOUT
+============================================================ */
+#app { min-height: 100vh; }
+.view { display: none; animation: viewIn .4s var(--ease-out); }
+.view.active { display: block; }
+@keyframes viewIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ===================== NAV ===================== */
-nav {
-  position: fixed; top: 33px; left: 0; right: 0; z-index: 200;
-  background: var(--glass); backdrop-filter: blur(20px) saturate(140%);
-  border-bottom: 1px solid var(--border);
-  padding: 0 32px; height: 66px;
-  display: flex; align-items: center; justify-content: space-between;
-  transition: background .3s var(--ease);
+/* ---- Dashboard shell (client + admin) ---- */
+.shell {
+  display: grid; grid-template-columns: 260px 1fr;
+  min-height: 100vh;
 }
-.nav-logo {
-  font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 900;
-  color: var(--green); display: flex; align-items: center; gap: 6px;
-  cursor: pointer;
+.sidebar {
+  background: var(--surface); border-right: 1px solid var(--border);
+  padding: 24px 16px; position: sticky; top: 0; height: 100vh;
+  overflow-y: auto; display: flex; flex-direction: column; gap: 4px;
+  z-index: 50;
 }
-.nav-logo span { color: var(--gold); }
-.nav-logo::before {
+.sidebar-brand {
+  font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 900;
+  color: var(--green); padding: 0 12px 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sidebar-brand::before {
   content: ''; width: 8px; height: 8px; border-radius: 50%;
   background: var(--green); box-shadow: 0 0 12px var(--green);
-  animation: pulseDot 2s infinite;
 }
-@keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.6;transform:scale(.8);} }
-.nav-links { display: flex; gap: 4px; align-items: center; }
-.nav-links a, .nav-links button.navlink {
-  color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600;
-  padding: 8px 16px; border-radius: 999px; border: 1px solid transparent;
-  background: transparent; cursor: pointer; font-family: inherit;
-  transition: all .25s var(--ease);
+.sidebar-brand .accent { color: var(--gold); }
+.sb-role {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); padding: 16px 12px 8px; font-weight: 800;
 }
-.nav-links a:hover, .nav-links button.navlink:hover { color: var(--green); border-color: var(--border); background: var(--green-dim); }
-.nav-cta {
-  background: var(--green); color: #06120a !important; font-weight: 800 !important;
-  padding: 9px 20px !important; box-shadow: 0 6px 20px var(--green-glow);
-}
-.nav-cta:hover { background: var(--green-2); transform: translateY(-1px); }
-
-/* ===================== HERO ===================== */
-.hero {
-  min-height: 100vh; display: flex; align-items: center;
-  padding: 150px 32px 80px; position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 75% 25%, var(--green-dim), transparent 50%),
-    radial-gradient(circle at 15% 75%, var(--gold-dim), transparent 45%);
-  pointer-events: none;
-}
-.hero::after {
-  content: ''; position: absolute; inset: 0;
-  background-image: radial-gradient(circle, var(--border-2) 1px, transparent 1px);
-  background-size: 40px 40px; opacity: .3; pointer-events: none;
-}
-.hero-inner {
-  max-width: 1200px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center;
-  position: relative; z-index: 1;
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 14px; border-radius: 999px;
-  background: var(--green-dim); border: 1px solid var(--border);
-  font-size: 12px; font-weight: 700; color: var(--green);
-  margin-bottom: 18px;
-  animation: fadeInUp .7s var(--ease-out) both;
-}
-.hero-badge .dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-  box-shadow: 0 0 8px var(--green);
-}
-.hero h1 {
-  font-size: clamp(2.6rem, 5.2vw, 4.2rem); line-height: 1.05;
-  animation: fadeInUp .8s var(--ease-out) .1s both;
-}
-.hero h1 em {
-  color: var(--green); font-style: italic;
-  background: linear-gradient(120deg, var(--green), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero h1 .line2 { color: var(--gold); }
-.hero-desc {
-  color: var(--muted); margin: 22px 0; max-width: 540px; font-size: 16px;
-  animation: fadeInUp .8s var(--ease-out) .2s both;
-}
-.hero-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 26px 0; }
-.hf-item {
+.sb-link {
   display: flex; align-items: center; gap: 12px;
-  font-size: 13px; color: var(--text-2); font-weight: 600;
-  animation: fadeInUp .8s var(--ease-out) both;
+  padding: 11px 14px; border-radius: 10px;
+  color: var(--muted); text-decoration: none;
+  font-size: 14px; font-weight: 600;
+  transition: all .2s var(--ease); cursor: pointer; border: none;
+  background: transparent; font-family: inherit; width: 100%; text-align: left;
 }
-.hf-icon {
-  width: 36px; height: 36px; display: grid; place-items: center;
-  background: var(--green-dim); border: 1px solid var(--border);
-  border-radius: 10px; font-size: 16px; flex-shrink: 0;
-  transition: all .35s var(--ease-bounce);
+.sb-link:hover { background: var(--surface-2); color: var(--text); }
+.sb-link.active { background: var(--green-dim); color: var(--green); }
+.sb-link .sb-icon { font-size: 16px; width: 20px; text-align: center; }
+.sb-link .sb-badge {
+  margin-left: auto; background: var(--red); color: #fff;
+  font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px;
 }
-.hf-item:hover .hf-icon { transform: rotate(-8deg) scale(1.15); background: var(--green); box-shadow: var(--shadow-glow); }
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeInUp .8s var(--ease-out) .4s both; }
+.sb-footer {
+  margin-top: auto; padding: 16px 12px 0; border-top: 1px solid var(--border-2);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.sb-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--surface-2); border-radius: 10px;
+}
+.sb-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  display: grid; place-items: center; font-weight: 900; color: #06120a; flex-shrink: 0;
+  font-family: 'Fraunces', serif;
+}
+.sb-user-info { flex: 1; min-width: 0; }
+.sb-user-name { font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-user-role { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
 
+.main {
+  padding: 32px 40px 60px; min-width: 0;
+}
+.page-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 20px; margin-bottom: 32px; flex-wrap: wrap;
+}
+.page-title { font-size: 2rem; }
+.page-subtitle { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+/* ---- Public shell ---- */
+.public-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px; border-bottom: 1px solid var(--border-2);
+  background: var(--glass); backdrop-filter: blur(16px);
+  position: sticky; top: 0; z-index: 100;
+}
+.public-brand { font-family:'Fraunces',serif; font-size:1.3rem; font-weight:900; color:var(--green); }
+.public-brand span { color: var(--gold); }
+.public-nav { display: flex; gap: 8px; align-items: center; }
+
+/* ============================================================
+   3. COMPONENTS
+============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 20px; border-radius: 12px; font-family: inherit;
+  font-size: 14px; font-weight: 700; cursor: pointer; border: none;
+  transition: all .25s var(--ease); text-decoration: none;
+  white-space: nowrap;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
 .btn-primary {
-  background: linear-gradient(135deg, var(--green), var(--green-2));
-  color: #06120a; font-weight: 800; font-size: 15px;
-  padding: 15px 30px; border-radius: 14px;
-  border: none; cursor: pointer; font-family: inherit;
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: all .3s var(--ease);
-  box-shadow: 0 8px 28px var(--green-glow);
-  position: relative; overflow: hidden;
-}
-.btn-primary::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,.3), transparent);
-  transform: translateX(-100%); transition: transform .6s var(--ease);
-}
-.btn-primary:hover::before { transform: translateX(100%); }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px var(--green-glow); }
-.btn-secondary {
-  background: transparent; color: var(--text); font-weight: 700; font-size: 15px;
-  padding: 15px 26px; border-radius: 14px;
-  border: 1px solid var(--border-2); cursor: pointer; font-family: inherit;
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: all .3s var(--ease);
-}
-.btn-secondary:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
-
-/* hero card */
-.hero-card {
-  background: var(--glass); backdrop-filter: blur(24px);
-  border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 28px; box-shadow: var(--shadow-lg);
-  position: relative; overflow: hidden;
-  animation: fadeInRight .9s var(--ease-out) .2s both;
-  transition: transform .4s var(--ease);
-}
-.hero-card:hover { transform: translateY(-6px) rotate(-.5deg); }
-.hero-card::before {
-  content: ''; position: absolute; top: -80px; right: -80px;
-  width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, var(--gold), transparent 65%);
-  opacity: .2; animation: float 6s ease-in-out infinite;
-}
-@keyframes float { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-10px,10px);} }
-.hero-card .rate {
-  display: flex; justify-content: space-between; gap: 8px;
-  background: var(--surface-2); border-radius: var(--radius);
-  padding: 18px; margin: 16px 0; border: 1px solid var(--border-2);
-}
-.rate-val { font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 900; }
-.rate-green { color: var(--green); }
-.rate-gold { color: var(--gold); }
-.chip {
-  background: var(--green-dim); border: 1px solid var(--border);
-  border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 600;
-  display: inline-block; margin: 4px 6px 4px 0;
-  transition: all .25s var(--ease);
-}
-.chip:hover { transform: translateY(-2px); background: var(--green); color: #06120a; }
-
-/* ===================== SECTIONS ===================== */
-.section { padding: 90px 32px; max-width: 1200px; margin: 0 auto; position: relative; }
-.section-title {
-  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
-  margin-bottom: 14px; line-height: 1.1;
-}
-.section-title .accent { color: var(--green); }
-.section-intro { color: var(--muted); margin-bottom: 44px; max-width: 640px; font-size: 16px; }
-
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ===================== TAUX ===================== */
-.taux-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; }
-.taux-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 28px;
-  position: relative; overflow: hidden;
-  transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .3s;
-  transform-style: preserve-3d;
-}
-.taux-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent 40%, var(--green-dim));
-  opacity: 0; transition: opacity .4s var(--ease);
-}
-.taux-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(52,217,122,0.18);
-  border-color: var(--green);
-}
-.taux-card:hover::before { opacity: 1; }
-.taux-card.featured { border-color: var(--gold); }
-.taux-card.featured::before { background: linear-gradient(135deg, transparent 40%, var(--gold-dim)); }
-.taux-card.featured:hover { box-shadow: 0 30px 60px rgba(251,191,36,0.18); }
-.taux-duration { font-size: 2.4rem; font-weight: 900; }
-.taux-rate { font-family:'JetBrains Mono', monospace; font-size: 2.8rem; font-weight: 900; color: var(--green); margin: 12px 0; }
-.featured .taux-rate { color: var(--gold); }
-.taux-example { background: var(--surface-2); border-radius: var(--radius); padding: 16px; margin-top: 16px; font-size: 13px; border: 1px solid var(--border-2); }
-.ex-row { display: flex; justify-content: space-between; padding: 5px 0; }
-.green { color: var(--green); }
-.red { color: var(--red); }
-
-/* ===================== CALCULATEUR ===================== */
-.calc-wrap {
-  background: var(--glass); backdrop-filter: blur(24px);
-  border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 36px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 36px;
-  box-shadow: var(--shadow-lg);
-}
-.calc-inputs label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 8px; color: var(--text-2); }
-.calc-inputs .amt-display {
-  font-family: 'JetBrains Mono', monospace; font-size: 2.6rem; font-weight: 900;
-  color: var(--green); margin: 6px 0 14px;
-  background: linear-gradient(120deg, var(--green), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-input[type="range"] {
-  -webkit-appearance: none; width: 100%; height: 8px; border-radius: 999px;
-  background: var(--surface-2); outline: none; margin: 12px 0;
-  border: 1px solid var(--border-2);
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
-  background: var(--green); cursor: pointer;
-  border: 3px solid var(--bg); box-shadow: 0 0 0 2px var(--green), 0 0 16px var(--green-glow);
-  transition: transform .2s var(--ease-bounce);
-}
-input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-input[type="range"]::-moz-range-thumb {
-  width: 24px; height: 24px; border-radius: 50%; background: var(--green);
-  cursor: pointer; border: 3px solid var(--bg);
-}
-.calc-tabs { display: flex; gap: 10px; margin: 18px 0; }
-.calc-tab {
-  flex: 1; padding: 12px; border-radius: 12px; text-align: center; cursor: pointer;
-  border: 1px solid var(--border-2); background: transparent; color: var(--muted);
-  font-family: inherit; font-weight: 700; font-size: 13px;
-  transition: all .3s var(--ease);
-}
-.calc-tab.active {
-  background: var(--green-dim); border-color: var(--green); color: var(--green);
-  box-shadow: 0 0 20px var(--green-glow);
-}
-.calc-tab:hover { color: var(--green); }
-.calc-results {
-  background: var(--surface-2); border-radius: var(--radius);
-  padding: 22px; border: 1px solid var(--border-2);
-  display: flex; flex-direction: column;
-}
-.res-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border-2); }
-.res-row:last-child { border-bottom: none; }
-.res-label { color: var(--muted); font-size: 13px; }
-.res-val { font-weight: 800; font-family: 'JetBrains Mono', monospace; }
-.res-total { font-size: 1.5rem; color: var(--green); }
-.comparison-note {
-  margin-top: 16px; font-size: 12px; color: var(--muted);
-  background: var(--green-dim); padding: 12px 16px; border-radius: 12px;
-  border-left: 3px solid var(--green);
-}
-.donut-wrap { display: flex; align-items: center; gap: 24px; justify-content: center; margin: 20px 0; }
-.donut { width: 140px; height: 140px; transform: rotate(-90deg); }
-.donut circle { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset .8s var(--ease-out); }
-.donut .track { stroke: var(--surface-3); }
-.donut .fill-g { stroke: var(--green); filter: drop-shadow(0 0 6px var(--green-glow)); }
-.donut .fill-a { stroke: var(--gold); }
-.donut-legend { display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
-.donut-legend .lg-item { display: flex; align-items: center; gap: 8px; }
-.donut-legend .dot { width: 10px; height: 10px; border-radius: 50%; }
-
-/* ===================== DASHBOARD / KPIs ===================== */
-.dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 30px; }
-.kpi {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px;
-  transition: transform .3s var(--ease), border-color .3s;
-  position: relative; overflow: hidden;
-}
-.kpi:hover { transform: translateY(-5px); border-color: var(--green); }
-.kpi::after {
-  content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px;
-  border-radius: 50%; background: var(--green-dim);
-  transform: translate(30px, -30px); transition: transform .4s var(--ease);
-}
-.kpi:hover::after { transform: translate(20px, -20px) scale(1.2); }
-.kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; }
-.kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 1.9rem; font-weight: 900; margin-top: 6px; color: var(--green); }
-.history-list { display: flex; flex-direction: column; gap: 12px; }
-.history-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px 20px;
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  flex-wrap: wrap; transition: all .3s var(--ease);
-}
-.history-item:hover { border-color: var(--green); transform: translateX(4px); box-shadow: var(--shadow-sm); }
-.hist-status { padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; }
-.hist-status.pending { background: var(--gold-dim); color: var(--gold); }
-.hist-status.ongoing { background: var(--green-dim); color: var(--green); }
-.hist-status.done { background: rgba(52,217,122,0.22); color: var(--green); }
-.empty-state {
-  text-align: center; color: var(--muted); padding: 48px 20px;
-  border: 1px dashed var(--border-2); border-radius: var(--radius-lg);
-  font-size: 14px;
-}
-.progress-remb {
-  width: 100%; height: 8px; background: var(--surface-2);
-  border-radius: 999px; overflow: hidden; margin-top: 12px;
-  border: 1px solid var(--border-2);
-}
-.progress-remb > div {
-  height: 100%; background: linear-gradient(90deg, var(--green), var(--gold));
-  border-radius: 999px; transition: width .8s var(--ease-out);
-}
-
-/* graphique évolution */
-.chart-wrap {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px; margin-top: 24px;
-}
-.chart-title { font-weight: 800; margin-bottom: 18px; font-size: 14px; color: var(--text-2); }
-.bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 160px; padding-top: 10px; }
-.bar {
-  flex: 1; background: linear-gradient(180deg, var(--green), var(--green-dark));
-  border-radius: 8px 8px 0 0; min-height: 4px;
-  transition: height .8s var(--ease-out), filter .2s;
-  position: relative; cursor: pointer;
-}
-.bar:hover { filter: brightness(1.2); }
-.bar-label { font-size: 10px; color: var(--muted); text-align: center; margin-top: 8px; }
-
-/* ===================== FORMULAIRE ===================== */
-.form-section {
-  background: var(--glass); backdrop-filter: blur(20px);
-  border: 1px solid var(--border); border-radius: var(--radius-xl);
-  overflow: hidden; box-shadow: var(--shadow-lg);
-}
-.form-header {
-  background: linear-gradient(135deg, var(--green-dark), #0a4d2a);
-  padding: 34px; position: relative; overflow: hidden;
-}
-.form-header::after {
-  content: ''; position: absolute; right: -50px; bottom: -50px;
-  width: 160px; height: 160px; border-radius: 50%;
-  background: radial-gradient(circle, var(--gold), transparent 70%);
-  opacity: .35; animation: float 8s ease-in-out infinite;
-}
-.form-header h3 { font-size: 1.7rem; color: #fff; position: relative; }
-.form-header p { color: rgba(255,255,255,0.82); font-size: 13px; position: relative; margin-top: 6px; }
-.form-body { padding: 32px; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-.wizard-bar { grid-column: 1/-1; display: flex; gap: 8px; margin-bottom: 10px; }
-.wizard-step {
-  flex: 1; text-align: center; padding: 12px 8px; border-radius: 12px;
-  background: var(--surface-2); font-size: 11px; font-weight: 700;
-  color: var(--muted); border: 1px solid transparent;
-  transition: all .3s var(--ease);
-}
-.wizard-step.active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
-.wizard-step .wz-num {
-  display: inline-grid; place-items: center; width: 22px; height: 22px;
-  border-radius: 50%; background: var(--surface-3); font-size: 10px; margin-right: 6px;
-  transition: all .3s var(--ease);
-}
-.wizard-step.active .wz-num { background: var(--green); color: #06120a; }
-
-.field { display: flex; flex-direction: column; gap: 6px; position: relative; }
-.field.full { grid-column: 1 / -1; }
-.field label { font-size: 13px; font-weight: 700; color: var(--text-2); }
-.field label span.req { color: var(--green); }
-.field input, .field select, .field textarea {
-  background: var(--input-bg); border: 1px solid var(--border-2);
-  border-radius: 12px; color: var(--text); padding: 13px 15px;
-  font-family: inherit; outline: none; font-size: 14px;
-  transition: border-color .2s, box-shadow .2s, transform .15s;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  border-color: var(--green); box-shadow: 0 0 0 3px var(--green-dim), 0 0 20px var(--green-glow);
-}
-.field.error input, .field.error select, .field.error textarea { border-color: var(--red); animation: shake .4s var(--ease); }
-@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
-.field .error-msg { font-size: 11px; color: var(--red); display: none; font-weight: 600; }
-.field.error .error-msg { display: block; }
-.field.valid input, .field.valid select { border-color: var(--green); }
-
-.simulateur {
-  background: var(--surface-2); border-radius: var(--radius);
-  padding: 20px; grid-column: 1 / -1; display: none;
-  border: 1px solid var(--border-2);
-}
-.simulateur.show { display: block; animation: fadeInUp .35s var(--ease-out); }
-.sim-row { display: flex; justify-content: space-between; padding: 7px 0; font-size: 14px; }
-
-.aperçu-contrat {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px; grid-column: 1 / -1;
-}
-.aperçu-title {
-  font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 900;
-  margin-bottom: 16px; color: var(--green); display: flex; align-items: center; gap: 10px;
-}
-.aperçu-content {
-  background: rgba(0,0,0,0.15); border-radius: var(--radius);
-  padding: 18px; max-height: 320px; overflow-y: auto; font-size: 13px;
-}
-[data-theme="light"] .aperçu-content { background: rgba(0,0,0,0.03); }
-.preview-row { display: flex; padding: 6px 0; border-bottom: 1px solid var(--border-2); gap: 10px; flex-wrap: wrap; }
-.preview-row:last-child { border-bottom: none; }
-.preview-key { width: 180px; color: var(--muted); font-weight: 600; }
-.preview-val { font-weight: 700; color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
-
-/* signature */
-.signature-manuscrite {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px; grid-column: 1 / -1;
-}
-.signature-title {
-  font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 900;
-  margin-bottom: 16px; color: var(--gold);
-}
-.canvas-container {
-  background: #fff; border-radius: 12px; margin-bottom: 15px;
-  overflow: hidden; border: 2px solid var(--border-2);
-  transition: border-color .2s;
-}
-.canvas-container:focus-within { border-color: var(--green); }
-canvas { display: block; width: 100%; height: auto; background: #fff; cursor: crosshair; touch-action: none; }
-.sign-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
-.sign-btn {
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 9px 18px; border-radius: 10px; color: var(--text);
-  cursor: pointer; font-size: 13px; font-family: inherit; font-weight: 600;
-  transition: all .25s var(--ease);
-}
-.sign-btn:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
-.sign-check-label {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 15px; color: var(--text-2); font-size: 13px;
-}
-.sign-check-label input { width: 20px; height: 20px; accent-color: var(--green); cursor: pointer; }
-.btn-sign {
-  background: var(--gold); color: #1a1206; font-weight: 800;
-  padding: 13px 20px; border-radius: 12px; border: none; cursor: pointer;
-  width: 100%; font-size: 15px; margin-bottom: 12px; font-family: inherit;
-  transition: all .25s var(--ease);
-  box-shadow: 0 6px 20px rgba(251,191,36,.25);
-}
-.btn-sign:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(251,191,36,.35); }
-.btn-pdf {
   background: linear-gradient(135deg, var(--green), var(--green-2)); color: #06120a;
-  font-weight: 800; padding: 15px 24px; border-radius: 12px;
-  border: none; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px;
-  font-family: inherit; transition: all .25s var(--ease);
   box-shadow: 0 6px 20px var(--green-glow);
 }
-.btn-pdf:hover { transform: translateY(-2px); box-shadow: 0 10px 28px var(--green-glow); }
+.btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 28px var(--green-glow); }
+.btn-secondary {
+  background: transparent; color: var(--text); border: 1px solid var(--border-2);
+}
+.btn-secondary:hover:not(:disabled) { border-color: var(--green); color: var(--green); }
+.btn-ghost {
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border-2);
+}
+.btn-ghost:hover:not(:disabled) { border-color: var(--green); color: var(--green); }
+.btn-danger { background: var(--red-2); color: #fff; }
+.btn-danger:hover:not(:disabled) { background: var(--red); }
+.btn-success { background: var(--green-dark); color: #fff; }
+.btn-success:hover:not(:disabled) { background: var(--green); }
+.btn-sm { padding: 7px 14px; font-size: 12.5px; border-radius: 8px; }
+.btn-block { width: 100%; }
 
-/* reminders */
-.reminder-date {
-  background: var(--gold-dim); border: 1px solid var(--gold);
-  border-radius: var(--radius); padding: 12px; text-align: center;
-  margin-top: 15px; grid-column: 1 / -1; transition: all .3s var(--ease);
-}
-.reminder-date p { color: var(--gold); font-weight: 800; font-size: 13px; }
-.reminder-whatsapp {
-  background: rgba(37,211,102,0.10); border: 1px solid #25D366;
-  border-radius: var(--radius); padding: 16px; margin-top: 15px;
-  grid-column: 1 / -1; text-align: center;
-}
-.reminder-whatsapp p { color: #25D366; font-size: 13px; margin: 4px 0; }
-.reminder-whatsapp .whatsapp-number {
-  color: #25D366; font-weight: 800; font-size: 16px;
-  background: rgba(37,211,102,0.18); display: inline-block;
-  padding: 6px 16px; border-radius: 999px; margin-top: 5px;
-}
-
-.instruction-box {
-  background: var(--green-dim); border: 1px solid var(--green);
-  border-radius: var(--radius-lg); padding: 24px; margin-top: 10px;
-  grid-column: 1 / -1;
-}
-.instruction-box h4 { color: var(--gold); margin-bottom: 12px; font-family: 'Fraunces', serif; }
-.instruction-box p { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-.btn-copy {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 11px; margin-top: 14px;
-  cursor: pointer; color: var(--text); width: 100%;
-  font-size: 13px; font-family: inherit; font-weight: 600;
-  transition: all .2s var(--ease);
-}
-.btn-copy:hover { border-color: var(--green); color: var(--green); }
-
-.success-msg {
-  display: none; text-align: center; padding: 34px;
-  background: var(--green-dim); border-radius: var(--radius-lg);
-  grid-column: 1 / -1; border: 1px solid var(--green);
-  animation: scaleIn .5s var(--ease-bounce);
-}
-@keyframes scaleIn { from { opacity:0; transform: scale(.9); } to { opacity:1; transform: scale(1); } }
-
-.btn-submit {
-  background: linear-gradient(135deg, var(--green), var(--green-2));
-  color: #06120a; font-weight: 800; padding: 17px 34px;
-  border-radius: 14px; border: none; cursor: pointer; width: 100%;
-  font-size: 16px; grid-column: 1 / -1; font-family: inherit;
-  transition: all .3s var(--ease); box-shadow: 0 8px 28px var(--green-glow);
-  position: relative; overflow: hidden;
-}
-.btn-submit:hover { transform: translateY(-3px); box-shadow: 0 14px 40px var(--green-glow); }
-
-/* ===================== AUTH MODAL ===================== */
-.modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-  align-items: center; justify-content: center; padding: 20px;
-}
-.modal-overlay.show { display: flex; animation: fadeIn .3s var(--ease); }
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-.modal {
+/* cards */
+.card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-xl); padding: 36px; max-width: 460px; width: 100%;
-  box-shadow: var(--shadow-lg); animation: scaleIn .4s var(--ease-bounce);
-  position: relative;
+  border-radius: 18px; padding: 24px; transition: all .3s var(--ease);
 }
-.modal h3 { font-size: 1.6rem; margin-bottom: 8px; color: var(--green); }
-.modal p.subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
-.modal-close {
-  position: absolute; top: 16px; right: 16px;
-  background: var(--surface-2); border: none; width: 34px; height: 34px;
-  border-radius: 50%; cursor: pointer; color: var(--text); font-size: 18px;
-  transition: all .2s var(--ease);
-}
-.modal-close:hover { background: var(--red); color: #fff; transform: rotate(90deg); }
-.modal .field { margin-bottom: 14px; }
-.modal-tabs { display: flex; gap: 8px; margin-bottom: 20px; background: var(--surface-2); border-radius: 12px; padding: 4px; }
-.modal-tab {
-  flex: 1; padding: 10px; border: none; background: transparent;
-  color: var(--muted); cursor: pointer; border-radius: 8px;
-  font-family: inherit; font-weight: 700; font-size: 13px;
-  transition: all .25s var(--ease);
-}
-.modal-tab.active { background: var(--green); color: #06120a; }
+.card:hover { border-color: var(--green); }
+.card-title { font-family:'Fraunces',serif; font-size:1.15rem; font-weight:900; margin-bottom:16px; }
 
-/* ===================== ADMIN DASHBOARD ===================== */
-.admin-panel { display: none; }
-.admin-panel.show { display: block; }
-.admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px; }
-.admin-actions { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
-.btn-admin {
+/* KPI grid */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.kpi {
   background: var(--surface); border: 1px solid var(--border);
-  padding: 10px 18px; border-radius: 10px; color: var(--text);
-  cursor: pointer; font-family: inherit; font-weight: 700; font-size: 13px;
-  transition: all .2s var(--ease);
+  border-radius: 16px; padding: 20px; position: relative; overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s;
 }
-.btn-admin:hover { border-color: var(--green); color: var(--green); }
-.btn-admin.danger { border-color: var(--red); color: var(--red); }
-.btn-admin.danger:hover { background: var(--red); color: #fff; }
+.kpi:hover { transform: translateY(-4px); border-color: var(--green); }
+.kpi::after {
+  content: ''; position: absolute; top: 0; right: 0; width: 70px; height: 70px;
+  border-radius: 50%; background: var(--green-dim); transform: translate(25px,-25px);
+  transition: transform .4s var(--ease);
+}
+.kpi:hover::after { transform: translate(15px,-15px) scale(1.2); }
+.kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; }
+.kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 900; margin-top: 6px; color: var(--green); }
+.kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
-table.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-table.admin-table th {
-  text-align: left; padding: 12px; color: var(--muted); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
-  border-bottom: 2px solid var(--border);
+/* forms */
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.field label { font-size: 13px; font-weight: 700; color: var(--text-2); }
+.field label .req { color: var(--green); }
+.field input, .field select, .field textarea {
+  background: var(--input-bg); border: 1px solid var(--border-2);
+  border-radius: 10px; color: var(--text); padding: 12px 14px;
+  font-family: inherit; outline: none; font-size: 14px; width: 100%;
+  transition: all .2s;
 }
-table.admin-table td { padding: 14px 12px; border-bottom: 1px solid var(--border-2); }
-table.admin-table tr:hover td { background: var(--surface-2); }
-table.admin-table .mono { font-family: 'JetBrains Mono', monospace; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--green); box-shadow: 0 0 0 3px var(--green-dim);
+}
+.field.error input, .field.error select { border-color: var(--red); animation: shake .4s; }
+@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+.field .err { font-size: 11px; color: var(--red); display: none; }
+.field.error .err { display: block; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid .full { grid-column: 1/-1; }
 
-/* ===================== NOTIFICATIONS ===================== */
-.notif-bell {
-  position: relative; background: transparent; border: none;
-  color: var(--text); cursor: pointer; font-size: 18px;
-  padding: 6px; border-radius: 8px; transition: all .2s var(--ease);
+/* badges */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px; border-radius: 999px; font-size: 11px;
+  font-weight: 800; text-transform: uppercase; letter-spacing: .4px;
 }
-.notif-bell:hover { background: var(--surface-2); }
-.notif-badge {
-  position: absolute; top: 0; right: 0;
-  background: var(--red); color: #fff; border-radius: 50%;
-  min-width: 16px; height: 16px; font-size: 10px; font-weight: 800;
-  display: grid; place-items: center; padding: 0 4px;
-}
-.notif-panel {
-  position: absolute; top: 100%; right: 0; z-index: 400;
-  width: 340px; max-width: calc(100vw - 32px); margin-top: 8px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); box-shadow: var(--shadow-lg);
-  max-height: 420px; overflow-y: auto; display: none;
-}
-.notif-panel.show { display: block; animation: fadeInUp .25s var(--ease-out); }
-.notif-item { padding: 14px 18px; border-bottom: 1px solid var(--border-2); transition: background .2s; }
-.notif-item:hover { background: var(--surface-2); }
-.notif-item:last-child { border-bottom: none; }
-.notif-item.unread { background: var(--green-dim); }
-.notif-item .nt-title { font-weight: 800; font-size: 13px; }
-.notif-item .nt-desc { font-size: 12px; color: var(--muted); margin-top: 4px; }
-.notif-empty { padding: 30px; text-align: center; color: var(--muted); font-size: 13px; }
+.badge-pending { background: var(--gold-dim); color: var(--gold); }
+.badge-approved { background: var(--green-dim); color: var(--green); }
+.badge-ongoing { background: rgba(96,165,250,0.15); color: var(--blue); }
+.badge-done { background: rgba(52,217,122,0.25); color: var(--green); }
+.badge-rejected { background: rgba(248,113,113,0.15); color: var(--red); }
 
-/* ===================== TOAST ===================== */
+/* tables */
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; padding: 14px; color: var(--muted);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  font-weight: 800; border-bottom: 2px solid var(--border);
+  background: var(--surface-2);
+}
+td { padding: 14px; border-bottom: 1px solid var(--border-2); }
+tbody tr { transition: background .2s; }
+tbody tr:hover td { background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* empty state */
+.empty {
+  text-align: center; padding: 60px 20px; color: var(--muted);
+  border: 1px dashed var(--border-2); border-radius: 16px;
+}
+.empty-icon { font-size: 48px; opacity: .4; margin-bottom: 12px; }
+
+/* progress bar */
+.progress { height: 8px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+.progress > div { height: 100%; background: linear-gradient(90deg, var(--green), var(--gold)); border-radius: 999px; transition: width .8s var(--ease-out); }
+
+/* toast */
 .toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 10px; max-width: 380px; }
 .toast {
   background: var(--surface); border: 1px solid var(--border); color: var(--text);
-  padding: 15px 20px; border-radius: 14px; box-shadow: var(--shadow-lg);
-  font-size: 13px; font-weight: 600; min-width: 240px;
-  display: flex; align-items: center; gap: 12px;
-  animation: slideIn .4s var(--ease-out);
-  border-left: 4px solid var(--green);
+  padding: 14px 20px; border-radius: 12px; box-shadow: var(--shadow-lg);
+  font-size: 13px; font-weight: 600; min-width: 220px;
+  display: flex; align-items: center; gap: 10px;
+  animation: slideIn .35s var(--ease-out); border-left: 4px solid var(--green);
 }
 .toast.error { border-left-color: var(--red); }
 .toast.info { border-left-color: var(--gold); }
-@keyframes slideIn { from { opacity:0; transform: translateX(60px); } to { opacity:1; transform: translateX(0); } }
+@keyframes slideIn { from { opacity:0; transform: translateX(50px); } to { opacity:1; transform: translateX(0); } }
 
-/* ===================== CONFETTI ===================== */
-.confetti {
-  position: fixed; width: 10px; height: 10px; pointer-events: none;
-  z-index: 9999; animation: confettiFall 2.5s ease-in forwards;
+/* confetti */
+.confetti { position: fixed; width: 9px; height: 9px; pointer-events: none; z-index: 9999; animation: confettiFall 2.4s ease-in forwards; }
+@keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+/* dark mode toggle */
+.theme-toggle, .lang-select {
+  background: var(--surface-2); border: 1px solid var(--border-2);
+  color: var(--text); border-radius: 10px; padding: 7px 12px;
+  cursor: pointer; font-size: 13px; font-family: inherit; font-weight: 700;
+  transition: all .2s;
 }
-@keyframes confettiFall {
-  0% { transform: translateY(-20px) rotate(0); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+.theme-toggle:hover, .lang-select:hover { border-color: var(--green); color: var(--green); }
+
+/* ============================================================
+   4. LANDING / PUBLIC
+============================================================ */
+.hero { padding: 90px 32px 70px; max-width: 1200px; margin: 0 auto; position: relative; }
+.hero-inner { display: grid; grid-template-columns: 1fr 400px; gap: 50px; align-items: center; }
+.hero h1 { font-size: clamp(2.4rem,5vw,3.8rem); line-height: 1.08; }
+.hero h1 em { color: var(--green); font-style: italic; }
+.hero h1 .line2 { color: var(--gold); }
+.hero p { color: var(--muted); margin: 20px 0; font-size: 16px; max-width: 520px; }
+.hero-btns { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+.hero-card {
+  background: var(--glass); backdrop-filter: blur(20px);
+  border: 1px solid var(--border); border-radius: 22px; padding: 26px;
+  box-shadow: var(--shadow-lg);
 }
+.rate-row { display: flex; justify-content: space-between; background: var(--surface-2); border-radius: 14px; padding: 16px; margin: 14px 0; border: 1px solid var(--border-2); }
+.rate-val { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 900; }
+.section { padding: 60px 32px; max-width: 1200px; margin: 0 auto; }
+.section-title { font-size: clamp(1.7rem,3vw,2.4rem); margin-bottom: 10px; }
+.section-intro { color: var(--muted); margin-bottom: 36px; max-width: 600px; }
+.rates-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 18px; }
+.rate-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 26px; transition: all .3s var(--ease); }
+.rate-card:hover { transform: translateY(-6px); border-color: var(--green); box-shadow: 0 20px 40px rgba(52,217,122,0.15); }
+.rate-card.featured { border-color: var(--gold); }
+.rate-card h3 { font-size: 2rem; }
+.rate-card .big { font-family: 'JetBrains Mono', monospace; font-size: 2.4rem; font-weight: 900; color: var(--green); margin: 10px 0; }
+.rate-card.featured .big { color: var(--gold); }
 
-/* ===================== FOOTER ===================== */
-footer {
-  background: var(--surface); padding: 50px 32px 40px;
-  text-align: center; border-top: 1px solid var(--border-2);
-  margin-top: 40px;
+/* auth pages */
+.auth-wrap { min-height: calc(100vh - 65px); display: grid; place-items: center; padding: 40px 20px; }
+.auth-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 24px; padding: 40px; max-width: 440px; width: 100%;
+  box-shadow: var(--shadow-lg); position: relative;
 }
-.footer-logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.4rem; color: var(--green); }
-.footer-links { display: flex; gap: 16px; justify-content: center; margin: 12px 0; flex-wrap: wrap; font-size: 13px; }
-.footer-links a { color: var(--text-2); text-decoration: none; transition: color .2s; }
-.footer-links a:hover { color: var(--green); }
+.auth-card h2 { font-size: 1.8rem; margin-bottom: 6px; color: var(--green); }
+.auth-sub { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+.auth-footer { text-align: center; margin-top: 20px; font-size: 13px; color: var(--muted); }
+.auth-footer a { color: var(--green); font-weight: 700; cursor: pointer; text-decoration: none; }
+.auth-hint { background: var(--green-dim); border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-size: 12px; color: var(--muted); margin-top: 16px; }
+.auth-hint code { color: var(--green); font-weight: 700; }
 
-/* ===================== ANIMATIONS ===================== */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(52,217,122,0.5); } 50% { box-shadow: 0 0 0 10px rgba(52,217,122,0); } }
-.nav-cta { animation: pulse 2.6s infinite; }
-.nav-cta:hover { animation: none; }
+/* ============================================================
+   5. DETAIL / WIZARD / SIGNATURE
+============================================================ */
+.detail-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 20px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.detail-row { display: grid; grid-template-columns: 220px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-2); }
+.detail-key { color: var(--muted); font-size: 13px; font-weight: 600; }
+.detail-val { font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.wizard {
+  display: flex; gap: 8px; margin-bottom: 24px;
+}
+.wiz-step {
+  flex: 1; text-align: center; padding: 12px 8px; border-radius: 12px;
+  background: var(--surface-2); font-size: 11px; font-weight: 800;
+  color: var(--muted); border: 1px solid transparent;
+  transition: all .3s var(--ease); text-transform: uppercase; letter-spacing: .5px;
+}
+.wiz-step.active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.wiz-step .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-3); font-size: 10px; margin-right: 4px; }
+.wiz-step.active .n { background: var(--green); color: #06120a; }
 
-/* ===================== RESPONSIVE ===================== */
-@media (max-width: 960px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+canvas { display: block; width: 100%; height: auto; background: #fff; cursor: crosshair; touch-action: none; border-radius: 10px; }
+.canvas-wrap { background: #fff; border: 2px solid var(--border-2); border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+.canvas-wrap:focus-within { border-color: var(--green); }
+
+/* ============================================================
+   6. RESPONSIVE
+============================================================ */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; }
   .hero-card { display: none; }
-  .calc-wrap { grid-template-columns: 1fr; }
 }
-@media (max-width: 768px) {
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; width: 270px;
+    transform: translateX(-100%); transition: transform .3s var(--ease);
+    box-shadow: var(--shadow-lg); z-index: 200;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .mobile-menu-btn { display: inline-flex !important; }
+  .main { padding: 20px 16px 40px; }
+  .public-topbar { padding: 12px 16px; }
+  .hero { padding: 60px 16px 40px; }
+  .section { padding: 40px 16px; }
   .form-grid { grid-template-columns: 1fr; }
-  .section { padding: 60px 16px; }
-  nav { padding: 0 16px; }
-  .nav-links .navlink { display: none; }
-  .topbar { font-size: 11px; gap: 10px; padding: 5px 10px; }
-  .hero { padding-top: 130px; }
-  .hero-features { grid-template-columns: 1fr; }
-  canvas { min-height: 150px; }
-  .notif-panel { width: calc(100vw - 32px); right: -16px; }
+  .detail-row { grid-template-columns: 1fr; gap: 4px; }
+  .page-head { flex-direction: column; align-items: stretch; }
 }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+.mobile-menu-btn {
+  display: none; background: var(--surface-2); border: 1px solid var(--border-2);
+  color: var(--text); border-radius: 10px; padding: 10px 14px;
+  cursor: pointer; font-size: 18px;
 }
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 150; backdrop-filter: blur(4px);
+}
+.sidebar-overlay.show { display: block; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <span class="tb-item">📞 78 664 90 62</span>
-  <button id="themeBtn" title="Mode sombre / clair" aria-label="Changer de thème">🌙</button>
-  <select id="langSelect" aria-label="Langue">
-    <option value="fr">🇫🇷 FR</option>
-    <option value="en">🇬🇧 EN</option>
-    <option value="wo">🇸🇳 WO</option>
-  </select>
-  <button id="loginBtn" title="Connexion">👤 Connexion</button>
-</div>
+<div id="app">
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Nexus<span>.</span>Crédit</div>
-  <div class="nav-links">
-    <button class="navlink" data-goto="calc" data-i18n="nav_calc">Calculateur</button>
-    <button class="navlink" data-goto="dashboard" data-i18n="nav_dash">Tableau de bord</button>
-    <button class="navlink" id="adminLink" style="display:none" data-goto="admin">🛡️ Admin</button>
-    <a href="#" id="voirContratNav" data-i18n="nav_contract">📄 Contrat</a>
-    <div style="position:relative">
-      <button class="notif-bell" id="notifBell" aria-label="Notifications">🔔<span class="notif-badge" id="notifBadge" style="display:none">0</span></button>
-      <div class="notif-panel" id="notifPanel"></div>
+  <!-- ═══════════════════ VUE : LANDING ═══════════════════ -->
+  <div class="view" id="view-home">
+    <div class="public-topbar">
+      <div class="public-brand">Nexus<span>.</span>Crédit</div>
+      <div class="public-nav">
+        <button class="theme-toggle" id="themeBtnHome">🌙</button>
+        <select class="lang-select" id="langHome">
+          <option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="wo">🇸🇳 WO</option>
+        </select>
+        <button class="btn btn-secondary btn-sm" onclick="navigate('/login')">Connexion</button>
+        <button class="btn btn-primary btn-sm" onclick="navigate('/register')">S'inscrire</button>
+      </div>
     </div>
-    <a href="#demande" class="nav-cta" data-i18n="nav_apply">Faire une demande →</a>
-  </div>
-</nav>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-badge"><span class="dot"></span><span data-i18n="hero_badge">Prêt approuvé en quelques heures</span></div>
-      <h1 data-i18n="hero_title_html">Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
-      <p class="hero-desc" data-i18n="hero_desc">Un besoin urgent d'argent ? Nexus Crédit vous accompagne avec des prêts rapides, transparents et sans complication.</p>
-      <div class="hero-features">
-        <div class="hf-item" style="animation-delay:.25s"><div class="hf-icon">⚡</div><span data-i18n="f1">Réponse rapide</span></div>
-        <div class="hf-item" style="animation-delay:.35s"><div class="hf-icon">📋</div><span data-i18n="f2">Contrat transparent</span></div>
-        <div class="hf-item" style="animation-delay:.45s"><div class="hf-icon">🔒</div><span data-i18n="f3">Données sécurisées</span></div>
-        <div class="hf-item" style="animation-delay:.55s"><div class="hf-icon">📱</div><span data-i18n="f4">Suivi WhatsApp</span></div>
-      </div>
-      <div class="hero-btns">
-        <a href="#demande" class="btn-primary" data-i18n="btn_apply">💰 Faire une demande</a>
-        <a href="#" id="voirContratHero" class="btn-secondary" data-i18n="btn_contract">📄 Voir le contrat</a>
-      </div>
-    </div>
-    <div class="hero-card">
-      <div style="font-weight:800; font-size:14px; color:var(--text-2);" data-i18n="card_rates">📊 Nos taux</div>
-      <div class="rate">
-        <div><div style="font-size:12px;color:var(--muted);" data-i18n="days7">7 jours</div><div class="rate-val rate-green">+25%</div></div>
-        <div><div style="font-size:12px;color:var(--muted);" data-i18n="days14">14 jours</div><div class="rate-val rate-gold">+35%</div></div>
-      </div>
-      <div><span class="chip" data-i18n="chip_dur">Durée max : 14 jours</span><span class="chip" data-i18n="chip_pen">Pénalité : 2 500 FCFA/jour</span></div>
-      <div style="margin-top:18px; padding-top:18px; border-top:1px solid var(--border-2);">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;" data-i18n="card_contact">📞 Nous contacter</div>
-        <div style="background:var(--surface-2); padding:12px; border-radius:12px; font-weight:800; font-family:'JetBrains Mono',monospace; text-align:center; letter-spacing:1px;">78 664 90 62</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- TAUX -->
-<div class="section" id="taux">
-  <div class="reveal">
-    <h2 class="section-title" data-i18n="rates_title">Des taux <span class="accent">clairs</span>, sans surprise</h2>
-    <p class="section-intro" data-i18n="rates_intro">Deux formules simples, une seule promesse : la transparence.</p>
-  </div>
-  <div class="taux-grid">
-    <div class="taux-card reveal">
-      <div class="taux-duration" data-i18n="days7">7 jours</div>
-      <div class="taux-rate">+25%</div>
-      <div class="taux-example">
-        <div class="ex-row"><span data-i18n="ex_borrow">Emprunt 50 000 FCFA</span><span class="red">+12 500 FCFA</span></div>
-        <div class="ex-row"><span data-i18n="ex_total">Total</span><span class="green">62 500 FCFA</span></div>
-      </div>
-    </div>
-    <div class="taux-card featured reveal">
-      <div class="taux-duration" data-i18n="days14">14 jours</div>
-      <div class="taux-rate">+35%</div>
-      <div class="taux-example">
-        <div class="ex-row"><span data-i18n="ex_borrow">Emprunt 50 000 FCFA</span><span class="red">+17 500 FCFA</span></div>
-        <div class="ex-row"><span data-i18n="ex_total">Total</span><span class="green">67 500 FCFA</span></div>
-      </div>
-    </div>
-    <div class="taux-card reveal">
-      <div class="taux-duration" style="color:var(--red);" data-i18n="late_title">⚠️ Retard</div>
-      <div class="taux-rate" style="color:var(--red); font-size:2rem;">2 500 FCFA/jour</div>
-      <div class="taux-example">
-        <div class="ex-row"><span data-i18n="late_after">Après 3 jours</span><span class="red" data-i18n="late_full">Remboursement total</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CALCULATEUR -->
-<div class="section" id="calc">
-  <div class="reveal">
-    <h2 class="section-title" data-i18n="calc_title">🧮 Calculateur <span class="accent">avancé</span></h2>
-    <p class="section-intro" data-i18n="calc_intro">Simulez votre prêt en temps réel, comparez les deux formules et visualisez la répartition.</p>
-  </div>
-  <div class="calc-wrap reveal">
-    <div class="calc-inputs">
-      <label data-i18n="calc_amount">Montant à emprunter</label>
-      <div class="amt-display"><span id="calcAmtDisplay">50 000</span> <span style="font-size:.5em;color:var(--muted);">FCFA</span></div>
-      <input type="range" id="calcRange" min="5000" max="500000" step="5000" value="50000">
-      <div class="calc-tabs">
-        <button type="button" class="calc-tab active" data-dur="7">7 jours (+25%)</button>
-        <button type="button" class="calc-tab" data-dur="14">14 jours (+35%)</button>
-      </div>
-      <div class="comparison-note" id="calcCompare">—</div>
-      <div class="donut-wrap">
-        <svg class="donut" viewBox="0 0 140 140">
-          <circle class="track" cx="70" cy="70" r="56"></circle>
-          <circle class="fill-g" id="donutPrincipal" cx="70" cy="70" r="56" stroke-dasharray="351.86" stroke-dashoffset="351.86"></circle>
-          <circle class="fill-a" id="donutFees" cx="70" cy="70" r="56" stroke-dasharray="351.86" stroke-dashoffset="351.86" style="transform-origin: center; transform: rotate(360deg);"></circle>
-        </svg>
-        <div class="donut-legend">
-          <div class="lg-item"><span class="dot" style="background:var(--green)"></span><span data-i18n="donut_principal">Capital</span></div>
-          <div class="lg-item"><span class="dot" style="background:var(--gold)"></span><span data-i18n="donut_fees">Frais</span></div>
+    <div class="hero">
+      <div class="hero-inner">
+        <div>
+          <h1>Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
+          <p>Un besoin urgent d'argent ? Nexus Crédit vous accompagne avec des prêts rapides, transparents et sans complication.</p>
+          <div class="hero-btns">
+            <button class="btn btn-primary" onclick="navigate('/register')">💰 Créer mon compte</button>
+            <button class="btn btn-secondary" onclick="navigate('/login')">Se connecter</button>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div style="font-weight:800;font-size:14px;color:var(--text-2);">📊 Nos taux</div>
+          <div class="rate-row">
+            <div><div style="font-size:11px;color:var(--muted);">7 jours</div><div class="rate-val" style="color:var(--green)">+25%</div></div>
+            <div><div style="font-size:11px;color:var(--muted);">14 jours</div><div class="rate-val" style="color:var(--gold)">+35%</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2);">
+            📞 Contact : <strong style="color:var(--text)">78 664 90 62</strong>
+          </div>
         </div>
       </div>
     </div>
-    <div class="calc-results">
-      <div class="res-row"><span class="res-label" data-i18n="calc_borrowed">Montant emprunté</span><span class="res-val" id="calcBorrowed">50 000 FCFA</span></div>
-      <div class="res-row"><span class="res-label" data-i18n="calc_fees">Frais / intérêts</span><span class="res-val red" id="calcFees">+12 500 FCFA</span></div>
-      <div class="res-row"><span class="res-label" data-i18n="calc_due">Date d'échéance</span><span class="res-val" id="calcDue" style="color:var(--gold);">—</span></div>
-      <div class="res-row"><span class="res-label" data-i18n="calc_pen">Pénalité / jour de retard</span><span class="res-val red">2 500 FCFA</span></div>
-      <div class="res-row"><span class="res-label" data-i18n="calc_total">Total à rembourser</span><span class="res-val res-total" id="calcTotal">62 500 FCFA</span></div>
+
+    <div class="section">
+      <h2 class="section-title">Des taux <span style="color:var(--green)">clairs</span>, sans surprise</h2>
+      <p class="section-intro">Deux formules simples, une seule promesse : la transparence.</p>
+      <div class="rates-grid">
+        <div class="rate-card"><h3>7 jours</h3><div class="big">+25%</div><p style="color:var(--muted);font-size:13px;">50 000 → 62 500 FCFA</p></div>
+        <div class="rate-card featured"><h3>14 jours</h3><div class="big">+35%</div><p style="color:var(--muted);font-size:13px;">50 000 → 67 500 FCFA</p></div>
+        <div class="rate-card"><h3 style="color:var(--red)">⚠️ Retard</h3><div class="big" style="color:var(--red);font-size:1.8rem;">2 500 FCFA/jour</div><p style="color:var(--muted);font-size:13px;">Après 3 jours → total exigé</p></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- DASHBOARD CLIENT -->
-<div class="section" id="dashboard">
-  <div class="reveal">
-    <h2 class="section-title" data-i18n="dash_title">📊 <span class="accent">Tableau de bord</span></h2>
-    <p class="section-intro" data-i18n="dash_intro">Vos demandes enregistrées localement sur cet appareil.</p>
-  </div>
-  <div class="dash-grid reveal">
-    <div class="kpi"><div class="kpi-label" data-i18n="kpi_req">Demandes</div><div class="kpi-value" id="kpiReq">0</div></div>
-    <div class="kpi"><div class="kpi-label" data-i18n="kpi_borrowed">Total emprunté</div><div class="kpi-value" id="kpiBorrowed">0 FCFA</div></div>
-    <div class="kpi"><div class="kpi-label" data-i18n="kpi_due">Total à rendre</div><div class="kpi-value" id="kpiDue">0 FCFA</div></div>
-    <div class="kpi"><div class="kpi-label" data-i18n="kpi_active">En cours</div><div class="kpi-value" id="kpiActive">0</div></div>
-  </div>
-  <div class="history-list reveal" id="historyList">
-    <div class="empty-state" data-i18n="hist_empty">Aucune demande pour le moment. Faites votre première demande ci-dessous 👇</div>
-  </div>
-  <div class="chart-wrap reveal" id="chartWrap" style="display:none;">
-    <div class="chart-title" data-i18n="chart_title">📈 Évolution de vos demandes (6 derniers mois)</div>
-    <div class="bar-chart" id="barChart"></div>
-  </div>
-</div>
-
-<!-- ADMIN PANEL -->
-<div class="section admin-panel" id="admin">
-  <div class="reveal">
-    <h2 class="section-title">🛡️ <span class="accent">Tableau de bord administrateur</span></h2>
-    <p class="section-intro">Vue globale sur toutes les demandes de cet appareil.</p>
-  </div>
-  <div class="admin-grid" id="adminGrid"></div>
-  <div class="admin-actions">
-    <button class="btn-admin" id="exportJsonBtn">📥 Exporter JSON</button>
-    <button class="btn-admin" id="exportCsvBtn">📥 Exporter CSV</button>
-    <button class="btn-admin danger" id="clearHistoryBtn">🗑️ Effacer historique</button>
-  </div>
-  <div style="overflow-x:auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px;">
-    <table class="admin-table">
-      <thead>
-        <tr><th>Date</th><th>Client</th><th>Montant</th><th>Durée</th><th>Total</th><th>Statut</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="adminTbody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- FORMULAIRE -->
-<div class="section" id="demande">
-  <div class="reveal">
-    <h2 class="section-title" data-i18n="form_title">Faites votre <span class="accent">demande</span></h2>
-  </div>
-  <div class="form-section reveal">
-    <div class="form-header">
-      <h3 data-i18n="form_h3">📝 Formulaire de demande</h3>
-      <p data-i18n="form_sub">Remplissez toutes les informations honnêtement.</p>
+  <!-- ═══════════════════ VUE : LOGIN ═══════════════════ -->
+  <div class="view" id="view-login">
+    <div class="public-topbar">
+      <div class="public-brand" style="cursor:pointer" onclick="navigate('/home')">Nexus<span>.</span>Crédit</div>
+      <div class="public-nav">
+        <button class="theme-toggle" id="themeBtnLogin">🌙</button>
+        <button class="btn btn-ghost btn-sm" onclick="navigate('/register')">Pas de compte ? S'inscrire</button>
+      </div>
     </div>
-    <div class="form-body">
-      <form id="loanForm" novalidate>
-        <div class="form-grid">
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <h2>Connexion</h2>
+        <p class="auth-sub">Accédez à votre espace client ou administrateur.</p>
+        <div class="field"><label>Identifiant</label><input type="text" id="loginUser" placeholder="Votre identifiant"></div>
+        <div class="field"><label>Mot de passe</label><input type="password" id="loginPass" placeholder="••••••"></div>
+        <button class="btn btn-primary btn-block" id="doLogin">Se connecter</button>
+        <div class="auth-hint">🔑 Admin par défaut : <code>admin</code> / <code>nexus2024</code></div>
+        <div class="auth-footer">Pas encore de compte ? <a onclick="navigate('/register')">S'inscrire</a></div>
+      </div>
+    </div>
+  </div>
 
-          <div class="wizard-bar">
-            <div class="wizard-step active" id="wz1"><span class="wz-num">1</span><span data-i18n="wz_info">Infos</span></div>
-            <div class="wizard-step" id="wz2"><span class="wz-num">2</span><span data-i18n="wz_sign">Signature</span></div>
-            <div class="wizard-step" id="wz3"><span class="wz-num">3</span><span data-i18n="wz_pdf">PDF</span></div>
-            <div class="wizard-step" id="wz4"><span class="wz-num">4</span><span data-i18n="wz_send">Envoi</span></div>
-          </div>
+  <!-- ═══════════════════ VUE : REGISTER ═══════════════════ -->
+  <div class="view" id="view-register">
+    <div class="public-topbar">
+      <div class="public-brand" style="cursor:pointer" onclick="navigate('/home')">Nexus<span>.</span>Crédit</div>
+      <div class="public-nav">
+        <button class="theme-toggle" id="themeBtnRegister">🌙</button>
+        <button class="btn btn-ghost btn-sm" onclick="navigate('/login')">Déjà inscrit ? Connexion</button>
+      </div>
+    </div>
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <h2>Créer un compte</h2>
+        <p class="auth-sub">Quelques informations et c'est parti.</p>
+        <div class="field"><label>Nom complet</label><input type="text" id="regName" placeholder="Moussa Diallo"></div>
+        <div class="field"><label>Identifiant</label><input type="text" id="regUser" placeholder="Ex: moussa"></div>
+        <div class="field"><label>Téléphone WhatsApp</label><input type="tel" id="regPhone" placeholder="77 123 45 67"></div>
+        <div class="field"><label>Mot de passe</label><input type="password" id="regPass" placeholder="Min. 4 caractères"></div>
+        <button class="btn btn-primary btn-block" id="doRegister">Créer mon compte</button>
+        <div class="auth-footer">Déjà un compte ? <a onclick="navigate('/login')">Se connecter</a></div>
+      </div>
+    </div>
+  </div>
 
-          <div class="field" id="field-nom">
-            <label><span data-i18n="lbl_name">Nom complet</span> <span class="req">*</span></label>
-            <input type="text" id="nom" placeholder="Ex: Moussa Diallo" required>
-            <div class="error-msg" data-i18n="err_name">Veuillez saisir votre nom complet.</div>
-          </div>
-          <div class="field" id="field-tel">
-            <label><span data-i18n="lbl_phone">Téléphone WhatsApp</span> <span class="req">*</span></label>
-            <input type="tel" id="telephone" placeholder="77 123 45 67" required>
-            <div class="error-msg" data-i18n="err_phone">Numéro invalide (9 chiffres min.).</div>
-          </div>
-          <div class="field" id="field-passeport">
-            <label><span data-i18n="lbl_pass">Numéro Passeport</span> <span class="req">*</span></label>
-            <input type="text" id="passeport" placeholder="Numéro de passeport" required>
-            <div class="error-msg" data-i18n="err_pass">Numéro de passeport requis.</div>
-          </div>
-
-          <div class="field full">
-            <label><span data-i18n="lbl_amount">Montant (FCFA)</span> <span class="req">*</span></label>
-            <input type="range" id="montantRange" min="5000" max="500000" step="5000" value="50000">
-            <input type="number" id="montant" placeholder="50000" min="5000" step="1000" required>
-            <div class="error-msg" data-i18n="err_amount">Montant invalide (min. 5 000 FCFA).</div>
-          </div>
-
-          <div class="field" id="field-duree">
-            <label><span data-i18n="lbl_dur">Durée</span> <span class="req">*</span></label>
-            <select id="duree" required>
-              <option value="" data-i18n="choose">-- Choisir --</option>
-              <option value="7">7 jours (+25%)</option>
-              <option value="14">14 jours (+35%)</option>
-            </select>
-            <div class="error-msg" data-i18n="err_dur">Sélectionnez une durée.</div>
-          </div>
-
-          <div class="field full" id="field-garantie">
-            <label><span data-i18n="lbl_guar">Garantie</span> <span class="req">*</span></label>
-            <input type="text" id="garantie" placeholder="Ex: Passeport + Téléphone / Passeport + Bijoux" required>
-            <div style="font-size:11px; color:var(--gold); margin-top:4px;" data-i18n="guar_note">⚠️ Le PASSEPORT est OBLIGATOIRE + un autre bien.</div>
-            <div class="error-msg" data-i18n="err_guar">Garantie requise.</div>
-          </div>
-
-          <div class="reminder-date" id="reminderDate">
-            <p>📅 <span id="reminderText" data-i18n="reminder_choose">Sélectionnez une durée</span> 📅</p>
-          </div>
-
-          <div class="simulateur" id="simulateur">
-            <div style="font-weight:800;margin-bottom:8px;" data-i18n="sim_title">💡 Simulation</div>
-            <div class="sim-row"><span data-i18n="sim_borrow">Montant emprunté</span><span id="simMontant">—</span></div>
-            <div class="sim-row"><span data-i18n="sim_int">Intérêts</span><span id="simInterets" style="color:var(--red);">—</span></div>
-            <div class="sim-row"><span data-i18n="sim_due">Date de remboursement</span><span id="simDateRemboursement" style="color:var(--gold); font-weight:800;">—</span></div>
-            <div class="sim-row"><span style="font-weight:800;" data-i18n="sim_total">Total à rembourser</span><span id="simTotal" style="color:var(--green); font-weight:800;">—</span></div>
-          </div>
-
-          <div class="aperçu-contrat">
-            <div class="aperçu-title"><span>📋</span> <span data-i18n="sum_title">RÉCAPITULATIF DE VOTRE DEMANDE</span></div>
-            <div class="aperçu-content">
-              <div class="preview-row"><div class="preview-key" data-i18n="p_borrower">Emprunteur :</div><div class="preview-val" id="apercuNom">_____</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_phone">Téléphone :</div><div class="preview-val" id="apercuTel">_____</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_pass">Passeport :</div><div class="preview-val" id="apercuPasseport">_____</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_amount">Montant :</div><div class="preview-val" id="apercuMontant">0 FCFA</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_dur">Durée :</div><div class="preview-val" id="apercuDuree">—</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_due">À rembourser avant le :</div><div class="preview-val" style="color:var(--gold);" id="apercuDate">—</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_total">Total à rembourser :</div><div class="preview-val" style="color:var(--green);" id="apercuTotal">0 FCFA</div></div>
-              <div class="preview-row"><div class="preview-key" data-i18n="p_guar">Garantie :</div><div class="preview-val" id="apercuGarantie">_____</div></div>
-            </div>
-          </div>
-
-          <div class="reminder-whatsapp" id="reminderWhatsapp">
-            <p>📱 <strong data-i18n="wa_title">RAPPEL DE REMBOURSEMENT PAR WHATSAPP</strong> 📱</p>
-            <p data-i18n="wa_desc">Un message de rappel vous sera envoyé sur WhatsApp à l'approche de votre date de remboursement.</p>
-            <p data-i18n="wa_num">Numéro enregistré :</p>
-            <div class="whatsapp-number" id="whatsappNumberDisplay" data-i18n="wa_notset">Non renseigné</div>
-            <p style="font-size:11px; margin-top:8px;" data-i18n="wa_check">✅ Assurez-vous que votre numéro WhatsApp est correct !</p>
-          </div>
-
-          <div class="field full">
-            <label data-i18n="lbl_msg">Message (optionnel)</label>
-            <textarea id="message" rows="3" placeholder="Raison du prêt, disponibilité..."></textarea>
-          </div>
-
-          <div class="signature-manuscrite">
-            <div class="signature-title" data-i18n="sign_title">✍️ Signez avec votre doigt ou souris</div>
-            <div class="canvas-container">
-              <canvas id="signatureCanvas" width="500" height="200"></canvas>
-            </div>
-            <div class="sign-buttons">
-              <button type="button" id="clearCanvas" class="sign-btn" data-i18n="btn_clear">🗑️ Effacer</button>
-            </div>
-            <label class="sign-check-label">
-              <input type="checkbox" id="signCheck">
-              <span data-i18n="sign_check">Je certifie que cette signature est la mienne et j'accepte le contrat.</span>
-            </label>
-            <button type="button" id="validateSignBtn" class="btn-sign" data-i18n="btn_valid_sign">✅ VALIDER MA SIGNATURE</button>
-            <button type="button" id="openContractBtn" class="btn-pdf" data-i18n="btn_gen_pdf">📄 GÉNÉRER MON CONTRAT PDF</button>
-          </div>
-
-          <div class="instruction-box">
-            <h4 data-i18n="instr_title">📋 PROCÉDURE COMPLÈTE POUR OBTENIR VOTRE PRÊT</h4>
-            <p data-i18n="instr_1">1️⃣ Lisez attentivement le contrat en cliquant sur "📄 Contrat" en haut de la page</p>
-            <p data-i18n="instr_2">2️⃣ Remplissez tous les champs et signez dans le cadre</p>
-            <p data-i18n="instr_3">3️⃣ Cliquez sur "VALIDER MA SIGNATURE" puis "GÉNÉRER MON CONTRAT PDF"</p>
-            <p data-i18n="instr_4">4️⃣ Une nouvelle fenêtre s'ouvre avec votre contrat</p>
-            <p data-i18n="instr_5">5️⃣ Sur mobile : menu → "Imprimer" → "Enregistrer au format PDF"</p>
-            <p data-i18n="instr_6">6️⃣ Sur ordinateur : Ctrl+P (ou Cmd+P) → "Enregistrer au format PDF"</p>
-            <p><strong style="color:var(--green);" data-i18n="instr_7">📸 OU PLUS FACILE : Faites une capture d'écran du contrat et envoyez-la sur WhatsApp au 78 664 90 62</strong></p>
-            <p style="color:var(--gold); margin-top:8px;" data-i18n="instr_8">⚠️ Votre demande ne sera traitée qu'après réception du PDF signé OU de la capture d'écran !</p>
-            <button type="button" id="copyLinkBtn" class="btn-copy" data-i18n="btn_copy">🔗 Copier le lien de l'application</button>
-          </div>
-
-          <div class="success-msg" id="successMsg">
-            <span style="font-size:52px;">✅</span>
-            <h4 data-i18n="success_title">Demande envoyée !</h4>
-            <p data-i18n="success_desc">N'oubliez pas d'envoyer le PDF signé ou la capture d'écran sur WhatsApp au 78 664 90 62</p>
-          </div>
-
-          <button type="submit" class="btn-submit" id="submitBtn" data-i18n="btn_submit">📤 Envoyer ma demande</button>
+  <!-- ═══════════════════ VUE : CLIENT (shell) ═══════════════════ -->
+  <div class="view" id="view-client">
+    <div class="shell">
+      <aside class="sidebar" id="clientSidebar">
+        <div class="sidebar-brand">Nexus<span class="accent">.</span>Crédit</div>
+        <div class="sb-role">Espace Client</div>
+        <a class="sb-link" data-route="/client/dashboard" onclick="navigate('/client/dashboard')"><span class="sb-icon">📊</span>Tableau de bord</a>
+        <a class="sb-link" data-route="/client/requests" onclick="navigate('/client/requests')"><span class="sb-icon">📋</span>Mes demandes</a>
+        <a class="sb-link" data-route="/client/requests/new" onclick="navigate('/client/requests/new')"><span class="sb-icon">➕</span>Nouvelle demande</a>
+        <a class="sb-link" data-route="/client/repayments" onclick="navigate('/client/repayments')"><span class="sb-icon">💳</span>Remboursements</a>
+        <a class="sb-link" data-route="/client/notifications" onclick="navigate('/client/notifications')"><span class="sb-icon">🔔</span>Notifications<span class="sb-badge" id="clientNotifBadge" style="display:none">0</span></a>
+        <a class="sb-link" data-route="/client/profile" onclick="navigate('/client/profile')"><span class="sb-icon">👤</span>Mon profil</a>
+        <div class="sb-footer">
+          <button class="theme-toggle" id="themeBtnClient" style="width:100%">🌙 Thème</button>
+          <select class="lang-select" id="langClient" style="width:100%"><option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="wo">🇸🇳 WO</option></select>
+          <button class="btn btn-ghost btn-sm" onclick="logout()">🚪 Déconnexion</button>
         </div>
-      </form>
+      </aside>
+      <main class="main">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <button class="mobile-menu-btn" id="clientMenuBtn">☰</button>
+        </div>
+        <div id="clientContent"></div>
+      </main>
     </div>
   </div>
+
+  <!-- ═══════════════════ VUE : ADMIN (shell) ═══════════════════ -->
+  <div class="view" id="view-admin">
+    <div class="shell">
+      <aside class="sidebar" id="adminSidebar" style="background:linear-gradient(180deg,var(--surface),var(--surface-2));">
+        <div class="sidebar-brand">Nexus<span class="accent">.</span>Crédit</div>
+        <div class="sb-role" style="color:var(--gold)">🛡️ Administrateur</div>
+        <a class="sb-link" data-route="/admin/dashboard" onclick="navigate('/admin/dashboard')"><span class="sb-icon">📊</span>Tableau de bord</a>
+        <a class="sb-link" data-route="/admin/requests" onclick="navigate('/admin/requests')"><span class="sb-icon">📋</span>Demandes<span class="sb-badge" id="adminPendingBadge" style="display:none">0</span></a>
+        <a class="sb-link" data-route="/admin/clients" onclick="navigate('/admin/clients')"><span class="sb-icon">👥</span>Clients</a>
+        <a class="sb-link" data-route="/admin/loans" onclick="navigate('/admin/loans')"><span class="sb-icon">💼</span>Prêts actifs</a>
+        <a class="sb-link" data-route="/admin/stats" onclick="navigate('/admin/stats')"><span class="sb-icon">📈</span>Statistiques</a>
+        <a class="sb-link" data-route="/admin/settings" onclick="navigate('/admin/settings')"><span class="sb-icon">⚙️</span>Paramètres</a>
+        <div class="sb-footer">
+          <button class="theme-toggle" id="themeBtnAdmin" style="width:100%">🌙 Thème</button>
+          <button class="btn btn-ghost btn-sm" onclick="logout()">🚪 Déconnexion</button>
+        </div>
+      </aside>
+      <main class="main">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <button class="mobile-menu-btn" id="adminMenuBtn">☰</button>
+        </div>
+        <div id="adminContent"></div>
+      </main>
+    </div>
+  </div>
+
 </div>
 
-<footer>
-  <div class="footer-logo">Nexus Crédit</div>
-  <div style="color:var(--muted); font-size:13px; margin:10px 0;" data-i18n="foot_tag">Rapide • Sécurisé • Fiable — Dakar, Sénégal</div>
-  <div class="footer-links">
-    <a href="tel:+221786649062">📞 78 664 90 62</a>
-    <a href="https://wa.me/221786649062">💬 WhatsApp</a>
-    <a href="#" id="footerContract">📄 Contrat</a>
-  </div>
-  <div style="font-size:11px; color:var(--muted); margin-top:14px;">
-    <span data-i18n="foot_views">👁️ Page consultée</span> <span id="visiteCount">0</span> <span data-i18n="foot_times">fois</span>
-  </div>
-</footer>
-
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <button class="modal-close" id="closeAuth">✕</button>
-    <h3 id="authTitle">Connexion</h3>
-    <p class="subtitle" id="authSubtitle">Accédez à votre espace client ou administrateur.</p>
-    <div class="modal-tabs">
-      <button class="modal-tab active" data-tab="login">Connexion</button>
-      <button class="modal-tab" data-tab="register">Inscription</button>
-    </div>
-    <div id="loginForm">
-      <div class="field"><label>Identifiant</label><input type="text" id="loginUser" placeholder="Ex: moussa / admin"></div>
-      <div class="field"><label>Mot de passe</label><input type="password" id="loginPass" placeholder="••••••"></div>
-      <button class="btn-submit" id="doLogin" style="margin-top:8px;">Se connecter</button>
-      <p style="font-size:11px;color:var(--muted);margin-top:12px;text-align:center;">Admin par défaut : <code style="color:var(--green);">admin / nexus2024</code></p>
-    </div>
-    <div id="registerForm" style="display:none;">
-      <div class="field"><label>Identifiant</label><input type="text" id="regUser" placeholder="Ex: moussa"></div>
-      <div class="field"><label>Mot de passe</label><input type="password" id="regPass" placeholder="Min. 4 caractères"></div>
-      <div class="field"><label>Nom complet</label><input type="text" id="regName" placeholder="Moussa Diallo"></div>
-      <button class="btn-submit" id="doRegister" style="margin-top:8px;">Créer mon compte</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOASTS -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-/* ===================================================
-   NEXUS CRÉDIT v3 — Application améliorée
-   =================================================== */
+/* ============================================================
+   NEXUS CRÉDIT v4 — SPA avec séparation rôles
+============================================================ */
 
 /* ---------- 1. THEME ---------- */
 const html = document.documentElement;
-const themeBtn = document.getElementById('themeBtn');
 function applyTheme(t) {
   html.setAttribute('data-theme', t);
   localStorage.setItem('nexusTheme', t);
-  themeBtn.textContent = t === 'dark' ? '🌙' : '☀️';
-  document.querySelector('meta[name="theme-color"]').content = t === 'dark' ? '#070b08' : '#f7faf4';
+  document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = t === 'dark' ? '🌙' : '☀️');
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'dark' ? '#070b08' : '#f7faf4';
 }
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const savedTheme = localStorage.getItem('nexusTheme') || (prefersDark ? 'dark' : 'light');
-applyTheme(savedTheme);
-themeBtn.addEventListener('click', () => {
-  applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+applyTheme(localStorage.getItem('nexusTheme') || (prefersDark ? 'dark' : 'light'));
+['themeBtnHome','themeBtnLogin','themeBtnRegister','themeBtnClient','themeBtnAdmin'].forEach(id => {
+  const b = document.getElementById(id);
+  if (b) b.addEventListener('click', () => {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
 });
 
-/* ---------- 2. I18N ---------- */
-const I18N = {
-  fr: {},
-  en: {
-    nav_calc:"Calculator", nav_dash:"Dashboard", nav_contract:"📄 Contract", nav_apply:"Apply →",
-    hero_badge:"Loan approved in a few hours",
-    hero_title_html:'Get your <em>loan</em> in<br><span class="line2">just a few hours.</span>',
-    hero_desc:"Need cash urgently? Nexus Crédit gives you fast, transparent loans without hassle.",
-    f1:"Fast response", f2:"Transparent contract", f3:"Secure data", f4:"WhatsApp tracking",
-    btn_apply:"💰 Apply now", btn_contract:"📄 See contract",
-    card_rates:"📊 Our rates", days7:"7 days", days14:"14 days",
-    chip_dur:"Max duration: 14 days", chip_pen:"Penalty: 2,500 FCFA/day", card_contact:"📞 Contact us",
-    rates_title:"Clear rates, no surprises", rates_intro:"Two simple plans, one promise: transparency.",
-    ex_borrow:"Borrow 50,000 FCFA", ex_total:"Total",
-    late_title:"⚠️ Late payment", late_after:"After 3 days", late_full:"Full repayment",
-    calc_title:"🧮 Advanced calculator", calc_intro:"Simulate your loan in real time and compare plans.",
-    calc_amount:"Amount to borrow", calc_borrowed:"Borrowed amount", calc_fees:"Fees / interest",
-    calc_due:"Due date", calc_pen:"Penalty / day late", calc_total:"Total to repay",
-    donut_principal:"Principal", donut_fees:"Fees",
-    dash_title:"📊 Dashboard", dash_intro:"Your applications saved locally on this device.",
-    kpi_req:"Applications", kpi_borrowed:"Total borrowed", kpi_due:"Total to repay", kpi_active:"Ongoing",
-    hist_empty:"No application yet. Submit your first one below 👇",
-    chart_title:"📈 Your applications over the last 6 months",
-    form_title:"Submit your application", form_h3:"📝 Application form", form_sub:"Please fill in all fields honestly.",
-    wz_info:"Info", wz_sign:"Signature", wz_pdf:"PDF", wz_send:"Send",
-    lbl_name:"Full name", lbl_phone:"WhatsApp phone", lbl_pass:"Passport number",
-    lbl_amount:"Amount (FCFA)", lbl_dur:"Duration", lbl_guar:"Collateral", lbl_msg:"Message (optional)",
-    err_name:"Please enter your full name.", err_phone:"Invalid number (min 9 digits).",
-    err_pass:"Passport required.", err_amount:"Invalid amount (min 5,000 FCFA).",
-    err_dur:"Select a duration.", err_guar:"Collateral required.",
-    choose:"-- Choose --", guar_note:"⚠️ PASSPORT is MANDATORY + one other item.",
-    reminder_choose:"Select a duration",
-    sim_title:"💡 Simulation", sim_borrow:"Borrowed", sim_int:"Interest", sim_due:"Repayment date", sim_total:"Total to repay",
-    sum_title:"SUMMARY OF YOUR APPLICATION",
-    p_borrower:"Borrower:", p_phone:"Phone:", p_pass:"Passport:", p_amount:"Amount:", p_dur:"Duration:",
-    p_due:"Repay before:", p_total:"Total to repay:", p_guar:"Collateral:",
-    wa_title:"WHATSAPP REPAYMENT REMINDER", wa_desc:"A reminder will be sent on WhatsApp near your due date.",
-    wa_num:"Registered number:", wa_notset:"Not set", wa_check:"✅ Make sure your WhatsApp number is correct!",
-    sign_title:"✍️ Sign with your finger or mouse", btn_clear:"🗑️ Clear", sign_check:"I certify this signature is mine and accept the contract.",
-    btn_valid_sign:"✅ VALIDATE MY SIGNATURE", btn_gen_pdf:"📄 GENERATE MY PDF CONTRACT",
-    instr_title:"📋 FULL PROCEDURE TO GET YOUR LOAN",
-    instr_1:'1️⃣ Read the contract carefully by clicking "📄 Contract" at the top',
-    instr_2:"2️⃣ Fill all fields and sign in the box",
-    instr_3:'3️⃣ Click "VALIDATE MY SIGNATURE" then "GENERATE MY PDF CONTRACT"',
-    instr_4:"4️⃣ A new window opens with your contract",
-    instr_5:'5️⃣ Mobile: menu → "Print" → "Save as PDF"',
-    instr_6:'6️⃣ Desktop: Ctrl+P (or Cmd+P) → "Save as PDF"',
-    instr_7:"📸 OR EASIER: screenshot the contract and send it on WhatsApp to 78 664 90 62",
-    instr_8:"⚠️ Your application is only processed after we receive the signed PDF OR the screenshot!",
-    btn_copy:"🔗 Copy application link",
-    success_title:"Application sent!", success_desc:"Don't forget to send the signed PDF or screenshot on WhatsApp to 78 664 90 62",
-    btn_submit:"📤 Send my application",
-    foot_tag:"Fast • Secure • Reliable — Dakar, Senegal", foot_views:"👁️ Page viewed", foot_times:"times"
-  },
-  wo: {
-    nav_calc:"Calculateur", nav_dash:"Tableau", nav_contract:"📄 Contrat", nav_apply:"Defar demande →",
-    hero_badge:"Prêt bi ñu nangu ci ay heures",
-    hero_title_html:'Am nga sa <em>prêt</em> ci<br><span class="line2">ay heures yu néew.</span>',
-    hero_desc:"Ndimbal? Nexus Crédit di la jox prêt bu gaaw, bu leer te am jafe-jafe.",
-    f1:"Tontu gaaw", f2:"Contrat bu leer", f3:"Xibaar bu wóor", f4:"Topp ci WhatsApp",
-    btn_apply:"💰 Defar demande", btn_contract:"📄 Xool contrat",
-    card_rates:"📊 Sunu taux", days7:"7 fan", days14:"14 fan",
-    chip_dur:"Yoon: 14 fan", chip_pen:"Pénalité: 2 500 FCFA/fan", card_contact:"📞 Jokkoo ak nun",
-    rates_title:"Taux yu leer, amul surprise", rates_intro:"Ñaari formule yu yomb, benn promise: leer.",
-    ex_borrow:"Moom 50 000 FCFA", ex_total:"Total",
-    late_title:"⚠️ Yéex", late_after:"Ginnaaw 3 fan", late_full:"Fey lépp",
-    calc_title:"🧮 Calculateur bu am solo", calc_intro:"Simule sa prêt ci saa si te seet ñaari formule yi.",
-    calc_amount:"Xaalis bi nga bëgg", calc_borrowed:"Xaalis bi nga moom", calc_fees:"Intérêts",
-    calc_due:"Bés bu fey", calc_pen:"Pénalité/fan", calc_total:"Total bu fey",
-    donut_principal:"Capital", donut_fees:"Frais",
-    dash_title:"📊 Tableau de bord", dash_intro:"Sa demande yi ñu denc ci sa appareil.",
-    kpi_req:"Demandes", kpi_borrowed:"Total moom", kpi_due:"Total fey", kpi_active:"Ci jëm",
-    hist_empty:"Amul demande ba léegi. Defar sa bu njëkk ci suuf 👇",
-    chart_title:"📈 Sa demande yi ci 6 weer yu weesu",
-    form_title:"Defar sa demande", form_h3:"📝 Formulaire demande", form_sub:"Féexal njuréef ci yépp.",
-    wz_info:"Xibaar", wz_sign:"Signature", wz_pdf:"PDF", wz_send:"Yónnee",
-    lbl_name:"Tur wi", lbl_phone:"Telefon WhatsApp", lbl_pass:"Numéro passeport",
-    lbl_amount:"Xaalis (FCFA)", lbl_dur:"Yoon", lbl_guar:"Garantie", lbl_msg:"Bataaxal (soo bëggee)",
-    err_name:"Bindal sa tur.", err_phone:"Numéro baaxul (9 chiffres).",
-    err_pass:"Passeport war.", err_amount:"Xaalis baaxul (min 5 000 FCFA).",
-    err_dur:"Tannal yoon.", err_guar:"Garantie war.",
-    choose:"-- Tannal --", guar_note:"⚠️ PASSEPORT WAR + benn leneen.",
-    reminder_choose:"Tannal yoon",
-    sim_title:"💡 Simulation", sim_borrow:"Moom", sim_int:"Intérêts", sim_due:"Bés bu fey", sim_total:"Total bu fey",
-    sum_title:"RÉSUMÉ SA DEMANDE",
-    p_borrower:"Moomkat:", p_phone:"Telefon:", p_pass:"Passeport:", p_amount:"Xaalis:", p_dur:"Yoon:",
-    p_due:"Fey lu tollu:", p_total:"Total:", p_guar:"Garantie:",
-    wa_title:"FATTALI CI WHATSAPP", wa_desc:"Dinañu la fattali ci WhatsApp bu bés bu fey jege.",
-    wa_num:"Numéro bi ñu denc:", wa_notset:"Amul", wa_check:"✅ Seetal sa numéro WhatsApp baax na!",
-    sign_title:"✍️ Sini ak sa baaraam walla souris", btn_clear:"🗑️ Far", sign_check:"Dama koo wóoral te nangu contrat bi.",
-    btn_valid_sign:"✅ DÉGGOOR SA SIGNATURE", btn_gen_pdf:"📄 DEFAR SA CONTRAT PDF",
-    instr_title:"📋 YOON WI NGIR AM SA PRÊT",
-    instr_1:'1️⃣ Jàng contrat bi ci "📄 Contrat" ci kaw',
-    instr_2:"2️⃣ Féexal lépp te sini ci case bi",
-    instr_3:'3️⃣ Bësal "DÉGGOOR SA SIGNATURE" te ginnaaw "DEFAR SA CONTRAT PDF"',
-    instr_4:"4️⃣ Benn fenet bu bees dina ubbi ak sa contrat",
-    instr_5:'5️⃣ Ci telefon: menu → "Imprimer" → "Denc PDF"',
-    instr_6:'6️⃣ Ci ordi: Ctrl+P → "Denc PDF"',
-    instr_7:"📸 WALLA YOMB: defar capture écran te yónnee ci WhatsApp 78 664 90 62",
-    instr_8:"⚠️ Sa demande dina traité ginnaaw ñu jot PDF bi walla capture bi!",
-    btn_copy:"🔗 Kopye lien bi",
-    success_title:"Demande yónnee!", success_desc:"Bàyyi wàññi yónnee PDF bi walla capture bi ci WhatsApp 78 664 90 62",
-    btn_submit:"📤 Yónnee sama demande",
-    foot_tag:"Gaaw • Wóor • Yéexul — Ndakaaru, Senegaal", foot_views:"👁️ Xool nañu", foot_times:"yoon"
-  }
-};
+/* ---------- 2. LANG (minimal) ---------- */
 let currentLang = localStorage.getItem('nexusLang') || 'fr';
-document.getElementById('langSelect').value = currentLang;
+['langHome','langClient'].forEach(id => {
+  const s = document.getElementById(id);
+  if (s) { s.value = currentLang; s.addEventListener('change', e => { currentLang = e.target.value; localStorage.setItem('nexusLang', currentLang); }); }
+});
 
-function applyLang(lang) {
-  currentLang = lang;
-  localStorage.setItem('nexusLang', lang);
-  document.documentElement.lang = lang === 'wo' ? 'fr' : lang;
-  const dict = I18N[lang] || {};
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (dict[key] !== undefined) {
-      if (key === 'hero_title_html' || key === 'rates_title' || key === 'calc_title' || key === 'dash_title' || key === 'form_title') {
-        el.innerHTML = dict[key];
-      } else {
-        el.textContent = dict[key];
-      }
-    }
-  });
-  updateCalc();
-  renderHistory();
-  renderAdmin();
+/* ---------- 3. DATA LAYER ---------- */
+const DB = {
+  users() { try { return JSON.parse(localStorage.getItem('nexusUsers') || '{}'); } catch { return {}; } },
+  saveUsers(u) { localStorage.setItem('nexusUsers', JSON.stringify(u)); },
+  requests() { try { return JSON.parse(localStorage.getItem('nexusRequests') || '[]'); } catch { return []; } },
+  saveRequests(r) { localStorage.setItem('nexusRequests', JSON.stringify(r)); },
+  notifs() { try { return JSON.parse(localStorage.getItem('nexusNotifs') || '[]'); } catch { return []; } },
+  saveNotifs(n) { localStorage.setItem('nexusNotifs', JSON.stringify(n)); },
+  drafts() { try { return JSON.parse(localStorage.getItem('nexusDraft') || 'null'); } catch { return null; } },
+  saveDraft(d) { localStorage.setItem('nexusDraft', JSON.stringify(d)); },
+  clearDraft() { localStorage.removeItem('nexusDraft'); }
+};
+
+function hashPass(p) { let h = 0; for (let i = 0; i < p.length; i++) h = ((h << 5) - h) + p.charCodeAt(i); return 'h' + Math.abs(h); }
+function uid() { return 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+
+// bootstrap admin
+if (!DB.users().admin) {
+  const u = DB.users();
+  u.admin = { password: hashPass('nexus2024'), name: 'Administrateur', role: 'admin', phone: '78 664 90 62', created: new Date().toISOString() };
+  DB.saveUsers(u);
 }
-document.getElementById('langSelect').addEventListener('change', e => applyLang(e.target.value));
 
-/* ---------- 3. TOASTS ---------- */
+/* ---------- 4. SESSION ---------- */
+function getSession() { try { return JSON.parse(sessionStorage.getItem('nexusSession') || 'null'); } catch { return null; } }
+function setSession(s) { sessionStorage.setItem('nexusSession', JSON.stringify(s)); }
+function clearSession() { sessionStorage.removeItem('nexusSession'); }
+function currentUser() {
+  const s = getSession(); if (!s) return null;
+  const u = DB.users()[s.username]; if (!u) return null;
+  return { username: s.username, name: u.name, role: u.role, phone: u.phone };
+}
+
+/* ---------- 5. TOAST / CONFETTI ---------- */
 function toast(msg, type='success') {
   const wrap = document.getElementById('toastWrap');
   const el = document.createElement('div');
   el.className = 'toast ' + (type === 'success' ? '' : type);
   el.innerHTML = `<span>${type==='error'?'❌':type==='info'?'ℹ️':'✅'}</span><span>${msg}</span>`;
   wrap.appendChild(el);
-  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(60px)'; el.style.transition = 'all .3s'; }, 3200);
-  setTimeout(() => el.remove(), 3600);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(50px)'; el.style.transition = 'all .3s'; }, 3000);
+  setTimeout(() => el.remove(), 3400);
 }
-
-/* ---------- 4. CONFETTI ---------- */
 function fireConfetti() {
-  const colors = ['#34d97a','#22c55e','#fbbf24','#f59e0b','#eef4ec'];
-  for (let i = 0; i < 60; i++) {
+  const colors = ['#34d97a','#fbbf24','#22c55e','#f59e0b'];
+  for (let i = 0; i < 50; i++) {
     const c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random()*100 + 'vw';
     c.style.background = colors[Math.floor(Math.random()*colors.length)];
     c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
-    c.style.animationDelay = Math.random()*0.3 + 's';
-    c.style.animationDuration = (1.8 + Math.random()*1.2) + 's';
+    c.style.animationDelay = Math.random()*.3 + 's';
+    c.style.animationDuration = (1.6 + Math.random()*1) + 's';
     document.body.appendChild(c);
-    setTimeout(() => c.remove(), 3500);
+    setTimeout(() => c.remove(), 3200);
   }
 }
 
-/* ---------- 5. COMPTEUR VISITES ---------- */
-let compteur = parseInt(localStorage.getItem('nexusVisites') || '0') + 1;
-localStorage.setItem('nexusVisites', compteur);
-document.getElementById('visiteCount').textContent = compteur;
-
-/* ---------- 6. NAVIGATION INTERNE ---------- */
-document.querySelectorAll('[data-goto]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const el = document.getElementById(btn.dataset.goto);
-    if (el) el.scrollIntoView({behavior:'smooth'});
-  });
-});
-
-/* ---------- 7. REVEAL AU SCROLL ---------- */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-/* ---------- 8. CONTRAT COMPLET ---------- */
-function openContratComplet() {
-  const contratCompletHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contrat Nexus Crédit - Conditions Générales</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Times New Roman',Arial,sans-serif;background:#fff;padding:40px}
-.container{max-width:900px;margin:0 auto}.header{text-align:center;margin-bottom:30px}.logo{font-size:32px;font-weight:bold;color:#1a5a3a;letter-spacing:2px}
-.subtitle{font-size:12px;color:#666;letter-spacing:3px}.title{font-size:24px;font-weight:bold;text-align:center;margin:30px 0;text-transform:uppercase;color:#1a5a3a;border-bottom:2px solid #1a5a3a;display:inline-block;padding-bottom:8px}
-.title-container{text-align:center}.section{margin-bottom:25px}.section-title{color:#1a5a3a;border-bottom:2px solid #1a5a3a;padding-bottom:5px;margin-bottom:12px;font-size:18px;font-weight:bold;text-transform:uppercase}
-.section-content{padding:5px 0;line-height:1.6;text-align:justify}.warning{color:#dc2626;font-weight:bold}.green{color:#1a5a3a;font-weight:bold}
-.footer{margin-top:40px;font-size:10px;color:#999;text-align:center;border-top:1px solid #eee;padding-top:15px}
-.close-btn{background:#1a5a3a;color:#fff;border:none;padding:12px 25px;border-radius:8px;cursor:pointer;font-size:16px;margin-bottom:25px;display:block;margin-left:auto;margin-right:auto;font-weight:bold}
-@media print{.close-btn{display:none}body{padding:20px}}</style></head><body>
-<div style="text-align:center"><button class="close-btn" onclick="window.close();">✖ FERMER</button></div>
-<div class="container"><div class="header"><div class="logo">NEXUS CRÉDIT</div><div class="subtitle">RAPIDE • SÉCURISÉ • FIABLE</div></div>
-<div class="title-container"><div class="title">CONTRAT DE PRÊT D'ARGENT</div></div>
-<div class="section"><div class="section-title">SECTION 1 - LES INTERVENANTS</div><div class="section-content">
-<p><strong>Entre les personnes ci-dessous désignées :</strong></p>
-<p>Le Bailleur de fonds : <strong>NEXUS CRÉDIT</strong> (Entreprise enregistrée au Sénégal), joignable au numéro WhatsApp <strong>78 664 90 62</strong>, ayant son siège social à Dakar.</p>
-<p>Et l'Emprunteur : La personne physique dont les coordonnées complètes (nom, numéro de téléphone WhatsApp, numéro de passeport) sont fournies dans le formulaire de demande.</p></div></div>
-<div class="section"><div class="section-title">SECTION 2 - BUT DE L'ACCORD</div><div class="section-content">
-<p>Le présent document a pour but de formaliser l'octroi d'une avance de fonds à titre personnel. Le Bailleur s'engage à verser la somme convenue, et l'Emprunteur s'engage à restituer cette somme augmentée des frais et majorations stipulés ci-après.</p></div></div>
-<div class="section"><div class="section-title">SECTION 3 - SOMME AVANCÉE</div><div class="section-content">
-<p>Le montant accordé est déterminé selon la requête validée, libellé en Francs CFA. Ce montant sera transféré en une unique transaction à l'Emprunteur après validation du dossier.</p></div></div>
-<div class="section"><div class="section-title">SECTION 4 - CALENDRIER ET FRAIS</div><div class="section-content">
-<p>L'Emprunteur peut choisir entre deux formules de restitution :</p>
-<ul style="margin-left:30px;margin-top:10px"><li><strong>Formule express :</strong> 7 jours calendaires → +25% du capital emprunté</li>
-<li><strong>Formule classique :</strong> 14 jours calendaires → +35% du capital emprunté</li></ul>
-<p style="margin-top:10px"><strong>Cas pratique :</strong> Pour une avance de 50 000 FCFA :</p>
-<ul style="margin-left:30px"><li>Formule express : frais 12 500 FCFA → total à rendre <strong class="green">62 500 FCFA</strong></li>
-<li>Formule classique : frais 17 500 FCFA → total à rendre <strong class="green">67 500 FCFA</strong></li></ul>
-<p style="margin-top:10px">Par exemple, si vous demandez un nouveau prêt alors qu'un prêt est déjà en cours, le taux d'intérêt augmente : au lieu de 25 % pour une semaine, il passe à 35 % ; au lieu de 35 % pour deux semaines, il passe à 45 %.</p></div></div>
-<div class="section"><div class="section-title">SECTION 5 - ÉCHÉANCE DE REMBOURSEMENT</div><div class="section-content">
-<p>L'Emprunteur s'engage à reverser l'intégralité de la somme due (capital + frais) avant la date butoir calculée comme suit :</p>
-<p><strong>Date butoir = Date de signature du présent acte + Délai retenu (7 ou 14 jours)</strong></p>
-<p>Passé cette échéance, des majorations seront appliquées conformément à la section 6.</p></div></div>
-<div class="section"><div class="section-title">SECTION 6 - MAJORATIONS POUR RETARD</div><div class="section-content">
-<p>En cas de dépassement de la date butoir, les majorations suivantes entrent en vigueur :</p>
-<ul style="margin-left:30px;margin-top:10px"><li><strong class="warning">Majoration quotidienne : 2 500 FCFA par jour de retard</strong></li>
-<li><strong class="warning">À partir du 4ème jour de retard : exigibilité immédiate de la totalité de la somme due</strong></li>
-<li><strong class="warning">Au-delà de 3 jours de retard : engagement des procédures de recouvrement judiciaire</strong></li></ul></div></div>
-<div class="section"><div class="section-title">SECTION 7 - GARANTIES FOURNIES</div><div class="section-content">
-<p>L'Emprunteur remet à titre de garantie les éléments suivants :</p>
-<ol style="margin-left:30px;margin-top:10px"><li><strong>Son document d'identité (passeport original)</strong> – numéro enregistré dans le présent acte</li>
-<li><strong>Un objet de valeur supplémentaire</strong> (appareil téléphonique, ordinateur portable, tablette numérique, bijoux, ou tout autre équipement de valeur)</li></ol>
-<p class="warning" style="margin-top:10px">Ces biens resteront détenus par le Bailleur jusqu'à la libération complète de la dette.</p></div></div>
-<div class="section"><div class="section-title">SECTION 8 - OBLIGATIONS DE L'EMPRUNTEUR</div><div class="section-content">
-<p>L'Emprunteur certifie et s'engage sur l'honneur à :</p>
-<ul style="margin-left:30px;margin-top:10px"><li>Avoir effectivement perçu la somme convenue</li>
-<li>Avoir pris connaissance des taux et majorations applicables</li>
-<li>Restituer l'intégralité de la somme due avant l'échéance fixée</li>
-<li>Être âgé d'au moins 18 ans et juridiquement capable</li>
-<li>Avoir communiqué des informations exactes, sincères et vérifiables</li></ul></div></div>
-<div class="section"><div class="section-title">SECTION 9 - PROCÉDURE DE RECOUVREMENT</div><div class="section-content">
-<p>En cas de défaut de paiement à la date convenue, NEXUS CRÉDIT se réserve le droit d'entreprendre toute action nécessaire au recouvrement, notamment :</p>
-<ul style="margin-left:30px;margin-top:10px"><li>Envoi d'avis de mise en demeure</li><li>Saisie conservatoire des garanties (passeport et bien déposé)</li>
-<li>Poursuite judiciaire devant les juridictions compétentes du Sénégal</li>
-<li>Signalement auprès des organismes de gestion des incidents de crédit</li></ul></div></div>
-<div class="section"><div class="section-title">SECTION 10 - DISCRÉTION</div><div class="section-content">
-<p>L'ensemble des informations fournies par l'Emprunteur sont traitées de manière strictement confidentielle et ne seront utilisées que dans l'exécution du présent contrat.</p></div></div>
-<div class="section"><div class="section-title">SECTION 11 - RÈGLEMENT DES DIFFÉRENDS</div><div class="section-content">
-<p>Tout litige relatif à l'interprétation, l'exécution ou la résiliation du présent acte sera soumis aux tribunaux compétents du Sénégal.</p></div></div>
-<div class="footer"><p>Contrat à lire attentivement avant toute demande - Fait à Dakar, le ${new Date().toLocaleDateString('fr-FR')}</p>
-<p style="margin-top:5px">Conformément aux lois sénégalaises, ce contrat a valeur légale.</p></div></div></body></html>`;
-  const blob = new Blob([contratCompletHTML], {type:'text/html'});
-  const url = URL.createObjectURL(blob);
-  const w = window.open(url, '_blank');
-  if (!w) { const a = document.createElement('a'); a.href=url; a.download='contrat_nexus_credit.html'; a.click(); }
-  setTimeout(() => URL.revokeObjectURL(url), 60000);
-}
-document.getElementById('voirContratNav')?.addEventListener('click', e => { e.preventDefault(); openContratComplet(); });
-document.getElementById('voirContratHero')?.addEventListener('click', e => { e.preventDefault(); openContratComplet(); });
-document.getElementById('footerContract')?.addEventListener('click', e => { e.preventDefault(); openContratComplet(); });
-
-/* ---------- 9. COPIER LIEN ---------- */
-document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
-  navigator.clipboard.writeText(window.location.href);
-  toast('Lien copié ! Partagez-le.');
-});
-
-/* ---------- 10. VALIDATION TEMPS RÉEL ---------- */
-const fields = {
-  nom: { el: document.getElementById('nom'), wrap: document.getElementById('field-nom'), valid: v => v.trim().length >= 3 },
-  telephone: { el: document.getElementById('telephone'), wrap: document.getElementById('field-tel'), valid: v => v.replace(/\D/g,'').length >= 9 },
-  passeport: { el: document.getElementById('passeport'), wrap: document.getElementById('field-passeport'), valid: v => v.trim().length >= 4 },
-  duree: { el: document.getElementById('duree'), wrap: document.getElementById('field-duree'), valid: v => v !== '' },
-  garantie: { el: document.getElementById('garantie'), wrap: document.getElementById('field-garantie'), valid: v => v.trim().length >= 3 }
+/* ---------- 6. ROUTER ---------- */
+const ROUTES = {
+  '/home':            { view: 'home',     public: true },
+  '/login':           { view: 'login',    public: true },
+  '/register':        { view: 'register', public: true },
+  '/client/dashboard':    { view: 'client', role: 'client', render: renderClientDashboard },
+  '/client/requests':     { view: 'client', role: 'client', render: renderClientRequests },
+  '/client/requests/new': { view: 'client', role: 'client', render: renderClientNewRequest },
+  '/client/repayments':   { view: 'client', role: 'client', render: renderClientRepayments },
+  '/client/notifications':{ view: 'client', role: 'client', render: renderClientNotifications },
+  '/client/profile':      { view: 'client', role: 'client', render: renderClientProfile },
+  '/admin/dashboard': { view: 'admin', role: 'admin', render: renderAdminDashboard },
+  '/admin/requests':  { view: 'admin', role: 'admin', render: renderAdminRequests },
+  '/admin/clients':   { view: 'admin', role: 'admin', render: renderAdminClients },
+  '/admin/loans':     { view: 'admin', role: 'admin', render: renderAdminLoans },
+  '/admin/stats':     { view: 'admin', role: 'admin', render: renderAdminStats },
+  '/admin/settings':  { view: 'admin', role: 'admin', render: renderAdminSettings }
 };
-function checkField(key) {
-  const f = fields[key]; if (!f || !f.wrap) return;
-  const ok = f.valid(f.el.value);
-  f.wrap.classList.toggle('valid', ok && f.el.value.length > 0);
-  f.wrap.classList.toggle('error', !ok && f.el.value.length > 0);
-  return ok;
-}
-['nom','telephone','passeport','duree','garantie'].forEach(k => {
-  fields[k].el.addEventListener('input', () => { checkField(k); updateProgress(); updateApercu(); });
-});
-document.getElementById('montant').addEventListener('input', () => { updateProgress(); updateApercu(); });
 
-/* ---------- 11. PROGRESSION WIZARD ---------- */
-function updateProgress() {
-  const ok1 = fields.nom.valid(fields.nom.el.value) && fields.telephone.valid(fields.telephone.el.value)
-    && fields.passeport.valid(fields.passeport.el.value) && fields.duree.valid(fields.duree.el.value)
-    && fields.garantie.valid(fields.garantie.el.value) && (parseInt(document.getElementById('montant').value) >= 5000);
-  document.getElementById('wz1').classList.toggle('active', true);
-  document.getElementById('wz2').classList.toggle('active', ok1);
-  document.getElementById('wz3').classList.toggle('active', ok1 && signatureValidee);
-  document.getElementById('wz4').classList.toggle('active', ok1 && signatureValidee);
+function navigate(path) {
+  if (location.hash !== '#' + path) location.hash = '#' + path;
+  else route();
 }
 
-/* ---------- 12. APERÇU ---------- */
-function updateApercu() {
-  const nom = document.getElementById('nom').value.trim() || '_____';
-  const telephone = document.getElementById('telephone').value.trim() || '_____';
-  const passeport = document.getElementById('passeport').value.trim() || '_____';
-  const montant = parseInt(document.getElementById('montant').value) || 0;
-  const garantie = document.getElementById('garantie').value.trim() || '_____';
-  const duree = document.getElementById('duree').value;
-  document.getElementById('apercuNom').textContent = nom;
-  document.getElementById('apercuTel').textContent = telephone;
-  document.getElementById('apercuPasseport').textContent = passeport;
-  document.getElementById('apercuMontant').textContent = montant.toLocaleString('fr-FR') + ' FCFA';
-  document.getElementById('apercuGarantie').textContent = garantie;
-  if (duree && montant > 0) {
-    const taux = duree === '7' ? 0.25 : 0.35;
-    const interets = Math.round(montant * taux);
-    const total = montant + interets;
-    document.getElementById('apercuDuree').textContent = duree + ' jours';
-    document.getElementById('apercuTotal').textContent = total.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('apercuDate').textContent = getDateRemboursement(duree);
-  } else {
-    document.getElementById('apercuDuree').textContent = '—';
-    document.getElementById('apercuTotal').textContent = '0 FCFA';
-    document.getElementById('apercuDate').textContent = '—';
+function route() {
+  let path = location.hash.replace(/^#/, '') || '/home';
+  // route avec paramètre /client/requests/:id
+  let paramMatch = null;
+  if (!ROUTES[path]) {
+    const m1 = path.match(/^\/client\/requests\/([^/]+)$/);
+    if (m1 && currentUser()?.role === 'client') { routeTo('client', renderClientRequestDetail, m1[1]); return; }
+    const m2 = path.match(/^\/admin\/requests\/([^/]+)$/);
+    if (m2 && currentUser()?.role === 'admin') { routeTo('admin', renderAdminRequestDetail, m2[1]); return; }
+    const m3 = path.match(/^\/admin\/clients\/([^/]+)$/);
+    if (m3 && currentUser()?.role === 'admin') { routeTo('admin', renderAdminClientDetail, m3[1]); return; }
+    path = '/home';
   }
+  const r = ROUTES[path];
+  if (!r) { path = '/home'; return route(); }
+  if (r.public) { showView(r.view); return; }
+  const user = currentUser();
+  if (!user) { toast('Veuillez vous connecter.', 'error'); navigate('/login'); return; }
+  if (r.role && user.role !== r.role) {
+    toast('Accès refusé.', 'error');
+    navigate(user.role === 'admin' ? '/admin/dashboard' : '/client/dashboard');
+    return;
+  }
+  showView(r.view);
+  updateSidebarActive(r.view, path);
+  if (r.render) r.render();
 }
 
-/* ---------- 13. WHATSAPP NUM ---------- */
-const telephoneInput = document.getElementById('telephone');
-const whatsappNumberDisplay = document.getElementById('whatsappNumberDisplay');
-function updateWhatsappNumber() {
-  const phone = telephoneInput.value.trim();
-  whatsappNumberDisplay.textContent = (phone.length >= 9) ? phone : (I18N[currentLang]?.wa_notset || 'Non renseigné');
+function routeTo(view, renderFn, param) {
+  showView(view);
+  updateSidebarActive(view, '');
+  renderFn(param);
 }
-telephoneInput.addEventListener('input', updateWhatsappNumber);
 
-/* ---------- 14. SLIDER MONTANT ---------- */
-const rangeMontant = document.getElementById('montantRange');
-const montantInput = document.getElementById('montant');
-rangeMontant.addEventListener('input', () => { montantInput.value = rangeMontant.value; updateSim(); updateApercu(); });
-montantInput.addEventListener('input', () => { rangeMontant.value = montantInput.value; updateSim(); updateApercu(); });
-
-/* ---------- 15. SIGNATURE CANVAS ---------- */
-const canvas = document.getElementById('signatureCanvas');
-let ctx = canvas.getContext('2d');
-let isDrawing = false, signatureImageData = null, signatureValidee = false, signatureDataURL = '';
-let montantActuel = 0, dureeActuelle = '', totalActuel = 0;
-
-function resizeCanvas() {
-  const w = Math.min(500, canvas.parentElement.clientWidth - 20);
-  canvas.width = w; canvas.height = 180;
-  ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  if (signatureImageData) { const img = new Image(); img.onload = () => ctx.drawImage(img,0,0,canvas.width,canvas.height); img.src = signatureImageData; }
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const v = document.getElementById('view-' + name);
+  if (v) v.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+  closeMobileSidebar();
 }
-function getPos(e) {
-  const rect = canvas.getBoundingClientRect();
-  const sx = canvas.width/rect.width, sy = canvas.height/rect.height;
-  let cx, cy;
-  if (e.touches) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
-  else { cx = e.clientX; cy = e.clientY; }
-  return { x: Math.max(0, Math.min(canvas.width, (cx-rect.left)*sx)), y: Math.max(0, Math.min(canvas.height, (cy-rect.top)*sy)) };
-}
-function startDraw(e){ isDrawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); }
-function draw(e){ if(!isDrawing) return; e.preventDefault(); const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
-function stopDraw(){ isDrawing=false; ctx.beginPath(); }
-canvas.addEventListener('mousedown', startDraw);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', stopDraw);
-canvas.addEventListener('mouseleave', stopDraw);
-canvas.addEventListener('touchstart', startDraw);
-canvas.addEventListener('touchmove', draw);
-canvas.addEventListener('touchend', stopDraw);
 
-document.getElementById('clearCanvas').addEventListener('click', () => {
-  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-  signatureImageData = null; signatureValidee = false;
-  document.getElementById('signCheck').checked = false;
-  updateProgress(); toast('Signature effacée.', 'info');
+function updateSidebarActive(view, path) {
+  const prefix = view === 'admin' ? 'admin' : 'client';
+  document.querySelectorAll(`#${prefix}Sidebar .sb-link`).forEach(l => {
+    l.classList.toggle('active', l.dataset.route === path);
+  });
+  updateBadges();
+}
+
+window.addEventListener('hashchange', route);
+
+/* ---------- 7. LOGIN / REGISTER / LOGOUT ---------- */
+document.getElementById('doLogin').addEventListener('click', () => {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const users = DB.users();
+  if (!users[u]) return toast('Utilisateur introuvable.', 'error');
+  if (users[u].password !== hashPass(p)) return toast('Mot de passe incorrect.', 'error');
+  setSession({ username: u });
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  toast(`Bienvenue ${users[u].name} !`);
+  fireConfetti();
+  navigate(users[u].role === 'admin' ? '/admin/dashboard' : '/client/dashboard');
 });
 
-/* ---------- 16. VALIDATION SIGNATURE ---------- */
-const signCheckbox = document.getElementById('signCheck');
-const validateBtn = document.getElementById('validateSignBtn');
-const newValidateBtn = validateBtn.cloneNode(true);
-validateBtn.parentNode.replaceChild(newValidateBtn, validateBtn);
-newValidateBtn.addEventListener('click', () => {
-  const nom = document.getElementById('nom').value.trim();
-  const tel = document.getElementById('telephone').value.trim();
-  const pass = document.getElementById('passeport').value.trim();
-  const guar = document.getElementById('garantie').value.trim();
-  const px = ctx.getImageData(0,0,canvas.width,canvas.height);
-  let hasSig = false;
-  for (let i=0;i<px.data.length;i+=4) if (px.data[i]<250||px.data[i+1]<250||px.data[i+2]<250) { hasSig = true; break; }
-  if (!nom) return toast('Remplissez votre NOM.', 'error');
-  if (!tel) return toast('Remplissez votre TÉLÉPHONE.', 'error');
-  if (!pass) return toast('Remplissez votre PASSEPORT.', 'error');
-  if (!guar) return toast('Remplissez votre GARANTIE.', 'error');
-  if (!hasSig) return toast('Dessinez votre signature.', 'error');
-  if (!signCheckbox.checked) return toast('Cochez la case d\'acceptation.', 'error');
-  signatureDataURL = canvas.toDataURL();
-  signatureValidee = true;
-  updateProgress();
-  toast('Signature enregistrée !');
+document.getElementById('doRegister').addEventListener('click', () => {
+  const n = document.getElementById('regName').value.trim();
+  const u = document.getElementById('regUser').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const p = document.getElementById('regPass').value;
+  if (n.length < 3) return toast('Nom trop court.', 'error');
+  if (u.length < 3) return toast('Identifiant trop court (3 min).', 'error');
+  if (!/^[a-zA-Z0-9_.-]+$/.test(u)) return toast('Identifiant invalide.', 'error');
+  if (phone.replace(/\D/g,'').length < 9) return toast('Téléphone invalide.', 'error');
+  if (p.length < 4) return toast('Mot de passe trop court (4 min).', 'error');
+  const users = DB.users();
+  if (users[u]) return toast('Identifiant déjà pris.', 'error');
+  users[u] = { password: hashPass(p), name: n, phone, role: 'client', created: new Date().toISOString() };
+  DB.saveUsers(users);
+  toast('Compte créé ! Connectez-vous.');
+  document.getElementById('regName').value = '';
+  document.getElementById('regUser').value = '';
+  document.getElementById('regPhone').value = '';
+  document.getElementById('regPass').value = '';
+  navigate('/login');
 });
 
-/* ---------- 17. PDF CONTRAT ---------- */
-document.getElementById('openContractBtn')?.addEventListener('click', function() {
-  if (!signatureValidee) return toast("Validez d'abord votre signature.", 'error');
-  const nom = document.getElementById('nom').value.trim();
-  const telephone = document.getElementById('telephone').value.trim();
-  const passeport = document.getElementById('passeport').value.trim();
-  const montant = montantActuel, duree = dureeActuelle;
-  const taux = duree === '7' ? '25%' : '35%';
-  const total = totalActuel;
-  const garantie = document.getElementById('garantie').value.trim();
-  const message = document.getElementById('message').value.trim();
+function logout() {
+  if (!confirm('Se déconnecter ?')) return;
+  clearSession();
+  toast('Déconnecté.', 'info');
+  navigate('/home');
+}
+
+/* ---------- 8. BADGES ---------- */
+function updateBadges() {
+  const user = currentUser();
+  if (!user) return;
+  if (user.role === 'admin') {
+    const pending = DB.requests().filter(r => r.status === 'pending').length;
+    const b = document.getElementById('adminPendingBadge');
+    if (b) { b.style.display = pending ? 'inline-block' : 'none'; b.textContent = pending; }
+  }
+  const notifs = DB.notifs().filter(n => n.to === user.username && !n.read).length;
+  const nb = document.getElementById('clientNotifBadge');
+  if (nb) { nb.style.display = notifs ? 'inline-block' : 'none'; nb.textContent = notifs; }
+}
+
+/* ---------- 9. CLIENT RENDERS ---------- */
+function renderClientDashboard() {
+  const user = currentUser();
+  const reqs = DB.requests().filter(r => r.clientUsername === user.username);
+  const totalBorrowed = reqs.reduce((s,r) => s + r.montant, 0);
+  const totalDue = reqs.reduce((s,r) => s + r.total, 0);
+  const active = reqs.filter(r => r.status === 'approved' || r.status === 'ongoing').length;
+  const pending = reqs.filter(r => r.status === 'pending').length;
+
+  const recent = reqs.slice(-3).reverse();
+
+  document.getElementById('clientContent').innerHTML = `
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">Bonjour, ${user.name} 👋</h1>
+        <p class="page-subtitle">Voici un résumé de votre activité.</p>
+      </div>
+      <button class="btn btn-primary" onclick="navigate('/client/requests/new')">➕ Nouvelle demande</button>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Demandes</div><div class="kpi-value">${reqs.length}</div><div class="kpi-sub">${pending} en attente</div></div>
+      <div class="kpi"><div class="kpi-label">Total emprunté</div><div class="kpi-value">${totalBorrowed.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
+      <div class="kpi"><div class="kpi-label">Total à rembourser</div><div class="kpi-value">${totalDue.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
+      <div class="kpi"><div class="kpi-label">Prêts actifs</div><div class="kpi-value">${active}</div><div class="kpi-sub">En cours</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Demandes récentes</div>
+      ${recent.length ? recent.map(r => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border-2);gap:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:800">${r.montant.toLocaleString('fr-FR')} FCFA · ${r.duree}j</div>
+            <div style="font-size:12px;color:var(--muted)">${r.dateCreation} · ${r.id.slice(-6)}</div>
+          </div>
+          <span class="badge badge-${r.status}">${statusLabel(r.status)}</span>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('/client/requests/${r.id}')">Détails →</button>
+        </div>
+      `).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande pour l'instant.</div>`}
+    </div>
+  `;
+}
+
+function renderClientRequests() {
+  const user = currentUser();
+  const reqs = DB.requests().filter(r => r.clientUsername === user.username).slice().reverse();
+  document.getElementById('clientContent').innerHTML = `
+    <div class="page-head">
+      <div><h1 class="page-title">📋 Mes demandes</h1><p class="page-subtitle">Suivez l'état de chacune de vos demandes.</p></div>
+      <button class="btn btn-primary" onclick="navigate('/client/requests/new')">➕ Nouvelle demande</button>
+    </div>
+    ${reqs.length ? `
+      <div class="table-wrap"><table>
+        <thead><tr><th>Date</th><th>Montant</th><th>Durée</th><th>Total</th><th>Échéance</th><th>Statut</th><th></th></tr></thead>
+        <tbody>${reqs.map(r => `
+          <tr>
+            <td>${r.dateCreation}</td>
+            <td class="mono">${r.montant.toLocaleString('fr-FR')}</td>
+            <td>${r.duree}j</td>
+            <td class="mono" style="color:var(--green)">${r.total.toLocaleString('fr-FR')}</td>
+            <td>${r.dateRemboursement}</td>
+            <td><span class="badge badge-${r.status}">${statusLabel(r.status)}</span></td>
+            <td><button class="btn btn-ghost btn-sm" onclick="navigate('/client/requests/${r.id}')">Voir</button></td>
+          </tr>`).join('')}</tbody>
+      </table></div>
+    ` : `<div class="empty"><div class="empty-icon">📭</div>Vous n'avez encore fait aucune demande.<br><br><button class="btn btn-primary" onclick="navigate('/client/requests/new')">Faire ma première demande</button></div>`}
+  `;
+}
+
+function renderClientRequestDetail(id) {
+  const user = currentUser();
+  const r = DB.requests().find(x => x.id === id && x.clientUsername === user.username);
+  if (!r) { toast('Demande introuvable.', 'error'); navigate('/client/requests'); return; }
+  const steps = ['pending','approved','ongoing','done'];
+  const current = steps.indexOf(r.status === 'rejected' ? 'pending' : r.status);
+  document.getElementById('clientContent').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="navigate('/client/requests')">← Retour</button>
+    <div class="page-head" style="margin-top:16px;">
+      <div><h1 class="page-title">Demande ${r.id.slice(-6)}</h1><p class="page-subtitle">Créée le ${r.dateCreation}</p></div>
+      <span class="badge badge-${r.status}" style="font-size:13px;padding:8px 16px;">${statusLabel(r.status)}</span>
+    </div>
+    ${r.status === 'rejected' ? `<div class="card" style="border-color:var(--red);margin-bottom:20px;"><strong style="color:var(--red)">❌ Demande refusée</strong><p style="color:var(--muted);font-size:13px;margin-top:6px;">${r.rejectionReason || 'Motif non précisé.'}</p></div>` : `
+      <div class="wizard">
+        ${steps.map((s,i) => `<div class="wiz-step ${i <= current ? 'active' : ''}"><span class="n">${i+1}</span>${statusLabel(s)}</div>`).join('')}
+      </div>
+    `}
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">📋 Détails</div>
+      <div class="detail-row"><div class="detail-key">Montant emprunté</div><div class="detail-val">${r.montant.toLocaleString('fr-FR')} FCFA</div></div>
+      <div class="detail-row"><div class="detail-key">Durée</div><div class="detail-val">${r.duree} jours</div></div>
+      <div class="detail-row"><div class="detail-key">Taux</div><div class="detail-val">+${r.duree === '7' ? '25' : '35'}%</div></div>
+      <div class="detail-row"><div class="detail-key">Total à rembourser</div><div class="detail-val" style="color:var(--green)">${r.total.toLocaleString('fr-FR')} FCFA</div></div>
+      <div class="detail-row"><div class="detail-key">Date d'échéance</div><div class="detail-val" style="color:var(--gold)">${r.dateRemboursement}</div></div>
+      <div class="detail-row"><div class="detail-key">Garantie</div><div class="detail-val">${r.garantie}</div></div>
+      <div class="detail-row"><div class="detail-key">Passeport</div><div class="detail-val">${r.passeport}</div></div>
+    </div>
+    ${r.status === 'approved' || r.status === 'ongoing' ? `
+      <div class="card">
+        <div class="card-title">💳 Suivi du remboursement</div>
+        <div class="progress" style="margin:12px 0;"><div style="width:${r.status === 'ongoing' ? '60' : '25'}%"></div></div>
+        <p style="font-size:13px;color:var(--muted);">Échéance : <strong style="color:var(--gold)">${r.dateRemboursement}</strong> · Pénalité de retard : 2 500 FCFA/jour</p>
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderClientNewRequest() {
+  const user = currentUser();
+  document.getElementById('clientContent').innerHTML = `
+    <div class="page-head">
+      <div><h1 class="page-title">➕ Nouvelle demande</h1><p class="page-subtitle">Remplissez le formulaire et signez électroniquement.</p></div>
+    </div>
+    <div class="card" style="max-width:900px;">
+      <div class="wizard">
+        <div class="wiz-step active" id="wz1"><span class="n">1</span>Infos</div>
+        <div class="wiz-step" id="wz2"><span class="n">2</span>Signature</div>
+        <div class="wiz-step" id="wz3"><span class="n">3</span>PDF</div>
+        <div class="wiz-step" id="wz4"><span class="n">4</span>Envoi</div>
+      </div>
+      <form id="newReqForm" novalidate>
+        <div class="form-grid">
+          <div class="field" id="f-nom"><label>Nom complet <span class="req">*</span></label><input type="text" id="r-nom" value="${user.name}" required><div class="err">Nom requis.</div></div>
+          <div class="field" id="f-tel"><label>Téléphone WhatsApp <span class="req">*</span></label><input type="tel" id="r-tel" value="${user.phone || ''}" required><div class="err">Téléphone invalide.</div></div>
+          <div class="field" id="f-pass"><label>Numéro Passeport <span class="req">*</span></label><input type="text" id="r-pass" placeholder="Ex: 19AB12345" required><div class="err">Passeport requis.</div></div>
+          <div class="field" id="f-guar"><label>Garantie <span class="req">*</span></label><input type="text" id="r-guar" placeholder="Ex: Passeport + Téléphone" required><div class="err">Garantie requise.</div></div>
+          <div class="field full"><label>Montant (FCFA) <span class="req">*</span></label><input type="range" id="r-range" min="5000" max="500000" step="5000" value="50000"><input type="number" id="r-montant" value="50000" min="5000" step="1000" required><div class="err">Montant ≥ 5 000 FCFA.</div></div>
+          <div class="field" id="f-dur"><label>Durée <span class="req">*</span></label><select id="r-duree" required><option value="">-- Choisir --</option><option value="7">7 jours (+25%)</option><option value="14">14 jours (+35%)</option></select><div class="err">Choisir une durée.</div></div>
+          <div class="field full"><label>Message (optionnel)</label><textarea id="r-msg" rows="2" placeholder="Raison du prêt…"></textarea></div>
+        </div>
+
+        <div class="card" style="background:var(--surface-2);margin:16px 0;">
+          <div style="font-weight:800;margin-bottom:8px;">💡 Simulation</div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Montant</span><span class="mono" id="sim-m">—</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Intérêts</span><span class="mono" style="color:var(--red)" id="sim-i">—</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Échéance</span><span class="mono" style="color:var(--gold)" id="sim-d">—</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;font-weight:800;"><span>Total à rembourser</span><span class="mono" style="color:var(--green)" id="sim-t">—</span></div>
+        </div>
+
+        <div class="card" style="background:var(--surface-2);margin:16px 0;">
+          <div style="font-weight:800;margin-bottom:12px;color:var(--gold);">✍️ Signature manuscrite</div>
+          <div class="canvas-wrap"><canvas id="sigCanvas" width="600" height="200"></canvas></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+            <button type="button" class="btn btn-ghost btn-sm" id="clearSig">🗑️ Effacer</button>
+          </div>
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:12px;">
+            <input type="checkbox" id="sigCheck" style="width:18px;height:18px;accent-color:var(--green);">
+            Je certifie que cette signature est la mienne et j'accepte le contrat.
+          </label>
+          <button type="button" class="btn btn-primary btn-block" id="validSig" style="background:var(--gold);color:#1a1206;">✅ Valider ma signature</button>
+          <button type="button" class="btn btn-ghost btn-block" id="genPdf" style="margin-top:8px;">📄 Générer mon contrat PDF</button>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" style="padding:16px;">📤 Soumettre ma demande</button>
+      </form>
+    </div>
+  `;
+  initNewRequestForm();
+}
+
+let _sigData = null, _sigValid = false;
+function initNewRequestForm() {
+  _sigData = null; _sigValid = false;
+  const canvas = document.getElementById('sigCanvas');
+  const ctx = canvas.getContext('2d');
+  function resize() {
+    const w = Math.min(600, canvas.parentElement.clientWidth - 4);
+    canvas.width = w; canvas.height = 180;
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  let drawing = false;
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const sx = canvas.width/r.width, sy = canvas.height/r.height;
+    let x, y;
+    if (e.touches) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
+    else { x = e.clientX; y = e.clientY; }
+    return { x: (x-r.left)*sx, y: (y-r.top)*sy };
+  }
+  function start(e) { drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); }
+  function move(e) { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
+  function end() { drawing = false; ctx.beginPath(); }
+  canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end); canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start); canvas.addEventListener('touchmove', move); canvas.addEventListener('touchend', end);
+
+  document.getElementById('clearSig').onclick = () => { resize(); _sigValid = false; toast('Signature effacée.', 'info'); };
+  document.getElementById('validSig').onclick = () => {
+    const px = ctx.getImageData(0,0,canvas.width,canvas.height);
+    let has = false;
+    for (let i=0;i<px.data.length;i+=4) if (px.data[i]<250||px.data[i+1]<250||px.data[i+2]<250) { has = true; break; }
+    if (!has) return toast('Dessinez votre signature.', 'error');
+    if (!document.getElementById('sigCheck').checked) return toast('Cochez la case d\'acceptation.', 'error');
+    _sigData = canvas.toDataURL();
+    _sigValid = true;
+    document.getElementById('wz2').classList.add('active');
+    toast('Signature validée !');
+  };
+
+  // sync
+  const rangeM = document.getElementById('r-range');
+  const inputM = document.getElementById('r-montant');
+  rangeM.oninput = () => { inputM.value = rangeM.value; updateNewSim(); };
+  inputM.oninput = () => { rangeM.value = inputM.value; updateNewSim(); };
+  document.getElementById('r-duree').onchange = updateNewSim;
+  function updateNewSim() {
+    const m = parseInt(inputM.value) || 0;
+    const d = document.getElementById('r-duree').value;
+    if (m > 0 && d) {
+      const taux = d === '7' ? 0.25 : 0.35;
+      const ints = Math.round(m * taux);
+      const total = m + ints;
+      document.getElementById('sim-m').textContent = m.toLocaleString('fr-FR') + ' FCFA';
+      document.getElementById('sim-i').textContent = '+ ' + ints.toLocaleString('fr-FR') + ' FCFA';
+      document.getElementById('sim-d').textContent = getDueDate(d);
+      document.getElementById('sim-t').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+    } else {
+      ['sim-m','sim-i','sim-d','sim-t'].forEach(id => document.getElementById(id).textContent = '—');
+    }
+  }
+  updateNewSim();
+
+  document.getElementById('genPdf').onclick = () => {
+    if (!_sigValid) return toast('Validez d\'abord votre signature.', 'error');
+    generateContractPdf({
+      nom: document.getElementById('r-nom').value.trim(),
+      telephone: document.getElementById('r-tel').value.trim(),
+      passeport: document.getElementById('r-pass').value.trim(),
+      garantie: document.getElementById('r-guar').value.trim(),
+      montant: parseInt(inputM.value) || 0,
+      duree: document.getElementById('r-duree').value,
+      message: document.getElementById('r-msg').value.trim(),
+      signatureDataURL: _sigData
+    });
+  };
+
+  document.getElementById('newReqForm').onsubmit = (e) => {
+    e.preventDefault();
+    if (!_sigValid) return toast('Validez votre signature.', 'error');
+    const data = {
+      nom: document.getElementById('r-nom').value.trim(),
+      telephone: document.getElementById('r-tel').value.trim(),
+      passeport: document.getElementById('r-pass').value.trim(),
+      garantie: document.getElementById('r-guar').value.trim(),
+      montant: parseInt(inputM.value) || 0,
+      duree: document.getElementById('r-duree').value,
+      message: document.getElementById('r-msg').value.trim()
+    };
+    if (!data.nom || !data.telephone || !data.passeport || !data.garantie || !data.duree || data.montant < 5000) {
+      return toast('Remplissez tous les champs.', 'error');
+    }
+    const taux = data.duree === '7' ? 0.25 : 0.35;
+    const total = Math.round(data.montant * (1 + taux));
+    const reqs = DB.requests();
+    const newId = uid();
+    reqs.push({
+      id: newId,
+      clientUsername: currentUser().username,
+      ...data,
+      total,
+      status: 'pending',
+      dateCreation: new Date().toLocaleDateString('fr-FR'),
+      dateRemboursement: getDueDate(data.duree)
+    });
+    DB.saveRequests(reqs);
+    // notif client
+    const notifs = DB.notifs();
+    notifs.push({ id: uid(), to: currentUser().username, title: '📩 Demande soumise', desc: `${data.montant.toLocaleString('fr-FR')} FCFA · en attente de validation`, read: false, date: new Date().toISOString() });
+    DB.saveNotifs(notifs);
+    // notif admin
+    notifs.push({ id: uid(), to: 'admin', title: '🔔 Nouvelle demande', desc: `${data.nom} — ${data.montant.toLocaleString('fr-FR')} FCFA`, read: false, date: new Date().toISOString() });
+    DB.saveNotifs(notifs);
+
+    // WhatsApp
+    const txt = `NOUVELLE DEMANDE - NEXUS CREDIT\n---\nNom: ${data.nom}\nTel: ${data.telephone}\nPasseport: ${data.passeport}\nMontant: ${data.montant.toLocaleString('fr-FR')} FCFA\nDurée: ${data.duree}j\nÉchéance: ${getDueDate(data.duree)}\nTotal: ${total.toLocaleString('fr-FR')} FCFA\nGarantie: ${data.garantie}\n---\nSignature validée. J'envoie le PDF.`;
+    const waUrl = `https://wa.me/221786649062?text=${encodeURIComponent(txt)}`;
+    fireConfetti();
+    toast('Demande envoyée !');
+    setTimeout(() => window.open(waUrl, '_blank'), 500);
+    setTimeout(() => navigate('/client/requests/' + newId), 1200);
+  };
+}
+
+function renderClientRepayments() {
+  const user = currentUser();
+  const active = DB.requests().filter(r => r.clientUsername === user.username && (r.status === 'approved' || r.status === 'ongoing'));
+  document.getElementById('clientContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">💳 Remboursements</h1><p class="page-subtitle">Prêts en cours et échéances.</p></div></div>
+    ${active.length ? active.map(r => `
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-weight:900;font-size:1.1rem;">${r.total.toLocaleString('fr-FR')} FCFA</div>
+            <div style="font-size:12px;color:var(--muted)">Emprunté le ${r.dateCreation} · ${r.duree}j</div>
+          </div>
+          <span class="badge badge-${r.status}">${statusLabel(r.status)}</span>
+        </div>
+        <div class="progress" style="margin:14px 0;"><div style="width:${r.status === 'ongoing' ? '60' : '25'}%"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);">
+          <span>Échéance : <strong style="color:var(--gold)">${r.dateRemboursement}</strong></span>
+          <span>Pénalité : 2 500 FCFA/jour</span>
+        </div>
+      </div>
+    `).join('') : `<div class="empty"><div class="empty-icon">💳</div>Aucun prêt actif.</div>`}
+  `;
+}
+
+function renderClientNotifications() {
+  const user = currentUser();
+  const notifs = DB.notifs().filter(n => n.to === user.username).slice().reverse();
+  // marquer comme lues
+  const all = DB.notifs();
+  all.forEach(n => { if (n.to === user.username) n.read = true; });
+  DB.saveNotifs(all);
+  updateBadges();
+  document.getElementById('clientContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">🔔 Notifications</h1><p class="page-subtitle">Toutes vos alertes.</p></div></div>
+    ${notifs.length ? `<div class="card">${notifs.map(n => `
+      <div style="padding:14px 0;border-bottom:1px solid var(--border-2);">
+        <div style="font-weight:800;">${n.title}</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:4px;">${n.desc}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">${new Date(n.date).toLocaleString('fr-FR')}</div>
+      </div>
+    `).join('')}</div>` : `<div class="empty"><div class="empty-icon">🔔</div>Aucune notification.</div>`}
+  `;
+}
+
+function renderClientProfile() {
+  const user = currentUser();
+  const u = DB.users()[user.username];
+  document.getElementById('clientContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">👤 Mon profil</h1></div></div>
+    <div class="card" style="max-width:600px;">
+      <div class="field"><label>Nom complet</label><input type="text" id="p-name" value="${u.name}"></div>
+      <div class="field"><label>Téléphone</label><input type="tel" id="p-phone" value="${u.phone || ''}"></div>
+      <div class="field"><label>Identifiant</label><input type="text" value="${user.username}" disabled></div>
+      <div class="field"><label>Rôle</label><input type="text" value="${u.role}" disabled></div>
+      <div class="field"><label>Nouveau mot de passe (optionnel)</label><input type="password" id="p-pass" placeholder="Laisser vide pour ne pas changer"></div>
+      <button class="btn btn-primary" id="saveProfile">💾 Enregistrer</button>
+    </div>
+  `;
+  document.getElementById('saveProfile').onclick = () => {
+    const users = DB.users();
+    const cur = users[user.username];
+    cur.name = document.getElementById('p-name').value.trim() || cur.name;
+    cur.phone = document.getElementById('p-phone').value.trim();
+    const np = document.getElementById('p-pass').value;
+    if (np) { if (np.length < 4) return toast('Mot de passe trop court.', 'error'); cur.password = hashPass(np); }
+    DB.saveUsers(users);
+    toast('Profil mis à jour !');
+    setTimeout(() => renderClientProfile(), 600);
+  };
+}
+
+/* ---------- 10. ADMIN RENDERS ---------- */
+function renderAdminDashboard() {
+  const reqs = DB.requests();
+  const users = DB.users();
+  const clients = Object.entries(users).filter(([u, d]) => d.role === 'client');
+  const totalBorrowed = reqs.filter(r => r.status !== 'rejected').reduce((s,r) => s + r.montant, 0);
+  const totalDue = reqs.filter(r => r.status !== 'rejected').reduce((s,r) => s + r.total, 0);
+  const pending = reqs.filter(r => r.status === 'pending').length;
+  const active = reqs.filter(r => r.status === 'approved' || r.status === 'ongoing').length;
+  const done = reqs.filter(r => r.status === 'done').length;
+  const recent = reqs.slice(-5).reverse();
+
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head">
+      <div><h1 class="page-title">🛡️ Vue d'ensemble</h1><p class="page-subtitle">Pilotage global de la plateforme.</p></div>
+      <button class="btn btn-ghost btn-sm" onclick="navigate('/admin/requests')">Voir toutes les demandes →</button>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Demandes totales</div><div class="kpi-value">${reqs.length}</div><div class="kpi-sub">${pending} en attente</div></div>
+      <div class="kpi"><div class="kpi-label">Clients inscrits</div><div class="kpi-value">${clients.length}</div></div>
+      <div class="kpi"><div class="kpi-label">Capital prêté</div><div class="kpi-value">${totalBorrowed.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
+      <div class="kpi"><div class="kpi-label">Encaissement attendu</div><div class="kpi-value">${totalDue.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
+      <div class="kpi"><div class="kpi-label">Prêts actifs</div><div class="kpi-value">${active}</div></div>
+      <div class="kpi"><div class="kpi-label">Terminés</div><div class="kpi-value">${done}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Demandes récentes</div>
+      ${recent.length ? recent.map(r => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-2);gap:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:800;">${r.nom} · ${r.montant.toLocaleString('fr-FR')} FCFA</div>
+            <div style="font-size:12px;color:var(--muted)">${r.dateCreation} · ${r.duree}j</div>
+          </div>
+          <span class="badge badge-${r.status}">${statusLabel(r.status)}</span>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('/admin/requests/${r.id}')">Traiter</button>
+        </div>
+      `).join('') : `<div class="empty">Aucune demande.</div>`}
+    </div>
+  `;
+}
+
+function renderAdminRequests() {
+  const reqs = DB.requests().slice().reverse();
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head">
+      <div><h1 class="page-title">📋 Toutes les demandes</h1><p class="page-subtitle">${reqs.length} demandes au total.</p></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+      <button class="btn btn-ghost btn-sm filter-btn active" data-filter="all">Toutes</button>
+      <button class="btn btn-ghost btn-sm filter-btn" data-filter="pending">En attente</button>
+      <button class="btn btn-ghost btn-sm filter-btn" data-filter="approved">Approuvées</button>
+      <button class="btn btn-ghost btn-sm filter-btn" data-filter="ongoing">En cours</button>
+      <button class="btn btn-ghost btn-sm filter-btn" data-filter="done">Terminées</button>
+      <button class="btn btn-ghost btn-sm filter-btn" data-filter="rejected">Refusées</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Client</th><th>Montant</th><th>Durée</th><th>Total</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody id="adminReqTbody"></tbody>
+    </table></div>
+  `;
+  function renderRows(filter = 'all') {
+    const list = filter === 'all' ? reqs : reqs.filter(r => r.status === filter);
+    const tbody = document.getElementById('adminReqTbody');
+    if (!list.length) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">Aucune demande.</td></tr>`; return; }
+    tbody.innerHTML = list.map(r => `
+      <tr>
+        <td>${r.dateCreation}</td>
+        <td><strong>${r.nom}</strong><br><span style="font-size:11px;color:var(--muted)">${r.telephone}</span></td>
+        <td class="mono">${r.montant.toLocaleString('fr-FR')}</td>
+        <td>${r.duree}j</td>
+        <td class="mono" style="color:var(--green)">${r.total.toLocaleString('fr-FR')}</td>
+        <td><span class="badge badge-${r.status}">${statusLabel(r.status)}</span></td>
+        <td><button class="btn btn-ghost btn-sm" onclick="navigate('/admin/requests/${r.id}')">Gérer</button></td>
+      </tr>
+    `).join('');
+  }
+  renderRows('all');
+  document.querySelectorAll('.filter-btn').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderRows(b.dataset.filter);
+  });
+}
+
+function renderAdminRequestDetail(id) {
+  const r = DB.requests().find(x => x.id === id);
+  if (!r) { toast('Demande introuvable.', 'error'); navigate('/admin/requests'); return; }
+  document.getElementById('adminContent').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="navigate('/admin/requests')">← Retour</button>
+    <div class="page-head" style="margin-top:16px;">
+      <div><h1 class="page-title">Demande ${r.id.slice(-6)}</h1><p class="page-subtitle">${r.nom} · ${r.dateCreation}</p></div>
+      <span class="badge badge-${r.status}" style="font-size:13px;padding:8px 16px;">${statusLabel(r.status)}</span>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">📋 Informations</div>
+      <div class="detail-row"><div class="detail-key">Client</div><div class="detail-val">${r.nom} (${r.clientUsername})</div></div>
+      <div class="detail-row"><div class="detail-key">Téléphone</div><div class="detail-val">${r.telephone}</div></div>
+      <div class="detail-row"><div class="detail-key">Passeport</div><div class="detail-val">${r.passeport}</div></div>
+      <div class="detail-row"><div class="detail-key">Garantie</div><div class="detail-val">${r.garantie}</div></div>
+      <div class="detail-row"><div class="detail-key">Montant</div><div class="detail-val">${r.montant.toLocaleString('fr-FR')} FCFA</div></div>
+      <div class="detail-row"><div class="detail-key">Durée</div><div class="detail-val">${r.duree} jours</div></div>
+      <div class="detail-row"><div class="detail-key">Total</div><div class="detail-val" style="color:var(--green)">${r.total.toLocaleString('fr-FR')} FCFA</div></div>
+      <div class="detail-row"><div class="detail-key">Échéance</div><div class="detail-val" style="color:var(--gold)">${r.dateRemboursement}</div></div>
+      ${r.message ? `<div class="detail-row"><div class="detail-key">Message</div><div class="detail-val">${r.message}</div></div>` : ''}
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Actions</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        ${r.status === 'pending' ? `
+          <button class="btn btn-success" onclick="adminAction('${r.id}','approved')">✅ Approuver</button>
+          <button class="btn btn-danger" onclick="adminReject('${r.id}')">❌ Refuser</button>
+        ` : ''}
+        ${r.status === 'approved' ? `<button class="btn btn-primary" onclick="adminAction('${r.id}','ongoing')">🔄 Marquer en cours</button>` : ''}
+        ${r.status === 'ongoing' ? `<button class="btn btn-success" onclick="adminAction('${r.id}','done')">✅ Marquer terminé</button>` : ''}
+        ${r.status === 'done' || r.status === 'rejected' ? `<p style="color:var(--muted);font-size:13px;">Aucune action disponible.</p>` : ''}
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-2);display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-ghost btn-sm" href="https://wa.me/221${r.telephone.replace(/\D/g,'')}" target="_blank">💬 WhatsApp client</a>
+        <button class="btn btn-ghost btn-sm" onclick="adminNotify('${r.clientUsername}','Mise à jour de votre demande ${r.id.slice(-6)}')">🔔 Notifier le client</button>
+      </div>
+    </div>
+  `;
+}
+
+function adminAction(id, status) {
+  const reqs = DB.requests();
+  const r = reqs.find(x => x.id === id);
+  if (!r) return;
+  r.status = status;
+  DB.saveRequests(reqs);
+  const notifs = DB.notifs();
+  const labels = { approved: '✅ approuvée', ongoing: '🔄 en cours', done: '✅ terminée' };
+  notifs.push({ id: uid(), to: r.clientUsername, title: 'Mise à jour', desc: `Votre demande ${r.id.slice(-6)} est ${labels[status] || status}.`, read: false, date: new Date().toISOString() });
+  DB.saveNotifs(notifs);
+  toast('Statut mis à jour.');
+  renderAdminRequestDetail(id);
+  updateBadges();
+}
+
+function adminReject(id) {
+  const reason = prompt('Motif du refus (optionnel) :') || 'Non précisé';
+  const reqs = DB.requests();
+  const r = reqs.find(x => x.id === id);
+  if (!r) return;
+  r.status = 'rejected';
+  r.rejectionReason = reason;
+  DB.saveRequests(reqs);
+  const notifs = DB.notifs();
+  notifs.push({ id: uid(), to: r.clientUsername, title: '❌ Demande refusée', desc: `Demande ${r.id.slice(-6)} refusée. Motif : ${reason}`, read: false, date: new Date().toISOString() });
+  DB.saveNotifs(notifs);
+  toast('Demande refusée.', 'info');
+  renderAdminRequestDetail(id);
+  updateBadges();
+}
+
+function adminNotify(username, msg) {
+  const notifs = DB.notifs();
+  notifs.push({ id: uid(), to: username, title: '🔔 Message administrateur', desc: msg, read: false, date: new Date().toISOString() });
+  DB.saveNotifs(notifs);
+  toast('Notification envoyée au client.');
+}
+
+function renderAdminClients() {
+  const users = DB.users();
+  const reqs = DB.requests();
+  const clients = Object.entries(users).filter(([u,d]) => d.role === 'client');
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">👥 Clients</h1><p class="page-subtitle">${clients.length} clients inscrits.</p></div></div>
+    ${clients.length ? `<div class="table-wrap"><table>
+      <thead><tr><th>Nom</th><th>Identifiant</th><th>Téléphone</th><th>Demandes</th><th>Total emprunté</th><th></th></tr></thead>
+      <tbody>${clients.map(([u, d]) => {
+        const cr = reqs.filter(r => r.clientUsername === u);
+        const tot = cr.reduce((s,r) => s + r.montant, 0);
+        return `<tr>
+          <td><strong>${d.name}</strong></td>
+          <td class="mono">${u}</td>
+          <td>${d.phone || '—'}</td>
+          <td>${cr.length}</td>
+          <td class="mono" style="color:var(--green)">${tot.toLocaleString('fr-FR')} FCFA</td>
+          <td><button class="btn btn-ghost btn-sm" onclick="navigate('/admin/clients/${u}')">Fiche</button></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>` : `<div class="empty"><div class="empty-icon">👥</div>Aucun client inscrit.</div>`}
+  `;
+}
+
+function renderAdminClientDetail(username) {
+  const users = DB.users();
+  const u = users[username];
+  if (!u) { toast('Client introuvable.', 'error'); navigate('/admin/clients'); return; }
+  const reqs = DB.requests().filter(r => r.clientUsername === username).slice().reverse();
+  document.getElementById('adminContent').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="navigate('/admin/clients')">← Retour</button>
+    <div class="page-head" style="margin-top:16px;">
+      <div><h1 class="page-title">${u.name}</h1><p class="page-subtitle">${username} · ${u.phone || '—'}</p></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Demandes</div><div class="kpi-value">${reqs.length}</div></div>
+      <div class="kpi"><div class="kpi-label">Total emprunté</div><div class="kpi-value">${reqs.reduce((s,r)=>s+r.montant,0).toLocaleString('fr-FR')}</div></div>
+      <div class="kpi"><div class="kpi-label">Total dû</div><div class="kpi-value">${reqs.reduce((s,r)=>s+r.total,0).toLocaleString('fr-FR')}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Historique</div>
+      ${reqs.length ? reqs.map(r => `
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-2);gap:12px;flex-wrap:wrap;">
+          <div><div style="font-weight:800;">${r.montant.toLocaleString('fr-FR')} FCFA · ${r.duree}j</div><div style="font-size:12px;color:var(--muted)">${r.dateCreation}</div></div>
+          <span class="badge badge-${r.status}">${statusLabel(r.status)}</span>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('/admin/requests/${r.id}')">Voir</button>
+        </div>
+      `).join('') : `<p style="color:var(--muted)">Aucune demande.</p>`}
+    </div>
+  `;
+}
+
+function renderAdminLoans() {
+  const reqs = DB.requests().filter(r => r.status === 'approved' || r.status === 'ongoing');
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">💼 Prêts actifs</h1><p class="page-subtitle">${reqs.length} prêts en cours.</p></div></div>
+    ${reqs.length ? `<div class="table-wrap"><table>
+      <thead><tr><th>Client</th><th>Montant</th><th>Échéance</th><th>Total dû</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody>${reqs.map(r => `
+        <tr>
+          <td><strong>${r.nom}</strong></td>
+          <td class="mono">${r.montant.toLocaleString('fr-FR')}</td>
+          <td>${r.dateRemboursement}</td>
+          <td class="mono" style="color:var(--green)">${r.total.toLocaleString('fr-FR')}</td>
+          <td><span class="badge badge-${r.status}">${statusLabel(r.status)}</span></td>
+          <td>
+            ${r.status === 'approved' ? `<button class="btn btn-ghost btn-sm" onclick="adminAction('${r.id}','ongoing')">🔄 En cours</button>` : ''}
+            ${r.status === 'ongoing' ? `<button class="btn btn-success btn-sm" onclick="adminAction('${r.id}','done')">✅ Terminé</button>` : ''}
+          </td>
+        </tr>`).join('')}</tbody>
+    </table></div>` : `<div class="empty"><div class="empty-icon">💼</div>Aucun prêt actif.</div>`}
+  `;
+}
+
+function renderAdminStats() {
+  const reqs = DB.requests();
+  const byStatus = { pending: 0, approved: 0, ongoing: 0, done: 0, rejected: 0 };
+  reqs.forEach(r => byStatus[r.status] = (byStatus[r.status] || 0) + 1);
+  const totalBorrowed = reqs.filter(r => r.status !== 'rejected').reduce((s,r) => s + r.montant, 0);
+  const totalDue = reqs.filter(r => r.status !== 'rejected').reduce((s,r) => s + r.total, 0);
+  const margin = totalDue - totalBorrowed;
+
+  // par mois
+  const now = new Date();
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ label: d.toLocaleDateString('fr-FR',{month:'short'}), count: 0, sum: 0 });
+  }
+  reqs.forEach(r => {
+    const p = r.dateCreation?.split('/');
+    if (p && p.length === 3) {
+      const d = new Date(p[2], parseInt(p[1])-1, parseInt(p[0]));
+      const diff = (now.getFullYear()-d.getFullYear())*12 + (now.getMonth()-d.getMonth());
+      if (diff >= 0 && diff < 6) { months[5-diff].count++; months[5-diff].sum += r.montant; }
+    }
+  });
+  const maxCount = Math.max(1, ...months.map(m => m.count));
+
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">📈 Statistiques</h1><p class="page-subtitle">Analyse de la performance.</p></div></div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Marge brute</div><div class="kpi-value">${margin.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA attendus</div></div>
+      <div class="kpi"><div class="kpi-label">Taux d'approbation</div><div class="kpi-value">${reqs.length ? Math.round(((reqs.length - byStatus.rejected)/reqs.length)*100) : 0}%</div></div>
+      <div class="kpi"><div class="kpi-label">Panier moyen</div><div class="kpi-value">${reqs.length ? Math.round(totalBorrowed/reqs.length).toLocaleString('fr-FR') : 0}</div><div class="kpi-sub">FCFA</div></div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">📊 Répartition par statut</div>
+      <div style="display:grid;gap:12px;">
+        ${Object.entries(byStatus).map(([s,c]) => `
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+              <span><span class="badge badge-${s}">${statusLabel(s)}</span></span>
+              <strong>${c} (${reqs.length ? Math.round((c/reqs.length)*100) : 0}%)</strong>
+            </div>
+            <div class="progress"><div style="width:${reqs.length ? (c/reqs.length)*100 : 0}%"></div></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 Demandes sur 6 mois</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;height:180px;padding-top:12px;">
+        ${months.map(m => `
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;">
+            <div style="flex:1;display:flex;align-items:flex-end;width:100%;">
+              <div style="height:${(m.count/maxCount)*100}%;width:100%;background:linear-gradient(180deg,var(--green),var(--green-dark));border-radius:8px 8px 0 0;min-height:4px;" title="${m.count} demandes"></div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);">${m.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderAdminSettings() {
+  const reqs = DB.requests();
+  const users = DB.users();
+  const clients = Object.entries(users).filter(([u,d]) => d.role === 'client').length;
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">⚙️ Paramètres</h1></div></div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">📤 Export des données</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-ghost" id="expJson">📥 Exporter JSON</button>
+        <button class="btn btn-ghost" id="expCsv">📥 Exporter CSV</button>
+        <button class="btn btn-danger" id="clearAll">🗑️ Tout effacer</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Données actuelles</div>
+      <p style="color:var(--muted);font-size:13px;">${reqs.length} demandes · ${clients} clients · ${Object.keys(users).length} comptes au total</p>
+    </div>
+  `;
+  document.getElementById('expJson').onclick = () => {
+    const data = { users: DB.users(), requests: DB.requests(), notifs: DB.notifs(), exported: new Date().toISOString() };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `nexus_export_${Date.now()}.json`; a.click();
+    toast('Export JSON téléchargé.');
+  };
+  document.getElementById('expCsv').onclick = () => {
+    if (!reqs.length) return toast('Aucune donnée.', 'error');
+    const headers = ['ID','Date','Client','Téléphone','Passeport','Montant','Durée','Total','Échéance','Statut'];
+    const rows = reqs.map(r => [r.id, r.dateCreation, r.nom, r.telephone, r.passeport, r.montant, r.duree, r.total, r.dateRemboursement, r.status]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `nexus_requests_${Date.now()}.csv`; a.click();
+    toast('Export CSV téléchargé.');
+  };
+  document.getElementById('clearAll').onclick = () => {
+    if (!confirm('⚠️ Effacer TOUTES les données (sauf admin) ?')) return;
+    localStorage.removeItem('nexusRequests');
+    localStorage.removeItem('nexusNotifs');
+    const users = DB.users();
+    Object.keys(users).forEach(u => { if (users[u].role !== 'admin') delete users[u]; });
+    DB.saveUsers(users);
+    toast('Données effacées.', 'info');
+    renderAdminSettings();
+  };
+}
+
+/* ---------- 11. HELPERS ---------- */
+function getDueDate(days) {
+  const d = new Date(); d.setDate(d.getDate() + parseInt(days));
+  return d.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+}
+function statusLabel(s) {
+  return { pending:'En attente', approved:'Approuvée', ongoing:'En cours', done:'Terminée', rejected:'Refusée' }[s] || s;
+}
+
+/* ---------- 12. PDF CONTRACT (préservé + adapté) ---------- */
+function generateContractPdf(data) {
+  const { nom, telephone, passeport, garantie, montant, duree, message, signatureDataURL } = data;
+  const taux = duree === '7' ? 0.25 : 0.35;
+  const total = Math.round(montant * (1 + taux));
+  const dateRemboursement = getDueDate(duree);
   const dateSignature = new Date().toLocaleString('fr-FR');
-  const dateRemboursement = getDateRemboursement(duree);
 
-  const contratHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contrat Nexus Crédit - ${nom}</title>
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contrat Nexus Crédit - ${nom}</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Times New Roman',Arial,sans-serif;background:#fff;padding:40px}
 .container{max-width:900px;margin:0 auto}.header{text-align:center;margin-bottom:30px}.logo{font-size:32px;font-weight:bold;color:#1a5a3a;letter-spacing:2px}
 .subtitle{font-size:12px;color:#666;letter-spacing:3px}.title{font-size:22px;font-weight:bold;text-align:center;margin:25px 0;text-transform:uppercase;color:#1a5a3a;border-bottom:2px solid #1a5a3a;display:inline-block;padding-bottom:5px}
@@ -1583,23 +1508,18 @@ document.getElementById('openContractBtn')?.addEventListener('click', function()
 .reminder-box p{margin:5px 0;color:#d4a017;font-weight:bold}
 .stamp-encadrement{position:absolute;top:-8px;left:-8px;right:-8px;bottom:-8px;border-radius:15px;background:radial-gradient(circle at 30% 30%,rgba(185,28,28,0.03),rgba(185,28,28,0.01));pointer-events:none;z-index:5}
 .stamp-encadrement::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;border-radius:15px;border:2px solid #b91c1c;box-shadow:0 0 0 1px #ef4444,inset 0 0 0 1px rgba(185,28,28,0.2)}
-.stamp-encadrement::after{content:"";position:absolute;top:5px;left:5px;right:5px;bottom:5px;border-radius:10px;border:1px dashed rgba(185,28,28,0.3)}
 .stamp-circle{position:absolute;top:-20px;right:-20px;width:65px;height:65px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 2px #b91c1c,0 0 0 4px #ef4444;z-index:20}
 .stamp-text-top{font-size:8px;font-weight:bold;color:#b91c1c;text-transform:uppercase;letter-spacing:2px}
 .stamp-star{font-size:18px;color:#b91c1c;margin:2px 0}.stamp-center{font-size:9px;font-weight:bold;color:#b91c1c;text-transform:uppercase}
 .stamp-text-bottom{font-size:6px;font-weight:bold;color:#b91c1c;text-transform:uppercase;letter-spacing:1px}
-@media print{.stamp-encadrement::before{border:2px solid #b91c1c!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-.stamp-circle{box-shadow:0 0 0 2px #b91c1c,0 0 0 4px #ef4444!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-.reminder-box{border:2px solid #d4a017!important;background:#fff8e7!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-.print-btn{display:none}body{padding:20px}}
+@media print{.print-btn{display:none}body{padding:20px}.stamp-encadrement::before,.stamp-circle{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}
 @media(max-width:600px){body{padding:15px}.row{flex-direction:column}.key{width:100%}.signatures{flex-direction:column}}</style></head><body>
-<div style="text-align:center"><button class="print-btn" onclick="window.print();">🖨️ IMPRIMER / ENREGISTRER EN PDF</button>
-<p style="margin-top:10px;font-size:12px;color:#666">📸 OU FAITES UNE CAPTURE D'ÉCRAN ET ENVOYEZ-LA SUR WHATSAPP</p></div>
+<div style="text-align:center"><button class="print-btn" onclick="window.print();">🖨️ IMPRIMER / PDF</button>
+<p style="margin-top:10px;font-size:12px;color:#666">📸 OU capture d'écran → WhatsApp</p></div>
 <div class="container"><div class="header"><div class="logo">NEXUS CRÉDIT</div><div class="subtitle">RAPIDE • SÉCURISÉ • FIABLE</div></div>
 <div class="title-container"><div class="title">CONTRAT DE PRÊT D'ARGENT</div></div>
 <div class="reminder-box"><p>📅 DATE LIMITE DE REMBOURSEMENT 📅</p><p style="font-size:20px">⚠️ ${dateRemboursement} ⚠️</p>
-<p>Passé cette date, une pénalité de 2 500 FCFA par jour s'applique</p>
-<p>Un rappel sera envoyé sur votre WhatsApp : ${telephone}</p></div>
+<p>Pénalité de 2 500 FCFA par jour de retard</p><p>Rappel WhatsApp : ${telephone}</p></div>
 <div class="section"><div class="section-title">PARTIES</div>
 <div class="row"><div class="key">Prêteur :</div><div class="val">Nexus Crédit (78 664 90 62)</div></div>
 <div class="row"><div class="key">Emprunteur :</div><div class="val">${nom}</div></div>
@@ -1609,17 +1529,13 @@ document.getElementById('openContractBtn')?.addEventListener('click', function()
 <div class="row"><div class="key">Montant emprunté :</div><div class="val">${montant.toLocaleString('fr-FR')} FCFA</div></div>
 <div class="row"><div class="key">Durée :</div><div class="val">${duree} jours</div></div>
 <div class="row"><div class="key">Date de remboursement :</div><div class="val gold">${dateRemboursement}</div></div>
-<div class="row"><div class="key">Taux d'intérêts :</div><div class="val">+${taux}</div></div>
+<div class="row"><div class="key">Taux d'intérêts :</div><div class="val">+${taux*100}%</div></div>
 <div class="row"><div class="key">Total à rembourser :</div><div class="val green">${total.toLocaleString('fr-FR')} FCFA</div></div></div>
 <div class="section"><div class="section-title">GARANTIE</div>
 <div class="row"><div class="key">Garantie :</div><div class="val">${garantie}</div></div>
 <div class="row"><div class="key">Passeport :</div><div class="val green">✓ N° ${passeport} (remis en garantie)</div></div></div>
-<div class="section"><div class="section-title">PÉNALITÉS DE RETARD</div>
-<div class="row"><div class="key">Pénalité par jour :</div><div class="val warning">2 500 FCFA</div></div>
-<div class="row"><div class="key">Délai maximum :</div><div class="val warning">3 jours de retard → remboursement total exigé</div></div></div>
-<div class="section"><div class="section-title">ENGAGEMENTS DE L'EMPRUNTEUR</div>
-<div class="row"><div class="val">Je reconnais avoir reçu la somme de <strong>${montant.toLocaleString('fr-FR')} FCFA</strong> et m'engage à rembourser la somme totale de <strong class="green">${total.toLocaleString('fr-FR')} FCFA</strong> avant le <strong class="gold">${dateRemboursement}</strong>.</div></div>
-<div class="row"><div class="val warning">En cas de non-paiement à la date convenue, Nexus Crédit se réserve le droit d'engager des poursuites judiciaires.</div></div>
+<div class="section"><div class="section-title">ENGAGEMENTS</div>
+<div class="row"><div class="val">Je reconnais avoir reçu <strong>${montant.toLocaleString('fr-FR')} FCFA</strong> et m'engage à rembourser <strong class="green">${total.toLocaleString('fr-FR')} FCFA</strong> avant le <strong class="gold">${dateRemboursement}</strong>.</div></div>
 ${message ? `<div class="row"><div class="key">Message :</div><div class="val">${message}</div></div>` : ''}</div>
 <div class="signatures">
 <div class="sig-box"><div class="stamp-encadrement"></div><div class="stamp-circle"><div class="stamp-text-top">NEXUS</div><div class="stamp-star">★</div><div class="stamp-center">CRÉDIT</div><div class="stamp-text-bottom">SÉNÉGAL</div></div>
@@ -1628,403 +1544,43 @@ ${message ? `<div class="row"><div class="key">Message :</div><div class="val">$
 <div><strong>Signature de l'Emprunteur</strong></div>
 <img src="${signatureDataURL}" class="signature-image" alt="Signature">
 <div style="font-size:11px;margin-top:5px">Signé le ${dateSignature} par ${nom}</div></div></div>
-<div class="footer"><p>Contrat signé électroniquement - Fait à Dakar, le ${new Date().toLocaleDateString('fr-FR')}</p>
-<p style="margin-top:5px">Conformément aux lois sénégalaises, ce contrat a valeur légale.</p></div></div></body></html>`;
+<div class="footer"><p>Contrat signé électroniquement - Dakar, ${new Date().toLocaleDateString('fr-FR')}</p></div></div></body></html>`;
 
-  const blob = new Blob([contratHTML], {type:'text/html'});
+  const blob = new Blob([html], {type:'text/html'});
   const url = URL.createObjectURL(blob);
   const w = window.open(url, '_blank');
-  if (!w) { const a = document.createElement('a'); a.href=url; a.download=`contrat_nexus_${nom}.html`; a.click(); }
+  if (!w) { const a = document.createElement('a'); a.href = url; a.download = `contrat_${nom}.html`; a.click(); }
+  document.getElementById('wz3').classList.add('active');
   setTimeout(() => URL.revokeObjectURL(url), 60000);
-});
-
-/* ---------- 18. CALCULS ---------- */
-function getDateRemboursement(jours) {
-  const d = new Date(); d.setDate(d.getDate() + parseInt(jours));
-  return d.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
 }
-function updateSim() {
-  const m = parseInt(montantInput.value) || 0;
-  const d = document.getElementById('duree').value;
-  montantActuel = m; dureeActuelle = d;
-  if (m > 0 && d) {
-    const taux = d === '7' ? 0.25 : 0.35;
-    const interets = Math.round(m * taux);
-    totalActuel = m + interets;
-    document.getElementById('simMontant').textContent = m.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('simInterets').textContent = '+ ' + interets.toLocaleString('fr-FR') + ' FCFA (' + (taux*100) + '%)';
-    document.getElementById('simDateRemboursement').textContent = getDateRemboursement(d);
-    document.getElementById('simTotal').textContent = totalActuel.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('simulateur').classList.add('show');
-    document.getElementById('reminderText').textContent = `⚠️ À rembourser le ${getDateRemboursement(d)} ⚠️`;
-    document.getElementById('reminderDate').style.background = 'var(--gold-dim)';
-  } else {
-    document.getElementById('simulateur').classList.remove('show');
-    document.getElementById('reminderText').textContent = I18N[currentLang]?.reminder_choose || 'Sélectionnez une durée';
+
+/* ---------- 13. MOBILE SIDEBAR ---------- */
+document.getElementById('clientMenuBtn')?.addEventListener('click', () => {
+  document.getElementById('clientSidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+});
+document.getElementById('adminMenuBtn')?.addEventListener('click', () => {
+  document.getElementById('adminSidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+});
+function closeMobileSidebar() {
+  document.getElementById('clientSidebar')?.classList.remove('open');
+  document.getElementById('adminSidebar')?.classList.remove('open');
+  document.getElementById('sidebarOverlay')?.classList.remove('show');
+}
+
+/* ---------- 14. INIT ---------- */
+// Si déjà connecté et arrive sur /home → redirection
+if (location.hash === '' || location.hash === '#/home' || location.hash === '#/login') {
+  const u = currentUser();
+  if (u) location.hash = u.role === 'admin' ? '#/admin/dashboard' : '#/client/dashboard';
+}
+route();
+setTimeout(() => {
+  if (!location.hash || location.hash === '#/home') {
+    toast('Bienvenue sur Nexus Crédit 👋', 'info');
   }
-}
-document.getElementById('duree').addEventListener('change', updateSim);
-
-/* ---------- 19. CALCULATEUR AVANCÉ ---------- */
-let calcDur = 7;
-const calcRange = document.getElementById('calcRange');
-const calcAmtDisplay = document.getElementById('calcAmtDisplay');
-const calcTabs = document.querySelectorAll('.calc-tab');
-function updateCalc() {
-  const m = parseInt(calcRange.value) || 0;
-  calcAmtDisplay.textContent = m.toLocaleString('fr-FR');
-  const taux = calcDur === 7 ? 0.25 : 0.35;
-  const fees = Math.round(m * taux);
-  const total = m + fees;
-  document.getElementById('calcBorrowed').textContent = m.toLocaleString('fr-FR') + ' FCFA';
-  document.getElementById('calcFees').textContent = '+ ' + fees.toLocaleString('fr-FR') + ' FCFA (' + (taux*100) + '%)';
-  document.getElementById('calcTotal').textContent = total.toLocaleString('fr-FR') + ' FCFA';
-  document.getElementById('calcDue').textContent = getDateRemboursement(calcDur);
-  const m14 = Math.round(m * 0.35);
-  const diff = (m + m14) - total;
-  document.getElementById('calcCompare').innerHTML = calcDur === 7
-    ? `💡 En choisissant <strong>14 jours</strong>, vous rembourseriez <strong>${diff.toLocaleString('fr-FR')} FCFA</strong> de plus, mais avec 7 jours de plus pour payer.`
-    : `💡 En choisissant <strong>7 jours</strong>, vous économiseriez <strong>${diff.toLocaleString('fr-FR')} FCFA</strong>, mais vous auriez 7 jours de moins.`;
-  calcTabs.forEach(t => t.classList.toggle('active', parseInt(t.dataset.dur) === calcDur));
-
-  // donut
-  const circumference = 351.86;
-  const ratio = m / total;
-  document.getElementById('donutPrincipal').setAttribute('stroke-dashoffset', circumference * (1 - ratio));
-  document.getElementById('donutFees').setAttribute('stroke-dashoffset', circumference * (1 - (1-ratio)));
-}
-calcTabs.forEach(t => t.addEventListener('click', () => { calcDur = parseInt(t.dataset.dur); updateCalc(); }));
-calcRange.addEventListener('input', updateCalc);
-
-/* ---------- 20. HISTORIQUE / DASHBOARD ---------- */
-function loadHistory() {
-  try { return JSON.parse(localStorage.getItem('nexusHistory') || '[]'); } catch { return []; }
-}
-function saveHistory(h) { localStorage.setItem('nexusHistory', JSON.stringify(h)); updateNotifications(); }
-function renderHistory() {
-  const h = loadHistory();
-  const list = document.getElementById('historyList');
-  const dict = I18N[currentLang] || {};
-  if (!h.length) {
-    list.innerHTML = `<div class="empty-state">${dict.hist_empty || 'Aucune demande pour le moment.'}</div>`;
-    document.getElementById('chartWrap').style.display = 'none';
-  } else {
-    list.innerHTML = h.slice().reverse().map(item => {
-      const progress = item.status === 'done' ? 100 : item.status === 'ongoing' ? 60 : 25;
-      return `<div class="history-item">
-        <div style="flex:1;min-width:200px">
-          <div style="font-weight:800">${item.nom} — <span class="mono">${item.montant.toLocaleString('fr-FR')} FCFA</span></div>
-          <div style="font-size:12px;color:var(--muted);margin-top:4px;">${item.duree} jours · ${item.dateCreation} · Total : <span class="mono">${item.total.toLocaleString('fr-FR')} FCFA</span></div>
-          <div class="progress-remb"><div style="width:${progress}%"></div></div>
-        </div>
-        <span class="hist-status ${item.status}">${item.status === 'pending' ? '⏳ En attente' : item.status === 'ongoing' ? '🔄 En cours' : '✅ Terminé'}</span>
-      </div>`;
-    }).join('');
-    document.getElementById('chartWrap').style.display = 'block';
-    renderBarChart(h);
-  }
-  const req = h.length;
-  const borrowed = h.reduce((s,i) => s + i.montant, 0);
-  const due = h.reduce((s,i) => s + i.total, 0);
-  const active = h.filter(i => i.status !== 'done').length;
-  document.getElementById('kpiReq').textContent = req;
-  document.getElementById('kpiBorrowed').textContent = borrowed.toLocaleString('fr-FR') + ' FCFA';
-  document.getElementById('kpiDue').textContent = due.toLocaleString('fr-FR') + ' FCFA';
-  document.getElementById('kpiActive').textContent = active;
-}
-function renderBarChart(h) {
-  const now = new Date();
-  const months = [];
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({ label: d.toLocaleDateString('fr-FR',{month:'short'}), count: 0 });
-  }
-  h.forEach(item => {
-    const parts = item.dateCreation?.split('/');
-    if (parts && parts.length === 3) {
-      const d = new Date(parts[2], parseInt(parts[1])-1, parseInt(parts[0]));
-      const diff = (now.getFullYear() - d.getFullYear())*12 + (now.getMonth() - d.getMonth());
-      if (diff >= 0 && diff < 6) months[5-diff].count++;
-    }
-  });
-  const max = Math.max(1, ...months.map(m => m.count));
-  document.getElementById('barChart').innerHTML = months.map(m =>
-    `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;">
-      <div style="flex:1;display:flex;align-items:flex-end;width:100%;">
-        <div class="bar" style="height:${(m.count/max)*100}%;width:100%;" title="${m.count} demande(s)"></div>
-      </div>
-      <div class="bar-label">${m.label}</div>
-    </div>`
-  ).join('');
-}
-
-/* ---------- 21. ADMIN ---------- */
-function renderAdmin() {
-  const h = loadHistory();
-  const grid = document.getElementById('adminGrid');
-  const tbody = document.getElementById('adminTbody');
-  if (!grid) return;
-  const totalBorrowed = h.reduce((s,i)=>s+i.montant,0);
-  const totalDue = h.reduce((s,i)=>s+i.total,0);
-  const pending = h.filter(i=>i.status==='pending').length;
-  const done = h.filter(i=>i.status==='done').length;
-  grid.innerHTML = `
-    <div class="kpi"><div class="kpi-label">Total demandes</div><div class="kpi-value">${h.length}</div></div>
-    <div class="kpi"><div class="kpi-label">Capital total prêté</div><div class="kpi-value">${totalBorrowed.toLocaleString('fr-FR')}</div></div>
-    <div class="kpi"><div class="kpi-label">Total à récupérer</div><div class="kpi-value">${totalDue.toLocaleString('fr-FR')}</div></div>
-    <div class="kpi"><div class="kpi-label">En attente</div><div class="kpi-value">${pending}</div></div>
-    <div class="kpi"><div class="kpi-label">Terminées</div><div class="kpi-value">${done}</div></div>
-  `;
-  if (!h.length) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted);">Aucune demande.</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = h.slice().reverse().map((item, idx) => {
-    const realIdx = h.length - 1 - idx;
-    return `<tr>
-      <td>${item.dateCreation}</td>
-      <td><strong>${item.nom}</strong><br><span style="font-size:11px;color:var(--muted);">${item.tel}</span></td>
-      <td class="mono">${item.montant.toLocaleString('fr-FR')}</td>
-      <td>${item.duree}j</td>
-      <td class="mono" style="color:var(--green);">${item.total.toLocaleString('fr-FR')}</td>
-      <td><span class="hist-status ${item.status}">${item.status}</span></td>
-      <td>
-        <button class="btn-admin" style="padding:5px 10px;font-size:11px;" onclick="changeStatus(${realIdx},'ongoing')">🔄</button>
-        <button class="btn-admin" style="padding:5px 10px;font-size:11px;" onclick="changeStatus(${realIdx},'done')">✅</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-function changeStatus(idx, status) {
-  const h = loadHistory();
-  if (h[idx]) { h[idx].status = status; saveHistory(h); renderHistory(); renderAdmin(); toast('Statut mis à jour.'); }
-}
-window.changeStatus = changeStatus;
-
-document.getElementById('exportJsonBtn')?.addEventListener('click', () => {
-  const h = loadHistory();
-  const blob = new Blob([JSON.stringify(h, null, 2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `nexus_history_${new Date().toISOString().slice(0,10)}.json`; a.click();
-  toast('Export JSON téléchargé.');
-});
-document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
-  const h = loadHistory();
-  if (!h.length) return toast('Aucune donnée à exporter.', 'error');
-  const headers = ['Date','Nom','Téléphone','Passeport','Montant','Durée','Total','Statut'];
-  const rows = h.map(i => [i.dateCreation, i.nom, i.tel, i.passeport, i.montant, i.duree, i.total, i.status]);
-  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
-  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `nexus_history_${new Date().toISOString().slice(0,10)}.csv`; a.click();
-  toast('Export CSV téléchargé.');
-});
-document.getElementById('clearHistoryBtn')?.addEventListener('click', () => {
-  if (confirm('Effacer définitivement tout l\'historique local ?')) {
-    localStorage.removeItem('nexusHistory'); renderHistory(); renderAdmin(); toast('Historique effacé.', 'info');
-  }
-});
-
-/* ---------- 22. NOTIFICATIONS ---------- */
-function loadNotifications() {
-  try { return JSON.parse(localStorage.getItem('nexusNotifs') || '[]'); } catch { return []; }
-}
-function saveNotifications(n) { localStorage.setItem('nexusNotifs', JSON.stringify(n)); }
-function updateNotifications() {
-  const n = loadNotifications();
-  const badge = document.getElementById('notifBadge');
-  const unread = n.filter(x => !x.read).length;
-  if (unread > 0) { badge.style.display = 'grid'; badge.textContent = unread; }
-  else badge.style.display = 'none';
-}
-function renderNotifications() {
-  const n = loadNotifications();
-  const panel = document.getElementById('notifPanel');
-  if (!n.length) { panel.innerHTML = `<div class="notif-empty">Aucune notification</div>`; return; }
-  panel.innerHTML = n.slice().reverse().map((item, idx) => {
-    const realIdx = n.length - 1 - idx;
-    return `<div class="notif-item ${item.read ? '' : 'unread'}" onclick="markNotifRead(${realIdx})">
-      <div class="nt-title">${item.title}</div>
-      <div class="nt-desc">${item.desc}</div>
-    </div>`;
-  }).join('');
-}
-function markNotifRead(idx) {
-  const n = loadNotifications();
-  if (n[idx]) { n[idx].read = true; saveNotifications(n); updateNotifications(); renderNotifications(); }
-}
-window.markNotifRead = markNotifRead;
-
-document.getElementById('notifBell')?.addEventListener('click', (e) => {
-  e.stopPropagation();
-  document.getElementById('notifPanel').classList.toggle('show');
-  renderNotifications();
-});
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('#notifBell') && !e.target.closest('#notifPanel')) {
-    document.getElementById('notifPanel')?.classList.remove('show');
-  }
-});
-
-/* ---------- 23. AUTH ---------- */
-function hashPass(p) {
-  let h = 0;
-  for (let i = 0; i < p.length; i++) h = ((h << 5) - h) + p.charCodeAt(i);
-  return String(h);
-}
-function getUsers() { try { return JSON.parse(localStorage.getItem('nexusUsers') || '{}'); } catch { return {}; } }
-function saveUsers(u) { localStorage.setItem('nexusUsers', JSON.stringify(u)); }
-if (!getUsers().admin) {
-  const u = getUsers();
-  u.admin = { password: hashPass('nexus2024'), name: 'Administrateur', role: 'admin' };
-  saveUsers(u);
-}
-
-let currentUser = null;
-try { currentUser = JSON.parse(sessionStorage.getItem('nexusCurrentUser') || 'null'); } catch {}
-
-function updateUserUI() {
-  const adminLink = document.getElementById('adminLink');
-  const loginBtn = document.getElementById('loginBtn');
-  if (currentUser) {
-    loginBtn.textContent = '👤 ' + currentUser.name;
-    loginBtn.onclick = () => {
-      if (confirm('Se déconnecter ?')) {
-        currentUser = null; sessionStorage.removeItem('nexusCurrentUser');
-        updateUserUI(); renderAdmin();
-        toast('Déconnecté.', 'info');
-      }
-    };
-    if (currentUser.role === 'admin') adminLink.style.display = 'inline-block';
-    else adminLink.style.display = 'none';
-  } else {
-    loginBtn.textContent = '👤 Connexion';
-    loginBtn.onclick = () => openAuth();
-    adminLink.style.display = 'none';
-  }
-}
-
-function openAuth() { document.getElementById('authModal').classList.add('show'); }
-document.getElementById('loginBtn').onclick = openAuth;
-document.getElementById('closeAuth').onclick = () => document.getElementById('authModal').classList.remove('show');
-document.getElementById('authModal').addEventListener('click', e => {
-  if (e.target.id === 'authModal') document.getElementById('authModal').classList.remove('show');
-});
-document.querySelectorAll('.modal-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const isLogin = tab.dataset.tab === 'login';
-    document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
-    document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
-    document.getElementById('authTitle').textContent = isLogin ? 'Connexion' : 'Inscription';
-  });
-});
-
-document.getElementById('doLogin').addEventListener('click', () => {
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
-  const users = getUsers();
-  if (!users[u]) return toast('Utilisateur introuvable.', 'error');
-  if (users[u].password !== hashPass(p)) return toast('Mot de passe incorrect.', 'error');
-  currentUser = { username: u, name: users[u].name, role: users[u].role };
-  sessionStorage.setItem('nexusCurrentUser', JSON.stringify(currentUser));
-  document.getElementById('authModal').classList.remove('show');
-  updateUserUI(); renderAdmin();
-  toast(`Bienvenue ${currentUser.name} !`);
-  fireConfetti();
-});
-
-document.getElementById('doRegister').addEventListener('click', () => {
-  const u = document.getElementById('regUser').value.trim();
-  const p = document.getElementById('regPass').value;
-  const n = document.getElementById('regName').value.trim();
-  if (u.length < 3) return toast('Identifiant trop court.', 'error');
-  if (p.length < 4) return toast('Mot de passe trop court (min 4).', 'error');
-  if (!n) return toast('Nom requis.', 'error');
-  const users = getUsers();
-  if (users[u]) return toast('Identifiant déjà pris.', 'error');
-  users[u] = { password: hashPass(p), name: n, role: 'client' };
-  saveUsers(users);
-  toast('Compte créé ! Vous pouvez vous connecter.');
-  document.querySelector('.modal-tab[data-tab="login"]').click();
-});
-
-/* ---------- 24. SOUMISSION ---------- */
-document.getElementById('loanForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const nom = document.getElementById('nom').value.trim();
-  const tel = document.getElementById('telephone').value.trim();
-  const passeport = document.getElementById('passeport').value.trim();
-  const montant = document.getElementById('montant').value.trim();
-  const duree = document.getElementById('duree').value;
-  const garantie = document.getElementById('garantie').value.trim();
-  const message = document.getElementById('message').value.trim();
-  if (!nom || !tel || !passeport || !montant || !duree || !garantie) return toast('Remplissez tous les champs obligatoires.', 'error');
-  if (!signatureValidee) return toast("Validez d'abord votre signature.", 'error');
-
-  const taux = duree === '7' ? 25 : 35;
-  const total = Math.round(parseInt(montant) * (1 + taux/100));
-  const dateSignature = new Date().toLocaleString('fr-FR');
-  const dateRemboursement = getDateRemboursement(duree);
-
-  const h = loadHistory();
-  h.push({
-    nom, tel, passeport, montant: parseInt(montant), duree, total, garantie,
-    dateCreation: new Date().toLocaleDateString('fr-FR'),
-    dateRemboursement, status: 'pending'
-  });
-  saveHistory(h);
-  renderHistory(); renderAdmin();
-
-  // notification
-  const notifs = loadNotifications();
-  notifs.push({ title: '✅ Demande enregistrée', desc: `${nom} — ${parseInt(montant).toLocaleString('fr-FR')} FCFA (${duree}j)`, read: false });
-  saveNotifications(notifs);
-  updateNotifications();
-
-  const texte = `NOUVELLE DEMANDE - NEXUS CREDIT
---------------------------------
-Nom : ${nom}
-Telephone WhatsApp : ${tel}
-Passeport : ${passeport}
---------------------------------
-Montant : ${parseInt(montant).toLocaleString('fr-FR')} FCFA
-Duree : ${duree} jours (+${taux}%)
-📅 A REMBOURSER AVANT LE : ${dateRemboursement}
-Total a rembourser : ${total.toLocaleString('fr-FR')} FCFA
-Garantie : ${garantie} + Passeport N°${passeport}
---------------------------------
-SIGNATURE MANUSCRITE VALIDEE
-Date : ${dateSignature}
---------------------------------
-${message ? 'Message : ' + message : ''}
---------------------------------
-✅ Contrat signé. Je vais envoyer le PDF ou la capture d'écran.`;
-
-  const url = `https://wa.me/221786649062?text=${encodeURIComponent(texte)}`;
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = '✅ Demande envoyée !';
-  document.getElementById('successMsg').style.display = 'block';
-  fireConfetti();
-  toast('Demande enregistrée !');
-  setTimeout(() => window.open(url, '_blank'), 600);
-  setTimeout(() => { btn.disabled = false; btn.textContent = I18N[currentLang]?.btn_submit || '📤 Envoyer ma demande'; }, 4000);
-});
-
-/* ---------- 25. INIT ---------- */
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-applyLang(currentLang);
-updateApercu();
-updateWhatsappNumber();
-updateCalc();
-renderHistory();
-renderAdmin();
-updateNotifications();
-updateProgress();
-updateUserUI();
-setTimeout(() => toast('Bienvenue sur Nexus Crédit 👋', 'info'), 800);
+}, 900);
 </script>
 </body>
 </html>
