@@ -2,7 +2,7 @@
 <html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Nexus Crédit — Prêt rapide au Sénégal</title>
 <meta name="description" content="Prêt rapide au Sénégal : demande en ligne, garantie envoyée par Yango, argent reçu sur Wave.">
 <meta name="theme-color" content="#070b08">
@@ -11,6 +11,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://qhdvrrpiqtfvppnaxelj.supabase.co wss://qhdvrrpiqtfvppnaxelj.supabase.co; img-src 'self' data: blob:; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nexus Crédit">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
 <style>
 :root, [data-theme="dark"] {
@@ -334,6 +340,89 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
 @media (max-width: 380px) { .kpis { grid-template-columns: 1fr; } }
 /* Un élément masqué reste masqué, même s'il a un style d'affichage */
 [hidden] { display: none !important; }
+/* ===== v7 : mobile d'abord ===== */
+.cd-live { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: var(--red); margin: 4px 0; font-size: 13px; }
+.cd-warn { margin-top: 8px; padding: 8px 12px; border-radius: 10px; background: rgba(239,68,68,0.12); color: var(--red); font-weight: 700; font-size: 12.5px; }
+.timeline { list-style: none; margin: 4px 0 0; padding: 0; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 17px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+.timeline li { position: relative; display: flex; gap: 14px; padding: 8px 0; }
+.timeline .tl-dot { position: relative; z-index: 1; flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); border: 2px solid var(--green); font-size: 16px; }
+.timeline li.future .tl-dot { border-style: dashed; border-color: var(--gold); }
+.timeline .tl-title { font-weight: 800; font-size: 14px; }
+.timeline .tl-date { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.todo-card { display: flex; align-items: center; gap: 14px; padding: 16px; margin-bottom: 14px; border-radius: 16px; background: var(--gold-dim); border: 1px solid var(--gold); color: var(--text); text-decoration: none; transition: transform .15s var(--ease); }
+.todo-card:active { transform: scale(.98); }
+.todo-card .todo-icon { font-size: 26px; }
+.todo-card .muted { display: block; }
+.todo-card .todo-go { margin-left: auto; font-size: 22px; font-weight: 900; color: var(--gold); }
+.due-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-2); flex-wrap: wrap; }
+.due-row:last-child { border-bottom: none; }
+.due-group.late { border-color: var(--red); }
+.pref-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-2); }
+.bottom-nav { display: none; }
+@media (max-width: 860px) {
+  .sidebar { display: none; }
+  .mobile-menu-btn { display: none !important; }
+  .main { padding: 12px 14px calc(92px + env(safe-area-inset-bottom)); }
+  .bottom-nav { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 180; background: var(--glass); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid var(--border); padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); justify-content: space-around; }
+  .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 54px; justify-content: center; border-radius: 14px;
+    color: var(--muted); text-decoration: none; font-size: 11px; font-weight: 800; -webkit-tap-highlight-color: transparent; }
+  .bn-item .bn-icon { font-size: 21px; line-height: 1; }
+  .bn-item.active { color: var(--green); background: var(--green-dim); }
+  .bn-item.bn-main .bn-icon { width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--green), var(--green-2)); color: #06120a; box-shadow: 0 6px 18px var(--green-glow); font-size: 20px; }
+  .toast-wrap { bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .notif-panel { top: 64px; max-height: calc(100vh - 170px); }
+  /* Cibles tactiles confortables (44 px) */
+  .btn, .btn-sm, .tab, .icon-btn, .bell { min-height: 44px; }
+  .btn-sm { padding: 9px 14px; }
+  .icon-btn { min-width: 44px; }
+  .btn-block-m { width: 100%; }
+  .page-head { margin-bottom: 18px; }
+  .page-head > .btn, .page-head > a.btn { width: 100%; }
+  .card { padding: 18px; border-radius: 16px; }
+  .countdown .cd-num { font-size: 2.6rem; }
+  .steps { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-bottom: 18px; }
+  .step { min-width: 104px; flex: 0 0 auto; }
+  .next-card .btn-primary, #repayForm .btn, .guaranteeForm .btn { width: 100%; }
+  .copy-row .btn { min-height: 44px; }
+  .due-row .row-actions { width: 100%; }
+  .due-row .row-actions > * { flex: 1; }
+}
+/* ===== v8 : contrat, blocage, majorations ===== */
+.contract-modal { max-width: 760px; }
+.contract-modal .modal-pdf-body { padding: 4px 6px 12px; }
+.contract-actions { padding: 12px 8px 4px; border-top: 1px solid var(--border-2); }
+.contract { font-size: 14px; line-height: 1.6; color: var(--text); }
+.contract .ct-head { text-align: center; padding: 18px 12px 10px; border-radius: 14px; background: linear-gradient(135deg, #1a5a3a, #134a2f); color: #fff; }
+.contract .ct-logo { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 2px; }
+.contract .ct-sub { font-size: 11px; letter-spacing: 3px; opacity: .85; }
+.contract .ct-title { text-align: center; color: var(--green); font-size: 1.25rem; margin: 18px 0 14px; }
+.contract .ct-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
+.contract .ct-row { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px dashed var(--border-2); font-size: 13px; }
+.contract .ct-row:last-child { border-bottom: none; }
+.contract .ct-row span { color: var(--muted); }
+.contract .ct-row strong { text-align: right; }
+.contract section { margin: 14px 0; }
+.contract h3 { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 900; color: var(--green); letter-spacing: .4px; border-bottom: 2px solid var(--green-dim); padding-bottom: 4px; margin-bottom: 6px; }
+.contract p { margin: 4px 0; }
+.contract ul { margin: 4px 0 4px 20px; }
+.contract .ct-foot { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--border-2); text-align: center; font-size: 12px; color: var(--muted); }
+.contract-accept { display: flex; gap: 12px; align-items: flex-start; margin-top: 14px; padding: 14px; border-radius: 12px; border: 1px dashed var(--border-2); cursor: not-allowed; opacity: .7; }
+.contract-accept.ready { cursor: pointer; opacity: 1; border-style: solid; border-color: var(--green); background: var(--green-dim); }
+.contract-accept input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--green); margin-top: 2px; }
+.contract-accept .muted { display: block; margin-top: 2px; }
+.cd-pen { margin-top: 8px; padding: 8px 12px; border-radius: 10px; background: var(--gold-dim); color: var(--text); font-size: 12.5px; }
+[data-new-request].is-disabled { opacity: .45; filter: grayscale(.6); cursor: not-allowed; box-shadow: none; transform: none; }
+.blocked-card { text-align: center; padding: 32px 22px; border-color: var(--gold); }
+.blocked-card h3 { margin: 8px 0 10px; font-size: 1.2rem; }
+.blocked-card p { color: var(--text-2); margin-bottom: 18px; }
+@media (max-width: 860px) {
+  .contract-modal { height: 100%; }
+  .contract-actions { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+  .page-head > button.btn { width: 100%; }
+}
+@media (max-width: 860px) { .contract-modal .modal-pdf-head { flex-direction: row; align-items: center; } }
 </style>
 </head>
 <body>
@@ -451,17 +540,28 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
       </aside>
       <main class="main">
         <div class="mobile-bar">
-          <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+          <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu" hidden>☰</button>
           <div class="public-brand" style="font-size:1.1rem;">Nexus<span>.</span>Crédit</div>
           <button class="bell" data-bell aria-label="Notifications">🔔<span class="bell-count" data-bell-count></span></button>
         </div>
         <div class="update-bar" id="updateBar" hidden role="status">🔔 Nouvelle mise à jour disponible <button class="btn btn-primary btn-sm" id="updateBtn">Actualiser</button></div>
         <div id="content" style="margin-top:12px;"></div>
       </main>
+      <nav class="bottom-nav" id="bottomNav" aria-label="Navigation principale"></nav>
     </div>
   </div>
 </div>
 
+<div class="modal-overlay" id="contractModal" role="dialog" aria-modal="true" aria-labelledby="contractModalTitle">
+  <div class="modal-pdf contract-modal">
+    <div class="modal-pdf-head">
+      <h3 id="contractModalTitle">📜 Contrat de prêt</h3>
+      <button class="modal-close" id="contractClose" aria-label="Fermer">✕</button>
+    </div>
+    <div class="modal-pdf-body" id="contractBody" tabindex="0"></div>
+    <div class="contract-actions"><button class="btn btn-primary btn-block" id="contractRead">✅ J'ai lu le contrat</button></div>
+  </div>
+</div>
 <div class="net-banner" id="netBanner" hidden role="alert">📡 Connexion perdue — vos actions reprendront dès le retour d'internet.</div>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="notif-panel" id="notifPanel" role="dialog" aria-label="Notifications"></div>
@@ -496,7 +596,7 @@ const SUPABASE_KEY = 'sb_publishable_ae66Vd9KKZG3-5bCMcoPgw_9T2rEdiB'; // clé p
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Colonnes utiles aux listes (sans la signature, lourde) → pages plus rapides.
-const LIST_COLS = 'id,client_id,nom,telephone,montant,duree,total,status,created_at,date_remboursement,wave_number,guarantee_name,guarantee_phone,guarantee_declared_at,guarantee_received_at,paid_at,paid_amount,repayment_amount,repayment_ref,repayment_requested_at,repaid_at,rejection_reason,admin_note,pdf_url,passeport,garantie,receipt_number,receipt_issued_at';
+const LIST_COLS = 'id,client_id,updated_at,contract_version,contract_accepted_at,nom,telephone,montant,duree,total,status,created_at,date_remboursement,wave_number,guarantee_name,guarantee_phone,guarantee_declared_at,guarantee_received_at,paid_at,paid_amount,repayment_amount,repayment_ref,repayment_requested_at,repaid_at,rejection_reason,admin_note,pdf_url,passeport,garantie,receipt_number,receipt_issued_at';
 
 /* ---------------------------------------------------------------------
    Utilitaires
@@ -659,7 +759,7 @@ sb.auth.onAuthStateChange((event) => {
 });
 
 function teardownSession() {
-  currentUser = null; _settings = null; _adminSearch = ''; _adminFilter = 'todo';
+  currentUser = null; _settings = null; _adminSearch = ''; _adminFilter = 'todo'; _activeLoan = null;
   if (_notifChannel && _notifChannel !== 'starting') sb.removeChannel(_notifChannel);
   _notifChannel = null;
   _notifs = []; renderBell();
@@ -681,10 +781,15 @@ const ROUTES = [
   { re: /^\/admin\/requests$/, role: 'admin', render: renderAdminRequests },
   { re: /^\/admin\/requests\/([\w-]+)$/, role: 'admin', render: renderAdminRequest },
   { re: /^\/admin\/settings$/, role: 'admin', render: renderAdminSettings },
+  { re: /^\/admin\/dues$/, role: 'admin', render: renderAdminDues },
+  { re: /^\/profile$/, role: '*', render: renderProfile },
 ];
+// [chemin, icône, libellé, libellé court (barre du bas sur téléphone)]
 const NAV = {
-  client: [['/client/dashboard', '📊', 'Tableau de bord'], ['/client/requests', '📋', 'Mes demandes'], ['/client/new', '➕', 'Nouvelle demande']],
-  admin: [['/admin/dashboard', '📊', 'Tableau de bord'], ['/admin/requests', '📋', 'Demandes'], ['/admin/settings', '⚙️', 'Paramètres']],
+  client: [['/client/dashboard', '🏠', 'Tableau de bord', 'Accueil'], ['/client/requests', '📋', 'Mes demandes', 'Demandes'],
+    ['/client/new', '➕', 'Nouvelle demande', 'Demander'], ['/profile', '👤', 'Mon profil', 'Profil']],
+  admin: [['/admin/dashboard', '📊', 'Tableau de bord', 'Accueil'], ['/admin/requests', '📋', 'Demandes', 'Demandes'],
+    ['/admin/dues', '📅', 'Échéancier', 'Échéances'], ['/admin/settings', '⚙️', 'Paramètres', 'Réglages'], ['/profile', '👤', 'Mon profil', 'Profil']],
 };
 const homeOf = (u) => (u?.role === 'admin' ? '/admin/dashboard' : '/client/dashboard');
 
@@ -720,7 +825,7 @@ async function route() {
     if (_profileError) { showView('login'); return showAuthError('loginError', _profileError); }
     toast('Veuillez vous connecter.', 'info'); return navigate('/login');
   }
-  if (match.role !== currentUser.role) return navigate(homeOf(currentUser));
+  if (match.role !== '*' && match.role !== currentUser.role) return navigate(homeOf(currentUser));
 
   showView('app');
   buildNav(path);
@@ -750,11 +855,17 @@ function showView(name) {
 }
 
 function buildNav(path) {
+  setTimeout(applyBlockState, 0);
   const role = currentUser.role;
   $('sbRole').textContent = role === 'admin' ? '🛡️ Administrateur' : 'Espace client';
   $('sbRole').style.color = role === 'admin' ? 'var(--gold)' : '';
+  const active = (p) => path === p || (p.endsWith('requests') && path.startsWith(p + '/'));
   $('sbNav').innerHTML = NAV[role].map(([p, icon, label]) =>
-    `<a class="sb-link ${path === p || (p.endsWith('requests') && path.startsWith(p + '/')) ? 'active' : ''}" href="#${p}"><span class="sb-icon">${icon}</span>${label}</a>`).join('');
+    `<a class="sb-link ${active(p) ? 'active' : ''}" href="#${p}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="sb-icon">${icon}</span>${label}</a>`).join('');
+  const items = role === 'admin' ? NAV.admin.filter(([p]) => p !== '/profile') : NAV.client;
+  $('bottomNav').innerHTML = items.map(([p, icon, , short]) =>
+    `<a class="bn-item ${active(p) ? 'active' : ''} ${p === '/client/new' ? 'bn-main' : ''}" href="#${p}" aria-label="${short}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="bn-icon">${icon}</span><span>${short}</span></a>`).join('')
+    + (role === 'admin' ? `<a class="bn-item ${path === '/profile' ? 'active' : ''}" href="#/profile" aria-label="Profil"><span class="bn-icon">👤</span><span>Profil</span></a>` : '');
 }
 
 function closeSidebar() { $('sidebar').classList.remove('open'); $('sidebarOverlay').classList.remove('show'); }
@@ -953,7 +1064,7 @@ async function getSettings(force) {
   if (_settings && !force) return _settings;
   let res;
   try { res = await sb.from('app_settings').select('*').eq('id', 1).single(); } catch (e) { throw new AppError(friendly(e)); }
-  if (res.error) throw new AppError(navigator.onLine ? 'Paramètres introuvables : lancez le script SQL nexus_v6.sql.' : friendly(res.error));
+  if (res.error) throw new AppError(navigator.onLine ? 'Paramètres introuvables : lancez le script SQL nexus_v8.sql.' : friendly(res.error));
   return (_settings = res.data);
 }
 
@@ -980,12 +1091,49 @@ function dueInfo(r) {
   const d = daysLeft(r); if (d === null) return null;
   const s = (n) => (n > 1 ? 's' : '');
   if (r.status === 'repayment_requested') return { d, level: 'ok', short: 'En vérification', label: 'Remboursement en vérification' };
-  if (d < 0) return { d, level: 'late', short: `Retard ${-d} j`, label: `⚠️ En retard de ${-d} jour${s(-d)}` };
+  if (d <= -EXIGIBLE_FROM) return { d, level: 'late', exigible: true, short: `Retard ${-d} j`, label: `🚨 ${-d} jours de retard : totalité exigible immédiatement` };
+  if (d < 0) return { d, level: 'late', short: `Retard ${-d} j`, label: `⚠️ En retard de ${-d} jour${s(-d)} (exigible dans ${EXIGIBLE_FROM + d} j)` };
   if (d === 0) return { d, level: 'late', short: "Aujourd'hui", label: "⚠️ À rembourser aujourd'hui" };
   if (d <= 2) return { d, level: 'soon', short: `J-${d}`, label: `⏰ Plus que ${d} jour${s(d)}` };
   return { d, level: 'ok', short: `J-${d}`, label: `${d} jours restants` };
 }
+/* Contrat, section 6 : 2 500 FCFA par jour de retard ; exigibilité immédiate à partir du 4e jour de retard. */
+const PENALTY_PER_DAY = 2500;
+const EXIGIBLE_FROM = 4;
+const lateDays = (r) => { if (r.status !== 'paid') return 0; const d = daysLeft(r); return d !== null && d < 0 ? -d : 0; };
+const penaltyOf = (r) => lateDays(r) * PENALTY_PER_DAY;
+const amountDue = (r) => (Number(r.total) || 0) + penaltyOf(r);
+/* Temps restant jusqu'à la fin du jour d'échéance (23 h 59), pour le compte à rebours en direct. */
+function liveLeft(due) {
+  const end = parseDay(due); if (!end) return '';
+  end.setHours(23, 59, 59, 999);
+  const ms = end - Date.now(); if (ms <= 0) return '';
+  const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
+  return h >= 24 ? '' : `${h} h ${String(m).padStart(2, '0')} min`;
+}
+setInterval(() => document.querySelectorAll('[data-live-due]').forEach((el) => {
+  const t = liveLeft(el.dataset.liveDue); el.textContent = t ? `⏱ Il reste ${t}` : '';
+}), 30000);
 const dueChip = (r) => { const i = dueInfo(r); return i ? `<span class="due-chip ${i.level}">${esc(i.short)}</span>` : ''; };
+
+/* Historique d'une demande : chaque étape datée. */
+function timelineHtml(r) {
+  const ev = [
+    [r.created_at, '📝', 'Demande envoyée', `${fcfa(r.montant)} sur ${r.duree} jours`],
+    [r.guarantee_declared_at, '📦', 'Garantie annoncée', r.wave_number ? 'Wave : ' + fmtPhone(r.wave_number) : ''],
+    [r.guarantee_received_at, '✅', 'Garantie reçue', ''],
+    [r.paid_at, '💸', 'Argent envoyé', `${fcfa(r.paid_amount || r.montant)}${r.receipt_number ? ' · reçu ' + r.receipt_number : ''}`],
+    [r.repayment_requested_at, '💰', 'Remboursement déclaré', r.repayment_amount ? `${fcfa(r.repayment_amount)} · réf. ${r.repayment_ref || ''}` : ''],
+    [r.repaid_at, '🎉', 'Prêt remboursé', ''],
+  ].filter((e) => e[0]);
+  if (r.status === 'rejected') ev.push([r.updated_at || r.created_at, '❌', 'Demande refusée', r.rejection_reason || '']);
+  ev.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+  if (r.paid_at && ['paid', 'repayment_requested'].includes(r.status)) ev.push([null, '📅', 'Échéance', `${fcfa(r.total)} à rembourser avant le ${fmtDue(r.date_remboursement)}`]);
+  return `<ol class="timeline">${ev.map(([d, icon, title, sub]) => `<li class="${d ? '' : 'future'}">
+    <span class="tl-dot">${icon}</span>
+    <div><div class="tl-title">${esc(title)}</div>${sub ? `<div class="muted">${esc(sub)}</div>` : ''}<div class="tl-date">${d ? fmtDateTime(d) : 'à venir'}</div></div>
+  </li>`).join('')}</ol>`;
+}
 
 function countdownCard(r) {
   const i = dueInfo(r);
@@ -1000,7 +1148,10 @@ function countdownCard(r) {
     <div class="cd-left"><div class="cd-num">${big}</div><div class="cd-unit">${unit}</div></div>
     <div class="cd-body">
       <div class="cd-title">${esc(i.label)}</div>
-      <div class="muted">Prêt de ${fcfa(r.montant)} · à rembourser <strong>${fcfa(r.total)}</strong> avant le <strong>${fmtDue(r.date_remboursement)}</strong></div>
+      ${r.status === 'paid' && i.d >= 0 && i.d <= 1 ? `<div class="cd-live" data-live-due="${esc(r.date_remboursement)}">${liveLeft(r.date_remboursement) ? '⏱ Il reste ' + liveLeft(r.date_remboursement) : ''}</div>` : ''}
+      ${penaltyOf(r) ? `<div class="cd-pen">Majoration de retard : ${lateDays(r)} j × ${fcfa(PENALTY_PER_DAY)} = <strong>${fcfa(penaltyOf(r))}</strong><br>Montant dû aujourd'hui : <strong>${fcfa(amountDue(r))}</strong></div>` : ''}
+      ${i.exigible ? `<div class="cd-warn">Conformément à votre contrat (section 6), la totalité de la somme due est exigible immédiatement. Remboursez dès que possible.</div>` : ''}
+      <div class="muted">Prêt de ${fcfa(r.montant)} · à rembourser <strong>${fcfa(r.total)}</strong> au plus tard le <strong>${fmtDue(r.date_remboursement)}</strong></div>
       <div class="progress" style="margin:10px 0;"><div style="width:${pct}%"></div></div>
       <div class="row-actions">
         ${r.status === 'paid' ? `<a class="btn btn-primary btn-sm" href="#/client/requests/${esc(r.id)}">💰 Rembourser</a>` : `<a class="btn btn-ghost btn-sm" href="#/client/requests/${esc(r.id)}">Voir</a>`}
@@ -1009,6 +1160,111 @@ function countdownCard(r) {
     </div>
   </div>`;
 }
+
+/* =====================================================================
+   CONTRAT (texte officiel — une seule source pour l'écran et le PDF)
+   Toute modification du texte doit changer CONTRACT_VERSION (et le script SQL).
+   ===================================================================== */
+const CONTRACT_VERSION = 'NXC-CONTRAT-2026-11';
+const CONTRACT = {
+  logo: 'NEXUS CRÉDIT',
+  subtitle: 'RAPIDE • SÉCURISÉ • FIABLE',
+  title: "CONTRAT DE PRÊT D'ARGENT",
+  sections: [
+    ['SECTION 1 – LES INTERVENANTS', [
+      ['p', 'Bailleur de fonds : NEXUS CRÉDIT (entreprise enregistrée au Sénégal), joignable au 78 664 90 62, siège social à Dakar.'],
+      ['p', 'Emprunteur : personne physique dont les coordonnées (nom, téléphone WhatsApp, numéro de passeport) sont fournies dans le formulaire.'],
+    ]],
+    ["SECTION 2 – BUT DE L'ACCORD", [
+      ['p', "Formaliser l'octroi d'une avance de fonds à titre personnel. Le Bailleur verse la somme, l'Emprunteur s'engage à la restituer avec frais et majorations."],
+    ]],
+    ['SECTION 3 – SOMME AVANCÉE', [
+      ['p', 'Montant accordé selon la requête validée, en Francs CFA, transféré en une seule transaction après validation du dossier.'],
+    ]],
+    ['SECTION 4 – CALENDRIER ET FRAIS', [
+      ['li', 'Formule express : 7 jours → +25 %'],
+      ['li', 'Formule classique : 14 jours → +35 %'],
+      ['p', 'Cas pratique pour 50 000 FCFA :'],
+      ['li', 'Express : 12 500 FCFA de frais → total 62 500 FCFA'],
+      ['li', 'Classique : 17 500 FCFA de frais → total 67 500 FCFA'],
+      ['p', "« Par exemple, si vous demandez un nouveau prêt alors qu'un prêt est déjà en cours, le taux d'intérêt augmente : au lieu de 25 % pour une semaine, il passe à 35 % ; au lieu de 35 % pour deux semaines, il passe à 45 %. »"],
+    ]],
+    ['SECTION 5 – ÉCHÉANCE DE REMBOURSEMENT', [
+      ['p', 'Date butoir = date de signature + délai retenu (7 ou 14 jours).'],
+      ['p', 'Passé cette échéance, majorations selon section 6.'],
+    ]],
+    ['SECTION 6 – MAJORATIONS POUR RETARD', [
+      ['li', '2 500 FCFA par jour de retard'],
+      ['li', 'À partir du 4ème jour de retard : exigibilité immédiate de la totalité de la somme due'],
+      ['li', 'Au-delà de 3 jours de retard : procédures de recouvrement judiciaire'],
+    ]],
+    ['SECTION 7 – GARANTIES FOURNIES', [
+      ['li', 'Passeport original (numéro enregistré)'],
+      ['li', 'Un objet de valeur supplémentaire (téléphone, ordinateur, tablette, bijoux…)'],
+      ['p', "Ces biens restent détenus par le Bailleur jusqu'à libération complète de la dette."],
+    ]],
+    ["SECTION 8 – OBLIGATIONS DE L'EMPRUNTEUR", [
+      ['li', 'Avoir perçu la somme'],
+      ['li', 'Avoir pris connaissance des taux et majorations'],
+      ['li', "Restituer l'intégralité avant l'échéance"],
+      ['li', 'Être majeur (18 ans) et juridiquement capable'],
+      ['li', 'Avoir communiqué des informations exactes et vérifiables'],
+    ]],
+    ['SECTION 9 – PROCÉDURE DE RECOUVREMENT', [
+      ['li', 'Avis de mise en demeure'],
+      ['li', 'Saisie conservatoire des garanties (passeport et bien déposé)'],
+      ['li', 'Poursuite judiciaire devant les juridictions sénégalaises'],
+      ['li', 'Signalement auprès des organismes de gestion des incidents de crédit'],
+    ]],
+    ['SECTION 10 – DISCRÉTION', [
+      ['p', 'Informations traitées de manière strictement confidentielle.'],
+    ]],
+    ['SECTION 11 – RÈGLEMENT DES DIFFÉRENDS', [
+      ['p', 'Litiges soumis aux tribunaux compétents du Sénégal.'],
+    ]],
+  ],
+  footer: (date) => `Contrat à lire attentivement avant toute demande - Fait à Dakar, le ${date}`,
+  legal: 'Conformément aux lois sénégalaises, ce contrat a valeur légale.',
+};
+
+/* Données personnelles insérées en tête du contrat (formulaire en cours ou demande signée). */
+function contractParticulars(r) {
+  const taux = Number(r.duree) === 7 ? 25 : Number(r.duree) === 14 ? 35 : null;
+  const total = r.total || (r.montant && taux ? Math.round(r.montant * (1 + taux / 100)) : null);
+  let due = r.date_remboursement ? fmtDue(r.date_remboursement) : null;
+  if (!due && r.duree) { const d = new Date(); d.setDate(d.getDate() + Number(r.duree)); due = d.toLocaleDateString('fr-FR'); }
+  return [
+    ['Emprunteur', r.nom || '—'], ['Téléphone WhatsApp', fmtPhone(r.telephone) || r.telephone || '—'],
+    ['Passeport N°', r.passeport || '—'],
+    ['Montant accordé', r.montant ? fcfa(r.montant) : '—'],
+    ['Formule', taux ? `${Number(r.duree) === 7 ? 'Express' : 'Classique'} : ${r.duree} jours → +${taux} %` : '—'],
+    ['Total à rembourser', total ? fcfa(total) : '—'],
+    ['Date butoir', due || '—'],
+    ['Garanties', garantieText(r)],
+  ];
+}
+
+/* Contrat à l'écran (bouton « Voir le contrat ») */
+function contractHtmlView(r, dateText) {
+  return `<div class="contract">
+    <div class="ct-head"><div class="ct-logo">${esc(CONTRACT.logo)}</div><div class="ct-sub">${esc(CONTRACT.subtitle)}</div></div>
+    <h2 class="ct-title">${esc(CONTRACT.title)}</h2>
+    <div class="ct-box">${contractParticulars(r).map(([k, v]) => `<div class="ct-row"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('')}</div>
+    ${CONTRACT.sections.map(([title, blocks]) => `<section><h3>${esc(title)}</h3>${
+      blocks.map(([type, text], i) => type === 'li'
+        ? `${i === 0 || blocks[i - 1][0] !== 'li' ? '<ul>' : ''}<li>${esc(text)}</li>${i === blocks.length - 1 || blocks[i + 1][0] !== 'li' ? '</ul>' : ''}`
+        : `<p>${esc(text)}</p>`).join('')}</section>`).join('')}
+    <div class="ct-foot"><p>${esc(CONTRACT.footer(dateText))}</p><p>${esc(CONTRACT.legal)}</p></div>
+  </div>`;
+}
+
+function openContractViewer(r, onRead) {
+  $('contractBody').innerHTML = contractHtmlView(r, new Date().toLocaleDateString('fr-FR'));
+  $('contractModal').classList.add('show');
+  $('contractBody').scrollTop = 0;
+  $('contractRead').onclick = () => { closeContractViewer(); if (onRead) onRead(); };
+}
+function closeContractViewer() { $('contractModal').classList.remove('show'); }
 
 /* ---------------------------------------------------------------------
    Documents PDF : contrat et reçu de prêt
@@ -1029,7 +1285,9 @@ function loadJsPdf() {
   return _jspdf;
 }
 // Les polices PDF standard n'acceptent que l'alphabet latin : on retire émojis et espaces spéciaux.
-const pdfTxt = (s) => String(s ?? '').replace(/[  ]/g, ' ').replace(/[‘’]/g, "'").replace(/[^\x09\x0a\x0d\x20-\xff]/g, '').trim();
+const pdfTxt = (s) => String(s ?? '').replace(/[\u202f\u00a0]/g, ' ').replace(/[\u2018\u2019]/g, "'")
+  .replace(/\u2192/g, '->').replace(/[\u2013\u2014]/g, '-').replace(/\u2022/g, '\u00b7').replace(/\u2026/g, '...')
+  .replace(/[^\x09\x0a\x0d\x20-\xff]/g, '').trim();
 const pdfMoney = (n) => String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA';
 const tauxOf = (r) => (Number(r.duree) === 7 ? 25 : 35);
 const contractRef = (r) => 'NXC-C-' + String(r.id).replace(/-/g, '').slice(0, 8).toUpperCase();
@@ -1048,7 +1306,7 @@ function pdfHeader(doc, title, subtitle) {
   doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(18);
   doc.text('NEXUS CRÉDIT', 14, 13);
   doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
-  doc.text('RAPIDE - SÉCURISÉ - FIABLE   |   Dakar, Sénégal   |   78 664 90 62', 14, 20);
+  doc.text(pdfTxt(CONTRACT.subtitle + '   |   Dakar, Sénégal   |   78 664 90 62'), 14, 20);
   doc.setTextColor(...GREEN); doc.setFont('helvetica', 'bold'); doc.setFontSize(15);
   doc.text(pdfTxt(title), W / 2, 38, { align: 'center' });
   if (subtitle) { doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...GREY); doc.text(pdfTxt(subtitle), W / 2, 44, { align: 'center' }); }
@@ -1081,48 +1339,66 @@ function pdfFooter(doc, text) {
 }
 
 function buildContract(doc, r) {
-  const W = doc.internal.pageSize.getWidth();
-  let y = pdfHeader(doc, "Contrat de prêt d'argent", `Réf. ${contractRef(r)}  -  établi le ${fmtDate(r.created_at)}`);
-  doc.setFillColor(255, 248, 231); doc.setDrawColor(...GOLD); doc.roundedRect(14, y - 4, W - 28, 13, 2, 2, 'FD');
-  doc.setTextColor(...GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-  const dueLine = r.paid_at ? `Échéance de remboursement : ${fmtDue(r.date_remboursement)}`
-                            : `Échéance : ${r.duree} jours à compter du versement des fonds`;
-  doc.text(pdfTxt(dueLine), W / 2, y + 4, { align: 'center' });
-  y += 18;
-  y = pdfSection(doc, y, 'Parties');
-  y = pdfRows(doc, y, [
-    ['Prêteur', 'Nexus Crédit - 78 664 90 62'],
-    ['Emprunteur', r.nom], ['Téléphone', fmtPhone(r.telephone) || r.telephone],
-    ['Passeport N°', r.passeport],
-    ...(r.wave_number ? [['Numéro Wave', fmtPhone(r.wave_number)]] : []),
-  ]);
-  y = pdfSection(doc, y, 'Montant et durée');
-  y = pdfRows(doc, y, [
-    ['Montant emprunté', pdfMoney(r.montant)], ['Durée', `${r.duree} jours`], ['Taux', `+${tauxOf(r)} %`],
-    ['Intérêts', pdfMoney((r.total || 0) - (r.montant || 0))], ['Total à rembourser', pdfMoney(r.total), true],
-  ]);
-  y = pdfSection(doc, y, 'Garantie');
-  y = pdfRows(doc, y, [['Garantie', garantieText(r), true]]);
-  y = pdfSection(doc, y, 'Engagements');
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(40, 40, 40);
-  const clauses = [
-    `1. Le prêteur verse ${pdfMoney(r.montant)} à l'emprunteur après réception et vérification de la garantie.`,
-    `2. L'emprunteur s'engage à rembourser ${pdfMoney(r.total)} au plus tard ${r.duree} jours après le versement, par Wave.`,
-    "3. La garantie (bien et passeport) est conservée par le prêteur et restituée à l'emprunteur après remboursement intégral.",
-  ];
-  for (const c of clauses) { const l = doc.splitTextToSize(pdfTxt(c), W - 28); doc.text(l, 14, y); y += 4.8 * l.length + 1.5; }
-  y += 6;
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const signDate = fmtDate(r.contract_accepted_at || r.created_at);
+  const bottom = H - 24;
+  let y = 0;
+  const ensure = (h) => { if (y + h > bottom) { doc.addPage(); y = 20; } };
+  y = pdfHeader(doc, CONTRACT.title, `Réf. ${contractRef(r)}  -  signé le ${signDate}`);
+  // Données de la demande
+  const parts = contractParticulars(r);
+  doc.setFontSize(9.5);
+  const boxH = parts.reduce((h, [, v]) => h + 5.2 * doc.splitTextToSize(pdfTxt(v), W - 28 - 62).length + 1.2, 6);
+  doc.setFillColor(245, 249, 243); doc.setDrawColor(...GREEN);
+  doc.roundedRect(14, y - 4, W - 28, boxH, 2, 2, 'FD');
+  for (const [k, v] of parts) {
+    const lines = doc.splitTextToSize(pdfTxt(v), W - 28 - 62);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(...GREY); doc.text(pdfTxt(k), 18, y);
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(20, 20, 20); doc.text(lines, 74, y);
+    y += 5.2 * lines.length + 1.2;
+  }
+  y += 8;
+  // Texte du contrat
+  for (const [title, blocks] of CONTRACT.sections) {
+    ensure(16);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(10.5); doc.setTextColor(...GREEN);
+    doc.text(pdfTxt(title), 14, y);
+    doc.setDrawColor(...GREEN); doc.setLineWidth(0.3); doc.line(14, y + 1.5, W - 14, y + 1.5);
+    y += 7;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(35, 35, 35);
+    for (const [type, text] of blocks) {
+      const indent = type === 'li' ? 20 : 14;
+      const lines = doc.splitTextToSize(pdfTxt(text), W - 14 - indent);
+      ensure(4.8 * lines.length + 1);
+      if (type === 'li') doc.text('-', 16, y);
+      doc.text(lines, indent, y);
+      y += 4.8 * lines.length + 1.4;
+    }
+    y += 3;
+  }
+  // Signatures
+  ensure(48);
+  y += 4;
   const colW = (W - 28 - 10) / 2;
   doc.setDrawColor(150, 150, 150); doc.line(14, y, 14 + colW, y); doc.line(W - 14 - colW, y, W - 14, y);
   doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(20, 20, 20);
-  doc.text('Le prêteur', 14 + colW / 2, y + 6, { align: 'center' });
-  doc.text("L'emprunteur", W - 14 - colW / 2, y + 6, { align: 'center' });
+  doc.text('Le Bailleur', 14 + colW / 2, y + 6, { align: 'center' });
+  doc.text("L'Emprunteur", W - 14 - colW / 2, y + 6, { align: 'center' });
   doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
-  doc.text('Nexus Crédit', 14 + colW / 2, y + 12, { align: 'center' });
+  doc.text('NEXUS CRÉDIT', 14 + colW / 2, y + 12, { align: 'center' });
   const sig = /^data:image\/png;base64,/.test(r.signature_data_url || '') ? r.signature_data_url : null;
   if (sig) { try { doc.addImage(sig, 'PNG', W - 14 - colW + (colW - 60) / 2, y + 8, 60, 18); } catch (_) {} }
-  doc.text(pdfTxt(`Signé électroniquement par ${r.nom}`), W - 14 - colW / 2, y + 31, { align: 'center' });
-  pdfFooter(doc, `Contrat ${contractRef(r)} - Nexus Crédit - Fait à Dakar - Document généré le ${new Date().toLocaleDateString('fr-FR')}`);
+  doc.text(pdfTxt(`Lu et approuvé - signé électroniquement par ${r.nom}`), W - 14 - colW / 2, y + 31, { align: 'center' });
+  doc.text(pdfTxt(`le ${signDate}${r.contract_version ? ' (contrat ' + r.contract_version + ')' : ''}`), W - 14 - colW / 2, y + 36, { align: 'center' });
+  // Pied de page sur chaque page : mention + date du jour + valeur légale + pagination
+  const n = doc.getNumberOfPages();
+  const today = new Date().toLocaleDateString('fr-FR');
+  for (let i = 1; i <= n; i++) {
+    doc.setPage(i);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.8); doc.setTextColor(120, 120, 120);
+    doc.text(pdfTxt(CONTRACT.footer(today)), W / 2, H - 13, { align: 'center' });
+    doc.text(pdfTxt(`${CONTRACT.legal}   -   Réf. ${contractRef(r)}   -   page ${i}/${n}`), W / 2, H - 8, { align: 'center' });
+  }
 }
 
 function buildReceipt(doc, r) {
@@ -1141,6 +1417,9 @@ function buildReceipt(doc, r) {
     ['Garantie', garantieText(r)],
     ...(r.wave_number ? [['Versé sur Wave', fmtPhone(r.wave_number)]] : []),
   ], 46);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...GREY);
+  doc.text(doc.splitTextToSize(pdfTxt(`Retard : 2 500 FCFA par jour. À partir du 4e jour de retard, la totalité de la somme due est exigible immédiatement (contrat, section 6).`), W - 28), 14, y);
+  y += 9;
   doc.setFillColor(...GREEN); doc.roundedRect(14, y, W - 28, 11, 2, 2, 'F');
   doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10.5);
   doc.text(pdfTxt(`À rembourser : ${pdfMoney(r.total)} avant le ${fmtDue(r.date_remboursement)}`), W / 2, y + 7.2, { align: 'center' });
@@ -1206,20 +1485,26 @@ async function renderClientDashboard() {
   $('content').innerHTML = `
     <div class="page-head">
       <div><h1 class="page-title">Bonjour, ${esc(currentUser.full_name || 'client')} 👋</h1><p class="page-subtitle">Résumé de votre activité.</p></div>
-      <a class="btn btn-primary" href="#/client/new">➕ Nouvelle demande</a>
+      ${newRequestBtn()}
     </div>
+    <div class="note" id="blockNote" hidden style="margin:-10px 0 20px;">🔒 ${esc(BLOCK_MSG)}</div>
     ${urgent.length ? `<div class="alert-due ${late.length ? 'late' : 'soon'}">${late.length
       ? `⚠️ <strong>${late.length} prêt${late.length > 1 ? 's' : ''} en retard.</strong> Remboursez dès que possible pour récupérer votre garantie.`
       : `⏰ <strong>Échéance proche :</strong> pensez à rembourser ${urgent.length > 1 ? 'vos prêts' : 'votre prêt'} avant la date limite.`}</div>` : ''}
     ${active.length ? `<div class="card" style="margin-bottom:24px;"><div class="card-title">⏳ Mes prêts en cours</div>${active.map(countdownCard).join('')}</div>` : ''}
+    ${reqs.filter((r) => r.status === 'pending').map((r) => `<a class="todo-card" href="#/client/requests/${esc(r.id)}">
+      <span class="todo-icon">${r.guarantee_declared_at ? '📦' : '✍️'}</span>
+      <span><strong>${r.guarantee_declared_at ? 'Envoyez votre garantie par Yango' : 'Terminez votre demande'}</strong><span class="muted">Prêt de ${fcfa(r.montant)} · ${r.guarantee_declared_at ? 'adresse et numéro à copier' : 'indiquez votre numéro Wave'}</span></span>
+      <span class="todo-go">→</span></a>`).join('')}
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">Demandes</div><div class="kpi-value">${reqs.length}</div><div class="kpi-sub">${pending} en cours de traitement</div></div>
       <div class="kpi"><div class="kpi-label">Prêts actifs</div><div class="kpi-value">${active.length}</div></div>
       <div class="kpi"><div class="kpi-label">À rembourser</div><div class="kpi-value">${toRepay.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
     </div>
     <div class="card"><div class="card-title">📋 Demandes récentes</div>
-      ${reqs.length ? reqs.slice(0, 5).map(clientRow).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande pour l'instant.<br><br><a class="btn btn-primary" href="#/client/new">Faire ma première demande</a></div>`}
+      ${reqs.length ? reqs.slice(0, 5).map(clientRow).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande pour l'instant.<br><br>${newRequestBtn().replace('➕ Nouvelle demande', 'Faire ma première demande')}</div>`}
     </div>`;
+  setActiveLoan(reqs);
 }
 
 const clientRow = (r) => `
@@ -1233,8 +1518,9 @@ async function renderClientRequests() {
   const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
   if (!paint()) return;
   $('content').innerHTML = `
-    <div class="page-head"><div><h1 class="page-title">📋 Mes demandes</h1></div><a class="btn btn-primary" href="#/client/new">➕ Nouvelle demande</a></div>
+    <div class="page-head"><div><h1 class="page-title">📋 Mes demandes</h1></div>${newRequestBtn()}</div>
     <div class="card">${reqs.length ? reqs.map(clientRow).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande.</div>`}</div>`;
+  setActiveLoan(reqs);
 }
 
 /* ---------- Détail d'une demande (client) ---------- */
@@ -1262,11 +1548,15 @@ async function renderClientRequest(id) {
       ${r.receipt_number ? '' : '<p class="muted" style="margin-top:8px;">Votre reçu de prêt sera disponible dès que l\'argent aura été envoyé.</p>'}
     </div>
     <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">🕑 Historique</div>
+      ${timelineHtml(r)}
+    </div>
+    <div class="card" style="margin-bottom:20px;">
       <div class="card-title">📋 Détails</div>
       <div class="detail-row"><div class="detail-key">Montant</div><div class="detail-val">${fcfa(r.montant)}</div></div>
       <div class="detail-row"><div class="detail-key">Durée</div><div class="detail-val">${esc(r.duree)} jours</div></div>
       <div class="detail-row"><div class="detail-key">Total à rembourser</div><div class="detail-val" style="color:var(--green)">${fcfa(r.total)}</div></div>
-      <div class="detail-row"><div class="detail-key">Échéance</div><div class="detail-val" style="color:var(--gold)">${r.paid_at ? fmtDue(r.date_remboursement) + ' ' + dueChip(r) : `${esc(r.duree)} jours après le versement`}</div></div>
+      <div class="detail-row"><div class="detail-key">Échéance</div><div class="detail-val" style="color:var(--gold)">${fmtDue(r.date_remboursement)} ${dueChip(r)}</div></div>
       <div class="detail-row"><div class="detail-key">Garantie</div><div class="detail-val">${esc(garantieText(r))}</div></div>
       ${r.receipt_number ? `<div class="detail-row"><div class="detail-key">N° de reçu</div><div class="detail-val">${esc(r.receipt_number)}</div></div>` : ''}
       ${r.wave_number ? `<div class="detail-row"><div class="detail-key">Votre numéro Wave</div><div class="detail-val">${waveCell(r.wave_number)}</div></div>` : ''}
@@ -1305,11 +1595,11 @@ function clientNextStep(r, s) {
       <p><strong>${fcfa(r.paid_amount || r.montant)}</strong> envoyés sur votre Wave <span class="wave">${esc(fmtPhone(r.wave_number))}</span> le ${fmtDate(r.paid_at)}.</p>
       ${r.admin_note ? `<div class="note err">${esc(r.admin_note)}</div>` : ''}
       <div class="card-title" style="font-size:1rem;margin-top:20px;">💰 Rembourser mon prêt</div>
-      <div class="copy-row"><div><div class="k">Montant à rembourser</div><div class="v">${fcfa(r.total)}</div></div><div class="muted">avant le ${fmtDue(r.date_remboursement)} ${dueChip(r)}</div></div>
+      <div class="copy-row"><div><div class="k">Montant à rembourser${penaltyOf(r) ? " aujourd'hui" : ''}</div><div class="v">${fcfa(amountDue(r))}</div>${penaltyOf(r) ? `<div class="muted">${fcfa(r.total)} + ${lateDays(r)} j × ${fcfa(PENALTY_PER_DAY)} de majoration</div>` : ''}</div><div class="muted">échéance ${fmtDue(r.date_remboursement)} ${dueChip(r)}</div></div>
       ${nexusWave ? `<div class="copy-row"><div><div class="k">Numéro Wave de Nexus Crédit</div><div class="v mono">${esc(fmtPhone(nexusWave))}</div></div>${copyBtn(digits(nexusWave))}</div>` : ''}
       <p class="muted">Envoyez la somme depuis <strong>votre numéro Wave ${esc(fmtPhone(r.wave_number))}</strong>, puis indiquez la référence de la transaction (visible dans l'historique Wave).</p>
       <form id="repayForm" class="form-grid" style="margin-top:14px;" novalidate>
-        <div class="field"><label for="rpAmount">Montant envoyé (FCFA) <span class="req">*</span></label><input id="rpAmount" type="number" inputmode="numeric" min="100" step="1" value="${esc(r.total)}" required></div>
+        <div class="field"><label for="rpAmount">Montant envoyé (FCFA) <span class="req">*</span></label><input id="rpAmount" type="number" inputmode="numeric" min="100" step="1" value="${esc(amountDue(r))}" required></div>
         <div class="field"><label for="rpRef">Référence de la transaction Wave <span class="req">*</span></label><input id="rpRef" placeholder="Ex : T_ABCD1234EFGH" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" required></div>
         <div class="full"><button class="btn btn-primary" type="submit">✅ J'ai remboursé</button></div>
       </form>`;
@@ -1361,7 +1651,7 @@ function bindNextStep(r) {
     e.preventDefault();
     const amountRaw = $('rpAmount').value.trim(), amount = Number(amountRaw), ref = $('rpRef').value.trim().replace(/\s+/g, '');
     if (!Number.isInteger(amount) || amount < 100) return invalid($('rpAmount'), 'Indiquez le montant envoyé (nombre entier, 100 FCFA minimum).');
-    if (amount < r.total && !confirm(`Vous déclarez ${fcfa(amount)}, alors que le total dû est ${fcfa(r.total)}. Continuer ?`)) return;
+    if (amount < amountDue(r) && !confirm(`Vous déclarez ${fcfa(amount)}, alors que le montant dû est ${fcfa(amountDue(r))}. Continuer ?`)) return;
     if (!/^[A-Za-z0-9_.-]{4,40}$/.test(ref)) return invalid($('rpRef'), 'Référence Wave invalide : recopiez-la depuis votre historique Wave (4 à 40 caractères, sans espace).');
     const btn = rf.querySelector('button[type=submit]');
     await once('repay-' + r.id, async () => {
@@ -1375,9 +1665,41 @@ function bindNextStep(r) {
 }
 
 /* ---------- Nouvelle demande ---------- */
+const BLOCK_MSG = 'Vous avez déjà un prêt en cours. Vous pourrez faire une nouvelle demande une fois celui-ci remboursé.';
+const ACTIVE_STATUSES = ['pending', 'guarantee_received', 'paid', 'repayment_requested'];
+let _activeLoan = null; // demande en cours du client (null si aucune)
+function setActiveLoan(reqs) {
+  _activeLoan = (reqs || []).find((r) => ACTIVE_STATUSES.includes(r.status)) || null;
+  applyBlockState();
+  return _activeLoan;
+}
+function applyBlockState() {
+  document.querySelectorAll('[data-new-request]').forEach((el) => {
+    el.classList.toggle('is-disabled', !!_activeLoan);
+    el.setAttribute('aria-disabled', _activeLoan ? 'true' : 'false');
+    if (el.tagName === 'BUTTON') el.disabled = !!_activeLoan;
+    el.title = _activeLoan ? BLOCK_MSG : '';
+  });
+  const note = $('blockNote'); if (note) note.hidden = !_activeLoan;
+}
+const newRequestBtn = (extra = '') => `<button type="button" class="btn btn-primary ${extra}" data-new-request onclick="goNewRequest()">➕ Nouvelle demande</button>`;
+function goNewRequest() { if (_activeLoan) return toast(BLOCK_MSG, 'error'); navigate('/client/new'); }
+
 async function renderNewRequest() {
   const u = currentUser;
   const formId = newUuid();
+  const paint = painter();
+  const { data: open } = await q(sb.from('requests').select('id,status,montant').eq('client_id', u.id).in('status', ACTIVE_STATUSES).limit(1));
+  if (!paint()) return;
+  if (setActiveLoan(open)) {
+    const a = _activeLoan;
+    $('content').innerHTML = `<div class="page-head"><div><h1 class="page-title">➕ Nouvelle demande</h1></div></div>
+      <div class="card blocked-card"><div class="empty-icon">🔒</div>
+        <h3>Nouvelle demande impossible pour le moment</h3>
+        <p>${esc(BLOCK_MSG)}</p>
+        <a class="btn btn-primary btn-block-m" href="#/client/requests/${esc(a.id)}">Voir mon prêt en cours (${fcfa(a.montant)}) →</a></div>`;
+    return;
+  }
   $('content').innerHTML = `
     <div class="page-head"><div><h1 class="page-title">➕ Nouvelle demande</h1><p class="page-subtitle">Le montant est versé sur votre Wave dès réception de votre garantie.</p></div></div>
     <div class="card" style="max-width:900px;">
@@ -1400,7 +1722,7 @@ async function renderNewRequest() {
           <div style="font-weight:800;margin-bottom:8px;">💡 Simulation</div>
           <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Montant</span><span class="mono" id="sim-m">—</span></div>
           <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Intérêts</span><span class="mono" style="color:var(--red)" id="sim-i">—</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>À rembourser</span><span class="mono" style="color:var(--gold)" id="sim-d">—</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Date butoir</span><span class="mono" style="color:var(--gold)" id="sim-d">—</span></div>
           <div style="display:flex;justify-content:space-between;padding:5px 0;font-weight:800;"><span>Total à rembourser</span><span class="mono" style="color:var(--green)" id="sim-t">—</span></div>
         </div>
         <div class="card" style="background:var(--surface-2);margin:16px 0;">
@@ -1409,7 +1731,16 @@ async function renderNewRequest() {
           <button type="button" class="btn btn-ghost btn-sm" id="clearSig" style="margin-bottom:12px;">🗑️ Effacer</button>
           <label style="display:flex;align-items:center;gap:10px;font-size:13px;">
             <input type="checkbox" id="sigCheck" style="width:18px;height:18px;accent-color:var(--green);">
-            Je certifie que cette signature est la mienne et j'accepte le contrat.
+            <span>Je certifie que cette signature est la mienne.</span>
+          </label>
+        </div>
+        <div class="card contract-card" style="margin:16px 0;">
+          <div style="font-weight:800;margin-bottom:8px;">📜 Contrat de prêt</div>
+          <p class="muted" style="margin-bottom:12px;">Lisez le contrat complet avant d'envoyer votre demande : frais, date butoir, <strong>majoration de 2 500 FCFA par jour de retard</strong>, exigibilité immédiate à partir du 4e jour de retard, garanties.</p>
+          <button type="button" class="btn btn-secondary btn-block-m" id="viewContractBtn">📜 Voir le contrat</button>
+          <label class="contract-accept" id="contractAcceptLabel">
+            <input type="checkbox" id="contractCheck" disabled>
+            <span><strong>J'ai lu et j'accepte les conditions du contrat</strong><span class="muted" id="contractHint">Ouvrez d'abord le contrat pour pouvoir cocher cette case.</span></span>
           </label>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="padding:16px;" id="newReqBtn">📤 Envoyer ma demande</button>
@@ -1417,6 +1748,16 @@ async function renderNewRequest() {
     </div>`;
 
   const sig = setupSignature($('sigCanvas'));
+  // Le contrat doit être ouvert avant de pouvoir être accepté.
+  let contractOpened = false;
+  const formData = () => ({ nom: $('r-nom').value.trim(), telephone: $('r-tel').value.trim(), passeport: $('r-pass').value.toUpperCase().replace(/[^A-Z0-9]/g, ''),
+    garantie: $('r-guar').value.trim(), montant: Number($('r-montant').value) || null, duree: parseInt($('r-duree').value, 10) || null });
+  $('viewContractBtn').onclick = () => openContractViewer(formData(), () => {
+    contractOpened = true;
+    $('contractCheck').disabled = false;
+    $('contractHint').textContent = 'Contrat consulté. Cochez la case pour l\'accepter.';
+    $('contractAcceptLabel').classList.add('ready');
+  });
   const guarPreview = () => { $('r-guar-preview').textContent = 'Garantie : ' + garantieText({ garantie: $('r-guar').value, passeport: $('r-pass').value }); };
   $('r-guar').oninput = guarPreview; $('r-pass').oninput = guarPreview; guarPreview();
   $('clearSig').onclick = () => sig.clear();
@@ -1427,7 +1768,8 @@ async function renderNewRequest() {
     if (m > 0 && d) {
       const ints = Math.round(m * (d === 7 ? 0.25 : 0.35));
       $('sim-m').textContent = fcfa(m); $('sim-i').textContent = '+ ' + fcfa(ints);
-      $('sim-d').textContent = `${d} jours après le versement`; $('sim-t').textContent = fcfa(m + ints);
+      const due = new Date(); due.setDate(due.getDate() + d);
+      $('sim-d').textContent = due.toLocaleDateString('fr-FR'); $('sim-t').textContent = fcfa(m + ints);
     } else ['sim-m', 'sim-i', 'sim-d', 'sim-t'].forEach((x) => { $(x).textContent = '—'; });
   };
   rangeM.oninput = () => { inputM.value = rangeM.value; sim(); };
@@ -1453,7 +1795,10 @@ async function renderNewRequest() {
     if (!Number.isInteger(montant) || montant < 5000 || montant > 500000) return invalid(inputM, 'Montant entre 5 000 et 500 000 FCFA (nombre entier).');
     if (![7, 14].includes(row.duree)) return invalid(dureeEl, 'Choisissez une durée de remboursement.');
     if (sig.isEmpty()) { $('sigCanvas').scrollIntoView({ block: 'center' }); return invalid(null, 'Signez dans le cadre blanc (un trait suffisamment long).'); }
-    if (!$('sigCheck').checked) return invalid($('sigCheck'), 'Cochez la case pour accepter le contrat.');
+    if (!$('sigCheck').checked) return invalid($('sigCheck'), 'Cochez la case pour certifier votre signature.');
+    if (!contractOpened) { $('viewContractBtn').scrollIntoView({ block: 'center' }); return invalid($('viewContractBtn'), 'Lisez le contrat avant d\'envoyer votre demande (bouton « Voir le contrat »).'); }
+    if (!$('contractCheck').checked) return invalid($('contractCheck'), 'Cochez « J\'ai lu et j\'accepte les conditions du contrat » pour envoyer votre demande.');
+    row.contract_version = CONTRACT_VERSION;
     row.signature_data_url = sig.toDataURL();
 
     const btn = $('newReqBtn');
@@ -1463,6 +1808,7 @@ async function renderNewRequest() {
         // Le total, l'échéance et le statut sont calculés par la base de données.
         const { error } = await sb.from('requests').insert(row);
         if (error && error.code !== '23505') throw new AppError(friendly(error)); // 23505 : déjà reçue lors d'un premier essai
+        _activeLoan = { id: formId, status: 'pending', montant };
         $('content').dataset.dirty = '';
         toast('Demande envoyée ! Votre contrat est disponible.');
         navigate('/client/requests/' + formId);
@@ -1510,6 +1856,16 @@ function setupSignature(canvas) {
    ===================================================================== */
 const NEEDS_ACTION = (r) => r.status === 'guarantee_received' || r.status === 'repayment_requested' || (r.status === 'pending' && r.guarantee_declared_at);
 
+function reminderLink(r, label = '📲 Relancer') {
+  const tel = digits(r.guarantee_phone || r.telephone); if (tel.length < 9) return '';
+  const i = dueInfo(r); if (!i || r.status !== 'paid') return '';
+  const msg = i.exigible
+    ? `Bonjour ${r.nom}, votre remboursement de ${fcfa(r.total)} était dû le ${fmtDue(r.date_remboursement)}. Avec ${lateDays(r)} jours de retard, la totalité est exigible immédiatement (contrat, section 6) : ${fcfa(amountDue(r))} majorations comprises. Merci de rembourser au plus vite sur notre Wave.`
+    : i.d < 0 ? `Bonjour ${r.nom}, votre remboursement de ${fcfa(r.total)} était dû le ${fmtDue(r.date_remboursement)}. Majoration : ${fcfa(PENALTY_PER_DAY)} par jour de retard, soit ${fcfa(amountDue(r))} aujourd'hui. À partir du ${EXIGIBLE_FROM}e jour de retard, la totalité devient exigible immédiatement.`
+    : `Bonjour ${r.nom}, petit rappel : votre remboursement de ${fcfa(r.total)} est à effectuer avant le ${fmtDue(r.date_remboursement)}. Merci !`;
+  return `<a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" href="https://wa.me/221${tel}?text=${encodeURIComponent(msg)}">${label}</a>`;
+}
+
 function adminActionButtons(r, compact = false) {
   const sm = compact ? 'btn-sm' : '';
   const b = [];
@@ -1523,6 +1879,7 @@ function adminActionButtons(r, compact = false) {
     b.push(`<button class="btn btn-success ${sm}" onclick="adminSet(${jsArg(r.id)}, 'done')">✅ Remboursement reçu</button>`);
     b.push(`<button class="btn btn-danger btn-sm" onclick="adminSet(${jsArg(r.id)}, 'paid', true)">❌ Pas reçu</button>`);
   }
+  if (r.status === 'paid' && (daysLeft(r) ?? 99) <= 2) b.push(reminderLink(r));
   if (r.status === 'paid' && !compact) b.push(`<button class="btn btn-ghost btn-sm" onclick="adminSet(${jsArg(r.id)}, 'repayment_requested')">💰 Passer en « Remboursement demandé »</button>`);
   if (!compact && ['pending', 'guarantee_received'].includes(r.status)) b.push(`<button class="btn btn-danger btn-sm" onclick="adminSet(${jsArg(r.id)}, 'rejected', true)">Refuser</button>`);
   if (!compact && r.status === 'guarantee_received') b.push(`<button class="btn btn-ghost btn-sm" onclick="adminSet(${jsArg(r.id)}, 'pending')">↩️ Annuler « reçue »</button>`);
@@ -1559,8 +1916,10 @@ async function markPaid(id) {
   });
 }
 
+let _remindersRun = false;
 async function renderAdminDashboard() {
   const paint = painter();
+  if (!_remindersRun) { _remindersRun = true; rpc('admin_run_reminders', {}).catch(() => { _remindersRun = false; }); }
   const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
   if (!paint()) return;
   const by = (st) => reqs.filter((r) => r.status === st);
@@ -1581,7 +1940,7 @@ async function renderAdminDashboard() {
     <div class="card" style="margin-bottom:20px;"><div class="card-title">⚡ À traiter maintenant</div>
       ${todo.length ? adminTable(todo, true) : '<div class="empty"><div class="empty-icon">✅</div>Rien à traiter pour le moment.</div>'}
     </div>
-    ${dueSoon.length ? `<div class="card"><div class="card-title">⏰ Échéances en retard ou proches</div>${adminTable(dueSoon, true)}</div>` : ''}`;
+    ${dueSoon.length ? `<div class="card"><div class="card-title">⏰ Échéances en retard ou proches <a class="btn btn-ghost btn-sm" href="#/admin/dues" style="margin-left:8px;">Tout l'échéancier →</a></div>${adminTable(dueSoon, true)}</div>` : ''}`;
 }
 
 let _adminFilter = 'todo', _adminSearch = '';
@@ -1616,7 +1975,7 @@ function adminTable(rows, compact = false) {
     <tbody>${rows.map((r) => `<tr>
       <td data-label="Date"><div class="cell">${fmtDate(r.created_at)}</div></td>
       <td data-label="Client"><div class="cell"><strong>${esc(r.guarantee_name || r.nom)}</strong><span class="muted">${esc(fmtPhone(r.guarantee_phone || r.telephone))}</span></div></td>
-      <td data-label="Prêt" class="mono"><div class="cell">${fcfa(r.montant)}<span class="muted">à rendre : ${fcfa(r.total)}</span>${r.paid_at ? `<span class="muted">avant le ${fmtDue(r.date_remboursement)}</span>` : ''}</div></td>
+      <td data-label="Prêt" class="mono"><div class="cell">${fcfa(r.montant)}<span class="muted">à rendre : ${fcfa(r.total)}</span>${penaltyOf(r) ? `<span class="muted" style="color:var(--red)">+ ${fcfa(penaltyOf(r))} de retard</span>` : ''}<span class="muted">échéance ${fmtDue(r.date_remboursement)}</span></div></td>
       <td data-label="Wave"><div class="cell">${waveCell(r.wave_number)}</div></td>
       <td data-label="Statut"><div class="cell">${statusBadge(r.status)} ${dueChip(r)}${r.status === 'pending' && r.guarantee_declared_at ? '<span class="muted">📦 garantie annoncée</span>' : ''}${r.status === 'repayment_requested' ? `<span class="muted">${fcfa(r.repayment_amount)} · réf. ${esc(r.repayment_ref)}</span>` : ''}</div></td>
       <td data-label="Action"><div class="cell"><div class="row-actions">${adminActionButtons(r, true) || '<span class="muted">—</span>'}</div></div></td>
@@ -1663,14 +2022,9 @@ async function renderAdminRequest(id) {
       ${r.message ? `<div class="detail-row"><div class="detail-key">Message</div><div class="detail-val">${esc(r.message)}</div></div>` : ''}
     </div>
     <div class="card">
-      <div class="card-title">📅 Historique</div>
-      <div class="detail-row"><div class="detail-key">Demande créée</div><div class="detail-val">${fmtDateTime(r.created_at)}</div></div>
-      <div class="detail-row"><div class="detail-key">Garantie annoncée</div><div class="detail-val">${fmtDateTime(r.guarantee_declared_at)}</div></div>
-      <div class="detail-row"><div class="detail-key">Garantie reçue</div><div class="detail-val">${fmtDateTime(r.guarantee_received_at)}</div></div>
-      <div class="detail-row"><div class="detail-key">Payé</div><div class="detail-val">${r.paid_at ? fmtDateTime(r.paid_at) + ' · ' + fcfa(r.paid_amount) : '—'}</div></div>
-      <div class="detail-row"><div class="detail-key">Remboursement demandé</div><div class="detail-val">${r.repayment_requested_at ? fmtDateTime(r.repayment_requested_at) + ' · ' + fcfa(r.repayment_amount) : '—'}</div></div>
-      <div class="detail-row"><div class="detail-key">Remboursé</div><div class="detail-val">${fmtDateTime(r.repaid_at)}</div></div>
-      <div class="detail-row"><div class="detail-key">Total dû · échéance</div><div class="detail-val">${fcfa(r.total)} · ${r.paid_at ? fmtDue(r.date_remboursement) : esc(r.duree) + ' j après versement'}</div></div>
+      <div class="card-title">🕑 Historique</div>
+      ${timelineHtml(r)}
+      <div class="detail-row"><div class="detail-key">Total dû · échéance</div><div class="detail-val">${fcfa(r.total)} · ${fmtDue(r.date_remboursement)}${penaltyOf(r) ? ` · <span style="color:var(--red)">+ ${fcfa(penaltyOf(r))} de majorations</span>` : ''}</div></div>
       <div class="detail-row"><div class="detail-key">Documents</div><div class="detail-val"><div class="row-actions">${docButtons(r)}</div>${r.receipt_number ? `<span class="muted">Reçu N° ${esc(r.receipt_number)}</span>` : ''}</div></div>
     </div>`;
 }
@@ -1716,10 +2070,122 @@ async function renderAdminSettings() {
   });
 }
 
+
+/* =====================================================================
+   PROFIL (client et admin)
+   ===================================================================== */
+async function renderProfile() {
+  const paint = painter();
+  const u = currentUser;
+  const perm = 'Notification' in window ? Notification.permission : 'unsupported';
+  if (!paint()) return;
+  $('content').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">👤 Mon profil</h1><p class="page-subtitle">${esc(u.email)}${u.role === 'admin' ? ' · Administrateur' : ''}</p></div></div>
+    <form class="card" id="profileForm" style="max-width:640px;margin-bottom:20px;" novalidate>
+      <div class="card-title">Mes informations</div>
+      <div class="field"><label for="pf-name">Nom complet</label><input id="pf-name" value="${esc(u.full_name || '')}" autocomplete="name" maxlength="80"></div>
+      <div class="field"><label for="pf-phone">Téléphone</label><input id="pf-phone" type="tel" inputmode="tel" value="${esc(u.phone || '')}" autocomplete="tel" maxlength="20"></div>
+      <button class="btn btn-primary btn-block-m" type="submit">💾 Enregistrer</button>
+    </form>
+    <form class="card" id="pwdForm" style="max-width:640px;margin-bottom:20px;" novalidate>
+      <div class="card-title">Mot de passe</div>
+      <div class="field"><label for="pf-pass">Nouveau mot de passe</label><input id="pf-pass" type="password" autocomplete="new-password" placeholder="Min. 6 caractères"></div>
+      <div class="field"><label for="pf-pass2">Confirmez</label><input id="pf-pass2" type="password" autocomplete="new-password"></div>
+      <button class="btn btn-secondary btn-block-m" type="submit">🔒 Changer le mot de passe</button>
+    </form>
+    <div class="card" style="max-width:640px;">
+      <div class="card-title">Préférences</div>
+      <div class="pref-row"><span>🔔 Notifications sur ce téléphone</span>
+        ${perm === 'granted' ? '<span class="due-chip">Activées</span>' : perm === 'default' ? '<button class="btn btn-ghost btn-sm" onclick="enablePush().then(route)">Activer</button>' : '<span class="muted">Bloquées dans le navigateur</span>'}</div>
+      <div class="pref-row"><span>🌓 Thème clair / sombre</span><button class="btn btn-ghost btn-sm" data-theme-toggle aria-label="Changer de thème">🌙</button></div>
+      <div class="pref-row"><span>📲 Installer l'appli sur l'écran d'accueil</span><button class="btn btn-ghost btn-sm" id="installBtn">Installer</button></div>
+      <button class="btn btn-danger btn-block-m" id="profileLogout" style="margin-top:16px;">🚪 Se déconnecter</button>
+    </div>`;
+  applyTheme(document.documentElement.getAttribute('data-theme'));
+  $('profileLogout').onclick = () => $('logoutBtn').click();
+  $('installBtn').onclick = installApp;
+  $('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = $('pf-name').value.trim().replace(/\s+/g, ' '), phone = $('pf-phone').value.trim();
+    if (name.length < 2 || name.length > 80) return invalid($('pf-name'), 'Nom complet : 2 à 80 caractères.');
+    if (!PHONE_OK(phone)) return invalid($('pf-phone'), 'Téléphone invalide (9 chiffres, ex : 77 123 45 67).');
+    const btn = e.target.querySelector('button[type=submit]');
+    await once('profile', async () => {
+      busy(btn, true, 'Enregistrement…');
+      try { await rpc('profile_update', { p_name: name, p_phone: phone }); currentUser.full_name = name; currentUser.phone = phone; $('content').dataset.dirty = ''; toast('Profil enregistré.'); }
+      catch (err) { toast(err.message, 'error'); } finally { busy(btn, false); }
+    });
+  });
+  $('pwdForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const p1 = $('pf-pass').value, p2 = $('pf-pass2').value;
+    if (p1.length < 6 || p1.length > 72) return invalid($('pf-pass'), 'Mot de passe : 6 à 72 caractères.');
+    if (p1 !== p2) return invalid($('pf-pass2'), 'Les deux mots de passe ne correspondent pas.');
+    const btn = e.target.querySelector('button[type=submit]');
+    await once('password', async () => {
+      busy(btn, true, 'Enregistrement…');
+      try {
+        const { error } = await sb.auth.updateUser({ password: p1 });
+        if (error) throw new AppError(authErrorMessage(error));
+        $('pf-pass').value = ''; $('pf-pass2').value = ''; $('content').dataset.dirty = '';
+        toast('Mot de passe modifié.');
+      } catch (err) { toast(err instanceof AppError ? err.message : friendly(err), 'error'); } finally { busy(btn, false); }
+    });
+  });
+}
+
+/* Installation sur l'écran d'accueil (Android/ordinateur : invite native ; iPhone : consigne). */
+let _installPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); _installPrompt = e; });
+async function installApp() {
+  if (_installPrompt) { _installPrompt.prompt(); _installPrompt = null; return; }
+  if (/iphone|ipad|ipod/i.test(navigator.userAgent)) return toast('Sur iPhone : touchez le bouton Partager, puis « Sur l\'écran d\'accueil ».', 'info');
+  toast('Ouvrez le menu de votre navigateur (⋮) puis « Ajouter à l\'écran d\'accueil » / « Installer l\'application ».', 'info');
+}
+
+/* =====================================================================
+   ADMIN : échéancier
+   ===================================================================== */
+async function renderAdminDues() {
+  const paint = painter();
+  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).in('status', ['paid', 'repayment_requested']).limit(1000));
+  if (!paint()) return;
+  const withD = reqs.map((r) => ({ r, d: daysLeft(r) ?? 0 })).sort((a, b) => a.d - b.d);
+  const groups = [
+    ['🚨 Exigibles (plus de 3 jours de retard)', (x) => x.r.status === 'paid' && x.d <= -EXIGIBLE_FROM, 'late'],
+    ['⚠️ En retard', (x) => x.r.status === 'paid' && x.d < 0 && x.d > -EXIGIBLE_FROM, 'late'],
+    ["📍 Aujourd'hui", (x) => x.r.status === 'paid' && x.d === 0, 'late'],
+    ['⏰ Dans 1 à 2 jours', (x) => x.r.status === 'paid' && x.d >= 1 && x.d <= 2, 'soon'],
+    ['🗓️ Dans 3 à 7 jours', (x) => x.r.status === 'paid' && x.d >= 3 && x.d <= 7, 'ok'],
+    ['📆 Plus tard', (x) => x.r.status === 'paid' && x.d > 7, 'ok'],
+    ['⏳ Remboursements à vérifier', (x) => x.r.status === 'repayment_requested', 'soon'],
+  ];
+  const sum = (arr) => arr.reduce((t, x) => t + amountDue(x.r), 0);
+  const late = withD.filter((x) => x.r.status === 'paid' && x.d < 0);
+  const week = withD.filter((x) => x.r.status === 'paid' && x.d >= 0 && x.d <= 7);
+  $('content').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">📅 Échéancier</h1><p class="page-subtitle">Tous les prêts versés, du plus urgent au plus lointain.</p></div></div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">En retard</div><div class="kpi-value" style="color:${late.length ? 'var(--red)' : 'var(--green)'}">${late.length}</div><div class="kpi-sub">${fcfa(sum(late))}</div></div>
+      <div class="kpi"><div class="kpi-label">À encaisser sous 7 j</div><div class="kpi-value">${week.length}</div><div class="kpi-sub">${fcfa(sum(week))}</div></div>
+    </div>
+    ${withD.length ? groups.map(([title, fn, lvl]) => {
+      const rows = withD.filter(fn); if (!rows.length) return '';
+      return `<div class="card due-group ${lvl}" style="margin-bottom:16px;"><div class="card-title">${title} <span class="muted">· ${rows.length} · ${fcfa(sum(rows))}</span></div>
+        ${rows.map(({ r }) => `<div class="due-row">
+          <div class="due-main"><strong>${esc(r.guarantee_name || r.nom)}</strong> ${dueChip(r)}
+            <div class="muted">${fcfa(r.total)}${penaltyOf(r) ? ` + ${fcfa(penaltyOf(r))} de majorations = <strong>${fcfa(amountDue(r))}</strong>` : ''} · échéance ${fmtDue(r.date_remboursement)} · Wave ${esc(fmtPhone(r.wave_number))}</div></div>
+          <div class="row-actions">${reminderLink(r)}${r.status === 'repayment_requested' ? `<button class="btn btn-success btn-sm" onclick="adminSet(${jsArg(r.id)}, 'done')">✅ Reçu</button>` : ''}<a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(r.id)}">Détails</a></div>
+        </div>`).join('')}</div>`;
+    }).join('') : '<div class="empty"><div class="empty-icon">✅</div>Aucun prêt en cours de remboursement.</div>'}`;
+}
+
 /* =====================================================================
    Événements globaux & démarrage
    ===================================================================== */
 document.addEventListener('click', (e) => {
+  const blocked = e.target.closest('[data-new-request].is-disabled');
+  if (blocked) { e.preventDefault(); toast(BLOCK_MSG, 'error'); return; }
   const go = e.target.closest('[data-go]');
   if (go) { e.preventDefault(); navigate(go.dataset.go); return; }
   if (e.target.closest('[data-theme-toggle]')) { applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); return; }
@@ -1731,7 +2197,9 @@ $('menuBtn').addEventListener('click', () => { $('sidebar').classList.add('open'
 $('sidebarOverlay').addEventListener('click', closeSidebar);
 $('pdfModalClose').addEventListener('click', closeDoc);
 $('pdfModal').addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closeDoc(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeDoc(); $('notifPanel').classList.remove('show'); } });
+$('contractClose').addEventListener('click', closeContractViewer);
+$('contractModal').addEventListener('click', (e) => { if (e.target.id === 'contractModal') closeContractViewer(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeDoc(); closeContractViewer(); $('notifPanel').classList.remove('show'); } });
 window.addEventListener('hashchange', route);
 
 /* Saisie en cours : on ne recharge jamais la page sous les doigts de l'utilisateur. */
@@ -1758,7 +2226,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // Fonctions appelées depuis les attributs onclick
-Object.assign(window, { copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route });
+Object.assign(window, { copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route, installApp, goNewRequest });
 
 (async () => {
   await loadProfile();
