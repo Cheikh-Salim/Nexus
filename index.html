@@ -9,7 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://qhdvrrpiqtfvppnaxelj.supabase.co wss://qhdvrrpiqtfvppnaxelj.supabase.co; img-src 'self' data: blob:; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
 <style>
 :root, [data-theme="dark"] {
   --bg: #070b08; --bg-1: #0a140e; --surface: #0f1611; --surface-2: #16201a; --surface-3: #1e2b23;
@@ -263,6 +265,75 @@ td .muted { display: block; }
   .page-title { font-size: 1.6rem; }
   .copy-row .btn { width: 100%; }
 }
+/* ===== v5 : échéances & documents ===== */
+.countdown { display: flex; gap: 18px; align-items: center; padding: 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface-2); margin-bottom: 12px; }
+.countdown .cd-left { min-width: 92px; text-align: center; padding: 10px 6px; border-radius: 14px; background: var(--green-dim); color: var(--green); }
+.countdown .cd-num { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 900; line-height: 1; }
+.countdown .cd-unit { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+.countdown .cd-body { flex: 1; min-width: 0; }
+.countdown .cd-title { font-weight: 900; font-size: 15px; margin-bottom: 2px; }
+.countdown.soon { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-dim); }
+.countdown.soon .cd-left { background: var(--gold-dim); color: var(--gold); }
+.countdown.late { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+.countdown.late .cd-left { background: rgba(239,68,68,0.15); color: var(--red); }
+.countdown.late .cd-title { color: var(--red); }
+.due-chip { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 900; vertical-align: middle; background: var(--green-dim); color: var(--green); white-space: nowrap; }
+.due-chip.soon { background: var(--gold-dim); color: var(--gold); }
+.due-chip.late { background: var(--red-2); color: #fff; }
+.alert-due { padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; border: 1px solid var(--gold); background: var(--gold-dim); color: var(--text); }
+.alert-due.late { border-color: var(--red); background: rgba(239,68,68,0.12); }
+.alert-due.info { border-color: var(--border); background: var(--surface-2); }
+.modal-pdf-body .empty { margin: 20px; }
+@media (max-width: 600px) {
+  .countdown { flex-direction: column; align-items: stretch; text-align: left; }
+  .countdown .cd-left { display: flex; align-items: baseline; justify-content: center; gap: 8px; }
+  .modal-pdf-head { flex-direction: column; align-items: stretch; gap: 10px; }
+  .modal-pdf-head > div { flex-wrap: wrap; }
+}
+/* ===== v6 : finitions, états, mobile ===== */
+.invalid, .field input.invalid, .field select.invalid, .field textarea.invalid { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.18) !important; }
+input[type=checkbox].invalid { outline: 2px solid var(--red); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.btn:disabled { cursor: progress; }
+body.is-busy { cursor: progress; }
+.net-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--red-2); color: #fff; text-align: center; padding: 10px 14px; font-weight: 800; font-size: 13px; }
+body.offline .main, body.offline .auth-wrap { padding-top: 48px; }
+.update-bar { position: sticky; top: 8px; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 12px; background: var(--gold-dim); border: 1px solid var(--gold); font-weight: 700; font-size: 13px; margin-bottom: 10px; backdrop-filter: blur(8px); }
+.auth-footer a { cursor: pointer; }
+.sb-link { text-decoration: none; }
+input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
+@media (max-width: 860px) {
+  /* iPhone : 16 px minimum, sinon le téléphone zoome tout seul sur les champs */
+  .field input, .field select, .field textarea, .search, .auth-card input { font-size: 16px; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kpi { padding: 14px; }
+  .kpi-value { font-size: 1.3rem; }
+  .mobile-bar { position: sticky; top: 0; z-index: 70; background: var(--glass); backdrop-filter: blur(14px); padding: 8px 0; margin: -8px 0 8px; }
+  .search { max-width: none; }
+  .page-head .search { order: 3; }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tab { white-space: nowrap; }
+  /* Tableau admin → cartes lisibles sur téléphone */
+  .table-wrap:has(.rtable) { background: transparent; border: none; overflow: visible; }
+  .rtable thead { display: none; }
+  .rtable, .rtable tbody, .rtable tr, .rtable td { display: block; width: 100%; }
+  .rtable tr { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; }
+  .rtable td { border: none; padding: 6px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; text-align: right; }
+  .rtable td::before { content: attr(data-label); font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; text-align: left; flex-shrink: 0; padding-top: 2px; }
+  .rtable td .cell { margin-left: auto; text-align: right; min-width: 0; }
+  .rtable td .cell .muted { display: block; }
+  .rtable td.rt-more { justify-content: flex-end; }
+  .rtable td.rt-more::before { content: none; }
+  .rtable .row-actions { justify-content: flex-end; }
+  tbody tr:hover td { background: transparent; }
+  .modal-overlay { padding: 0; }
+  .modal-pdf { max-height: 100vh; height: 100%; border-radius: 0; }
+  .notif-panel { left: 8px; right: 8px; width: auto; }
+  .detail-row { padding: 10px 0; }
+}
+@media (max-width: 380px) { .kpis { grid-template-columns: 1fr; } }
+/* Un élément masqué reste masqué, même s'il a un style d'affichage */
+[hidden] { display: none !important; }
 </style>
 </head>
 <body>
@@ -273,8 +344,9 @@ td .muted { display: block; }
       <div class="public-brand">Nexus<span>.</span>Crédit</div>
       <div class="public-nav">
         <button class="theme-toggle" data-theme-toggle aria-label="Changer de thème">🌙</button>
-        <button class="btn btn-secondary btn-sm" data-go="/login">Connexion</button>
-        <button class="btn btn-primary btn-sm" data-go="/register">S'inscrire</button>
+        <button class="btn btn-secondary btn-sm" data-go="/login" data-guest>Connexion</button>
+        <button class="btn btn-primary btn-sm" data-go="/register" data-guest>S'inscrire</button>
+        <button class="btn btn-primary btn-sm" data-go="/login" data-member hidden>Mon espace →</button>
       </div>
     </div>
     <div class="hero">
@@ -283,8 +355,9 @@ td .muted { display: block; }
           <h1>Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
           <p>Un besoin urgent d'argent ? Faites votre demande en ligne, envoyez votre garantie par coursier Yango sans vous déplacer, et recevez l'argent directement sur votre Wave.</p>
           <div class="hero-btns">
-            <button class="btn btn-primary" data-go="/register">💰 Créer mon compte</button>
-            <button class="btn btn-secondary" data-go="/login">Se connecter</button>
+            <button class="btn btn-primary" data-go="/register" data-guest>💰 Créer mon compte</button>
+            <button class="btn btn-secondary" data-go="/login" data-guest>Se connecter</button>
+            <button class="btn btn-primary" data-go="/login" data-member hidden>Accéder à mon espace →</button>
           </div>
         </div>
         <div class="hero-card">
@@ -316,7 +389,8 @@ td .muted { display: block; }
         <div class="field"><label for="loginEmail">Email</label><input type="email" id="loginEmail" placeholder="votre@email.com" autocomplete="username" required></div>
         <div class="field"><label for="loginPass">Mot de passe</label><input type="password" id="loginPass" placeholder="••••••" autocomplete="current-password" required></div>
         <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Se connecter</button>
-        <div class="auth-footer">Pas encore de compte ? <a data-go="/register">S'inscrire</a></div>
+        <div class="auth-footer"><a href="#" id="forgotLink">Mot de passe oublié ?</a></div>
+        <div class="auth-footer" style="margin-top:8px;">Pas encore de compte ? <a data-go="/register">S'inscrire</a></div>
       </form>
     </div>
   </div>
@@ -345,6 +419,21 @@ td .muted { display: block; }
     </div>
   </div>
 
+  <!-- NOUVEAU MOT DE PASSE (lien reçu par email) -->
+  <div class="view" id="view-reset">
+    <div class="public-topbar"><div class="public-brand">Nexus<span>.</span>Crédit</div></div>
+    <div class="auth-wrap">
+      <form class="auth-card" id="resetForm" novalidate>
+        <h2>Nouveau mot de passe</h2>
+        <p class="auth-sub">Choisissez votre nouveau mot de passe.</p>
+        <div class="auth-error" id="resetError" role="alert"></div>
+        <div class="field"><label for="resetPass">Nouveau mot de passe</label><input type="password" id="resetPass" autocomplete="new-password" placeholder="Min. 6 caractères"></div>
+        <div class="field"><label for="resetPass2">Confirmez</label><input type="password" id="resetPass2" autocomplete="new-password"></div>
+        <button class="btn btn-primary btn-block" type="submit" id="resetBtn">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+
   <!-- ESPACE CONNECTÉ (client et admin partagent la même coque) -->
   <div class="view" id="view-app">
     <div class="shell">
@@ -356,7 +445,7 @@ td .muted { display: block; }
         <div class="sb-role" id="sbRole">Espace</div>
         <nav id="sbNav"></nav>
         <div class="sb-footer">
-          <button class="theme-toggle" data-theme-toggle style="width:100%">🌙</button>
+          <button class="theme-toggle" data-theme-toggle style="width:100%" aria-label="Changer de thème">🌙</button>
           <button class="btn btn-ghost btn-sm" id="logoutBtn">🚪 Déconnexion</button>
         </div>
       </aside>
@@ -366,26 +455,32 @@ td .muted { display: block; }
           <div class="public-brand" style="font-size:1.1rem;">Nexus<span>.</span>Crédit</div>
           <button class="bell" data-bell aria-label="Notifications">🔔<span class="bell-count" data-bell-count></span></button>
         </div>
+        <div class="update-bar" id="updateBar" hidden role="status">🔔 Nouvelle mise à jour disponible <button class="btn btn-primary btn-sm" id="updateBtn">Actualiser</button></div>
         <div id="content" style="margin-top:12px;"></div>
       </main>
     </div>
   </div>
 </div>
 
+<div class="net-banner" id="netBanner" hidden role="alert">📡 Connexion perdue — vos actions reprendront dès le retour d'internet.</div>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="notif-panel" id="notifPanel" role="dialog" aria-label="Notifications"></div>
 <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
 
-<div class="modal-overlay" id="pdfModal">
+<div class="modal-overlay" id="pdfModal" role="dialog" aria-modal="true" aria-labelledby="docTitle">
   <div class="modal-pdf">
     <div class="modal-pdf-head">
-      <h3>📄 Contrat</h3>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-pdf btn-sm" id="pdfModalDownload">⬇️ Télécharger</button>
+      <h3 id="docTitle">📄 Document</h3>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-pdf btn-sm" id="pdfModalDownload">⬇️ Télécharger le PDF</button>
+        <a class="btn btn-ghost btn-sm" id="pdfModalOpen" target="_blank" rel="noopener">↗ Ouvrir</a>
         <button class="modal-close" id="pdfModalClose" aria-label="Fermer">✕</button>
       </div>
     </div>
-    <div class="modal-pdf-body"><iframe id="pdfModalFrame" class="pdf-preview-frame" title="Contrat" sandbox=""></iframe></div>
+    <div class="modal-pdf-body">
+      <iframe id="pdfModalFrame" class="pdf-preview-frame" title="Aperçu du document"></iframe>
+      <div id="pdfMobileHint" class="empty" hidden><div class="empty-icon">📄</div>Votre document PDF est prêt.<br>Touchez <strong>Télécharger le PDF</strong> ou <strong>Ouvrir</strong> pour le consulter.</div>
+    </div>
   </div>
 </div>
 
@@ -401,7 +496,7 @@ const SUPABASE_KEY = 'sb_publishable_ae66Vd9KKZG3-5bCMcoPgw_9T2rEdiB'; // clé p
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Colonnes utiles aux listes (sans la signature, lourde) → pages plus rapides.
-const LIST_COLS = 'id,client_id,nom,telephone,montant,duree,total,status,created_at,date_remboursement,wave_number,guarantee_name,guarantee_phone,guarantee_declared_at,guarantee_received_at,paid_at,paid_amount,repayment_amount,repayment_ref,repayment_requested_at,repaid_at,rejection_reason,admin_note,pdf_url';
+const LIST_COLS = 'id,client_id,nom,telephone,montant,duree,total,status,created_at,date_remboursement,wave_number,guarantee_name,guarantee_phone,guarantee_declared_at,guarantee_received_at,paid_at,paid_amount,repayment_amount,repayment_ref,repayment_requested_at,repaid_at,rejection_reason,admin_note,pdf_url,passeport,garantie,receipt_number,receipt_issued_at';
 
 /* ---------------------------------------------------------------------
    Utilitaires
@@ -414,6 +509,8 @@ const fmtPhone = (p) => digits(p).replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('fr-FR') : '—');
 const fmtDateTime = (d) => (d ? new Date(d).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : '—');
 const jsArg = (v) => esc(JSON.stringify(String(v ?? ''))); // valeur sûre dans un onclick="..."
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PHONE_OK = (p) => { const d = digits(p); return d.length >= 9 && d.length <= 15; };
 
 function toast(msg, type = 'success') {
   const el = document.createElement('div');
@@ -423,7 +520,10 @@ function toast(msg, type = 'success') {
   const text = document.createElement('span');
   text.textContent = msg; // texte brut : aucun HTML injecté
   el.append(icon, text);
-  $('toastWrap').appendChild(el);
+  el.setAttribute('role', type === 'error' ? 'alert' : 'status');
+  const wrap = $('toastWrap');
+  while (wrap.children.length >= 3) wrap.firstChild.remove();
+  wrap.appendChild(el);
   setTimeout(() => { el.style.transition = 'all .3s'; el.style.opacity = '0'; el.style.transform = 'translateX(50px)'; }, 3500);
   setTimeout(() => el.remove(), 3900);
 }
@@ -444,10 +544,52 @@ const copyBtn = (text, label = '📋 Copier') =>
   `<button type="button" class="btn btn-ghost btn-sm" onclick="copyText(${jsArg(text)})">${label}</button>`;
 const waveCell = (w) => (w ? `<span class="wave">${esc(fmtPhone(w))}</span> <button class="icon-btn" title="Copier" onclick="copyText(${jsArg(digits(w))})">📋</button>` : '<span class="muted">—</span>');
 
+/* Traduit les erreurs techniques en messages clairs. */
+function friendly(err) {
+  const raw = String(err?.message || err || '');
+  const m = raw.toLowerCase();
+  if (!navigator.onLine || /failed to fetch|networkerror|load failed|network request failed|fetch failed|timeout/.test(m))
+    return 'Connexion perdue. Vérifiez votre internet puis réessayez.';
+  if (/jwt|token.*expired|refresh token|not authenticated/.test(m)) return 'Votre session a expiré. Reconnectez-vous.';
+  if (/row-level security|permission denied/.test(m)) return "Action non autorisée.";
+  if (/duplicate key/.test(m)) return 'Déjà enregistré.';
+  if (/invalid input syntax for type uuid/.test(m)) return 'Lien invalide.';
+  return raw || 'Une erreur est survenue. Réessayez.';
+}
+class AppError extends Error {}
 async function rpc(name, args) {
-  const { data, error } = await sb.rpc(name, args);
-  if (error) throw new Error(error.message);
-  return data;
+  let res;
+  try { res = await sb.rpc(name, args); } catch (e) { throw new AppError(friendly(e)); }
+  if (res.error) throw new AppError(friendly(res.error));
+  return res.data;
+}
+/* Exécute une action une seule fois à la fois (protège du double clic). */
+const _locks = new Set();
+async function once(key, fn) {
+  if (_locks.has(key)) return;
+  _locks.add(key);
+  document.body.classList.add('is-busy');
+  try { return await fn(); } finally { _locks.delete(key); if (!_locks.size) document.body.classList.remove('is-busy'); }
+}
+/* Signale un champ invalide : bordure rouge, focus, message. */
+function invalid(el, msg) {
+  if (el) {
+    el.classList.add('invalid'); el.setAttribute('aria-invalid', 'true');
+    el.focus({ preventScroll: false });
+    el.addEventListener('input', () => { el.classList.remove('invalid'); el.removeAttribute('aria-invalid'); }, { once: true });
+  }
+  toast(msg, 'error');
+  return false;
+}
+const isUuid = (v) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(v));
+const newUuid = () => (crypto.randomUUID ? crypto.randomUUID()
+  : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)));
+/* Requête Supabase avec erreurs lisibles. */
+async function q(promise) {
+  let res;
+  try { res = await promise; } catch (e) { throw new AppError(friendly(e)); }
+  if (res.error) throw new AppError(friendly(res.error));
+  return res;
 }
 function busy(btn, on, label) {
   if (!btn) return;
@@ -492,21 +634,32 @@ applyTheme(savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? '
    --------------------------------------------------------------------- */
 let currentUser = null;
 
+let _profileError = null;
 async function loadProfile() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) { currentUser = null; return null; }
-  const { data, error } = await sb.from('profiles').select('id, email, full_name, phone, role').eq('id', session.user.id).single();
-  if (error) { console.error('[profil]', error); currentUser = null; return null; }
-  currentUser = data;
-  return data;
+  _profileError = null;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { currentUser = null; return null; }
+    const { data, error } = await sb.from('profiles').select('id, email, full_name, phone, role').eq('id', session.user.id).single();
+    if (error) throw error;
+    currentUser = data;
+    return data;
+  } catch (e) {
+    console.error('[profil]', e);
+    _profileError = friendly(e);
+    currentUser = null;
+    return null;
+  }
 }
 
+let _recovering = false;
 sb.auth.onAuthStateChange((event) => {
-  if (event === 'SIGNED_OUT') { teardownSession(); navigate('/home'); }
+  if (event === 'SIGNED_OUT') { teardownSession(); if (!_recovering) navigate('/home'); }
+  if (event === 'PASSWORD_RECOVERY') { _recovering = true; setTimeout(() => navigate('/reset'), 0); }
 });
 
 function teardownSession() {
-  currentUser = null;
+  currentUser = null; _settings = null; _adminSearch = ''; _adminFilter = 'todo';
   if (_notifChannel && _notifChannel !== 'starting') sb.removeChannel(_notifChannel);
   _notifChannel = null;
   _notifs = []; renderBell();
@@ -519,6 +672,7 @@ const ROUTES = [
   { re: /^\/home$/, view: 'home', public: true },
   { re: /^\/login$/, view: 'login', public: true },
   { re: /^\/register$/, view: 'register', public: true },
+  { re: /^\/reset$/, view: 'reset', public: true },
   { re: /^\/client\/dashboard$/, role: 'client', render: renderClientDashboard },
   { re: /^\/client\/requests$/, role: 'client', render: renderClientRequests },
   { re: /^\/client\/new$/, role: 'client', render: renderNewRequest },
@@ -539,26 +693,54 @@ function navigate(path) {
   else route();
 }
 
+let _routeSeq = 0;
+/* Chaque page vérifie qu'elle est toujours la page demandée avant de s'afficher
+   (évite qu'une page lente écrase la suivante). */
+const painter = () => { const seq = _routeSeq; return () => seq === _routeSeq; };
+
 async function route() {
+  const seq = ++_routeSeq;
+  hideUpdateBar();
   const path = location.hash.replace(/^#/, '') || '/home';
+  if (/access_token=|error_description=/.test(path)) return; // lien reçu par email : traité par Supabase
   let match = null, params = [];
   for (const r of ROUTES) { const m = path.match(r.re); if (m) { match = r; params = m.slice(1); break; } }
   if (!match) return navigate(currentUser ? homeOf(currentUser) : '/home');
+  if (params.length && !isUuid(params[0])) { toast('Lien invalide.', 'error'); return navigate(currentUser ? homeOf(currentUser) : '/home'); }
 
   if (match.public) {
+    if (match.view === 'reset') { if (!_recovering) return navigate('/login'); return showView('reset'); }
     if (currentUser && path !== '/home') return navigate(homeOf(currentUser));
+    updateHomeNav();
     return showView(match.view);
   }
   if (!currentUser) await loadProfile();
-  if (!currentUser) { toast('Veuillez vous connecter.', 'info'); return navigate('/login'); }
+  if (seq !== _routeSeq) return;
+  if (!currentUser) {
+    if (_profileError) { showView('login'); return showAuthError('loginError', _profileError); }
+    toast('Veuillez vous connecter.', 'info'); return navigate('/login');
+  }
   if (match.role !== currentUser.role) return navigate(homeOf(currentUser));
 
   showView('app');
   buildNav(path);
   startNotifications();
-  $('content').innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
+  const content = $('content');
+  content.dataset.dirty = '';
+  content.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
   try { await match.render(...params); }
-  catch (e) { console.error(e); $('content').innerHTML = `<div class="note err">Erreur de chargement : ${esc(e.message)}</div>`; }
+  catch (e) {
+    console.error(e);
+    if (seq !== _routeSeq) return;
+    content.innerHTML = `<div class="empty"><div class="empty-icon">📡</div><strong>Impossible d'afficher cette page.</strong><br>${esc(friendly(e))}<br><br>
+      <button class="btn btn-primary" onclick="route()">🔄 Réessayer</button></div>`;
+  }
+}
+
+/* Accueil : si l'utilisateur est connecté, un seul bouton « Mon espace ». */
+function updateHomeNav() {
+  document.querySelectorAll('[data-guest]').forEach((el) => { el.hidden = !!currentUser; });
+  document.querySelectorAll('[data-member]').forEach((el) => { el.hidden = !currentUser; });
 }
 
 function showView(name) {
@@ -587,7 +769,9 @@ function authErrorMessage(error) {
   if (error.status === 429 || code.includes('rate_limit')) return 'Trop de tentatives. Patientez quelques minutes puis réessayez.';
   if (code === 'user_already_exists' || msg.includes('already registered')) return 'Un compte existe déjà avec cet email. Connectez-vous.';
   if (code === 'weak_password') return 'Mot de passe trop faible (6 caractères minimum).';
-  return error.message || 'Erreur inconnue.';
+  if (code === 'same_password') return 'Choisissez un mot de passe différent de l\'ancien.';
+  if (code === 'over_email_send_rate_limit') return 'Trop d\'emails envoyés. Réessayez dans une heure.';
+  return friendly(error);
 }
 function showAuthError(id, msg) {
   const el = $(id); el.textContent = msg; el.classList.add('show');
@@ -596,39 +780,74 @@ function showAuthError(id, msg) {
 
 $('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = $('loginEmail').value.trim(), pass = $('loginPass').value, btn = $('loginBtn');
-  if (!email || !pass) return showAuthError('loginError', 'Remplissez tous les champs.');
+  const email = $('loginEmail').value.trim().toLowerCase(), pass = $('loginPass').value, btn = $('loginBtn');
+  if (!EMAIL_RE.test(email)) { invalid($('loginEmail'), 'Email invalide.'); return showAuthError('loginError', 'Indiquez une adresse email valide.'); }
+  if (!pass) { invalid($('loginPass'), 'Mot de passe manquant.'); return showAuthError('loginError', 'Indiquez votre mot de passe.'); }
+  if (btn.disabled) return;
   busy(btn, true, 'Connexion…');
   try {
     const { error } = await sb.auth.signInWithPassword({ email, password: pass });
     if (error) return showAuthError('loginError', authErrorMessage(error));
-    if (!(await loadProfile())) { await sb.auth.signOut(); return showAuthError('loginError', 'Profil introuvable. Contactez le support.'); }
+    if (!(await loadProfile())) {
+      if (_profileError) return showAuthError('loginError', _profileError);
+      await sb.auth.signOut(); return showAuthError('loginError', 'Profil introuvable. Contactez le support.');
+    }
     $('loginPass').value = '';
     toast(`Bienvenue ${currentUser.full_name || currentUser.email} !`);
     navigate(homeOf(currentUser));
-  } finally { busy(btn, false); }
+  } catch (err) { showAuthError('loginError', friendly(err)); } finally { busy(btn, false); }
+});
+
+$('forgotLink').addEventListener('click', async (e) => {
+  e.preventDefault();
+  const email = $('loginEmail').value.trim().toLowerCase();
+  if (!EMAIL_RE.test(email)) { invalid($('loginEmail'), 'Saisissez d\'abord votre email.'); return showAuthError('loginError', 'Saisissez votre email ci-dessus, puis cliquez sur « Mot de passe oublié ? ».'); }
+  await once('forgot', async () => {
+    try {
+      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+      if (error) return showAuthError('loginError', authErrorMessage(error));
+      toast('Si un compte existe, un email de réinitialisation vient d\'être envoyé (vérifiez les spams).', 'info');
+    } catch (err) { showAuthError('loginError', friendly(err)); }
+  });
+});
+
+$('resetForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const p1 = $('resetPass').value, p2 = $('resetPass2').value, btn = $('resetBtn');
+  if (p1.length < 6) return invalid($('resetPass'), 'Mot de passe trop court (6 caractères minimum).');
+  if (p1 !== p2) return invalid($('resetPass2'), 'Les deux mots de passe ne correspondent pas.');
+  busy(btn, true, 'Enregistrement…');
+  try {
+    const { error } = await sb.auth.updateUser({ password: p1 });
+    if (error) return showAuthError('resetError', authErrorMessage(error));
+    _recovering = false; $('resetPass').value = ''; $('resetPass2').value = '';
+    await loadProfile();
+    toast('Mot de passe modifié.');
+    navigate(currentUser ? homeOf(currentUser) : '/login');
+  } catch (err) { showAuthError('resetError', friendly(err)); } finally { busy(btn, false); }
 });
 
 $('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = $('regName').value.trim(), email = $('regEmail').value.trim(), phone = $('regPhone').value.trim(), pass = $('regPass').value;
-  if (name.length < 3) return showAuthError('registerError', 'Nom trop court.');
-  if (!/^\S+@\S+\.\S+$/.test(email)) return showAuthError('registerError', 'Email invalide.');
-  if (digits(phone).length < 9) return showAuthError('registerError', 'Téléphone invalide.');
-  if (pass.length < 6) return showAuthError('registerError', 'Mot de passe trop court (6 min).');
-  const btn = $('registerBtn'); busy(btn, true, 'Création…');
+  const name = $('regName').value.trim().replace(/\s+/g, ' '), email = $('regEmail').value.trim().toLowerCase(), phone = $('regPhone').value.trim(), pass = $('regPass').value;
+  const bad = (id, msg) => { invalid($(id), msg); showAuthError('registerError', msg); };
+  if (name.length < 3 || name.length > 80) return bad('regName', 'Nom complet : 3 à 80 caractères.');
+  if (!EMAIL_RE.test(email)) return bad('regEmail', 'Adresse email invalide.');
+  if (!PHONE_OK(phone)) return bad('regPhone', 'Téléphone invalide (9 chiffres, ex : 77 123 45 67).');
+  if (pass.length < 6 || pass.length > 72) return bad('regPass', 'Mot de passe : 6 à 72 caractères.');
+  const btn = $('registerBtn'); if (btn.disabled) return; busy(btn, true, 'Création…');
   try {
     const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, phone } } });
     if (error) return showAuthError('registerError', authErrorMessage(error));
     $('regPass').value = '';
     if (data.session) { await loadProfile(); toast('Compte créé !'); navigate(homeOf(currentUser)); }
     else { toast('Compte créé ! Confirmez votre email puis connectez-vous.', 'info'); navigate('/login'); }
-  } finally { busy(btn, false); }
+  } catch (err) { showAuthError('registerError', friendly(err)); } finally { busy(btn, false); }
 });
 
 $('logoutBtn').addEventListener('click', async () => {
   if (!confirm('Se déconnecter ?')) return;
-  await sb.auth.signOut();
+  try { await sb.auth.signOut(); } catch (_) { teardownSession(); navigate('/home'); }
   toast('Déconnecté.', 'info');
 });
 
@@ -637,15 +856,24 @@ $('logoutBtn').addEventListener('click', async () => {
    --------------------------------------------------------------------- */
 let _notifs = [], _notifChannel = null;
 
+async function loadNotifications() {
+  if (!currentUser) return;
+  try {
+    const { data } = await q(sb.from('notifications').select('id,request_id,title,body,read_at,created_at')
+      .eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(30));
+    _notifs = data || [];
+    renderBell();
+  } catch (_) { /* hors ligne : on réessaiera au retour de la connexion */ }
+}
 async function startNotifications() {
   if (_notifChannel || !currentUser) return;
   _notifChannel = 'starting'; // évite deux abonnements si deux pages s'ouvrent vite
-  const { data } = await sb.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(30);
-  _notifs = data || [];
-  renderBell();
+  await loadNotifications();
+  if (!currentUser) { _notifChannel = null; return; }
   _notifChannel = sb.channel('notif-' + currentUser.id)
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${currentUser.id}` }, (p) => {
       const n = p.new;
+      if (_notifs.some((x) => x.id === n.id)) return;
       _notifs.unshift(n); _notifs = _notifs.slice(0, 30);
       renderBell();
       toast(`${n.title} — ${n.body || ''}`, 'info');
@@ -658,11 +886,20 @@ async function startNotifications() {
     .subscribe();
 }
 
+/* Met la page à jour, sauf si l'utilisateur est en train de saisir quelque chose :
+   dans ce cas une barre « Actualiser » apparaît, sa saisie n'est jamais effacée. */
+function isEditing() {
+  const c = $('content'); const a = document.activeElement;
+  return c.dataset.dirty === '1' || (a && c.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.id !== 'adminSearch');
+}
 function refreshIfRelevant(requestId) {
   const h = location.hash;
   const lists = ['#/admin/dashboard', '#/admin/requests', '#/client/dashboard', '#/client/requests'];
-  if (lists.includes(h) || (requestId && h.endsWith('/' + requestId))) route();
+  if (!(lists.includes(h) || (requestId && h.endsWith('/' + requestId)))) return;
+  if (isEditing()) showUpdateBar(); else route();
 }
+function showUpdateBar() { $('updateBar').hidden = false; }
+function hideUpdateBar() { const b = $('updateBar'); if (b) b.hidden = true; }
 
 function renderBell() {
   const unread = _notifs.filter((n) => !n.read_at).length;
@@ -714,60 +951,236 @@ function beep() {
 let _settings = null;
 async function getSettings(force) {
   if (_settings && !force) return _settings;
-  const { data, error } = await sb.from('app_settings').select('*').eq('id', 1).single();
-  if (error) throw new Error('Paramètres introuvables : lancez le script SQL nexus_v4.sql.');
-  return (_settings = data);
+  let res;
+  try { res = await sb.from('app_settings').select('*').eq('id', 1).single(); } catch (e) { throw new AppError(friendly(e)); }
+  if (res.error) throw new AppError(navigator.onLine ? 'Paramètres introuvables : lancez le script SQL nexus_v6.sql.' : friendly(res.error));
+  return (_settings = res.data);
 }
 
 /* ---------------------------------------------------------------------
-   Contrat (HTML stocké dans le bucket privé "contracts")
+   Échéances : compte à rebours
    --------------------------------------------------------------------- */
-function contractHtml(r) {
-  const sig = /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(r.signature_data_url || '') ? r.signature_data_url : '';
-  const taux = r.duree === 7 ? 25 : 35;
-  return `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Contrat Nexus Crédit</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Times New Roman',serif;background:#fff;padding:30px;color:#000}
-.c{max-width:820px;margin:0 auto}.h{text-align:center;margin-bottom:20px}.logo{font-size:30px;font-weight:bold;color:#1a5a3a;letter-spacing:2px}
-.sub{font-size:12px;color:#666;letter-spacing:3px}.t{font-size:20px;font-weight:bold;text-align:center;margin:18px 0;color:#1a5a3a;text-transform:uppercase}
-.s{margin-bottom:18px}.st{color:#1a5a3a;border-bottom:2px solid #1a5a3a;padding-bottom:4px;margin-bottom:8px;font-weight:bold;text-transform:uppercase;font-size:14px}
-.r{display:flex;padding:5px 0;border-bottom:1px solid #eee}.k{width:220px;color:#555}.v{font-weight:bold}
-.due{background:#fff8e7;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:18px 0;text-align:center;color:#b7860b;font-weight:bold}
-.sig{display:flex;gap:40px;margin-top:36px}.sb{flex:1;text-align:center;padding-top:16px;border-top:1px solid #999}.sb img{max-width:100%;max-height:70px;margin:8px 0}
-.f{margin-top:28px;font-size:10px;color:#999;text-align:center}</style></head><body><div class="c">
-<div class="h"><div class="logo">NEXUS CRÉDIT</div><div class="sub">RAPIDE • SÉCURISÉ • FIABLE</div></div>
-<div class="t">Contrat de prêt d'argent</div>
-<div class="due">Échéance de remboursement : ${esc(r.date_remboursement)}</div>
-<div class="s"><div class="st">Parties</div>
-<div class="r"><div class="k">Prêteur</div><div class="v">Nexus Crédit (78 664 90 62)</div></div>
-<div class="r"><div class="k">Emprunteur</div><div class="v">${esc(r.nom)}</div></div>
-<div class="r"><div class="k">Téléphone</div><div class="v">${esc(r.telephone)}</div></div>
-<div class="r"><div class="k">Pièce d'identité N°</div><div class="v">${esc(r.passeport)}</div></div></div>
-<div class="s"><div class="st">Montant et durée</div>
-<div class="r"><div class="k">Montant emprunté</div><div class="v">${fcfa(r.montant)}</div></div>
-<div class="r"><div class="k">Durée</div><div class="v">${esc(r.duree)} jours</div></div>
-<div class="r"><div class="k">Taux</div><div class="v">+${taux} %</div></div>
-<div class="r"><div class="k">Total à rembourser</div><div class="v">${fcfa(r.total)}</div></div></div>
-<div class="s"><div class="st">Garantie</div><div class="r"><div class="k">Garantie</div><div class="v">${esc(r.garantie)}</div></div></div>
-<div class="sig"><div class="sb"><strong>Le prêteur</strong><div>Nexus Crédit</div></div>
-<div class="sb"><strong>L'emprunteur</strong>${sig ? `<div><img src="${sig}" alt="Signature"></div>` : ''}<div style="font-size:11px">Signé par ${esc(r.nom)}</div></div></div>
-<div class="f">Contrat signé électroniquement · Fait à Dakar, le ${fmtDate(r.created_at)}</div></div></body></html>`;
+const garantieText = (r) => `${String(r.garantie || '').trim() || '—'} + Passeport N° ${String(r.passeport || '').trim() || '—'}`;
+function parseDay(d) {
+  if (!d) return null;
+  const m = String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+  const x = new Date(d);
+  return isNaN(x) ? null : new Date(x.getFullYear(), x.getMonth(), x.getDate());
+}
+const fmtDue = (d) => { const x = parseDay(d); return x ? x.toLocaleDateString('fr-FR') : '—'; };
+function daysLeft(r) {
+  const due = parseDay(r.date_remboursement); if (!due) return null;
+  const t = new Date();
+  return Math.round((due - new Date(t.getFullYear(), t.getMonth(), t.getDate())) / 86400000);
+}
+/* Seuls les prêts versés ont une échéance qui court. */
+function dueInfo(r) {
+  if (!['paid', 'repayment_requested'].includes(r.status)) return null;
+  const d = daysLeft(r); if (d === null) return null;
+  const s = (n) => (n > 1 ? 's' : '');
+  if (r.status === 'repayment_requested') return { d, level: 'ok', short: 'En vérification', label: 'Remboursement en vérification' };
+  if (d < 0) return { d, level: 'late', short: `Retard ${-d} j`, label: `⚠️ En retard de ${-d} jour${s(-d)}` };
+  if (d === 0) return { d, level: 'late', short: "Aujourd'hui", label: "⚠️ À rembourser aujourd'hui" };
+  if (d <= 2) return { d, level: 'soon', short: `J-${d}`, label: `⏰ Plus que ${d} jour${s(d)}` };
+  return { d, level: 'ok', short: `J-${d}`, label: `${d} jours restants` };
+}
+const dueChip = (r) => { const i = dueInfo(r); return i ? `<span class="due-chip ${i.level}">${esc(i.short)}</span>` : ''; };
+
+function countdownCard(r) {
+  const i = dueInfo(r);
+  if (!i) return '';
+  const start = parseDay(r.paid_at) || parseDay(r.created_at);
+  const due = parseDay(r.date_remboursement);
+  const total = Math.max(1, Math.round((due - start) / 86400000));
+  const pct = Math.min(100, Math.max(0, Math.round(((total - Math.max(i.d, 0)) / total) * 100)));
+  const big = r.status === 'repayment_requested' ? '⏳' : i.d < 0 ? `+${-i.d}` : i.d;
+  const unit = r.status === 'repayment_requested' ? 'vérification en cours' : i.d < 0 ? `jour${-i.d > 1 ? 's' : ''} de retard` : i.d === 0 ? "dernier jour" : `jour${i.d > 1 ? 's' : ''} restant${i.d > 1 ? 's' : ''}`;
+  return `<div class="countdown ${i.level}">
+    <div class="cd-left"><div class="cd-num">${big}</div><div class="cd-unit">${unit}</div></div>
+    <div class="cd-body">
+      <div class="cd-title">${esc(i.label)}</div>
+      <div class="muted">Prêt de ${fcfa(r.montant)} · à rembourser <strong>${fcfa(r.total)}</strong> avant le <strong>${fmtDue(r.date_remboursement)}</strong></div>
+      <div class="progress" style="margin:10px 0;"><div style="width:${pct}%"></div></div>
+      <div class="row-actions">
+        ${r.status === 'paid' ? `<a class="btn btn-primary btn-sm" href="#/client/requests/${esc(r.id)}">💰 Rembourser</a>` : `<a class="btn btn-ghost btn-sm" href="#/client/requests/${esc(r.id)}">Voir</a>`}
+        ${docButtons(r)}
+      </div>
+    </div>
+  </div>`;
 }
 
-async function openContract(path) {
-  const { data, error } = await sb.storage.from('contracts').createSignedUrl(path, 600);
-  if (error) return toast('Contrat introuvable.', 'error');
-  $('pdfModalFrame').src = data.signedUrl;
-  $('pdfModalDownload').onclick = () => downloadContract(path);
+/* ---------------------------------------------------------------------
+   Documents PDF : contrat et reçu de prêt
+   Générés à la demande à partir de la base (accès contrôlé par RLS :
+   un client ne peut ouvrir que ses propres documents).
+   --------------------------------------------------------------------- */
+const JSPDF_URL = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js';
+let _jspdf = null, _docUrl = null;
+function loadJsPdf() {
+  if (window.jspdf) return Promise.resolve(window.jspdf.jsPDF);
+  if (!_jspdf) _jspdf = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = JSPDF_URL; s.crossOrigin = 'anonymous';
+    s.onload = () => resolve(window.jspdf.jsPDF);
+    s.onerror = () => { _jspdf = null; reject(new Error('Impossible de charger le générateur PDF. Vérifiez votre connexion.')); };
+    document.head.appendChild(s);
+  });
+  return _jspdf;
+}
+// Les polices PDF standard n'acceptent que l'alphabet latin : on retire émojis et espaces spéciaux.
+const pdfTxt = (s) => String(s ?? '').replace(/[  ]/g, ' ').replace(/[‘’]/g, "'").replace(/[^\x09\x0a\x0d\x20-\xff]/g, '').trim();
+const pdfMoney = (n) => String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA';
+const tauxOf = (r) => (Number(r.duree) === 7 ? 25 : 35);
+const contractRef = (r) => 'NXC-C-' + String(r.id).replace(/-/g, '').slice(0, 8).toUpperCase();
+
+const docButtons = (r, compact = false) => {
+  const c = `<button class="btn btn-pdf btn-sm" onclick="openDoc('contract', ${jsArg(r.id)})" title="Contrat PDF">📄${compact ? '' : ' Contrat'}</button>`;
+  const rc = r.receipt_number ? `<button class="btn btn-ghost btn-sm" onclick="openDoc('receipt', ${jsArg(r.id)})" title="Reçu PDF">🧾${compact ? '' : ' Reçu'}</button>` : '';
+  return c + ' ' + rc;
+};
+
+const GREEN = [26, 90, 58], GOLD = [183, 134, 11], GREY = [110, 110, 110];
+
+function pdfHeader(doc, title, subtitle) {
+  const W = doc.internal.pageSize.getWidth();
+  doc.setFillColor(...GREEN); doc.rect(0, 0, W, 26, 'F');
+  doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(18);
+  doc.text('NEXUS CRÉDIT', 14, 13);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+  doc.text('RAPIDE - SÉCURISÉ - FIABLE   |   Dakar, Sénégal   |   78 664 90 62', 14, 20);
+  doc.setTextColor(...GREEN); doc.setFont('helvetica', 'bold'); doc.setFontSize(15);
+  doc.text(pdfTxt(title), W / 2, 38, { align: 'center' });
+  if (subtitle) { doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...GREY); doc.text(pdfTxt(subtitle), W / 2, 44, { align: 'center' }); }
+  return 52;
+}
+function pdfSection(doc, y, title) {
+  const W = doc.internal.pageSize.getWidth();
+  doc.setTextColor(...GREEN); doc.setFont('helvetica', 'bold'); doc.setFontSize(10.5);
+  doc.text(pdfTxt(title).toUpperCase(), 14, y);
+  doc.setDrawColor(...GREEN); doc.setLineWidth(0.5); doc.line(14, y + 1.5, W - 14, y + 1.5);
+  return y + 8;
+}
+function pdfRows(doc, y, rows, keyW = 58) {
+  const W = doc.internal.pageSize.getWidth();
+  doc.setFontSize(10);
+  for (const [k, v, strong] of rows) {
+    const lines = doc.splitTextToSize(pdfTxt(v), W - 14 - 14 - keyW);
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(...GREY); doc.text(pdfTxt(k), 14, y);
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(strong ? GREEN[0] : 20, strong ? GREEN[1] : 20, strong ? GREEN[2] : 20);
+    doc.text(lines, 14 + keyW, y);
+    y += 5.2 * lines.length + 1.8;
+    doc.setDrawColor(230, 230, 230); doc.setLineWidth(0.2); doc.line(14, y - 3.4, W - 14, y - 3.4);
+  }
+  return y + 2;
+}
+function pdfFooter(doc, text) {
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(150, 150, 150);
+  doc.text(pdfTxt(text), W / 2, H - 8, { align: 'center' });
+}
+
+function buildContract(doc, r) {
+  const W = doc.internal.pageSize.getWidth();
+  let y = pdfHeader(doc, "Contrat de prêt d'argent", `Réf. ${contractRef(r)}  -  établi le ${fmtDate(r.created_at)}`);
+  doc.setFillColor(255, 248, 231); doc.setDrawColor(...GOLD); doc.roundedRect(14, y - 4, W - 28, 13, 2, 2, 'FD');
+  doc.setTextColor(...GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+  const dueLine = r.paid_at ? `Échéance de remboursement : ${fmtDue(r.date_remboursement)}`
+                            : `Échéance : ${r.duree} jours à compter du versement des fonds`;
+  doc.text(pdfTxt(dueLine), W / 2, y + 4, { align: 'center' });
+  y += 18;
+  y = pdfSection(doc, y, 'Parties');
+  y = pdfRows(doc, y, [
+    ['Prêteur', 'Nexus Crédit - 78 664 90 62'],
+    ['Emprunteur', r.nom], ['Téléphone', fmtPhone(r.telephone) || r.telephone],
+    ['Passeport N°', r.passeport],
+    ...(r.wave_number ? [['Numéro Wave', fmtPhone(r.wave_number)]] : []),
+  ]);
+  y = pdfSection(doc, y, 'Montant et durée');
+  y = pdfRows(doc, y, [
+    ['Montant emprunté', pdfMoney(r.montant)], ['Durée', `${r.duree} jours`], ['Taux', `+${tauxOf(r)} %`],
+    ['Intérêts', pdfMoney((r.total || 0) - (r.montant || 0))], ['Total à rembourser', pdfMoney(r.total), true],
+  ]);
+  y = pdfSection(doc, y, 'Garantie');
+  y = pdfRows(doc, y, [['Garantie', garantieText(r), true]]);
+  y = pdfSection(doc, y, 'Engagements');
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(40, 40, 40);
+  const clauses = [
+    `1. Le prêteur verse ${pdfMoney(r.montant)} à l'emprunteur après réception et vérification de la garantie.`,
+    `2. L'emprunteur s'engage à rembourser ${pdfMoney(r.total)} au plus tard ${r.duree} jours après le versement, par Wave.`,
+    "3. La garantie (bien et passeport) est conservée par le prêteur et restituée à l'emprunteur après remboursement intégral.",
+  ];
+  for (const c of clauses) { const l = doc.splitTextToSize(pdfTxt(c), W - 28); doc.text(l, 14, y); y += 4.8 * l.length + 1.5; }
+  y += 6;
+  const colW = (W - 28 - 10) / 2;
+  doc.setDrawColor(150, 150, 150); doc.line(14, y, 14 + colW, y); doc.line(W - 14 - colW, y, W - 14, y);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(20, 20, 20);
+  doc.text('Le prêteur', 14 + colW / 2, y + 6, { align: 'center' });
+  doc.text("L'emprunteur", W - 14 - colW / 2, y + 6, { align: 'center' });
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+  doc.text('Nexus Crédit', 14 + colW / 2, y + 12, { align: 'center' });
+  const sig = /^data:image\/png;base64,/.test(r.signature_data_url || '') ? r.signature_data_url : null;
+  if (sig) { try { doc.addImage(sig, 'PNG', W - 14 - colW + (colW - 60) / 2, y + 8, 60, 18); } catch (_) {} }
+  doc.text(pdfTxt(`Signé électroniquement par ${r.nom}`), W - 14 - colW / 2, y + 31, { align: 'center' });
+  pdfFooter(doc, `Contrat ${contractRef(r)} - Nexus Crédit - Fait à Dakar - Document généré le ${new Date().toLocaleDateString('fr-FR')}`);
+}
+
+function buildReceipt(doc, r) {
+  const W = doc.internal.pageSize.getWidth();
+  let y = pdfHeader(doc, 'Reçu de prêt', `N° ${r.receipt_number}  -  émis le ${fmtDate(r.receipt_issued_at || r.paid_at)}`);
+  y = pdfRows(doc, y, [
+    ['N° de reçu', r.receipt_number, true],
+    ['Date', fmtDate(r.receipt_issued_at || r.paid_at)],
+    ['Client', r.nom],
+    ['Téléphone', fmtPhone(r.telephone) || r.telephone],
+    ['Montant emprunté', pdfMoney(r.paid_amount || r.montant), true],
+    ['Durée', `${r.duree} jours`],
+    ['Taux', `+${tauxOf(r)} %`],
+    ['Total à rembourser', pdfMoney(r.total), true],
+    ['Date de remboursement', fmtDue(r.date_remboursement)],
+    ['Garantie', garantieText(r)],
+    ...(r.wave_number ? [['Versé sur Wave', fmtPhone(r.wave_number)]] : []),
+  ], 46);
+  doc.setFillColor(...GREEN); doc.roundedRect(14, y, W - 28, 11, 2, 2, 'F');
+  doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10.5);
+  doc.text(pdfTxt(`À rembourser : ${pdfMoney(r.total)} avant le ${fmtDue(r.date_remboursement)}`), W / 2, y + 7.2, { align: 'center' });
+  pdfFooter(doc, `Reçu généré automatiquement - Nexus Crédit - contrat ${contractRef(r)}`);
+}
+
+const DOC_COLS = LIST_COLS + ',signature_data_url';
+async function openDoc(kind, id) { return once('doc-' + kind + id, () => buildDoc(kind, id)); }
+async function buildDoc(kind, id) {
+  toast(kind === 'receipt' ? 'Préparation du reçu…' : 'Préparation du contrat…', 'info');
+  try {
+    const [JsPDF, res] = await Promise.all([loadJsPdf(), sb.from('requests').select(DOC_COLS).eq('id', id).maybeSingle()]);
+    if (res.error) throw new Error(res.error.message);
+    const r = res.data;
+    if (!r) throw new Error('Document introuvable.');
+    if (kind === 'receipt' && !r.receipt_number) throw new Error("Le reçu sera disponible dès que l'argent aura été envoyé.");
+    const doc = new JsPDF({ unit: 'mm', format: kind === 'receipt' ? 'a5' : 'a4' });
+    doc.setProperties({ title: kind === 'receipt' ? `Reçu ${r.receipt_number}` : `Contrat ${contractRef(r)}`, author: 'Nexus Crédit' });
+    if (kind === 'receipt') buildReceipt(doc, r); else buildContract(doc, r);
+    const file = kind === 'receipt' ? `recu-${r.receipt_number}.pdf` : `contrat-${contractRef(r)}.pdf`;
+    showPdf(doc.output('blob'), file, kind === 'receipt' ? `🧾 Reçu ${r.receipt_number}` : `📄 Contrat ${contractRef(r)}`);
+  } catch (e) { toast(e instanceof AppError ? e.message : friendly(e), 'error'); }
+}
+function showPdf(blob, filename, title) {
+  if (_docUrl) URL.revokeObjectURL(_docUrl);
+  _docUrl = URL.createObjectURL(blob);
+  $('docTitle').textContent = title;
+  $('pdfModalOpen').href = _docUrl;
+  $('pdfModalDownload').onclick = () => {
+    const a = document.createElement('a'); a.href = _docUrl; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+  // Sur téléphone, l'aperçu intégré est rarement possible : on propose Télécharger / Ouvrir.
+  const inline = navigator.pdfViewerEnabled !== false && !matchMedia('(max-width: 860px)').matches;
+  $('pdfModalFrame').hidden = !inline;
+  $('pdfMobileHint').hidden = inline;
+  $('pdfModalFrame').src = inline ? _docUrl : 'about:blank';
   $('pdfModal').classList.add('show');
 }
-async function downloadContract(path) {
-  const { data, error } = await sb.storage.from('contracts').download(path);
-  if (error) return toast('Téléchargement impossible.', 'error');
-  const url = URL.createObjectURL(data);
-  const a = document.createElement('a'); a.href = url; a.download = 'contrat-nexus-credit.html'; a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 5000);
-}
-function closeContract() { $('pdfModal').classList.remove('show'); $('pdfModalFrame').src = 'about:blank'; }
+function closeDoc() { $('pdfModal').classList.remove('show'); $('pdfModalFrame').src = 'about:blank'; }
 
 /* =====================================================================
    CLIENT
@@ -775,22 +1188,30 @@ function closeContract() { $('pdfModal').classList.remove('show'); $('pdfModalFr
 const nextStepHint = (r) => ({
   pending: r.guarantee_declared_at ? 'Envoyez votre garantie par Yango' : 'Donnez votre numéro Wave',
   guarantee_received: 'Argent bientôt envoyé',
-  paid: 'À rembourser avant le ' + esc(r.date_remboursement),
+  paid: 'À rembourser avant le ' + fmtDue(r.date_remboursement),
   repayment_requested: 'Remboursement en vérification',
   done: 'Terminé', rejected: 'Refusée',
 }[r.status] || '');
 
 async function renderClientDashboard() {
-  const { data: reqs, error } = await sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false });
-  if (error) throw error;
-  const active = reqs.filter((r) => ['paid', 'repayment_requested'].includes(r.status));
+  const paint = painter();
+  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
+  if (!paint()) return;
+  const active = reqs.filter((r) => ['paid', 'repayment_requested'].includes(r.status))
+    .sort((a, b) => (daysLeft(a) ?? 999) - (daysLeft(b) ?? 999));
   const toRepay = active.reduce((s, r) => s + (r.total || 0), 0);
   const pending = reqs.filter((r) => ['pending', 'guarantee_received'].includes(r.status)).length;
+  const urgent = active.filter((r) => r.status === 'paid' && (daysLeft(r) ?? 99) <= 2);
+  const late = urgent.filter((r) => daysLeft(r) < 0);
   $('content').innerHTML = `
     <div class="page-head">
       <div><h1 class="page-title">Bonjour, ${esc(currentUser.full_name || 'client')} 👋</h1><p class="page-subtitle">Résumé de votre activité.</p></div>
       <a class="btn btn-primary" href="#/client/new">➕ Nouvelle demande</a>
     </div>
+    ${urgent.length ? `<div class="alert-due ${late.length ? 'late' : 'soon'}">${late.length
+      ? `⚠️ <strong>${late.length} prêt${late.length > 1 ? 's' : ''} en retard.</strong> Remboursez dès que possible pour récupérer votre garantie.`
+      : `⏰ <strong>Échéance proche :</strong> pensez à rembourser ${urgent.length > 1 ? 'vos prêts' : 'votre prêt'} avant la date limite.`}</div>` : ''}
+    ${active.length ? `<div class="card" style="margin-bottom:24px;"><div class="card-title">⏳ Mes prêts en cours</div>${active.map(countdownCard).join('')}</div>` : ''}
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">Demandes</div><div class="kpi-value">${reqs.length}</div><div class="kpi-sub">${pending} en cours de traitement</div></div>
       <div class="kpi"><div class="kpi-label">Prêts actifs</div><div class="kpi-value">${active.length}</div></div>
@@ -803,13 +1224,14 @@ async function renderClientDashboard() {
 
 const clientRow = (r) => `
   <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border-2);gap:12px;flex-wrap:wrap;">
-    <div><div style="font-weight:800">${fcfa(r.montant)} · ${esc(r.duree)} j</div><div class="muted">${fmtDate(r.created_at)} · ${nextStepHint(r)}</div></div>
-    <div style="display:flex;gap:10px;align-items:center;">${statusBadge(r.status)}<a class="btn btn-ghost btn-sm" href="#/client/requests/${esc(r.id)}">Ouvrir →</a></div>
+    <div><div style="font-weight:800">${fcfa(r.montant)} · ${esc(r.duree)} j ${dueChip(r)}</div><div class="muted">${fmtDate(r.created_at)} · ${nextStepHint(r)}</div></div>
+    <div class="row-actions" style="align-items:center;">${statusBadge(r.status)} ${docButtons(r, true)}<a class="btn btn-ghost btn-sm" href="#/client/requests/${esc(r.id)}">Ouvrir →</a></div>
   </div>`;
 
 async function renderClientRequests() {
-  const { data: reqs, error } = await sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false });
-  if (error) throw error;
+  const paint = painter();
+  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
+  if (!paint()) return;
   $('content').innerHTML = `
     <div class="page-head"><div><h1 class="page-title">📋 Mes demandes</h1></div><a class="btn btn-primary" href="#/client/new">➕ Nouvelle demande</a></div>
     <div class="card">${reqs.length ? reqs.map(clientRow).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande.</div>`}</div>`;
@@ -817,11 +1239,12 @@ async function renderClientRequests() {
 
 /* ---------- Détail d'une demande (client) ---------- */
 async function renderClientRequest(id) {
-  const [{ data: r, error }, settings] = await Promise.all([
-    sb.from('requests').select(LIST_COLS + ',passeport,garantie').eq('id', id).eq('client_id', currentUser.id).maybeSingle(),
+  const paint = painter();
+  const [{ data: r }, settings] = await Promise.all([
+    q(sb.from('requests').select(LIST_COLS).eq('id', id).eq('client_id', currentUser.id).maybeSingle()),
     getSettings().catch(() => null),
   ]);
-  if (error) throw error;
+  if (!paint()) return;
   if (!r) { toast('Demande introuvable.', 'error'); return navigate('/client/requests'); }
 
   $('content').innerHTML = `
@@ -831,16 +1254,22 @@ async function renderClientRequest(id) {
       ${statusBadge(r.status)}
     </div>
     ${steps(r.status)}
+    ${countdownCard(r)}
     <div class="card next-card" style="margin-bottom:20px;" id="nextStep">${clientNextStep(r, settings)}</div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">📄 Mes documents</div>
+      <div class="row-actions">${docButtons(r)}</div>
+      ${r.receipt_number ? '' : '<p class="muted" style="margin-top:8px;">Votre reçu de prêt sera disponible dès que l\'argent aura été envoyé.</p>'}
+    </div>
     <div class="card" style="margin-bottom:20px;">
       <div class="card-title">📋 Détails</div>
       <div class="detail-row"><div class="detail-key">Montant</div><div class="detail-val">${fcfa(r.montant)}</div></div>
       <div class="detail-row"><div class="detail-key">Durée</div><div class="detail-val">${esc(r.duree)} jours</div></div>
       <div class="detail-row"><div class="detail-key">Total à rembourser</div><div class="detail-val" style="color:var(--green)">${fcfa(r.total)}</div></div>
-      <div class="detail-row"><div class="detail-key">Échéance</div><div class="detail-val" style="color:var(--gold)">${esc(r.date_remboursement)}</div></div>
-      <div class="detail-row"><div class="detail-key">Garantie</div><div class="detail-val">${esc(r.garantie)}</div></div>
+      <div class="detail-row"><div class="detail-key">Échéance</div><div class="detail-val" style="color:var(--gold)">${r.paid_at ? fmtDue(r.date_remboursement) + ' ' + dueChip(r) : `${esc(r.duree)} jours après le versement`}</div></div>
+      <div class="detail-row"><div class="detail-key">Garantie</div><div class="detail-val">${esc(garantieText(r))}</div></div>
+      ${r.receipt_number ? `<div class="detail-row"><div class="detail-key">N° de reçu</div><div class="detail-val">${esc(r.receipt_number)}</div></div>` : ''}
       ${r.wave_number ? `<div class="detail-row"><div class="detail-key">Votre numéro Wave</div><div class="detail-val">${waveCell(r.wave_number)}</div></div>` : ''}
-      ${r.pdf_url ? `<div class="detail-row"><div class="detail-key">Contrat</div><div class="detail-val"><button class="btn btn-pdf btn-sm" onclick="openContract(${jsArg(r.pdf_url)})">📄 Voir le contrat</button></div></div>` : ''}
     </div>`;
   bindNextStep(r);
 }
@@ -876,12 +1305,12 @@ function clientNextStep(r, s) {
       <p><strong>${fcfa(r.paid_amount || r.montant)}</strong> envoyés sur votre Wave <span class="wave">${esc(fmtPhone(r.wave_number))}</span> le ${fmtDate(r.paid_at)}.</p>
       ${r.admin_note ? `<div class="note err">${esc(r.admin_note)}</div>` : ''}
       <div class="card-title" style="font-size:1rem;margin-top:20px;">💰 Rembourser mon prêt</div>
-      <div class="copy-row"><div><div class="k">Montant à rembourser</div><div class="v">${fcfa(r.total)}</div></div><div class="muted">avant le ${esc(r.date_remboursement)}</div></div>
+      <div class="copy-row"><div><div class="k">Montant à rembourser</div><div class="v">${fcfa(r.total)}</div></div><div class="muted">avant le ${fmtDue(r.date_remboursement)} ${dueChip(r)}</div></div>
       ${nexusWave ? `<div class="copy-row"><div><div class="k">Numéro Wave de Nexus Crédit</div><div class="v mono">${esc(fmtPhone(nexusWave))}</div></div>${copyBtn(digits(nexusWave))}</div>` : ''}
       <p class="muted">Envoyez la somme depuis <strong>votre numéro Wave ${esc(fmtPhone(r.wave_number))}</strong>, puis indiquez la référence de la transaction (visible dans l'historique Wave).</p>
       <form id="repayForm" class="form-grid" style="margin-top:14px;" novalidate>
-        <div class="field"><label for="rpAmount">Montant envoyé (FCFA)</label><input id="rpAmount" type="number" min="100" step="1" value="${esc(r.total)}" required></div>
-        <div class="field"><label for="rpRef">Référence de la transaction Wave</label><input id="rpRef" placeholder="Ex : T_ABCD1234EFGH" required></div>
+        <div class="field"><label for="rpAmount">Montant envoyé (FCFA) <span class="req">*</span></label><input id="rpAmount" type="number" inputmode="numeric" min="100" step="1" value="${esc(r.total)}" required></div>
+        <div class="field"><label for="rpRef">Référence de la transaction Wave <span class="req">*</span></label><input id="rpRef" placeholder="Ex : T_ABCD1234EFGH" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false" required></div>
         <div class="full"><button class="btn btn-primary" type="submit">✅ J'ai remboursé</button></div>
       </form>`;
   }
@@ -889,7 +1318,7 @@ function clientNextStep(r, s) {
     return `<div class="card-title">⏳ Remboursement en vérification</div>
       <p>Vous avez déclaré <strong>${fcfa(r.repayment_amount)}</strong> (réf. ${esc(r.repayment_ref)}) le ${fmtDate(r.repayment_requested_at)}. Nous vérifions la réception sur notre Wave.</p>`;
   }
-  if (r.status === 'done') return `<div class="card-title">🎉 Prêt remboursé</div><p>Merci ! Votre prêt est entièrement remboursé le ${fmtDate(r.repaid_at)}.</p>`;
+  if (r.status === 'done') return `<div class="card-title">🎉 Prêt remboursé</div><p>Merci ! Votre prêt a été entièrement remboursé le ${fmtDate(r.repaid_at)}. Nous vous contactons pour la restitution de votre garantie.</p>`;
   if (r.status === 'rejected') return `<div class="card-title">❌ Demande refusée</div><p>${esc(r.rejection_reason || 'Motif non précisé.')}</p>`;
   return '';
 }
@@ -901,9 +1330,9 @@ function guaranteeForm(r, editing = false) {
   return `${editing ? '' : `<div class="card-title">📦 Étape suivante : votre garantie</div>
       <p class="muted" style="margin-bottom:14px;">Dites-nous qui vous êtes et sur quel numéro Wave envoyer l'argent. Ensuite, nous vous affichons l'adresse où envoyer votre garantie par Yango.</p>`}
     <form class="guaranteeForm form-grid" novalidate>
-      <div class="field"><label>Nom complet</label><input name="name" value="${esc(name)}" autocomplete="name" required></div>
-      <div class="field"><label>Téléphone</label><input name="phone" type="tel" value="${esc(phone)}" autocomplete="tel" required></div>
-      <div class="field full"><label>Numéro Wave (pour recevoir l'argent)</label><input name="wave" type="tel" value="${esc(wave)}" placeholder="77 123 45 67" required>
+      <div class="field"><label>Nom complet <span class="req">*</span></label><input name="name" value="${esc(name)}" autocomplete="name" maxlength="80" required></div>
+      <div class="field"><label>Téléphone <span class="req">*</span></label><input name="phone" type="tel" inputmode="tel" value="${esc(phone)}" autocomplete="tel" maxlength="20" required></div>
+      <div class="field full"><label>Numéro Wave (pour recevoir l'argent) <span class="req">*</span></label><input name="wave" type="tel" inputmode="tel" value="${esc(wave)}" placeholder="77 123 45 67" maxlength="20" required>
         <span class="muted">Vous rembourserez aussi depuis ce numéro.</span></div>
       <div class="full"><button class="btn btn-primary" type="submit">${editing ? '💾 Enregistrer' : 'Continuer →'}</button></div>
     </form>`;
@@ -915,41 +1344,55 @@ function bindNextStep(r) {
   document.querySelectorAll('.guaranteeForm').forEach((f) => f.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = f.querySelector('button[type=submit]');
-    const el = f.elements, name = el.name.value.trim(), phone = el.phone.value.trim(), wave = el.wave.value.trim();
-    if (name.length < 2) return toast('Indiquez votre nom.', 'error');
-    if (digits(phone).length < 9) return toast('Téléphone invalide.', 'error');
-    if (digits(wave).length < 9) return toast('Numéro Wave invalide.', 'error');
-    busy(btn, true);
-    try { await rpc('guarantee_declare', { p_request: r.id, p_name: name, p_phone: phone, p_wave: wave }); toast('Informations enregistrées.'); route(); }
-    catch (err) { toast(err.message, 'error'); busy(btn, false); }
+    const el = f.elements, name = el.name.value.trim().replace(/\s+/g, ' '), phone = el.phone.value.trim(), wave = el.wave.value.trim();
+    if (name.length < 2) return invalid(el.name, 'Indiquez votre nom complet.');
+    if (!PHONE_OK(phone)) return invalid(el.phone, 'Téléphone invalide (9 chiffres, ex : 77 123 45 67).');
+    if (!PHONE_OK(wave)) return invalid(el.wave, 'Numéro Wave invalide (9 chiffres, ex : 77 123 45 67).');
+    await once('guarantee-' + r.id, async () => {
+      busy(btn, true);
+      try {
+        await rpc('guarantee_declare', { p_request: r.id, p_name: name, p_phone: phone, p_wave: wave });
+        toast('Informations enregistrées.'); $('content').dataset.dirty = ''; route();
+      } catch (err) { toast(err.message, 'error'); busy(btn, false); }
+    });
   }));
   const rf = $('repayForm');
   if (rf) rf.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const amount = parseInt($('rpAmount').value, 10), ref = $('rpRef').value.trim();
-    if (!amount || amount <= 0) return toast('Montant invalide.', 'error');
-    if (ref.length < 4) return toast('Indiquez la référence de la transaction Wave.', 'error');
-    const btn = rf.querySelector('button[type=submit]'); busy(btn, true);
-    try { await rpc('repayment_request', { p_request: r.id, p_amount: amount, p_ref: ref }); toast('Merci ! Nous vérifions votre remboursement.'); route(); }
-    catch (err) { toast(err.message, 'error'); busy(btn, false); }
+    const amountRaw = $('rpAmount').value.trim(), amount = Number(amountRaw), ref = $('rpRef').value.trim().replace(/\s+/g, '');
+    if (!Number.isInteger(amount) || amount < 100) return invalid($('rpAmount'), 'Indiquez le montant envoyé (nombre entier, 100 FCFA minimum).');
+    if (amount < r.total && !confirm(`Vous déclarez ${fcfa(amount)}, alors que le total dû est ${fcfa(r.total)}. Continuer ?`)) return;
+    if (!/^[A-Za-z0-9_.-]{4,40}$/.test(ref)) return invalid($('rpRef'), 'Référence Wave invalide : recopiez-la depuis votre historique Wave (4 à 40 caractères, sans espace).');
+    const btn = rf.querySelector('button[type=submit]');
+    await once('repay-' + r.id, async () => {
+      busy(btn, true);
+      try {
+        await rpc('repayment_request', { p_request: r.id, p_amount: amount, p_ref: ref });
+        toast('Merci ! Nous vérifions votre remboursement.'); $('content').dataset.dirty = ''; route();
+      } catch (err) { toast(err.message, 'error'); busy(btn, false); }
+    });
   });
 }
 
 /* ---------- Nouvelle demande ---------- */
 async function renderNewRequest() {
   const u = currentUser;
+  const formId = newUuid();
   $('content').innerHTML = `
     <div class="page-head"><div><h1 class="page-title">➕ Nouvelle demande</h1><p class="page-subtitle">Le montant est versé sur votre Wave dès réception de votre garantie.</p></div></div>
     <div class="card" style="max-width:900px;">
       <form id="newReqForm" novalidate>
         <div class="form-grid">
-          <div class="field"><label for="r-nom">Nom <span class="req">*</span></label><input type="text" id="r-nom" value="${esc(u.full_name || '')}" autocomplete="name"></div>
-          <div class="field"><label for="r-tel">Téléphone <span class="req">*</span></label><input type="tel" id="r-tel" value="${esc(u.phone || '')}" autocomplete="tel"></div>
-          <div class="field"><label for="r-pass">N° de passeport ou CNI <span class="req">*</span></label><input type="text" id="r-pass" placeholder="Ex : 19AB12345"></div>
-          <div class="field"><label for="r-guar">Garantie proposée <span class="req">*</span></label><input type="text" id="r-guar" placeholder="Ex : Téléphone Samsung A15"></div>
+          <div class="field"><label for="r-nom">Nom complet <span class="req">*</span></label><input type="text" id="r-nom" value="${esc(u.full_name || '')}" autocomplete="name" maxlength="80"></div>
+          <div class="field"><label for="r-tel">Téléphone <span class="req">*</span></label><input type="tel" inputmode="tel" id="r-tel" value="${esc(u.phone || '')}" autocomplete="tel" maxlength="20"></div>
+          <div class="field"><label for="r-guar">Bien mis en garantie <span class="req">*</span></label><input type="text" id="r-guar" maxlength="120" placeholder="Ex : Téléphone Samsung A15"></div>
+          <div class="field"><label for="r-pass">N° de passeport <span class="req">*</span></label><input type="text" id="r-pass" maxlength="30" placeholder="Ex : A01234567" autocapitalize="characters" autocomplete="off" spellcheck="false"></div>
+          <div class="field full"><div class="note" id="r-guar-preview" style="margin-top:0;">Garantie : — + Passeport N° —</div>
+            <span class="muted">Le passeport est toujours demandé en garantie, en plus du bien.</span></div>
           <div class="field full"><label for="r-montant">Montant (FCFA) <span class="req">*</span></label>
             <input type="range" id="r-range" min="5000" max="500000" step="5000" value="50000" aria-label="Montant">
-            <input type="number" id="r-montant" value="50000" min="5000" max="500000" step="1000"></div>
+            <input type="number" inputmode="numeric" id="r-montant" value="50000" min="5000" max="500000" step="1000">
+            <span class="muted">Entre 5 000 et 500 000 FCFA.</span></div>
           <div class="field"><label for="r-duree">Durée <span class="req">*</span></label><select id="r-duree"><option value="">-- Choisir --</option><option value="7">7 jours (+25%)</option><option value="14">14 jours (+35%)</option></select></div>
           <div class="field full"><label for="r-msg">Message (optionnel)</label><textarea id="r-msg" rows="2" maxlength="500" placeholder="Raison du prêt…"></textarea></div>
         </div>
@@ -957,7 +1400,7 @@ async function renderNewRequest() {
           <div style="font-weight:800;margin-bottom:8px;">💡 Simulation</div>
           <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Montant</span><span class="mono" id="sim-m">—</span></div>
           <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Intérêts</span><span class="mono" style="color:var(--red)" id="sim-i">—</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Échéance</span><span class="mono" style="color:var(--gold)" id="sim-d">—</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>À rembourser</span><span class="mono" style="color:var(--gold)" id="sim-d">—</span></div>
           <div style="display:flex;justify-content:space-between;padding:5px 0;font-weight:800;"><span>Total à rembourser</span><span class="mono" style="color:var(--green)" id="sim-t">—</span></div>
         </div>
         <div class="card" style="background:var(--surface-2);margin:16px 0;">
@@ -974,6 +1417,8 @@ async function renderNewRequest() {
     </div>`;
 
   const sig = setupSignature($('sigCanvas'));
+  const guarPreview = () => { $('r-guar-preview').textContent = 'Garantie : ' + garantieText({ garantie: $('r-guar').value, passeport: $('r-pass').value }); };
+  $('r-guar').oninput = guarPreview; $('r-pass').oninput = guarPreview; guarPreview();
   $('clearSig').onclick = () => sig.clear();
 
   const rangeM = $('r-range'), inputM = $('r-montant'), dureeEl = $('r-duree');
@@ -981,52 +1426,55 @@ async function renderNewRequest() {
     const m = parseInt(inputM.value, 10) || 0, d = parseInt(dureeEl.value, 10);
     if (m > 0 && d) {
       const ints = Math.round(m * (d === 7 ? 0.25 : 0.35));
-      const due = new Date(); due.setDate(due.getDate() + d);
       $('sim-m').textContent = fcfa(m); $('sim-i').textContent = '+ ' + fcfa(ints);
-      $('sim-d').textContent = due.toLocaleDateString('fr-FR'); $('sim-t').textContent = fcfa(m + ints);
+      $('sim-d').textContent = `${d} jours après le versement`; $('sim-t').textContent = fcfa(m + ints);
     } else ['sim-m', 'sim-i', 'sim-d', 'sim-t'].forEach((x) => { $(x).textContent = '—'; });
   };
   rangeM.oninput = () => { inputM.value = rangeM.value; sim(); };
-  inputM.oninput = () => { rangeM.value = inputM.value; sim(); };
+  inputM.oninput = () => { const v = parseInt(inputM.value, 10); if (v >= 5000 && v <= 500000) rangeM.value = v; sim(); };
   dureeEl.onchange = sim;
   sim();
 
   $('newReqForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const montant = Number(inputM.value);
     const row = {
+      id: formId, // identifiant fixé à l'ouverture : un nouvel envoi après une coupure ne crée pas de doublon
       client_id: currentUser.id,
-      nom: $('r-nom').value.trim(), telephone: $('r-tel').value.trim(),
-      passeport: $('r-pass').value.trim(), garantie: $('r-guar').value.trim(),
-      montant: parseInt(inputM.value, 10) || 0, duree: parseInt(dureeEl.value, 10) || 0,
+      nom: $('r-nom').value.trim().replace(/\s+/g, ' '), telephone: $('r-tel').value.trim(),
+      passeport: $('r-pass').value.toUpperCase().replace(/[^A-Z0-9]/g, ''), garantie: $('r-guar').value.trim().replace(/\s+/g, ' '),
+      montant, duree: parseInt(dureeEl.value, 10) || 0,
       message: $('r-msg').value.trim() || null,
     };
-    if (!row.nom || digits(row.telephone).length < 9 || !row.passeport || !row.garantie) return toast('Remplissez tous les champs obligatoires.', 'error');
-    if (row.montant < 5000 || row.montant > 500000) return toast('Montant entre 5 000 et 500 000 FCFA.', 'error');
-    if (![7, 14].includes(row.duree)) return toast('Choisissez une durée.', 'error');
-    if (sig.isEmpty()) return toast('Signez dans le cadre blanc.', 'error');
-    if (!$('sigCheck').checked) return toast('Cochez la case d\'acceptation.', 'error');
+    if (row.nom.length < 2) return invalid($('r-nom'), 'Indiquez votre nom complet.');
+    if (!PHONE_OK(row.telephone)) return invalid($('r-tel'), 'Téléphone invalide (9 chiffres, ex : 77 123 45 67).');
+    if (row.garantie.length < 2) return invalid($('r-guar'), 'Indiquez le bien mis en garantie (ex : téléphone, ordinateur…).');
+    if (row.passeport.length < 5 || row.passeport.length > 20) return invalid($('r-pass'), 'Numéro de passeport invalide (5 à 20 lettres ou chiffres) : il est obligatoire en garantie.');
+    if (!Number.isInteger(montant) || montant < 5000 || montant > 500000) return invalid(inputM, 'Montant entre 5 000 et 500 000 FCFA (nombre entier).');
+    if (![7, 14].includes(row.duree)) return invalid(dureeEl, 'Choisissez une durée de remboursement.');
+    if (sig.isEmpty()) { $('sigCanvas').scrollIntoView({ block: 'center' }); return invalid(null, 'Signez dans le cadre blanc (un trait suffisamment long).'); }
+    if (!$('sigCheck').checked) return invalid($('sigCheck'), 'Cochez la case pour accepter le contrat.');
     row.signature_data_url = sig.toDataURL();
 
-    const btn = $('newReqBtn'); busy(btn, true, 'Enregistrement…');
-    // Le total, l'échéance et le statut sont calculés par la base de données.
-    const { data: created, error } = await sb.from('requests').insert(row).select(LIST_COLS + ',passeport,garantie,signature_data_url').single();
-    if (error) { busy(btn, false); return toast(error.message, 'error'); }
-    try {
-      const path = `${currentUser.id}/contrat_${created.id}.html`;
-      const blob = new Blob([contractHtml(created)], { type: 'text/html' });
-      const { error: upErr } = await sb.storage.from('contracts').upload(path, blob, { contentType: 'text/html; charset=utf-8' });
-      if (upErr) throw upErr;
-      await rpc('contract_attach', { p_request: created.id, p_path: path });
-    } catch (err) { console.error('[contrat]', err); toast('Demande enregistrée, mais le contrat n\'a pas pu être généré.', 'info'); }
-    toast('Demande envoyée !');
-    navigate('/client/requests/' + created.id);
+    const btn = $('newReqBtn');
+    await once('new-request', async () => {
+      busy(btn, true, 'Envoi en cours…');
+      try {
+        // Le total, l'échéance et le statut sont calculés par la base de données.
+        const { error } = await sb.from('requests').insert(row);
+        if (error && error.code !== '23505') throw new AppError(friendly(error)); // 23505 : déjà reçue lors d'un premier essai
+        $('content').dataset.dirty = '';
+        toast('Demande envoyée ! Votre contrat est disponible.');
+        navigate('/client/requests/' + formId);
+      } catch (err) { toast(err instanceof AppError ? err.message : friendly(err), 'error'); busy(btn, false); }
+    });
   });
 }
 
 /* Signature : garde le dessin quand l'écran change de taille (clavier mobile…) */
 function setupSignature(canvas) {
   const ctx = canvas.getContext('2d');
-  let drawing = false, dirty = false, lastW = 0;
+  let drawing = false, dirty = false, lastW = 0, points = 0;
   const paintBg = () => { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); };
   const style = () => { ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; };
   const fit = () => {
@@ -1044,15 +1492,15 @@ function setupSignature(canvas) {
     return { x: (p.clientX - r.left) * (canvas.width / r.width), y: (p.clientY - r.top) * (canvas.height / r.height) };
   };
   const start = (e) => { e.preventDefault(); drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y); ctx.stroke(); dirty = true; };
-  const move = (e) => { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
+  const move = (e) => { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); points++; };
   const end = () => { drawing = false; };
   canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move);
   canvas.addEventListener('mouseup', end); canvas.addEventListener('mouseleave', end);
   canvas.addEventListener('touchstart', start, { passive: false }); canvas.addEventListener('touchmove', move, { passive: false });
   canvas.addEventListener('touchend', end);
   return {
-    clear() { paintBg(); style(); dirty = false; },
-    isEmpty: () => !dirty,
+    clear() { paintBg(); style(); dirty = false; points = 0; },
+    isEmpty: () => !dirty || points < 8,
     toDataURL: () => canvas.toDataURL('image/png'),
   };
 }
@@ -1068,7 +1516,7 @@ function adminActionButtons(r, compact = false) {
   if (r.status === 'pending') b.push(`<button class="btn btn-primary ${sm}" onclick="adminSet(${jsArg(r.id)}, 'guarantee_received')">📦 Garantie reçue</button>`);
   if (r.status === 'guarantee_received') {
     b.push(r.wave_number
-      ? `<button class="btn btn-success ${sm}" onclick="markPaid(${jsArg(r.id)}, ${Number(r.montant) || 0}, ${jsArg(r.wave_number)})">💸 Marquer comme payé</button>`
+      ? `<button class="btn btn-success ${sm}" onclick="markPaid(${jsArg(r.id)})">💸 Marquer comme payé</button>`
       : `<span class="muted">En attente du numéro Wave du client</span>`);
   }
   if (r.status === 'repayment_requested') {
@@ -1089,82 +1537,103 @@ async function adminSet(id, status, askNote = false) {
       status === 'rejected' ? 'Garantie non conforme' : 'Paiement introuvable sur notre Wave. Vérifiez la référence.');
     if (note === null) return;
   }
-  try { await rpc('admin_set_status', { p_request: id, p_status: status, p_note: note }); toast(`Statut : ${STATUS[status].label}. Client notifié.`); }
-  catch (e) { toast(e.message, 'error'); }
-  route();
+  await once('admin-' + id, async () => {
+    try { await rpc('admin_set_status', { p_request: id, p_status: status, p_note: note }); toast(`Statut : ${STATUS[status].label}. Client notifié.`); }
+    catch (e) { toast(e.message, 'error'); }
+    route();
+  });
 }
 
-async function markPaid(id, montant, wave) {
-  if (!confirm(`Avez-vous envoyé ${fcfa(montant)} sur le Wave ${fmtPhone(wave)} ?\n\nLe client sera notifié.`)) return;
-  await adminSet(id, 'paid');
+/* Relit le numéro Wave juste avant de confirmer : si le client vient de le changer, on affiche le bon. */
+async function markPaid(id) {
+  await once('paid-' + id, async () => {
+    let r;
+    try { ({ data: r } = await q(sb.from('requests').select('id,montant,wave_number,status,nom').eq('id', id).single())); }
+    catch (e) { return toast(e.message, 'error'); }
+    if (r.status !== 'guarantee_received') { toast('Statut déjà modifié : la page est actualisée.', 'info'); return route(); }
+    if (!r.wave_number) return toast("Le client n'a pas encore donné son numéro Wave.", 'error');
+    if (!confirm(`Avez-vous envoyé ${fcfa(r.montant)} sur le Wave ${fmtPhone(r.wave_number)} (${r.nom}) ?\n\nLe client sera notifié et son reçu sera créé.`)) return;
+    try { await rpc('admin_set_status', { p_request: id, p_status: 'paid', p_note: null }); toast('Payé ✔ — client notifié, reçu créé.'); }
+    catch (e) { toast(e.message, 'error'); }
+    route();
+  });
 }
 
 async function renderAdminDashboard() {
-  const { data: reqs, error } = await sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false });
-  if (error) throw error;
+  const paint = painter();
+  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
+  if (!paint()) return;
   const by = (st) => reqs.filter((r) => r.status === st);
   const lent = reqs.filter((r) => ['paid', 'repayment_requested', 'done'].includes(r.status)).reduce((s, r) => s + (r.paid_amount || r.montant || 0), 0);
   const expected = [...by('paid'), ...by('repayment_requested')].reduce((s, r) => s + (r.total || 0), 0);
   const todo = reqs.filter(NEEDS_ACTION);
+  const dueSoon = by('paid').filter((r) => (daysLeft(r) ?? 99) <= 2).sort((a, b) => daysLeft(a) - daysLeft(b));
+  const lateN = dueSoon.filter((r) => daysLeft(r) < 0).length;
   $('content').innerHTML = `
     <div class="page-head"><div><h1 class="page-title">🛡️ Vue d'ensemble</h1><p class="page-subtitle">${reqs.length} demande(s) au total.</p></div>
       <a class="btn btn-primary btn-sm" href="#/admin/requests">Toutes les demandes →</a></div>
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">À traiter</div><div class="kpi-value" style="color:var(--gold)">${todo.length}</div></div>
-      <div class="kpi"><div class="kpi-label">En attente</div><div class="kpi-value">${by('pending').length}</div></div>
+      <div class="kpi"><div class="kpi-label">En retard</div><div class="kpi-value" style="color:${lateN ? 'var(--red)' : 'var(--green)'}">${lateN}</div><div class="kpi-sub">${dueSoon.length - lateN} échéance(s) sous 2 jours</div></div>
       <div class="kpi"><div class="kpi-label">Capital prêté</div><div class="kpi-value">${lent.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
       <div class="kpi"><div class="kpi-label">À encaisser</div><div class="kpi-value">${expected.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
     </div>
-    <div class="card"><div class="card-title">⚡ À traiter maintenant</div>
+    <div class="card" style="margin-bottom:20px;"><div class="card-title">⚡ À traiter maintenant</div>
       ${todo.length ? adminTable(todo, true) : '<div class="empty"><div class="empty-icon">✅</div>Rien à traiter pour le moment.</div>'}
-    </div>`;
+    </div>
+    ${dueSoon.length ? `<div class="card"><div class="card-title">⏰ Échéances en retard ou proches</div>${adminTable(dueSoon, true)}</div>` : ''}`;
 }
 
 let _adminFilter = 'todo', _adminSearch = '';
 async function renderAdminRequests() {
-  const { data: reqs, error } = await sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false });
-  if (error) throw error;
+  const paint = painter();
+  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
+  if (!paint()) return;
   const tabs = [['todo', '⚡ À traiter', NEEDS_ACTION], ['all', 'Toutes', () => true],
     ...Object.keys(STATUS).map((k) => [k, STATUS[k].label, (r) => r.status === k])];
   const draw = () => {
     const f = tabs.find((t) => t[0] === _adminFilter) || tabs[1];
-    const q = _adminSearch.toLowerCase(), qd = digits(_adminSearch);
-    const rows = reqs.filter(f[2]).filter((r) => !q || (r.nom || '').toLowerCase().includes(q) || (qd && (digits(r.telephone).includes(qd) || digits(r.wave_number).includes(qd))));
-    $('adminList').innerHTML = rows.length ? adminTable(rows) : '<div class="empty"><div class="empty-icon">📭</div>Aucune demande.</div>';
+    const term = _adminSearch.trim().toLowerCase(), td = digits(_adminSearch);
+    const rows = reqs.filter(f[2]).filter((r) => !term
+      || [r.nom, r.guarantee_name, r.passeport, r.receipt_number].some((v) => String(v || '').toLowerCase().includes(term))
+      || (td.length >= 3 && [r.telephone, r.guarantee_phone, r.wave_number].some((v) => digits(v).includes(td))));
+    $('adminList').innerHTML = rows.length ? adminTable(rows) : `<div class="empty"><div class="empty-icon">📭</div>${term ? 'Aucun résultat pour cette recherche.' : 'Aucune demande dans cette catégorie.'}</div>`;
     document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t.dataset.f === _adminFilter));
   };
   $('content').innerHTML = `
     <div class="page-head"><div><h1 class="page-title">📋 Demandes</h1><p class="page-subtitle">Numéros Wave, statuts et actions.</p></div>
-      <input class="search" id="adminSearch" placeholder="🔎 Nom, téléphone ou Wave" value="${esc(_adminSearch)}"></div>
+      <input class="search" id="adminSearch" type="search" placeholder="🔎 Nom, téléphone, Wave, passeport, reçu" value="${esc(_adminSearch)}" aria-label="Rechercher une demande"></div>
     <div class="tabs">${tabs.map(([k, l, fn]) => `<button class="tab" data-f="${k}">${l}<span class="n">${reqs.filter(fn).length}</span></button>`).join('')}</div>
     <div id="adminList"></div>`;
   document.querySelectorAll('.tab').forEach((t) => { t.onclick = () => { _adminFilter = t.dataset.f; draw(); }; });
-  $('adminSearch').oninput = (e) => { _adminSearch = e.target.value; draw(); };
+  let t; $('adminSearch').oninput = (e) => { _adminSearch = e.target.value; clearTimeout(t); t = setTimeout(draw, 120); };
   draw();
 }
 
 function adminTable(rows, compact = false) {
-  return `<div class="table-wrap"><table>
-    <thead><tr><th>Date</th><th>Client</th><th>Prêt</th><th>Wave du client</th><th>Statut</th><th>Action</th><th></th></tr></thead>
+  return `<div class="table-wrap"><table class="rtable">
+    <thead><tr><th>Date</th><th>Client</th><th>Prêt</th><th>Wave du client</th><th>Statut</th><th>Action</th><th>Documents</th><th></th></tr></thead>
     <tbody>${rows.map((r) => `<tr>
-      <td>${fmtDate(r.created_at)}</td>
-      <td><strong>${esc(r.guarantee_name || r.nom)}</strong><span class="muted">${esc(fmtPhone(r.guarantee_phone || r.telephone))}</span></td>
-      <td class="mono">${fcfa(r.montant)}<span class="muted">à rendre : ${fcfa(r.total)}</span></td>
-      <td>${waveCell(r.wave_number)}</td>
-      <td>${statusBadge(r.status)}${r.status === 'pending' && r.guarantee_declared_at ? '<span class="muted">📦 garantie annoncée</span>' : ''}${r.status === 'repayment_requested' ? `<span class="muted">${fcfa(r.repayment_amount)} · réf. ${esc(r.repayment_ref)}</span>` : ''}</td>
-      <td><div class="row-actions">${adminActionButtons(r, true) || '<span class="muted">—</span>'}</div></td>
-      <td><a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(r.id)}">Détails</a></td>
+      <td data-label="Date"><div class="cell">${fmtDate(r.created_at)}</div></td>
+      <td data-label="Client"><div class="cell"><strong>${esc(r.guarantee_name || r.nom)}</strong><span class="muted">${esc(fmtPhone(r.guarantee_phone || r.telephone))}</span></div></td>
+      <td data-label="Prêt" class="mono"><div class="cell">${fcfa(r.montant)}<span class="muted">à rendre : ${fcfa(r.total)}</span>${r.paid_at ? `<span class="muted">avant le ${fmtDue(r.date_remboursement)}</span>` : ''}</div></td>
+      <td data-label="Wave"><div class="cell">${waveCell(r.wave_number)}</div></td>
+      <td data-label="Statut"><div class="cell">${statusBadge(r.status)} ${dueChip(r)}${r.status === 'pending' && r.guarantee_declared_at ? '<span class="muted">📦 garantie annoncée</span>' : ''}${r.status === 'repayment_requested' ? `<span class="muted">${fcfa(r.repayment_amount)} · réf. ${esc(r.repayment_ref)}</span>` : ''}</div></td>
+      <td data-label="Action"><div class="cell"><div class="row-actions">${adminActionButtons(r, true) || '<span class="muted">—</span>'}</div></div></td>
+      <td data-label="Documents"><div class="cell"><div class="row-actions">${docButtons(r, true)}</div></div></td>
+      <td class="rt-more"><a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(r.id)}">Détails</a></td>
     </tr>`).join('')}</tbody></table></div>`;
 }
 
 async function renderAdminRequest(id) {
-  const { data: r, error } = await sb.from('requests').select(LIST_COLS + ',passeport,garantie,message').eq('id', id).maybeSingle();
-  if (error) throw error;
+  const paint = painter();
+  const { data: r } = await q(sb.from('requests').select(LIST_COLS + ',message').eq('id', id).maybeSingle());
+  if (!paint()) return;
   if (!r) { toast('Demande introuvable.', 'error'); return navigate('/admin/requests'); }
   const waMsg = {
     pending: `Bonjour ${r.nom}, votre demande de ${fcfa(r.montant)} est bien reçue. Envoyez votre garantie par Yango à l'adresse indiquée sur le site.`,
     guarantee_received: `Bonjour ${r.nom}, nous avons bien reçu votre garantie. L'argent arrive sur votre Wave.`,
-    paid: `Bonjour ${r.nom}, ${fcfa(r.paid_amount || r.montant)} ont été envoyés sur votre Wave ${fmtPhone(r.wave_number)}. À rembourser : ${fcfa(r.total)} avant le ${r.date_remboursement}.`,
+    paid: `Bonjour ${r.nom}, ${fcfa(r.paid_amount || r.montant)} ont été envoyés sur votre Wave ${fmtPhone(r.wave_number)}. À rembourser : ${fcfa(r.total)} avant le ${fmtDue(r.date_remboursement)}. Reçu N° ${r.receipt_number || ''}.`,
     repayment_requested: `Bonjour ${r.nom}, nous vérifions votre remboursement.`,
     done: `Bonjour ${r.nom}, votre prêt est entièrement remboursé. Merci !`,
     rejected: `Bonjour ${r.nom}, votre demande a été refusée : ${r.rejection_reason || ''}`,
@@ -1177,6 +1646,7 @@ async function renderAdminRequest(id) {
       ${statusBadge(r.status)}
     </div>
     ${steps(r.status)}
+    ${(() => { const i = dueInfo(r); return i ? `<div class="alert-due ${i.level === 'ok' ? 'info' : i.level}">${esc(i.label)} · échéance le ${fmtDue(r.date_remboursement)}</div>` : ''; })()}
     <div class="card next-card" style="margin-bottom:20px;">
       <div class="card-title">🎯 Actions</div>
       ${r.status === 'guarantee_received' && r.wave_number ? `<div class="copy-row"><div><div class="k">Envoyez depuis votre appli Wave</div><div class="v">${fcfa(r.montant)} → <span class="wave">${esc(fmtPhone(r.wave_number))}</span></div></div>${copyBtn(digits(r.wave_number), '📋 Copier le numéro')}</div>` : ''}
@@ -1189,8 +1659,7 @@ async function renderAdminRequest(id) {
       <div class="detail-row"><div class="detail-key">Nom (garantie)</div><div class="detail-val">${esc(r.guarantee_name || '—')}</div></div>
       <div class="detail-row"><div class="detail-key">Téléphone</div><div class="detail-val">${esc(fmtPhone(r.guarantee_phone || r.telephone))}</div></div>
       <div class="detail-row"><div class="detail-key">Numéro Wave</div><div class="detail-val">${waveCell(r.wave_number)}</div></div>
-      <div class="detail-row"><div class="detail-key">Garantie proposée</div><div class="detail-val">${esc(r.garantie)}</div></div>
-      <div class="detail-row"><div class="detail-key">Pièce d'identité</div><div class="detail-val">${esc(r.passeport)}</div></div>
+      <div class="detail-row"><div class="detail-key">Garantie</div><div class="detail-val">${esc(garantieText(r))}</div></div>
       ${r.message ? `<div class="detail-row"><div class="detail-key">Message</div><div class="detail-val">${esc(r.message)}</div></div>` : ''}
     </div>
     <div class="card">
@@ -1201,27 +1670,29 @@ async function renderAdminRequest(id) {
       <div class="detail-row"><div class="detail-key">Payé</div><div class="detail-val">${r.paid_at ? fmtDateTime(r.paid_at) + ' · ' + fcfa(r.paid_amount) : '—'}</div></div>
       <div class="detail-row"><div class="detail-key">Remboursement demandé</div><div class="detail-val">${r.repayment_requested_at ? fmtDateTime(r.repayment_requested_at) + ' · ' + fcfa(r.repayment_amount) : '—'}</div></div>
       <div class="detail-row"><div class="detail-key">Remboursé</div><div class="detail-val">${fmtDateTime(r.repaid_at)}</div></div>
-      <div class="detail-row"><div class="detail-key">Total dû · échéance</div><div class="detail-val">${fcfa(r.total)} · ${esc(r.date_remboursement)}</div></div>
-      ${r.pdf_url ? `<div class="detail-row"><div class="detail-key">Contrat</div><div class="detail-val"><button class="btn btn-pdf btn-sm" onclick="openContract(${jsArg(r.pdf_url)})">📄 Voir</button></div></div>` : ''}
+      <div class="detail-row"><div class="detail-key">Total dû · échéance</div><div class="detail-val">${fcfa(r.total)} · ${r.paid_at ? fmtDue(r.date_remboursement) : esc(r.duree) + ' j après versement'}</div></div>
+      <div class="detail-row"><div class="detail-key">Documents</div><div class="detail-val"><div class="row-actions">${docButtons(r)}</div>${r.receipt_number ? `<span class="muted">Reçu N° ${esc(r.receipt_number)}</span>` : ''}</div></div>
     </div>`;
 }
 
 async function renderAdminSettings() {
+  const paint = painter();
   const s = await getSettings(true);
+  if (!paint()) return;
   $('content').innerHTML = `
     <div class="page-head"><div><h1 class="page-title">⚙️ Paramètres</h1><p class="page-subtitle">Ce que voient les clients pour envoyer la garantie et rembourser.</p></div></div>
     <form class="card" style="max-width:800px;" id="settingsForm" novalidate>
       <div class="card-title" style="font-size:1rem;">📱 Votre Wave (remboursements)</div>
       <div class="form-grid">
-        <div class="field"><label for="st-wave">Numéro Wave</label><input id="st-wave" value="${esc(s.wave_number)}"></div>
-        <div class="field"><label for="st-wname">Nom affiché dans Wave</label><input id="st-wname" value="${esc(s.wave_name)}"></div>
+        <div class="field"><label for="st-wave">Numéro Wave</label><input id="st-wave" type="tel" inputmode="tel" maxlength="20" value="${esc(s.wave_number)}"></div>
+        <div class="field"><label for="st-wname">Nom affiché dans Wave</label><input id="st-wname" maxlength="60" value="${esc(s.wave_name)}"></div>
       </div>
       <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison des garanties (Yango)</div>
       <div class="form-grid">
-        <div class="field"><label for="st-rname">Destinataire</label><input id="st-rname" value="${esc(s.receiver_name)}"></div>
-        <div class="field"><label for="st-rphone">Téléphone</label><input id="st-rphone" value="${esc(s.receiver_phone)}"></div>
-        <div class="field full"><label for="st-raddr">Adresse</label><input id="st-raddr" value="${esc(s.receiver_address)}"></div>
-        <div class="field full"><label for="st-rnote">Note pour le coursier</label><input id="st-rnote" value="${esc(s.receiver_note)}"></div>
+        <div class="field"><label for="st-rname">Destinataire</label><input id="st-rname" maxlength="80" value="${esc(s.receiver_name)}"></div>
+        <div class="field"><label for="st-rphone">Téléphone</label><input id="st-rphone" type="tel" inputmode="tel" maxlength="20" value="${esc(s.receiver_phone)}"></div>
+        <div class="field full"><label for="st-raddr">Adresse</label><input id="st-raddr" maxlength="200" value="${esc(s.receiver_address)}"></div>
+        <div class="field full"><label for="st-rnote">Note pour le coursier</label><input id="st-rnote" maxlength="200" value="${esc(s.receiver_note)}"></div>
       </div>
       <button class="btn btn-primary" type="submit">💾 Enregistrer</button>
     </form>`;
@@ -1230,11 +1701,18 @@ async function renderAdminSettings() {
     const v = (id) => $(id).value.trim();
     const patch = { wave_number: v('st-wave'), wave_name: v('st-wname'), receiver_name: v('st-rname'), receiver_phone: v('st-rphone'),
       receiver_address: v('st-raddr'), receiver_note: v('st-rnote'), updated_at: new Date().toISOString() };
-    if (digits(patch.wave_number).length < 9 || digits(patch.receiver_phone).length < 9) return toast('Numéro invalide.', 'error');
-    if (patch.receiver_address.length < 5) return toast('Adresse trop courte.', 'error');
-    const { error } = await sb.from('app_settings').update(patch).eq('id', 1);
-    if (error) return toast(error.message, 'error');
-    _settings = null; toast('Paramètres enregistrés.');
+    if (!PHONE_OK(patch.wave_number)) return invalid($('st-wave'), 'Numéro Wave invalide.');
+    if (patch.wave_name.length < 2) return invalid($('st-wname'), 'Indiquez le nom affiché dans Wave.');
+    if (patch.receiver_name.length < 2) return invalid($('st-rname'), 'Indiquez le destinataire.');
+    if (!PHONE_OK(patch.receiver_phone)) return invalid($('st-rphone'), 'Téléphone invalide.');
+    if (patch.receiver_address.length < 10) return invalid($('st-raddr'), 'Adresse trop courte : indiquez quartier, rue et numéro.');
+    const btn = e.target.querySelector('button[type=submit]');
+    await once('settings', async () => {
+      busy(btn, true, 'Enregistrement…');
+      try { await q(sb.from('app_settings').update(patch).eq('id', 1)); _settings = null; $('content').dataset.dirty = ''; toast('Paramètres enregistrés.'); }
+      catch (err) { toast(err.message, 'error'); }
+      finally { busy(btn, false); }
+    });
   });
 }
 
@@ -1251,13 +1729,36 @@ document.addEventListener('click', (e) => {
 });
 $('menuBtn').addEventListener('click', () => { $('sidebar').classList.add('open'); $('sidebarOverlay').classList.add('show'); });
 $('sidebarOverlay').addEventListener('click', closeSidebar);
-$('pdfModalClose').addEventListener('click', closeContract);
-$('pdfModal').addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closeContract(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeContract(); $('notifPanel').classList.remove('show'); } });
+$('pdfModalClose').addEventListener('click', closeDoc);
+$('pdfModal').addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closeDoc(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeDoc(); $('notifPanel').classList.remove('show'); } });
 window.addEventListener('hashchange', route);
 
+/* Saisie en cours : on ne recharge jamais la page sous les doigts de l'utilisateur. */
+document.addEventListener('input', (e) => { const c = $('content'); if (c.contains(e.target) && e.target.id !== 'adminSearch') c.dataset.dirty = '1'; });
+$('updateBtn').addEventListener('click', () => { if ($('content').dataset.dirty === '1' && !confirm('Votre saisie en cours sera perdue. Actualiser ?')) return; route(); });
+
+/* Connexion perdue / retrouvée */
+function setOnline(on) {
+  $('netBanner').hidden = on;
+  document.body.classList.toggle('offline', !on);
+}
+window.addEventListener('offline', () => setOnline(false));
+window.addEventListener('online', () => {
+  setOnline(true); toast('Connexion rétablie.', 'info');
+  if (currentUser) { loadNotifications(); if (isEditing()) showUpdateBar(); else route(); }
+});
+setOnline(navigator.onLine);
+
+/* Retour sur l'onglet (téléphone en veille…) : notifications et page à jour. */
+let _hiddenAt = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { _hiddenAt = Date.now(); return; }
+  if (currentUser && Date.now() - _hiddenAt > 30000) { loadNotifications(); if (!isEditing()) route(); }
+});
+
 // Fonctions appelées depuis les attributs onclick
-Object.assign(window, { copyText, openContract, adminSet, markPaid, openNotif, enablePush });
+Object.assign(window, { copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route });
 
 (async () => {
   await loadProfile();
