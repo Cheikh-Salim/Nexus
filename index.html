@@ -1020,13 +1020,17 @@ async function renderAdminRequests() {
   const user = requireRole('admin'); if (!user) return;
   const { data: reqs, error } = await sb.from('requests').select('*, profiles!requests_client_id_fkey(full_name, email)').order('created_at', { ascending: false });
   if (error) { toast('Erreur chargement.', 'error'); return; }
+  const { data: ships } = await sb.from('guarantee_shipments').select('id, request_id, client_wave, status, paid_amount')
+    .not('status', 'in', '(cancelled)').order('created_at', { ascending: false });
+  const shipBy = {};
+  (ships || []).forEach(g => { if (!shipBy[g.request_id]) shipBy[g.request_id] = g; });
   document.getElementById('adminContent').innerHTML = `
     <div class="page-head">
       <div><h1 class="page-title">📋 Toutes les demandes</h1><p class="page-subtitle">${reqs.length} demande(s).</p></div>
     </div>
     ${reqs.length === 0 ? `<div class="banner-warn">⚠️ Aucune demande.</div>` : `
       <div class="table-wrap"><table>
-        <thead><tr><th>Date</th><th>Client</th><th>Montant</th><th>Total</th><th>Statut</th><th>PDF</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Date</th><th>Client</th><th>Montant</th><th>Total</th><th>Statut</th><th>Wave client</th><th>Garantie</th><th>PDF</th><th>Actions</th></tr></thead>
         <tbody>${reqs.map(r => `
           <tr>
             <td>${r.date_creation}</td>
@@ -1034,6 +1038,8 @@ async function renderAdminRequests() {
             <td class="mono">${r.montant.toLocaleString('fr-FR')}</td>
             <td class="mono" style="color:var(--green)">${r.total.toLocaleString('fr-FR')}</td>
             <td><span class="badge badge-${r.status}">${statusLabel(r.status)}</span></td>
+            <td>${shipBy[r.id] ? waveCell(shipBy[r.id].client_wave) : '—'}</td>
+            <td>${shipBy[r.id] ? gBadge(shipBy[r.id].status) + (['delivered','validated'].includes(shipBy[r.id].status) ? `<br><button class="btn btn-success btn-sm" style="margin-top:6px;" onclick="markLoanPaid('${shipBy[r.id].id}', ${Number(r.montant) || 0}, ${esc(JSON.stringify(shipBy[r.id].client_wave))})">💸 Marquer comme payé</button>` : '') : '—'}</td>
             <td>${r.pdf_url ? `
               <div style="display:flex;gap:4px;">
                 <button class="btn btn-pdf btn-sm" onclick="previewPdf('${r.pdf_url}')">👁️</button>
@@ -1118,32 +1124,23 @@ async function adminReject(id) {
 }
 
 /* ============================================================
-   GARANTIES PAR COURSIER YANGO + PAIEMENTS SUR LE WAVE ADMIN
-   (version sans API : l'admin commande le Yango depuis son appli
-    et confirme les paiements reçus sur son numéro Wave)
+   GARANTIES v3 — le client commande lui-même le Yango (lien qui ouvre l'appli),
+   donne son numéro Wave ; l'admin reçoit la garantie, envoie le prêt
+   sur ce numéro depuis son Wave, puis clique « Payé ».
    ============================================================ */
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fcfa = (n) => (Number(n) || 0).toLocaleString('fr-FR') + ' FCFA';
-const fmtPhone = (p) => String(p || '').replace(/\D/g, '').replace(/^221/, '').replace(/(\d{2})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+const digits = (p) => String(p || '').replace(/\D/g, '').replace(/^221(?=\d{9}$)/, '');
+const fmtPhone = (p) => digits(p).replace(/(\d{2})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
 const DAKAR = [14.7167, -17.4677];
 
 let _settings = null;
 async function getSettings(force) {
   if (_settings && !force) return _settings;
   const { data, error } = await sb.from('app_settings').select('*').eq('id', 1).single();
-  if (error) throw new Error('Paramètres introuvables (script SQL installé ?)');
+  if (error) throw new Error('Paramètres introuvables : lancez le script SQL garanties_v3.sql.');
   _settings = data;
   return data;
-}
-function distanceKm(a, b, c, d) {
-  const R = 6371, t = x => x * Math.PI / 180;
-  const h = Math.sin(t(c - a) / 2) ** 2 + Math.cos(t(a)) * Math.cos(t(c)) * Math.sin(t(d - b) / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
-// Même formule que dans la base (la base recalcule de toute façon le prix).
-function estimateFee(s, lat, lon) {
-  const km = distanceKm(lat, lon, s.receiver_lat, s.receiver_lon) * 1.3;
-  return { km, fee: Math.ceil(Math.max(s.fee_min, s.fee_base + Math.ceil(km) * s.fee_per_km) / 100) * 100 };
 }
 async function rpc(name, args) {
   const { data, error } = await sb.rpc(name, args);
@@ -1151,47 +1148,75 @@ async function rpc(name, args) {
   return data;
 }
 function copyText(t) {
-  navigator.clipboard?.writeText(t).then(() => toast('Copié !', 'info'), () => toast('Copie impossible : notez-le à la main.', 'error'));
+  const done = () => toast('Copié !', 'info');
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(done, () => fallbackCopy(t));
+  else fallbackCopy(t);
+  function fallbackCopy(x) {
+    const ta = document.createElement('textarea'); ta.value = x; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (_) { prompt('Copiez ce texte :', x); }
+    ta.remove();
+  }
 }
-function waveBox(s, amount, label) {
-  return `<div class="g-box">
-    <div style="font-weight:800;margin-bottom:6px;">${label}</div>
-    <div class="g-big">${fcfa(amount)}</div>
-    <div class="g-meta" style="margin:10px 0 4px;">Envoyez exactement ce montant par <strong>Wave</strong> au numéro :</div>
-    <div class="g-wave">📱 ${esc(fmtPhone(s.wave_number))}
-      <button type="button" class="btn btn-ghost btn-sm" onclick="copyText('${esc(String(s.wave_number).replace(/\D/g, ''))}')">📋 Copier</button></div>
-    <div class="g-meta" style="margin-top:4px;">Nom affiché dans Wave : ${esc(s.wave_name)}</div>
-    <div class="g-meta" style="margin-top:8px;">Après l'envoi, Wave vous donne une <strong>référence de transaction</strong> (dans l'historique, sur le reçu). Recopiez-la ci-dessous.</div>
-  </div>`;
+const copyBtn = (text, label = '📋 Copier') =>
+  `<button type="button" class="btn btn-ghost btn-sm" onclick="copyText(${esc(JSON.stringify(String(text ?? '')))})">${label}</button>`;
+const waveCell = (w) => w ? `<span class="mono" style="color:var(--blue);font-weight:800;">${esc(fmtPhone(w))}</span> ${copyBtn(digits(w), '📋')}` : '—';
+
+/* ---------- Lien d'ouverture de l'appli Yango ---------- */
+function yangoUrl(s, from, to) {
+  return String(s.yango_link_template || '')
+    .replaceAll('{from_lat}', from.lat).replaceAll('{from_lon}', from.lon)
+    .replaceAll('{to_lat}', to.lat).replaceAll('{to_lon}', to.lon);
+}
+function openYango(url, hintId) {
+  const t0 = Date.now();
+  window.location.href = url;
+  setTimeout(() => {
+    // Si la page est toujours visible, l'appli ne s'est probablement pas ouverte.
+    if (!document.hidden && Date.now() - t0 < 4000) {
+      const h = document.getElementById(hintId);
+      if (h) h.innerHTML = `<div class="g-note err">L'appli Yango ne s'est pas ouverte ?
+        <br>• Ouvrez cette page <strong>sur votre téléphone</strong> (le lien ne marche pas sur ordinateur).
+        <br>• Vérifiez que <strong>Yango</strong> est installée (<a style="color:var(--green)" href="https://play.google.com/store/search?q=yango&c=apps" target="_blank" rel="noopener">Play Store</a> / App Store).
+        <br>• Sinon, ouvrez Yango vous-même → <strong>Livraison</strong>, et recopiez les adresses ci-dessous.</div>`;
+    }
+  }, 2000);
 }
 
 const G_STATUS = {
-  awaiting_payment: { label: 'Livraison à payer', cls: 'g-wait' },
-  payment_declared: { label: 'Paiement en vérification', cls: 'g-wait' },
-  payment_rejected: { label: 'Paiement non reçu', cls: 'g-ko' },
-  paid:             { label: 'Payé — coursier bientôt commandé', cls: 'g-move' },
-  courier_assigned: { label: 'Coursier en route vers le client', cls: 'g-move' },
-  picked_up:        { label: 'Garantie en route vers Nexus', cls: 'g-move' },
+  awaiting_courier: { label: 'Coursier à commander', cls: 'g-wait' },
+  courier_ordered:  { label: 'Garantie en route', cls: 'g-move' },
   delivered:        { label: 'Garantie reçue — à vérifier', cls: 'g-check' },
-  validated:        { label: 'Garantie validée', cls: 'g-ok' },
+  validated:        { label: 'Validée — argent à envoyer', cls: 'g-check' },
+  paid:             { label: 'Argent envoyé', cls: 'g-ok' },
   rejected:         { label: 'Garantie refusée', cls: 'g-ko' },
   cancelled:        { label: 'Annulé', cls: 'g-ko' },
 };
 const gBadge = (st) => `<span class="badge badge-${(G_STATUS[st] || {}).cls || 'pending'}">${esc((G_STATUS[st] || {}).label || st)}</span>`;
 function gTimeline(st) {
-  const order = ['awaiting_payment', 'payment_declared', 'paid', 'courier_assigned', 'picked_up', 'delivered', 'validated'];
-  const steps = [['payment_declared', '💳 Payée'], ['paid', '✔️ Confirmée'], ['courier_assigned', '🛵 Coursier'],
-                 ['picked_up', '📦 Remise'], ['delivered', '🏁 Reçue'], ['validated', '✅ Validée']];
+  const order = ['awaiting_courier', 'courier_ordered', 'delivered', 'validated', 'paid'];
+  const steps = [['awaiting_courier', '📝 Formulaire'], ['courier_ordered', '🛵 Yango commandé'], ['delivered', '🏁 Reçue'], ['validated', '✅ Vérifiée'], ['paid', '💸 Argent envoyé']];
   const idx = order.indexOf(st);
   if (idx < 0) return '';
   return `<div class="g-steps">${steps.map(([k, label]) => {
     const i = order.indexOf(k);
-    const cls = idx > i || st === 'validated' ? 'done' : (idx === i ? 'now' : '');
+    const cls = i < idx || st === 'paid' ? 'done' : (i === idx ? 'now' : '');
     return `<div class="g-step ${cls}">${label}</div>`;
   }).join('')}</div>`;
 }
+function addressesBox(g, s) {
+  return `<div class="g-box">
+    <div style="font-weight:800;">📍 Ramassage (chez vous)</div>
+    <div class="g-meta">${esc(g.pickup_address)}${g.pickup_details ? ' — ' + esc(g.pickup_details) : ''}</div>
+    <div class="g-actions" style="margin-top:6px;">${copyBtn(g.pickup_address, '📋 Copier l\'adresse')} <span class="g-meta">📞 ${esc(fmtPhone(g.contact_phone))}</span> ${copyBtn(digits(g.contact_phone), '📋')}</div>
+  </div>
+  <div class="g-box">
+    <div style="font-weight:800;">🏁 Livraison : ${esc(s.receiver_name)}</div>
+    <div class="g-meta">${esc(g.dest_address || s.receiver_address)}</div>
+    <div class="g-actions" style="margin-top:6px;">${copyBtn(g.dest_address || s.receiver_address, '📋 Copier l\'adresse')} <span class="g-meta">📞 ${esc(fmtPhone(g.dest_phone || s.receiver_phone))}</span> ${copyBtn(digits(g.dest_phone || s.receiver_phone), '📋 Copier le numéro')}</div>
+  </div>`;
+}
 
-/* ---------- CLIENT : carte "Garantie" ---------- */
+/* ---------- CLIENT : carte "Garantie" dans le détail d'une demande ---------- */
 async function loadClientGuaranteeCard(r) {
   const box = document.getElementById('garantieCard');
   if (!box) return;
@@ -1201,63 +1226,54 @@ async function loadClientGuaranteeCard(r) {
   ]);
   const g = list && list[0];
   const canSend = ['pending', 'approved'].includes(r.status);
-  const newBtn = `<button class="btn btn-primary" onclick="navigate('/client/requests/${r.id}/garantie')">🛵 Envoyer ma garantie par coursier Yango</button>`;
   const head = '<div class="card-title">📦 Garantie</div>';
+  const notifBtn = ('Notification' in window && Notification.permission === 'default')
+    ? `<button class="btn btn-ghost btn-sm" onclick="enableBrowserNotifications()">🔔 Être prévenu</button>` : '';
 
   if (!g || g.status === 'cancelled') {
     box.innerHTML = head + (canSend
-      ? `<p class="g-meta" style="margin-bottom:14px;">Pas besoin de vous déplacer : un coursier Yango vient chercher votre garantie chez vous et nous l'apporte. Vous payez seulement la livraison, par Wave.</p>${newBtn}`
+      ? `<p class="g-meta" style="margin-bottom:14px;">Pas besoin de vous déplacer : envoyez votre garantie par un coursier Yango. Dès réception et vérification, nous vous envoyons l'argent sur votre Wave.</p>
+         <button class="btn btn-primary" onclick="navigate('/client/requests/${r.id}/garantie')">🛵 Envoyer ma garantie par Yango</button>`
       : '<p class="g-meta">Aucune garantie envoyée.</p>');
     return;
   }
+  if (!s) { box.innerHTML = head + '<div class="g-note err">Paramètres introuvables.</div>'; return; }
 
   let body = '';
-  if (['awaiting_payment', 'payment_rejected'].includes(g.status) && s) {
-    body = `${g.status === 'payment_rejected' ? `<div class="g-note err">Nous n'avons pas trouvé votre paiement${g.admin_note ? ' : ' + esc(g.admin_note) : ''}. Vérifiez la référence et réessayez.</div>` : ''}
-      ${waveBox(s, g.delivery_fee, '🛵 Frais de livraison Yango')}
-      <div class="form-grid">
-        <div class="field"><label>Référence de la transaction Wave <span class="req">*</span></label><input id="gp-ref" placeholder="Ex : T_ABCD1234EFGH"></div>
-        <div class="field"><label>Numéro Wave qui a payé</label><input id="gp-phone" type="tel" value="${esc(g.contact_phone)}"></div>
-      </div>
+  if (g.status === 'awaiting_courier') {
+    const url = yangoUrl(s, { lat: g.pickup_lat, lon: g.pickup_lon }, { lat: g.dest_lat, lon: g.dest_lon });
+    body = `<div class="g-note">Étape suivante : <strong>commandez la livraison Yango</strong>. L'appli s'ouvre avec votre adresse et la nôtre déjà placées. Choisissez <strong>Livraison</strong>, vérifiez les points, saisissez les numéros ci-dessous si Yango les demande, puis payez la course dans l'appli.</div>
+      <div class="g-actions"><button class="btn btn-primary" style="padding:14px 22px;" onclick="openYango(${esc(JSON.stringify(url))}, 'yango-hint')">🛵 Commander le Yango</button></div>
+      <div id="yango-hint"></div>
+      ${addressesBox(g, s)}
       <div class="g-actions">
-        <button class="btn btn-primary" onclick="declareGuaranteePayment('${g.id}')">✅ J'ai payé</button>
-        <button class="btn btn-ghost btn-sm" onclick="cancelGuarantee('${g.id}')">Annuler cet envoi</button>
+        <button class="btn btn-success" onclick="markOrdered('${g.id}')">✅ J'ai commandé le coursier</button>
+        <button class="btn btn-ghost btn-sm" onclick="cancelGuarantee('${g.id}')">Annuler</button>
       </div>`;
-  } else if (g.status === 'payment_declared') {
-    body = `<div class="g-note">⏳ Paiement déclaré (réf. ${esc(g.wave_ref)}). Nous vérifions sa réception, puis nous commandons votre coursier.</div>`;
-  } else if (g.status === 'paid') {
-    body = `<div class="g-note ok">✔️ Paiement confirmé. Nous commandons votre coursier Yango — restez joignable au ${esc(fmtPhone(g.contact_phone))}.</div>`;
-  } else if (g.status === 'courier_assigned') {
-    body = `<div class="g-note ok">🛵 Un coursier Yango arrive pour récupérer votre garantie.${g.courier_name ? `<br>Coursier : <strong>${esc(g.courier_name)}</strong>` : ''}${g.courier_phone ? ` — <a style="color:var(--green)" href="tel:${esc(g.courier_phone)}">${esc(fmtPhone(g.courier_phone))}</a>` : ''}</div>
-      <div class="g-actions">
-        ${g.tracking_url ? `<a class="btn btn-secondary btn-sm" href="${esc(g.tracking_url)}" target="_blank" rel="noopener">🗺️ Suivre le coursier</a>` : ''}
-        <button class="btn btn-primary btn-sm" onclick="confirmHandover('${g.id}')">📦 J'ai remis ma garantie au coursier</button>
-      </div>`;
-  } else if (g.status === 'picked_up') {
-    body = `<div class="g-note">📦 Votre garantie est en route vers Nexus Crédit.</div>
-      ${g.tracking_url ? `<div class="g-actions"><a class="btn btn-secondary btn-sm" href="${esc(g.tracking_url)}" target="_blank" rel="noopener">🗺️ Suivre le coursier</a></div>` : ''}`;
+  } else if (g.status === 'courier_ordered') {
+    body = `<div class="g-note">🛵 Coursier commandé. Remettez-lui votre garantie : il nous l'apporte. Suivez la course dans l'appli Yango.</div>${addressesBox(g, s)}`;
   } else if (g.status === 'delivered') {
     body = `<div class="g-note">🏁 Garantie bien reçue. Nous la vérifions.</div>`;
   } else if (g.status === 'validated') {
-    body = `<div class="g-note ok">✅ Garantie vérifiée et validée.</div>`;
+    body = `<div class="g-note ok">✅ Garantie validée. L'argent arrive sur votre Wave <strong>${esc(fmtPhone(g.client_wave))}</strong>.</div>`;
+  } else if (g.status === 'paid') {
+    body = `<div class="g-note ok">💸 <strong>${fcfa(g.paid_amount)}</strong> envoyés sur votre Wave <strong>${esc(fmtPhone(g.client_wave))}</strong> le ${new Date(g.paid_at).toLocaleDateString('fr-FR')}.</div>`;
   } else if (g.status === 'rejected') {
     body = `<div class="g-note err">Garantie refusée${g.admin_note ? ' : ' + esc(g.admin_note) : ''}. Nous vous contactons pour sa restitution.</div>`;
   }
 
+  const editableWave = ['awaiting_courier', 'courier_ordered', 'delivered', 'validated'].includes(g.status);
   box.innerHTML = `${head}
-    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">${gBadge(g.status)}</div>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">${gBadge(g.status)} ${notifBtn}</div>
     ${gTimeline(g.status)}
-    <div class="g-meta">📍 Ramassage : ${esc(g.pickup_address)}${g.pickup_details ? ' — ' + esc(g.pickup_details) : ''}</div>
-    <div class="g-meta">🏁 Livraison : ${esc(g.dest_address)}</div>
-    <div class="g-meta">🛵 Livraison : ${fcfa(g.delivery_fee)} (~${esc(g.distance_km)} km)</div>
-    ${body}`;
+    ${body}
+    <div class="g-meta" style="margin-top:12px;">📱 Votre numéro Wave pour recevoir le prêt : <strong style="color:var(--blue)">${esc(fmtPhone(g.client_wave))}</strong>
+      ${editableWave ? `<button class="btn btn-ghost btn-sm" onclick="changeWave('${g.id}', ${esc(JSON.stringify(g.client_wave))})">Modifier</button>` : ''}</div>`;
 }
 
-async function declareGuaranteePayment(id) {
-  const ref = document.getElementById('gp-ref').value.trim();
-  const phone = document.getElementById('gp-phone').value.trim();
-  if (ref.length < 4) return toast('Recopiez la référence de la transaction Wave.', 'error');
-  try { await rpc('guarantee_declare_payment', { p_id: id, p_ref: ref, p_phone: phone }); toast('Merci ! Nous vérifions votre paiement.'); }
+async function markOrdered(id) {
+  if (!confirm('Avez-vous bien commandé et payé la course dans l\'appli Yango ?')) return;
+  try { await rpc('guarantee_mark_ordered', { p_id: id }); toast('Merci ! Nous vous prévenons à la réception.'); }
   catch (e) { toast(esc(e.message), 'error'); }
   route();
 }
@@ -1267,14 +1283,15 @@ async function cancelGuarantee(id) {
   catch (e) { toast(esc(e.message), 'error'); }
   route();
 }
-async function confirmHandover(id) {
-  if (!confirm('Confirmez-vous avoir remis votre garantie au coursier Yango ?')) return;
-  try { await rpc('guarantee_confirm_handover', { p_id: id }); toast('Merci ! Votre garantie est en route.'); }
+async function changeWave(id, current) {
+  const w = prompt('Votre numéro Wave (pour recevoir le prêt) :', fmtPhone(current));
+  if (w === null) return;
+  try { await rpc('guarantee_set_wave', { p_id: id, p_wave: w }); toast('Numéro Wave mis à jour.'); }
   catch (e) { toast(esc(e.message), 'error'); }
   route();
 }
 
-/* ---------- CLIENT : formulaire d'envoi ---------- */
+/* ---------- CLIENT : formulaire ---------- */
 let _gMap = null, _gMarker = null, _gPhoto = null;
 
 async function renderGuaranteeForm(requestId) {
@@ -1289,36 +1306,38 @@ async function renderGuaranteeForm(requestId) {
   document.getElementById('clientContent').innerHTML = `
     <button class="btn btn-ghost btn-sm" onclick="navigate('/client/requests/${r.id}')">← Retour à la demande</button>
     <div class="page-head" style="margin-top:16px;"><div>
-      <h1 class="page-title">🛵 Envoyer ma garantie</h1>
-      <p class="page-subtitle">Un coursier Yango vient la chercher chez vous et nous l'apporte.</p>
+      <h1 class="page-title">🛵 Envoyer ma garantie par Yango</h1>
+      <p class="page-subtitle">Prêt de ${fcfa(r.montant)} · versé sur votre Wave dès réception de la garantie.</p>
     </div></div>
     <div class="card" style="max-width:900px;">
-      <div class="banner-warn">1) Indiquez où récupérer la garantie · 2) Payez la livraison par Wave · 3) Nous commandons le coursier · 4) Remettez-lui la garantie.</div>
-      <div class="card-title" style="font-size:1rem;">📍 Ramassage (chez vous)</div>
+      <div class="banner-warn">1) Remplissez ce formulaire · 2) Commandez le Yango (l'appli s'ouvre toute seule) et payez la course dans l'appli · 3) Remettez la garantie au coursier · 4) Nous vérifions et envoyons l'argent sur votre Wave.</div>
+      <div class="card-title" style="font-size:1rem;">👤 Vos coordonnées</div>
       <div class="form-grid">
         <div class="field"><label>Nom complet <span class="req">*</span></label><input id="g-name" value="${esc(user.full_name || r.nom || '')}"></div>
-        <div class="field"><label>Téléphone (le coursier vous appellera) <span class="req">*</span></label><input id="g-phone" type="tel" value="${esc(r.telephone || user.phone || '')}" placeholder="77 123 45 67"></div>
-        <div class="field full"><label>Adresse exacte de ramassage <span class="req">*</span></label><input id="g-address" placeholder="Ex : Parcelles Assainies U17, villa 245"></div>
+        <div class="field"><label>Téléphone (pour le coursier) <span class="req">*</span></label><input id="g-phone" type="tel" value="${esc(r.telephone || user.phone || '')}" placeholder="77 123 45 67"></div>
+        <div class="field full"><label>Numéro Wave pour recevoir le prêt <span class="req">*</span></label><input id="g-wave" type="tel" value="${esc(r.telephone || user.phone || '')}" placeholder="77 123 45 67">
+          <span class="g-meta">C'est aussi depuis ce numéro que vous rembourserez le prêt.</span></div>
+      </div>
+      <div class="card-title" style="font-size:1rem;margin-top:6px;">📍 Ramassage (chez vous)</div>
+      <div class="form-grid">
+        <div class="field full"><label>Adresse exacte <span class="req">*</span></label><input id="g-address" placeholder="Ex : Parcelles Assainies U17, villa 245"></div>
         <div class="field full"><label>Précisions pour le coursier</label><input id="g-details" placeholder="Étage, porte, point de repère"></div>
       </div>
-      <div class="field"><label>Point exact sur la carte <span class="req">*</span></label></div>
       <div id="gMap" class="g-map"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><button type="button" class="btn btn-ghost btn-sm" id="g-locate">📍 Utiliser ma position</button></div>
-      <div class="g-hint" id="g-coords">Touchez la carte pour placer le point de ramassage.</div>
+      <div class="g-hint" id="g-coords">Touchez la carte pour placer le point de ramassage (il sera envoyé à Yango).</div>
 
-      <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison (Nexus Crédit)</div>
+      <div class="card-title" style="font-size:1rem;">🏁 Livraison (déjà renseignée)</div>
       <div class="g-box" style="margin-top:0;">
         <div style="font-weight:700;">${esc(s.receiver_name)}</div>
         <div class="g-meta">${esc(s.receiver_address)}</div>
-        <div class="g-meta">📞 ${esc(fmtPhone(s.receiver_phone))}</div>
+        <div class="g-actions" style="margin-top:6px;">${copyBtn(s.receiver_address, '📋 Copier l\'adresse')} <span class="g-meta">📞 ${esc(fmtPhone(s.receiver_phone))}</span> ${copyBtn(digits(s.receiver_phone), '📋 Copier le numéro')}</div>
       </div>
 
       <div class="field"><label>Description de la garantie</label><textarea id="g-desc" rows="2" placeholder="Ex : téléphone Samsung A15 dans sa boîte">${esc(r.garantie || '')}</textarea></div>
       <div class="field"><label>Photo de la garantie (facultatif)</label><input id="g-photo" type="file" accept="image/*" capture="environment"></div>
       <div id="g-photo-preview" style="margin-bottom:16px;"></div>
-
-      <div id="g-fee" class="g-box" style="display:none;"></div>
-      <button class="btn btn-primary btn-block" id="g-submit" style="padding:16px;">Continuer vers le paiement Wave →</button>
+      <button class="btn btn-primary btn-block" id="g-submit" style="padding:16px;">Continuer → commander le Yango</button>
     </div>`;
 
   if (_gMap) { _gMap.remove(); _gMap = null; _gMarker = null; }
@@ -1326,15 +1345,10 @@ async function renderGuaranteeForm(requestId) {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(_gMap);
   L.marker([s.receiver_lat, s.receiver_lon]).addTo(_gMap).bindTooltip('Nexus Crédit');
   setTimeout(() => _gMap && _gMap.invalidateSize(), 400);
-
   const place = (lat, lon) => {
     if (_gMarker) _gMarker.setLatLng([lat, lon]);
     else { _gMarker = L.marker([lat, lon], { draggable: true }).addTo(_gMap); _gMarker.on('dragend', () => { const p = _gMarker.getLatLng(); place(p.lat, p.lng); }); }
     document.getElementById('g-coords').textContent = 'Point placé ✔ — vous pouvez le déplacer si besoin.';
-    const { km, fee } = estimateFee(s, lat, lon);
-    const f = document.getElementById('g-fee');
-    f.style.display = 'block';
-    f.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;"><div><div style="font-weight:800;">🛵 Livraison Yango</div><div class="g-meta">~${km.toFixed(1)} km</div></div><div class="g-big">${fcfa(fee)}</div></div>`;
   };
   _gMap.on('click', e => place(e.latlng.lat, e.latlng.lng));
   document.getElementById('g-locate').onclick = () => {
@@ -1353,17 +1367,16 @@ async function renderGuaranteeForm(requestId) {
 
   document.getElementById('g-submit').onclick = async () => {
     const pos = _gMarker && _gMarker.getLatLng();
+    const v = id => document.getElementById(id).value.trim();
     const row = {
       request_id: r.id, client_id: currentUser.id,
-      contact_name: document.getElementById('g-name').value.trim(),
-      contact_phone: document.getElementById('g-phone').value.trim(),
-      pickup_address: document.getElementById('g-address').value.trim(),
-      pickup_details: document.getElementById('g-details').value.trim() || null,
-      description: document.getElementById('g-desc').value.trim() || null,
+      contact_name: v('g-name'), contact_phone: v('g-phone'), client_wave: v('g-wave'),
+      pickup_address: v('g-address'), pickup_details: v('g-details') || null, description: v('g-desc') || null,
       pickup_lat: pos && pos.lat, pickup_lon: pos && pos.lng,
     };
     if (row.contact_name.length < 2) return toast('Indiquez votre nom.', 'error');
-    if (row.contact_phone.replace(/\D/g, '').length < 9) return toast('Téléphone invalide.', 'error');
+    if (digits(row.contact_phone).length < 9) return toast('Téléphone invalide.', 'error');
+    if (digits(row.client_wave).length < 9) return toast('Numéro Wave invalide.', 'error');
     if (row.pickup_address.length < 5) return toast('Indiquez l\'adresse exacte.', 'error');
     if (!pos) return toast('Placez le point de ramassage sur la carte.', 'error');
     const btn = document.getElementById('g-submit');
@@ -1377,11 +1390,11 @@ async function renderGuaranteeForm(requestId) {
       }
       const { error } = await sb.from('guarantee_shipments').insert(row);
       if (error) throw new Error(error.code === '23505' ? 'Un envoi de garantie est déjà en cours pour cette demande.' : error.message);
-      toast('Envoi enregistré. Payez maintenant la livraison par Wave.');
+      toast('Enregistré ! Commandez maintenant le Yango.');
       navigate('/client/requests/' + r.id);
     } catch (e) {
       toast(esc(e.message), 'error');
-      btn.disabled = false; btn.textContent = 'Continuer vers le paiement Wave →';
+      btn.disabled = false; btn.textContent = 'Continuer → commander le Yango';
     }
   };
 }
@@ -1401,31 +1414,40 @@ function shrinkImage(file, max, quality) {
   });
 }
 
-/* ---------- CLIENT : rembourser son prêt sur le Wave admin ---------- */
+/* ---------- CLIENT : remboursement sur le Wave admin ---------- */
 async function loadClientRepaymentCard(r) {
   const box = document.getElementById('rembCard');
   if (!box || box.hidden) return;
-  const [{ data: list }, s] = await Promise.all([
+  const [{ data: list }, { data: ships }, s] = await Promise.all([
     sb.from('loan_repayments').select('*').eq('request_id', r.id).order('created_at', { ascending: false }),
+    sb.from('guarantee_shipments').select('client_wave').eq('request_id', r.id).eq('status', 'paid').limit(1),
     getSettings().catch(() => null),
   ]);
+  const clientWave = ships && ships[0] ? ships[0].client_wave : (r.telephone || '');
   const confirmed = (list || []).filter(x => x.status === 'confirmed').reduce((t, x) => t + x.amount, 0);
   const pending = (list || []).filter(x => x.status === 'declared').reduce((t, x) => t + x.amount, 0);
   const remaining = Math.max(0, (r.total || 0) - confirmed);
+  const toSend = Math.max(0, remaining - pending) || remaining;
   const pct = r.total ? Math.min(100, Math.round(confirmed * 100 / r.total)) : 0;
   const lab = { declared: '⏳ en vérification', confirmed: '✅ reçu', rejected: '❌ non trouvé' };
 
-  box.innerHTML = `<div class="card-title">💰 Remboursement du prêt</div>
+  box.innerHTML = `<div class="card-title">💰 Rembourser mon prêt</div>
     <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Remboursé : <strong>${fcfa(confirmed)}</strong></span><span>Total : <strong>${fcfa(r.total)}</strong></span></div>
     <div class="progress"><div style="width:${pct}%"></div></div>
     <div class="g-meta" style="margin-top:6px;">Reste à payer : <strong style="color:var(--gold)">${fcfa(remaining)}</strong>${pending ? ` · ${fcfa(pending)} en vérification` : ''} · Échéance : ${esc(r.date_remboursement)}</div>
     ${remaining > 0 && ['approved', 'ongoing'].includes(r.status) && s ? `
-      ${waveBox(s, remaining - pending > 0 ? remaining - pending : remaining, '💰 Montant restant à rembourser')}
-      <div class="form-grid">
-        <div class="field"><label>Montant envoyé (FCFA) <span class="req">*</span></label><input id="rp-amount" type="number" min="100" step="100" value="${Math.max(0, remaining - pending) || remaining}"></div>
-        <div class="field"><label>Référence de la transaction Wave <span class="req">*</span></label><input id="rp-ref" placeholder="Ex : T_ABCD1234EFGH"></div>
-        <div class="field full"><label>Numéro Wave qui a payé</label><input id="rp-phone" type="tel" value="${esc(r.telephone || '')}"></div>
+      <div class="g-box">
+        <div style="font-weight:800;">Envoyez par Wave</div>
+        <div class="g-big">${fcfa(toSend)}</div>
+        <div class="g-meta" style="margin:8px 0 4px;">au numéro Wave de Nexus Crédit :</div>
+        <div class="g-wave">📱 ${esc(fmtPhone(s.wave_number))} ${copyBtn(digits(s.wave_number))}</div>
+        <div class="g-meta" style="margin-top:6px;">⚠️ Envoyez depuis <strong>votre numéro Wave ${esc(fmtPhone(clientWave))}</strong> (celui qui a reçu le prêt), puis recopiez la référence de la transaction.</div>
       </div>
+      <div class="form-grid">
+        <div class="field"><label>Montant envoyé (FCFA) <span class="req">*</span></label><input id="rp-amount" type="number" min="100" step="100" value="${toSend}"></div>
+        <div class="field"><label>Référence de la transaction Wave <span class="req">*</span></label><input id="rp-ref" placeholder="Ex : T_ABCD1234EFGH"></div>
+      </div>
+      <input type="hidden" id="rp-phone" value="${esc(clientWave)}">
       <button class="btn btn-primary" onclick="declareRepayment('${r.id}')">✅ J'ai envoyé mon remboursement</button>` : ''}
     ${remaining === 0 ? '<div class="g-note ok">🎉 Prêt entièrement remboursé. Merci !</div>' : ''}
     ${(list || []).length ? `<div style="margin-top:16px;">${list.map(x => `<div class="g-meta" style="padding:6px 0;border-bottom:1px solid var(--border-2);">${new Date(x.created_at).toLocaleDateString('fr-FR')} · <strong>${fcfa(x.amount)}</strong> · réf. ${esc(x.wave_ref)} · ${lab[x.status]}${x.admin_note ? ' — ' + esc(x.admin_note) : ''}</div>`).join('')}</div>` : ''}`;
@@ -1448,7 +1470,7 @@ async function renderAdminGuarantees() {
   const perm = ('Notification' in window) ? Notification.permission : 'unsupported';
   document.getElementById('adminContent').innerHTML = `
     <div class="page-head">
-      <div><h1 class="page-title">📦 Garanties</h1><p class="page-subtitle">Paiements des livraisons, coursiers Yango et vérification.</p></div>
+      <div><h1 class="page-title">📦 Garanties</h1><p class="page-subtitle">Réception des garanties et envoi des prêts sur Wave.</p></div>
       ${perm === 'default' ? `<button class="btn btn-secondary btn-sm" onclick="enableBrowserNotifications()">🔔 Activer les notifications</button>` : ''}
     </div>
     <div id="gAdminList"><p class="g-meta">Chargement…</p></div>`;
@@ -1463,9 +1485,9 @@ async function loadAdminGuaranteesInto(container, { requestId }) {
   const { data: list, error } = await q;
   if (error) { container.innerHTML = `<div class="g-note err">${esc(error.message)}</div>`; return; }
   if (!list.length) { container.innerHTML = requestId ? '' : `<div class="empty"><div class="empty-icon">📭</div>Aucun envoi de garantie.</div>`; return; }
-  const prio = (g) => ({ payment_declared: 0, delivered: 1, picked_up: 2, paid: 3, courier_assigned: 4 }[g.status] ?? 9);
+  const prio = (g) => ({ validated: 0, delivered: 1, courier_ordered: 2, awaiting_courier: 3 }[g.status] ?? 9);
   list.sort((a, b) => prio(a) - prio(b));
-  container.innerHTML = (requestId ? '<div class="card-title">📦 Garantie (coursier Yango)</div>' : '') + list.map(adminGuaranteeHtml).join('');
+  container.innerHTML = (requestId ? '<div class="card-title">📦 Garantie (Yango)</div>' : '') + list.map(adminGuaranteeHtml).join('');
   for (const g of list.filter(x => x.photo_path)) {
     const { data } = await sb.storage.from('guarantees').createSignedUrl(g.photo_path, 3600);
     const img = document.getElementById('gph-' + g.id);
@@ -1476,57 +1498,46 @@ async function loadAdminGuaranteesInto(container, { requestId }) {
 function adminGuaranteeHtml(g) {
   const r = g.requests || {};
   const maps = `https://www.google.com/maps?q=${g.pickup_lat},${g.pickup_lon}`;
-  const yangoText = `${g.pickup_address}${g.pickup_details ? ' (' + g.pickup_details + ')' : ''} — ${g.contact_name} ${g.contact_phone}`;
+  const payBtn = `<button class="btn btn-success" onclick="markLoanPaid('${g.id}', ${Number(r.montant) || 0}, ${esc(JSON.stringify(g.client_wave))})">💸 Marquer comme payé</button>`;
   let actions = '';
-  if (g.status === 'payment_declared') {
-    actions = `<div class="g-note">💳 Le client dit avoir envoyé <strong>${fcfa(g.delivery_fee)}</strong> sur votre Wave — réf. <strong>${esc(g.wave_ref)}</strong>${g.payer_phone ? ' depuis le ' + esc(fmtPhone(g.payer_phone)) : ''}. Vérifiez dans votre appli Wave.</div>
-      <div class="g-actions">
-        <button class="btn btn-success" onclick="adminG('${g.id}','pay_ok')">✅ Paiement reçu</button>
-        <button class="btn btn-danger btn-sm" onclick="adminG('${g.id}','pay_ko')">❌ Paiement introuvable</button>
-      </div>`;
-  } else if (g.status === 'paid') {
-    actions = `<div class="g-note">🛵 Commandez une <strong>livraison Yango</strong> depuis votre appli : ramassage chez le client, livraison chez vous. Puis renseignez le coursier.</div>
-      <div class="g-actions">
-        <a class="btn btn-secondary btn-sm" href="${maps}" target="_blank" rel="noopener">🗺️ Position du client</a>
-        <button class="btn btn-ghost btn-sm" onclick="copyText(${esc(JSON.stringify(yangoText))})">📋 Copier adresse + téléphone</button>
-      </div>
-      <div class="g-actions">
-        <input id="gc-name-${g.id}" placeholder="Nom du coursier (facultatif)">
-        <input id="gc-phone-${g.id}" type="tel" placeholder="Téléphone du coursier (facultatif)">
-        <input id="gc-url-${g.id}" placeholder="Lien de suivi Yango (facultatif)">
-        <button class="btn btn-primary" onclick="adminG('${g.id}','ordered')">🛵 Coursier commandé</button>
-      </div>`;
-  } else if (['courier_assigned', 'picked_up'].includes(g.status)) {
-    actions = `<div class="g-actions">
-        ${g.status === 'courier_assigned' ? `<button class="btn btn-ghost btn-sm" onclick="adminG('${g.id}','picked')">📦 Garantie récupérée par le coursier</button>` : ''}
-        <button class="btn btn-success" onclick="adminG('${g.id}','delivered')">🏁 Garantie reçue</button>
-      </div>`;
+  if (['awaiting_courier', 'courier_ordered'].includes(g.status)) {
+    actions = `<div class="g-actions"><button class="btn btn-primary" onclick="adminG('${g.id}','delivered')">🏁 Garantie reçue</button></div>`;
   } else if (g.status === 'delivered') {
     actions = `<div class="g-actions">
-        <button class="btn btn-success" onclick="adminG('${g.id}','validate')">✅ Garantie conforme — valider</button>
-        <button class="btn btn-danger btn-sm" onclick="adminG('${g.id}','reject')">❌ Non conforme</button>
-      </div>`;
+        <button class="btn btn-success" onclick="adminG('${g.id}','validate')">✅ Garantie conforme</button>
+        <button class="btn btn-danger btn-sm" onclick="adminG('${g.id}','reject')">❌ Non conforme</button></div>`;
+  } else if (g.status === 'validated') {
+    actions = `<div class="g-box">
+        <div style="font-weight:800;">Envoyez le prêt depuis votre appli Wave</div>
+        <div class="g-big">${fcfa(r.montant)}</div>
+        <div class="g-wave">📱 ${esc(fmtPhone(g.client_wave))} ${copyBtn(digits(g.client_wave))}</div>
+        <div class="g-meta">${esc(g.contact_name)} — puis cliquez « Marquer comme payé » pour prévenir le client.</div>
+      </div>
+      <div class="g-actions">${payBtn}</div>`;
+  } else if (g.status === 'paid') {
+    const msg = `Bonjour ${g.contact_name}, votre garantie a été validée. Nexus Crédit vous a envoyé ${fcfa(g.paid_amount)} sur votre Wave ${fmtPhone(g.client_wave)}. Merci !`;
+    actions = `<div class="g-actions"><a class="btn btn-secondary btn-sm" href="https://wa.me/221${digits(g.contact_phone)}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">📲 Prévenir sur WhatsApp</a></div>`;
   }
-  return `<div class="g-item ${['payment_declared', 'delivered', 'picked_up'].includes(g.status) ? 'alert' : ''}">
+  return `<div class="g-item ${['delivered', 'validated', 'courier_ordered'].includes(g.status) ? 'alert' : ''}">
     <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;">
       <div>
         <div style="font-weight:800;font-size:15px;">${esc(g.contact_name)} · prêt ${fcfa(r.montant)}</div>
-        <div class="g-meta">📞 <a style="color:var(--green)" href="tel:${esc(g.contact_phone)}">${esc(fmtPhone(g.contact_phone))}</a> · <a style="color:var(--green)" href="#/admin/requests/${g.request_id}">voir la demande</a></div>
+        <div class="g-meta">📞 <a style="color:var(--green)" href="tel:${esc(digits(g.contact_phone))}">${esc(fmtPhone(g.contact_phone))}</a> · <a style="color:var(--green)" href="#/admin/requests/${g.request_id}">voir la demande</a></div>
+        <div class="g-meta" style="margin-top:4px;">📱 Wave du client : ${waveCell(g.client_wave)}</div>
       </div>
       ${gBadge(g.status)}
     </div>
     <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;">
       ${g.photo_path ? `<img class="g-photo" id="gph-${g.id}" alt="Photo de la garantie">` : ''}
       <div style="flex:1;min-width:220px;">
-        <div class="g-meta">📍 ${esc(g.pickup_address)}${g.pickup_details ? ' — ' + esc(g.pickup_details) : ''} · <a style="color:var(--green)" href="${maps}" target="_blank" rel="noopener">carte</a></div>
+        <div class="g-meta">📍 ${esc(g.pickup_address)}${g.pickup_details ? ' — ' + esc(g.pickup_details) : ''} · <a style="color:var(--green)" href="${maps}" target="_blank" rel="noopener">carte</a> (~${esc(g.distance_km)} km)</div>
         ${g.description ? `<div style="margin-top:6px;font-size:13.5px;">📝 ${esc(g.description)}</div>` : ''}
-        <div class="g-meta" style="margin-top:6px;">🛵 Livraison : ${fcfa(g.delivery_fee)} (~${esc(g.distance_km)} km)${g.payment_confirmed_at ? ' · payée ✔' : ''}${g.wave_ref ? ' · réf. Wave ' + esc(g.wave_ref) : ''}</div>
-        ${g.courier_name || g.courier_phone ? `<div class="g-meta">👤 ${esc(g.courier_name || '')} ${g.courier_phone ? '· ' + esc(fmtPhone(g.courier_phone)) : ''}</div>` : ''}
-        ${g.handed_at ? `<div class="g-meta">📦 Remise au coursier : ${new Date(g.handed_at).toLocaleString('fr-FR')}</div>` : ''}
+        ${g.ordered_at ? `<div class="g-meta">🛵 Yango commandé le ${new Date(g.ordered_at).toLocaleString('fr-FR')}</div>` : ''}
         ${g.delivered_at ? `<div class="g-meta">🏁 Reçue le ${new Date(g.delivered_at).toLocaleString('fr-FR')}</div>` : ''}
+        ${g.paid_at ? `<div class="g-meta" style="color:var(--green);font-weight:700;">💸 ${fcfa(g.paid_amount)} envoyés le ${new Date(g.paid_at).toLocaleString('fr-FR')}</div>` : ''}
       </div>
     </div>
-    ${g.admin_note ? `<div class="g-note ${['rejected', 'payment_rejected'].includes(g.status) ? 'err' : ''}">${esc(g.admin_note)}</div>` : ''}
+    ${g.admin_note ? `<div class="g-note ${g.status === 'rejected' ? 'err' : ''}">${esc(g.admin_note)}</div>` : ''}
     ${g.status === 'rejected' ? `<div class="g-note">↩️ Retour de la garantie au client à organiser manuellement.</div>` : ''}
     ${actions}
   </div>`;
@@ -1535,35 +1546,34 @@ function adminGuaranteeHtml(g) {
 async function adminG(id, action) {
   const now = new Date().toISOString();
   let patch;
-  if (action === 'pay_ok') patch = { status: 'paid', payment_confirmed_at: now, admin_note: null };
-  else if (action === 'pay_ko') {
-    const note = prompt('Message pour le client :', 'Paiement introuvable dans notre Wave.');
-    if (note === null) return;
-    patch = { status: 'payment_rejected', admin_note: note };
-  } else if (action === 'ordered') {
-    patch = {
-      status: 'courier_assigned', ordered_at: now,
-      courier_name: document.getElementById('gc-name-' + id).value.trim() || null,
-      courier_phone: document.getElementById('gc-phone-' + id).value.trim() || null,
-      tracking_url: (document.getElementById('gc-url-' + id).value.trim().match(/^https?:\/\/\S+$/) || [null])[0],
-    };
-  } else if (action === 'picked') patch = { status: 'picked_up', handed_at: now };
-  else if (action === 'delivered') patch = { status: 'delivered', delivered_at: now };
-  else if (action === 'validate') {
-    if (!confirm('Valider cette garantie comme conforme ?')) return;
-    patch = { status: 'validated', verified_at: now };
-  } else if (action === 'reject') {
+  if (action === 'delivered') patch = { status: 'delivered', delivered_at: now };
+  else if (action === 'validate') patch = { status: 'validated', verified_at: now };
+  else if (action === 'reject') {
     const note = prompt('Motif du refus (visible par le client) :', 'Garantie non conforme');
     if (note === null) return;
     patch = { status: 'rejected', verified_at: now, admin_note: note };
   }
-  const { data, error } = await sb.from('guarantee_shipments').update(patch).eq('id', id).select('request_id, requests(status)').single();
+  const { error } = await sb.from('guarantee_shipments').update(patch).eq('id', id);
   if (error) return toast(esc(error.message), 'error');
-  // Garantie validée : la demande "En attente" passe automatiquement à "Approuvée".
-  if (action === 'validate' && data?.requests?.status === 'pending') {
-    await sb.from('requests').update({ status: 'approved' }).eq('id', data.request_id);
-  }
   toast('Mis à jour.');
+  route();
+}
+
+async function markLoanPaid(id, montant, wave) {
+  if (!confirm(`Avez-vous envoyé ${fcfa(montant)} sur le Wave ${fmtPhone(wave)} ?\n\nLe client sera prévenu que l'argent est envoyé.`)) return;
+  const now = new Date().toISOString();
+  const { data: g, error } = await sb.from('guarantee_shipments')
+    .update({ status: 'paid', paid_at: now, paid_amount: montant })
+    .eq('id', id).in('status', ['delivered', 'validated'])
+    .select('request_id, verified_at, contact_name, contact_phone, client_wave').single();
+  if (error) return toast(esc(error.code === 'PGRST116' ? 'Déjà marqué comme payé.' : error.message), 'error');
+  if (!g.verified_at) await sb.from('guarantee_shipments').update({ verified_at: now }).eq('id', id);
+  await sb.from('requests').update({ status: 'ongoing' }).eq('id', g.request_id);
+  toast('💸 Marqué comme payé — le client est prévenu.');
+  if (confirm('Envoyer aussi un message WhatsApp au client ?')) {
+    const msg = `Bonjour ${g.contact_name}, votre garantie a été validée. Nexus Crédit vous a envoyé ${fcfa(montant)} sur votre Wave ${fmtPhone(g.client_wave)}. Merci !`;
+    window.open(`https://wa.me/221${digits(g.contact_phone)}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
   route();
 }
 
@@ -1577,13 +1587,13 @@ async function renderAdminRepayments() {
   const lab = { declared: '<span class="badge badge-g-check">À vérifier</span>', confirmed: '<span class="badge badge-g-ok">Reçu</span>', rejected: '<span class="badge badge-g-ko">Refusé</span>' };
   list.sort((a, b) => (a.status === 'declared' ? 0 : 1) - (b.status === 'declared' ? 0 : 1));
   box.innerHTML = `
-    <div class="page-head"><div><h1 class="page-title">💰 Remboursements</h1><p class="page-subtitle">Paiements déclarés par les clients sur votre Wave.</p></div></div>
+    <div class="page-head"><div><h1 class="page-title">💰 Remboursements</h1><p class="page-subtitle">Sommes envoyées par les clients sur votre Wave.</p></div></div>
     ${list.length ? list.map(x => `
       <div class="g-item ${x.status === 'declared' ? 'alert' : ''}">
         <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <div>
             <div style="font-weight:800;font-size:15px;">${esc(x.requests?.nom)} · ${fcfa(x.amount)}</div>
-            <div class="g-meta">Réf. Wave <strong>${esc(x.wave_ref)}</strong>${x.payer_phone ? ' · depuis le ' + esc(fmtPhone(x.payer_phone)) : ''} · ${new Date(x.created_at).toLocaleString('fr-FR')}</div>
+            <div class="g-meta">Réf. Wave <strong>${esc(x.wave_ref)}</strong> · depuis le ${waveCell(x.payer_phone)} · ${new Date(x.created_at).toLocaleString('fr-FR')}</div>
             <div class="g-meta">Prêt : total ${fcfa(x.requests?.total)} · échéance ${esc(x.requests?.date_remboursement)} · <a style="color:var(--green)" href="#/admin/requests/${x.request_id}">voir la demande</a></div>
           </div>
           ${lab[x.status]}
@@ -1611,28 +1621,26 @@ async function renderAdminSettings() {
   let s;
   try { s = await getSettings(true); } catch (e) { document.getElementById('adminContent').innerHTML = `<div class="g-note err">${esc(e.message)}</div>`; return; }
   document.getElementById('adminContent').innerHTML = `
-    <div class="page-head"><div><h1 class="page-title">⚙️ Paramètres</h1><p class="page-subtitle">Numéro Wave, adresse de livraison des garanties et tarifs.</p></div></div>
+    <div class="page-head"><div><h1 class="page-title">⚙️ Paramètres</h1><p class="page-subtitle">Votre numéro Wave, votre adresse de réception et le lien Yango.</p></div></div>
     <div class="card" style="max-width:900px;">
-      <div class="card-title" style="font-size:1rem;">📱 Wave (paiements des clients)</div>
+      <div class="card-title" style="font-size:1rem;">📱 Wave (remboursements des clients)</div>
       <div class="form-grid">
         <div class="field"><label>Votre numéro Wave</label><input id="st-wave" value="${esc(s.wave_number)}"></div>
         <div class="field"><label>Nom affiché dans Wave</label><input id="st-wave-name" value="${esc(s.wave_name)}"></div>
       </div>
-      <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison des garanties</div>
+      <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison des garanties (affichée aux clients)</div>
       <div class="form-grid">
-        <div class="field"><label>Nom de réception</label><input id="st-rname" value="${esc(s.receiver_name)}"></div>
-        <div class="field"><label>Téléphone de réception</label><input id="st-rphone" value="${esc(s.receiver_phone)}"></div>
+        <div class="field"><label>Nom</label><input id="st-rname" value="${esc(s.receiver_name)}"></div>
+        <div class="field"><label>Téléphone</label><input id="st-rphone" value="${esc(s.receiver_phone)}"></div>
         <div class="field full"><label>Adresse</label><input id="st-raddr" value="${esc(s.receiver_address)}"></div>
       </div>
       <div id="stMap" class="g-map"></div>
-      <div class="g-hint">Touchez la carte (ou déplacez le marqueur) pour placer exactement votre adresse. Position : <span id="st-pos">${s.receiver_lat.toFixed(5)}, ${s.receiver_lon.toFixed(5)}</span></div>
-      <div class="card-title" style="font-size:1rem;">🛵 Tarif de livraison facturé au client</div>
-      <div class="form-grid">
-        <div class="field"><label>Prise en charge (FCFA)</label><input id="st-base" type="number" value="${s.fee_base}"></div>
-        <div class="field"><label>Par km (FCFA)</label><input id="st-km" type="number" value="${s.fee_per_km}"></div>
-        <div class="field"><label>Minimum (FCFA)</label><input id="st-min" type="number" value="${s.fee_min}"></div>
-      </div>
-      <div class="g-hint">Calcul : max(minimum, prise en charge + km × tarif), arrondi aux 100 FCFA. Ajustez-le d'après les prix réels de vos courses Yango.</div>
+      <div class="g-hint">Placez le marqueur <strong>exactement</strong> sur votre maison : c'est ce point qui est envoyé à Yango. Position : <span id="st-pos">${s.receiver_lat.toFixed(5)}, ${s.receiver_lon.toFixed(5)}</span></div>
+      <div class="card-title" style="font-size:1rem;">🛵 Lien d'ouverture de Yango</div>
+      <div class="field"><textarea id="st-yango" rows="3" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${esc(s.yango_link_template)}</textarea></div>
+      <div class="g-hint">{from_lat} {from_lon} = ramassage du client · {to_lat} {to_lon} = votre adresse. Ne changez ce lien que si Yango vous en fournit un officiel.
+        <button type="button" class="btn btn-ghost btn-sm" id="st-test">🧪 Tester sur ce téléphone</button></div>
+      <div id="st-test-hint"></div>
       <button class="btn btn-primary" id="st-save">💾 Enregistrer</button>
     </div>`;
   let lat = s.receiver_lat, lon = s.receiver_lon;
@@ -1643,16 +1651,20 @@ async function renderAdminSettings() {
   map.on('click', e => set(e.latlng.lat, e.latlng.lng));
   mk.on('dragend', () => { const p = mk.getLatLng(); set(p.lat, p.lng); });
   setTimeout(() => map.invalidateSize(), 400);
+  document.getElementById('st-test').onclick = () => {
+    const tpl = { yango_link_template: document.getElementById('st-yango').value.trim() };
+    openYango(yangoUrl(tpl, { lat: 14.7645, lon: -17.4400 }, { lat, lon }), 'st-test-hint');
+  };
   document.getElementById('st-save').onclick = async () => {
     const v = id => document.getElementById(id).value.trim();
     const patch = {
       wave_number: v('st-wave'), wave_name: v('st-wave-name'),
       receiver_name: v('st-rname'), receiver_phone: v('st-rphone'), receiver_address: v('st-raddr'),
-      receiver_lat: lat, receiver_lon: lon,
-      fee_base: parseInt(v('st-base'), 10) || 0, fee_per_km: parseInt(v('st-km'), 10) || 0, fee_min: parseInt(v('st-min'), 10) || 0,
+      receiver_lat: lat, receiver_lon: lon, yango_link_template: v('st-yango'),
       updated_at: new Date().toISOString(),
     };
-    if (patch.wave_number.replace(/\D/g, '').length < 9) return toast('Numéro Wave invalide.', 'error');
+    if (digits(patch.wave_number).length < 9) return toast('Numéro Wave invalide.', 'error');
+    if (!patch.yango_link_template.includes('{to_lat}')) return toast('Le lien Yango doit contenir {to_lat} et {to_lon}.', 'error');
     const { error } = await sb.from('app_settings').update(patch).eq('id', 1);
     if (error) return toast(esc(error.message), 'error');
     _settings = null;
@@ -1660,7 +1672,7 @@ async function renderAdminSettings() {
   };
 }
 
-/* ---------- Temps réel : suivi client + notifications admin ---------- */
+/* ---------- Temps réel : notifications admin + client ---------- */
 let _liveChannel = null;
 const _seen = new Set(JSON.parse(localStorage.getItem('nexusSeen') || '[]'));
 function seenOnce(key) {
@@ -1676,16 +1688,19 @@ function startLiveUpdates() {
     const row = payload.new || {};
     const hash = location.hash;
     if (currentUser?.role === 'admin') {
-      if (table === 'guarantee_shipments') {
-        const msg = { payment_declared: '💳 Paiement de livraison à vérifier', picked_up: '📦 Garantie remise au coursier — en route', delivered: '🏁 Garantie arrivée — à vérifier' }[row.status];
-        if (msg && seenOnce(row.id + ':' + row.status)) notifyAdmin(msg, row.contact_name);
+      if (table === 'guarantee_shipments' && row.status === 'courier_ordered' && seenOnce(row.id + ':ordered')) {
+        notifyUser('🛵 Garantie en route vers vous', `${row.contact_name} a commandé un Yango`);
       } else if (table === 'loan_repayments' && row.status === 'declared' && seenOnce(row.id)) {
-        notifyAdmin('💰 Remboursement déclaré : ' + fcfa(row.amount), 'À vérifier dans votre Wave');
+        notifyUser('💰 Remboursement déclaré : ' + fcfa(row.amount), 'À vérifier dans votre Wave');
       }
       refreshAdminBadges();
-      if (['#/admin/garanties', '#/admin/remboursements', '#/admin/dashboard'].includes(hash) || hash.startsWith('#/admin/requests/')) route();
-    } else if (hash === '#/client/requests/' + row.request_id) {
-      route();
+      if (['#/admin/garanties', '#/admin/remboursements', '#/admin/dashboard', '#/admin/requests'].includes(hash) || hash.startsWith('#/admin/requests/')) route();
+    } else {
+      if (table === 'guarantee_shipments' && seenOnce(row.id + ':' + row.status)) {
+        const m = { delivered: '🏁 Votre garantie est bien arrivée', validated: '✅ Garantie validée', paid: `💸 ${fcfa(row.paid_amount)} envoyés sur votre Wave`, rejected: 'Garantie refusée' }[row.status];
+        if (m) notifyUser(m, 'Nexus Crédit');
+      }
+      if (hash === '#/client/requests/' + row.request_id) route();
     }
   };
   _liveChannel = sb.channel('live-' + currentUser.id)
@@ -1697,19 +1712,19 @@ function startLiveUpdates() {
 async function refreshAdminBadges() {
   if (currentUser?.role !== 'admin') return;
   const [g, rp] = await Promise.all([
-    sb.from('guarantee_shipments').select('id', { count: 'exact', head: true }).in('status', ['payment_declared', 'picked_up', 'delivered']),
+    sb.from('guarantee_shipments').select('id', { count: 'exact', head: true }).in('status', ['courier_ordered', 'delivered', 'validated']),
     sb.from('loan_repayments').select('id', { count: 'exact', head: true }).eq('status', 'declared'),
   ]);
   const set = (id, n) => { const b = document.getElementById(id); if (b) { b.textContent = n || 0; b.classList.toggle('show', !!n); } };
   set('gBadge', g.count); set('rBadge', rp.count);
   const banner = document.getElementById('gDashBanner');
   if (banner) banner.innerHTML = [
-    g.count ? `<div class="banner-warn" style="cursor:pointer" onclick="navigate('/admin/garanties')">📦 <strong>${g.count} garantie(s)</strong> demandent votre action — cliquez pour traiter.</div>` : '',
+    g.count ? `<div class="banner-warn" style="cursor:pointer" onclick="navigate('/admin/garanties')">📦 <strong>${g.count} garantie(s)</strong> en route ou à traiter — cliquez pour voir.</div>` : '',
     rp.count ? `<div class="banner-warn" style="cursor:pointer" onclick="navigate('/admin/remboursements')">💰 <strong>${rp.count} remboursement(s)</strong> à vérifier dans votre Wave.</div>` : '',
   ].join('');
 }
 
-function notifyAdmin(title, body) {
+function notifyUser(title, body) {
   toast(esc(title) + (body ? ' — ' + esc(body) : ''), 'info');
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1719,8 +1734,7 @@ function notifyAdmin(title, body) {
     o.start(); o.stop(ctx.currentTime + 0.6);
   } catch (_) {}
   if ('Notification' in window && Notification.permission === 'granted') {
-    const n = new Notification('Nexus Crédit — ' + title, { body: body || '' });
-    n.onclick = () => { window.focus(); };
+    try { const n = new Notification('Nexus Crédit — ' + title, { body: body || '' }); n.onclick = () => window.focus(); } catch (_) {}
   }
 }
 
@@ -1731,8 +1745,8 @@ async function enableBrowserNotifications() {
   route();
 }
 
-Object.assign(window, { copyText, declareGuaranteePayment, cancelGuarantee, confirmHandover, declareRepayment,
-  adminG, reviewRepayment, enableBrowserNotifications });
+Object.assign(window, { copyText, openYango, markOrdered, cancelGuarantee, changeWave, declareRepayment,
+  adminG, markLoanPaid, reviewRepayment, enableBrowserNotifications });
 
 /* ---------- HELPERS ---------- */
 function statusLabel(s) {
