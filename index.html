@@ -6,17 +6,21 @@
 <title>Nexus Crédit — Prêt rapide au Sénégal</title>
 <meta name="description" content="Prêt rapide au Sénégal : demande en ligne, garantie envoyée par Yango, argent reçu sur Wave.">
 <meta name="theme-color" content="#070b08">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://qhdvrrpiqtfvppnaxelj.supabase.co wss://qhdvrrpiqtfvppnaxelj.supabase.co; img-src 'self' data: blob:; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://qhdvrrpiqtfvppnaxelj.supabase.co wss://qhdvrrpiqtfvppnaxelj.supabase.co; img-src 'self' data: blob:; worker-src 'self'; manifest-src 'self'; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="preconnect" href="https://qhdvrrpiqtfvppnaxelj.supabase.co" crossorigin>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Nexus Crédit">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="Nexus Crédit">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
 <style>
 :root, [data-theme="dark"] {
@@ -423,6 +427,55 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
   .page-head > button.btn { width: 100%; }
 }
 @media (max-width: 860px) { .contract-modal .modal-pdf-head { flex-direction: row; align-items: center; } }
+/* ===== v9 : appli installable, calculatrice, statistiques ===== */
+.install-banner { display: flex; align-items: center; gap: 14px; padding: 14px 16px; margin: 0 0 18px; border-radius: 16px; border: 1px solid var(--green); background: linear-gradient(135deg, var(--green-dim), transparent); }
+.install-banner img { border-radius: 12px; flex-shrink: 0; }
+.install-banner .ib-text { flex: 1; min-width: 0; }
+.install-banner .ib-text .muted { display: block; }
+.install-banner .ib-actions { display: flex; gap: 6px; align-items: center; }
+.install-modal { max-width: 460px; }
+.install-help { text-align: center; padding: 8px 4px 16px; }
+.install-help img { border-radius: 22px; box-shadow: var(--shadow); margin-bottom: 10px; }
+.install-help .howto { text-align: left; margin: 10px auto 16px; max-width: 360px; }
+.ios-share { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: var(--blue); color: #fff; font-size: 12px; }
+.app-update { position: fixed; left: 50%; transform: translateX(-50%); bottom: 24px; z-index: 1001; display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--green); box-shadow: var(--shadow-lg); font-weight: 700; font-size: 13px; }
+.calc-card { width: 100%; }
+.calc-input { width: 100%; margin: 6px 0 8px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--input-bg); color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 900; }
+.calc-card input[type=range] { width: 100%; accent-color: var(--green); }
+.calc-switch { display: flex; gap: 6px; margin: 10px 0 12px; }
+.calc-switch button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-2); background: var(--surface-2); color: var(--muted); font-weight: 800; font-family: inherit; cursor: pointer; min-height: 44px; }
+.calc-switch button.active { background: var(--green-dim); color: var(--green); border-color: var(--green); }
+.calc-line, .calc-total { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: 14px; }
+.calc-total { border-top: 1px dashed var(--border); border-bottom: 1px dashed var(--border); margin: 4px 0; font-size: 16px; }
+.calc-total strong { color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; }
+.kpis-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kpis-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.kpi-value small { font-size: .9rem; color: var(--muted); }
+.stars { display: flex; gap: 6px; }
+.star { font-size: 34px; line-height: 1; background: none; border: none; color: var(--surface-3); cursor: pointer; padding: 4px; min-width: 44px; min-height: 44px; transition: transform .1s; }
+.star.on { color: var(--gold); }
+.star:active { transform: scale(1.15); }
+.chart { display: flex; gap: 10px; align-items: flex-end; height: 180px; padding: 8px 4px 0; }
+.chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.chart-bars { flex: 1; width: 100%; display: flex; gap: 4px; align-items: flex-end; justify-content: center; }
+.bar { width: 40%; max-width: 26px; border-radius: 6px 6px 0 0; min-height: 2px; transition: height .6s var(--ease-out); }
+.bar.lent, .chart-legend i.lent { background: var(--green); }
+.bar.back, .chart-legend i.back { background: var(--gold); }
+.chart-label { font-size: 11px; color: var(--muted); margin-top: 6px; text-transform: capitalize; }
+.chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 10px; font-size: 12px; color: var(--muted); }
+.chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+@media (display-mode: standalone) { .public-topbar { padding-top: calc(14px + env(safe-area-inset-top)); } .mobile-bar { padding-top: calc(8px + env(safe-area-inset-top)); } }
+@media (max-width: 860px) {
+  .hero { padding: 28px 16px 40px; }
+  .hero-inner { gap: 22px; }
+  .hero-card.calc-card { display: block; }
+  .kpis-3, .kpis-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .install-banner { flex-wrap: wrap; }
+  .install-banner .ib-actions { width: 100%; }
+  .install-banner .ib-actions .btn { flex: 1; }
+  .app-update { bottom: calc(90px + env(safe-area-inset-bottom)); width: calc(100% - 24px); justify-content: space-between; }
+  .chart { height: 150px; gap: 6px; }
+}
 </style>
 </head>
 <body>
@@ -443,13 +496,23 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
         <div>
           <h1>Obtenez votre <em>prêt</em> en<br><span class="line2">quelques heures.</span></h1>
           <p>Un besoin urgent d'argent ? Faites votre demande en ligne, envoyez votre garantie par coursier Yango sans vous déplacer, et recevez l'argent directement sur votre Wave.</p>
+          <div data-install-slot></div>
           <div class="hero-btns">
             <button class="btn btn-primary" data-go="/register" data-guest>💰 Créer mon compte</button>
             <button class="btn btn-secondary" data-go="/login" data-guest>Se connecter</button>
             <button class="btn btn-primary" data-go="/login" data-member hidden>Accéder à mon espace →</button>
           </div>
         </div>
-        <div class="hero-card">
+        <div class="hero-card calc-card">
+          <div style="font-weight:800;font-size:15px;margin-bottom:10px;">🧮 Calculez votre prêt</div>
+          <label for="calcAmount" class="muted">Montant souhaité (FCFA)</label>
+          <input type="number" inputmode="numeric" id="calcAmount" class="calc-input" value="50000" min="5000" max="500000" step="1000">
+          <input type="range" id="calcRange" min="5000" max="500000" step="5000" value="50000" aria-label="Montant">
+          <div class="calc-switch"><button type="button" class="active" data-calc-duree="7">7 jours · +25 %</button><button type="button" data-calc-duree="14">14 jours · +35 %</button></div>
+          <div id="calcOut"></div>
+          <button class="btn btn-primary btn-block" data-go="/register" data-guest style="margin-top:12px;">Faire ma demande →</button>
+        </div>
+        <div class="hero-card" hidden>
           <div style="font-weight:800;font-size:14px;color:var(--text-2);">📊 Nos taux</div>
           <div class="rate-row">
             <div><div style="font-size:11px;color:var(--muted);">7 jours</div><div class="rate-val" style="color:var(--green)">+25%</div></div>
@@ -562,6 +625,13 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
     <div class="contract-actions"><button class="btn btn-primary btn-block" id="contractRead">✅ J'ai lu le contrat</button></div>
   </div>
 </div>
+<div class="modal-overlay" id="installModal" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+  <div class="modal-pdf install-modal">
+    <div class="modal-pdf-head"><h3 id="installTitle">📲 Installer l'application</h3><button class="modal-close" id="installClose" aria-label="Fermer">✕</button></div>
+    <div class="modal-pdf-body" id="installHelpBody"></div>
+  </div>
+</div>
+<div class="app-update" id="appUpdate" hidden role="status">✨ Nouvelle version de l'application disponible <button class="btn btn-primary btn-sm" id="appUpdateBtn">Mettre à jour</button></div>
 <div class="net-banner" id="netBanner" hidden role="alert">📡 Connexion perdue — vos actions reprendront dès le retour d'internet.</div>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="notif-panel" id="notifPanel" role="dialog" aria-label="Notifications"></div>
@@ -740,10 +810,18 @@ async function loadProfile() {
   try {
     const { data: { session } } = await sb.auth.getSession();
     if (!session) { currentUser = null; return null; }
-    const { data, error } = await sb.from('profiles').select('id, email, full_name, phone, role').eq('id', session.user.id).single();
-    if (error) throw error;
-    currentUser = data;
-    return data;
+    let res;
+    try { res = await sb.from('profiles').select('id, email, full_name, phone, role').eq('id', session.user.id).single(); }
+    catch (e) { res = { error: e }; }
+    if (res.error) {
+      // Hors connexion : on reprend le dernier profil connu pour ouvrir l'appli en lecture seule.
+      let saved = null; try { saved = JSON.parse(localStorage.getItem('nexusProfile') || 'null'); } catch (_) {}
+      if (!navigator.onLine && saved && saved.id === session.user.id) { currentUser = saved; return saved; }
+      throw res.error;
+    }
+    currentUser = res.data;
+    try { localStorage.setItem('nexusProfile', JSON.stringify(res.data)); } catch (_) {}
+    return res.data;
   } catch (e) {
     console.error('[profil]', e);
     _profileError = friendly(e);
@@ -782,6 +860,7 @@ const ROUTES = [
   { re: /^\/admin\/requests\/([\w-]+)$/, role: 'admin', render: renderAdminRequest },
   { re: /^\/admin\/settings$/, role: 'admin', render: renderAdminSettings },
   { re: /^\/admin\/dues$/, role: 'admin', render: renderAdminDues },
+  { re: /^\/admin\/stats$/, role: 'admin', render: renderAdminStats },
   { re: /^\/profile$/, role: '*', render: renderProfile },
 ];
 // [chemin, icône, libellé, libellé court (barre du bas sur téléphone)]
@@ -789,7 +868,7 @@ const NAV = {
   client: [['/client/dashboard', '🏠', 'Tableau de bord', 'Accueil'], ['/client/requests', '📋', 'Mes demandes', 'Demandes'],
     ['/client/new', '➕', 'Nouvelle demande', 'Demander'], ['/profile', '👤', 'Mon profil', 'Profil']],
   admin: [['/admin/dashboard', '📊', 'Tableau de bord', 'Accueil'], ['/admin/requests', '📋', 'Demandes', 'Demandes'],
-    ['/admin/dues', '📅', 'Échéancier', 'Échéances'], ['/admin/settings', '⚙️', 'Paramètres', 'Réglages'], ['/profile', '👤', 'Mon profil', 'Profil']],
+    ['/admin/dues', '📅', 'Échéancier', 'Échéances'], ['/admin/stats', '📈', 'Statistiques', 'Stats'], ['/admin/settings', '⚙️', 'Paramètres', 'Réglages'], ['/profile', '👤', 'Mon profil', 'Profil']],
 };
 const homeOf = (u) => (u?.role === 'admin' ? '/admin/dashboard' : '/client/dashboard');
 
@@ -817,7 +896,10 @@ async function route() {
     if (match.view === 'reset') { if (!_recovering) return navigate('/login'); return showView('reset'); }
     if (currentUser && path !== '/home') return navigate(homeOf(currentUser));
     updateHomeNav();
-    return showView(match.view);
+    showView(match.view);
+    if (match.view === 'home') setupCalculator();
+    renderInstallBanners();
+    return;
   }
   if (!currentUser) await loadProfile();
   if (seq !== _routeSeq) return;
@@ -833,7 +915,7 @@ async function route() {
   const content = $('content');
   content.dataset.dirty = '';
   content.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
-  try { await match.render(...params); }
+  try { await match.render(...params); renderInstallBanners(); }
   catch (e) {
     console.error(e);
     if (seq !== _routeSeq) return;
@@ -862,7 +944,7 @@ function buildNav(path) {
   const active = (p) => path === p || (p.endsWith('requests') && path.startsWith(p + '/'));
   $('sbNav').innerHTML = NAV[role].map(([p, icon, label]) =>
     `<a class="sb-link ${active(p) ? 'active' : ''}" href="#${p}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="sb-icon">${icon}</span>${label}</a>`).join('');
-  const items = role === 'admin' ? NAV.admin.filter(([p]) => p !== '/profile') : NAV.client;
+  const items = role === 'admin' ? NAV.admin.filter(([p]) => p !== '/profile' && p !== '/admin/settings') : NAV.client;
   $('bottomNav').innerHTML = items.map(([p, icon, , short]) =>
     `<a class="bn-item ${active(p) ? 'active' : ''} ${p === '/client/new' ? 'bn-main' : ''}" href="#${p}" aria-label="${short}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="bn-icon">${icon}</span><span>${short}</span></a>`).join('')
     + (role === 'admin' ? `<a class="bn-item ${path === '/profile' ? 'active' : ''}" href="#/profile" aria-label="Profil"><span class="bn-icon">👤</span><span>Profil</span></a>` : '');
@@ -958,6 +1040,8 @@ $('registerForm').addEventListener('submit', async (e) => {
 
 $('logoutBtn').addEventListener('click', async () => {
   if (!confirm('Se déconnecter ?')) return;
+  await unsubscribePush();
+  clearUserCache();
   try { await sb.auth.signOut(); } catch (_) { teardownSession(); navigate('/home'); }
   toast('Déconnecté.', 'info');
 });
@@ -981,6 +1065,7 @@ async function startNotifications() {
   _notifChannel = 'starting'; // évite deux abonnements si deux pages s'ouvrent vite
   await loadNotifications();
   if (!currentUser) { _notifChannel = null; return; }
+  subscribePush();
   _notifChannel = sb.channel('notif-' + currentUser.id)
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${currentUser.id}` }, (p) => {
       const n = p.new;
@@ -989,9 +1074,7 @@ async function startNotifications() {
       renderBell();
       toast(`${n.title} — ${n.body || ''}`, 'info');
       beep();
-      if ('Notification' in window && Notification.permission === 'granted') {
-        try { const bn = new Notification('Nexus Crédit — ' + n.title, { body: n.body || '' }); bn.onclick = () => { window.focus(); openNotif(n.request_id); }; } catch (_) {}
-      }
+      if (document.hidden) systemNotify(n.title, n.body, n.request_id);
       refreshIfRelevant(n.request_id);
     })
     .subscribe();
@@ -1041,9 +1124,14 @@ function openNotif(requestId) {
   if (requestId && currentUser) navigate(`/${currentUser.role === 'admin' ? 'admin' : 'client'}/requests/${requestId}`);
 }
 async function enablePush() {
-  if (!('Notification' in window)) return toast('Notifications non prises en charge sur cet appareil.', 'error');
+  if (!('Notification' in window)) {
+    return toast(isIOS && !isStandalone() ? "Sur iPhone, installez d'abord l'application (Partager → « Sur l'écran d'accueil »), puis activez les notifications depuis l'appli." : 'Notifications non prises en charge sur cet appareil.', 'error');
+  }
   const p = await Notification.requestPermission();
-  toast(p === 'granted' ? 'Notifications activées.' : 'Notifications refusées.', p === 'granted' ? 'success' : 'error');
+  if (p === 'granted') {
+    const pushed = await subscribePush();
+    toast(pushed ? 'Notifications activées, même appli fermée.' : 'Notifications activées.', 'success');
+  } else toast('Notifications refusées. Vous pouvez les autoriser dans les réglages du navigateur.', 'error');
   renderBell();
 }
 function beep() {
@@ -1064,7 +1152,7 @@ async function getSettings(force) {
   if (_settings && !force) return _settings;
   let res;
   try { res = await sb.from('app_settings').select('*').eq('id', 1).single(); } catch (e) { throw new AppError(friendly(e)); }
-  if (res.error) throw new AppError(navigator.onLine ? 'Paramètres introuvables : lancez le script SQL nexus_v8.sql.' : friendly(res.error));
+  if (res.error) throw new AppError(navigator.onLine ? 'Paramètres introuvables : lancez le script SQL nexus_v9.sql.' : friendly(res.error));
   return (_settings = res.data);
 }
 
@@ -1474,7 +1562,7 @@ const nextStepHint = (r) => ({
 
 async function renderClientDashboard() {
   const paint = painter();
-  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
+  const reqs = await listWithCache('client-list', sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
   if (!paint()) return;
   const active = reqs.filter((r) => ['paid', 'repayment_requested'].includes(r.status))
     .sort((a, b) => (daysLeft(a) ?? 999) - (daysLeft(b) ?? 999));
@@ -1482,7 +1570,7 @@ async function renderClientDashboard() {
   const pending = reqs.filter((r) => ['pending', 'guarantee_received'].includes(r.status)).length;
   const urgent = active.filter((r) => r.status === 'paid' && (daysLeft(r) ?? 99) <= 2);
   const late = urgent.filter((r) => daysLeft(r) < 0);
-  $('content').innerHTML = `
+  $('content').innerHTML = `${offlineNote()}<div data-install-slot="compact"></div>
     <div class="page-head">
       <div><h1 class="page-title">Bonjour, ${esc(currentUser.full_name || 'client')} 👋</h1><p class="page-subtitle">Résumé de votre activité.</p></div>
       ${newRequestBtn()}
@@ -1515,10 +1603,11 @@ const clientRow = (r) => `
 
 async function renderClientRequests() {
   const paint = painter();
-  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
+  const reqs = await listWithCache('client-list', sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200));
   if (!paint()) return;
-  $('content').innerHTML = `
-    <div class="page-head"><div><h1 class="page-title">📋 Mes demandes</h1></div>${newRequestBtn()}</div>
+  $('content').innerHTML = `${offlineNote()}
+    <div class="page-head"><div><h1 class="page-title">📋 Mes demandes</h1><p class="page-subtitle">Historique complet de vos prêts.</p></div>${newRequestBtn()}</div>
+    ${historySummary(reqs)}
     <div class="card">${reqs.length ? reqs.map(clientRow).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande.</div>`}</div>`;
   setActiveLoan(reqs);
 }
@@ -1542,6 +1631,7 @@ async function renderClientRequest(id) {
     ${steps(r.status)}
     ${countdownCard(r)}
     <div class="card next-card" style="margin-bottom:20px;" id="nextStep">${clientNextStep(r, settings)}</div>
+    ${await ratingCardHtml(r)}
     <div class="card" style="margin-bottom:20px;">
       <div class="card-title">📄 Mes documents</div>
       <div class="row-actions">${docButtons(r)}</div>
@@ -1562,6 +1652,7 @@ async function renderClientRequest(id) {
       ${r.wave_number ? `<div class="detail-row"><div class="detail-key">Votre numéro Wave</div><div class="detail-val">${waveCell(r.wave_number)}</div></div>` : ''}
     </div>`;
   bindNextStep(r);
+  bindRating(r);
 }
 
 function clientNextStep(r, s) {
@@ -1920,7 +2011,7 @@ let _remindersRun = false;
 async function renderAdminDashboard() {
   const paint = painter();
   if (!_remindersRun) { _remindersRun = true; rpc('admin_run_reminders', {}).catch(() => { _remindersRun = false; }); }
-  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
+  const reqs = await listWithCache('admin-list', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
   if (!paint()) return;
   const by = (st) => reqs.filter((r) => r.status === st);
   const lent = reqs.filter((r) => ['paid', 'repayment_requested', 'done'].includes(r.status)).reduce((s, r) => s + (r.paid_amount || r.montant || 0), 0);
@@ -1928,7 +2019,7 @@ async function renderAdminDashboard() {
   const todo = reqs.filter(NEEDS_ACTION);
   const dueSoon = by('paid').filter((r) => (daysLeft(r) ?? 99) <= 2).sort((a, b) => daysLeft(a) - daysLeft(b));
   const lateN = dueSoon.filter((r) => daysLeft(r) < 0).length;
-  $('content').innerHTML = `
+  $('content').innerHTML = `${offlineNote()}
     <div class="page-head"><div><h1 class="page-title">🛡️ Vue d'ensemble</h1><p class="page-subtitle">${reqs.length} demande(s) au total.</p></div>
       <a class="btn btn-primary btn-sm" href="#/admin/requests">Toutes les demandes →</a></div>
     <div class="kpis">
@@ -1946,7 +2037,7 @@ async function renderAdminDashboard() {
 let _adminFilter = 'todo', _adminSearch = '';
 async function renderAdminRequests() {
   const paint = painter();
-  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
+  const reqs = await listWithCache('admin-list', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
   if (!paint()) return;
   const tabs = [['todo', '⚡ À traiter', NEEDS_ACTION], ['all', 'Toutes', () => true],
     ...Object.keys(STATUS).map((k) => [k, STATUS[k].label, (r) => r.status === k])];
@@ -1959,7 +2050,7 @@ async function renderAdminRequests() {
     $('adminList').innerHTML = rows.length ? adminTable(rows) : `<div class="empty"><div class="empty-icon">📭</div>${term ? 'Aucun résultat pour cette recherche.' : 'Aucune demande dans cette catégorie.'}</div>`;
     document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t.dataset.f === _adminFilter));
   };
-  $('content').innerHTML = `
+  $('content').innerHTML = `${offlineNote()}
     <div class="page-head"><div><h1 class="page-title">📋 Demandes</h1><p class="page-subtitle">Numéros Wave, statuts et actions.</p></div>
       <input class="search" id="adminSearch" type="search" placeholder="🔎 Nom, téléphone, Wave, passeport, reçu" value="${esc(_adminSearch)}" aria-label="Rechercher une demande"></div>
     <div class="tabs">${tabs.map(([k, l, fn]) => `<button class="tab" data-f="${k}">${l}<span class="n">${reqs.filter(fn).length}</span></button>`).join('')}</div>
@@ -1989,6 +2080,8 @@ async function renderAdminRequest(id) {
   const { data: r } = await q(sb.from('requests').select(LIST_COLS + ',message').eq('id', id).maybeSingle());
   if (!paint()) return;
   if (!r) { toast('Demande introuvable.', 'error'); return navigate('/admin/requests'); }
+  const reliability = await reliabilityHtml(r);
+  if (!paint()) return;
   const waMsg = {
     pending: `Bonjour ${r.nom}, votre demande de ${fcfa(r.montant)} est bien reçue. Envoyez votre garantie par Yango à l'adresse indiquée sur le site.`,
     guarantee_received: `Bonjour ${r.nom}, nous avons bien reçu votre garantie. L'argent arrive sur votre Wave.`,
@@ -2013,6 +2106,7 @@ async function renderAdminRequest(id) {
       <div class="row-actions" style="margin-top:12px;">${adminActionButtons(r) || '<span class="muted">Aucune action disponible.</span>'}</div>
       ${waPhone.length >= 9 && waMsg ? `<div style="margin-top:12px;"><a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" href="https://wa.me/221${waPhone}?text=${encodeURIComponent(waMsg)}">📲 Écrire au client sur WhatsApp</a></div>` : ''}
     </div>
+    ${reliability}
     <div class="card" style="margin-bottom:20px;">
       <div class="card-title">👤 Client et garantie</div>
       <div class="detail-row"><div class="detail-key">Nom (garantie)</div><div class="detail-val">${esc(r.guarantee_name || '—')}</div></div>
@@ -2048,13 +2142,17 @@ async function renderAdminSettings() {
         <div class="field full"><label for="st-raddr">Adresse</label><input id="st-raddr" maxlength="200" value="${esc(s.receiver_address)}"></div>
         <div class="field full"><label for="st-rnote">Note pour le coursier</label><input id="st-rnote" maxlength="200" value="${esc(s.receiver_note)}"></div>
       </div>
+      <div class="card-title" style="font-size:1rem;margin-top:10px;">🔔 Notifications push (appli fermée)</div>
+      <div class="field"><label for="st-vapid">Clé publique VAPID</label><input id="st-vapid" value="${esc(s.vapid_public_key || '')}" maxlength="120" spellcheck="false" placeholder="Collez ici la « Public Key » (voir le guide)"></div>
+      <p class="muted" style="margin-bottom:14px;">Laissez vide pour désactiver. La clé privée ne doit jamais être mise ici : elle reste dans les secrets Supabase.</p>
       <button class="btn btn-primary" type="submit">💾 Enregistrer</button>
     </form>`;
   $('settingsForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const v = (id) => $(id).value.trim();
     const patch = { wave_number: v('st-wave'), wave_name: v('st-wname'), receiver_name: v('st-rname'), receiver_phone: v('st-rphone'),
-      receiver_address: v('st-raddr'), receiver_note: v('st-rnote'), updated_at: new Date().toISOString() };
+      receiver_address: v('st-raddr'), receiver_note: v('st-rnote'), vapid_public_key: v('st-vapid'), updated_at: new Date().toISOString() };
+    if (patch.vapid_public_key && !/^[A-Za-z0-9_-]{80,100}$/.test(patch.vapid_public_key)) return invalid($('st-vapid'), 'Clé publique VAPID invalide (environ 87 caractères, sans espace).');
     if (!PHONE_OK(patch.wave_number)) return invalid($('st-wave'), 'Numéro Wave invalide.');
     if (patch.wave_name.length < 2) return invalid($('st-wname'), 'Indiquez le nom affiché dans Wave.');
     if (patch.receiver_name.length < 2) return invalid($('st-rname'), 'Indiquez le destinataire.');
@@ -2099,11 +2197,13 @@ async function renderProfile() {
         ${perm === 'granted' ? '<span class="due-chip">Activées</span>' : perm === 'default' ? '<button class="btn btn-ghost btn-sm" onclick="enablePush().then(route)">Activer</button>' : '<span class="muted">Bloquées dans le navigateur</span>'}</div>
       <div class="pref-row"><span>🌓 Thème clair / sombre</span><button class="btn btn-ghost btn-sm" data-theme-toggle aria-label="Changer de thème">🌙</button></div>
       <div class="pref-row"><span>📲 Installer l'appli sur l'écran d'accueil</span><button class="btn btn-ghost btn-sm" id="installBtn">Installer</button></div>
+      ${u.role === 'admin' ? '<div class="pref-row"><span>⚙️ Paramètres (Wave, adresse, notifications push)</span><a class="btn btn-ghost btn-sm" href="#/admin/settings">Ouvrir</a></div>' : ''}
       <button class="btn btn-danger btn-block-m" id="profileLogout" style="margin-top:16px;">🚪 Se déconnecter</button>
     </div>`;
   applyTheme(document.documentElement.getAttribute('data-theme'));
   $('profileLogout').onclick = () => $('logoutBtn').click();
   $('installBtn').onclick = installApp;
+  renderInstallBanners();
   $('profileForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = $('pf-name').value.trim().replace(/\s+/g, ' '), phone = $('pf-phone').value.trim();
@@ -2134,21 +2234,12 @@ async function renderProfile() {
   });
 }
 
-/* Installation sur l'écran d'accueil (Android/ordinateur : invite native ; iPhone : consigne). */
-let _installPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); _installPrompt = e; });
-async function installApp() {
-  if (_installPrompt) { _installPrompt.prompt(); _installPrompt = null; return; }
-  if (/iphone|ipad|ipod/i.test(navigator.userAgent)) return toast('Sur iPhone : touchez le bouton Partager, puis « Sur l\'écran d\'accueil ».', 'info');
-  toast('Ouvrez le menu de votre navigateur (⋮) puis « Ajouter à l\'écran d\'accueil » / « Installer l\'application ».', 'info');
-}
-
 /* =====================================================================
    ADMIN : échéancier
    ===================================================================== */
 async function renderAdminDues() {
   const paint = painter();
-  const { data: reqs } = await q(sb.from('requests').select(LIST_COLS).in('status', ['paid', 'repayment_requested']).limit(1000));
+  const reqs = await listWithCache('admin-dues', sb.from('requests').select(LIST_COLS).in('status', ['paid', 'repayment_requested']).limit(1000));
   if (!paint()) return;
   const withD = reqs.map((r) => ({ r, d: daysLeft(r) ?? 0 })).sort((a, b) => a.d - b.d);
   const groups = [
@@ -2163,7 +2254,7 @@ async function renderAdminDues() {
   const sum = (arr) => arr.reduce((t, x) => t + amountDue(x.r), 0);
   const late = withD.filter((x) => x.r.status === 'paid' && x.d < 0);
   const week = withD.filter((x) => x.r.status === 'paid' && x.d >= 0 && x.d <= 7);
-  $('content').innerHTML = `
+  $('content').innerHTML = `${offlineNote()}
     <div class="page-head"><div><h1 class="page-title">📅 Échéancier</h1><p class="page-subtitle">Tous les prêts versés, du plus urgent au plus lointain.</p></div></div>
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">En retard</div><div class="kpi-value" style="color:${late.length ? 'var(--red)' : 'var(--green)'}">${late.length}</div><div class="kpi-sub">${fcfa(sum(late))}</div></div>
@@ -2178,6 +2269,328 @@ async function renderAdminDues() {
           <div class="row-actions">${reminderLink(r)}${r.status === 'repayment_requested' ? `<button class="btn btn-success btn-sm" onclick="adminSet(${jsArg(r.id)}, 'done')">✅ Reçu</button>` : ''}<a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(r.id)}">Détails</a></div>
         </div>`).join('')}</div>`;
     }).join('') : '<div class="empty"><div class="empty-icon">✅</div>Aucun prêt en cours de remboursement.</div>'}`;
+}
+
+/* =====================================================================
+   APPLICATION INSTALLABLE (PWA) : service worker, installation, push
+   ===================================================================== */
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const UA = navigator.userAgent;
+const isIOS = /iphone|ipad|ipod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = /android/i.test(UA);
+const isIOSSafari = isIOS && /safari/i.test(UA) && !/crios|fxios|edgios|opios/i.test(UA);
+let _swReg = null;
+
+async function registerSW() {
+  if (!('serviceWorker' in navigator) || !/^https?:/.test(location.protocol)) return;
+  try {
+    _swReg = await navigator.serviceWorker.register('sw.js');
+    // Nouvelle version disponible : proposer de recharger
+    _swReg.addEventListener('updatefound', () => {
+      const w = _swReg.installing;
+      w && w.addEventListener('statechange', () => {
+        if (w.state === 'installed' && navigator.serviceWorker.controller) showAppUpdate(w);
+      });
+    });
+    setInterval(() => _swReg.update().catch(() => {}), 60 * 60 * 1000);
+  } catch (e) { console.warn('[sw]', e); }
+}
+function showAppUpdate(worker) {
+  const bar = $('appUpdate'); if (!bar) return;
+  bar.hidden = false;
+  $('appUpdateBtn').onclick = () => {
+    navigator.serviceWorker.addEventListener('controllerchange', () => location.reload(), { once: true });
+    worker.postMessage('skipWaiting');
+  };
+}
+
+/* Notification système : passe par le service worker (obligatoire sur Android/iPhone en appli installée). */
+async function systemNotify(title, body, requestId) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const url = requestId && currentUser ? `#/${currentUser.role === 'admin' ? 'admin' : 'client'}/requests/${requestId}` : '';
+  try {
+    const reg = _swReg || (navigator.serviceWorker && await navigator.serviceWorker.getRegistration());
+    if (reg) return reg.showNotification('Nexus Crédit — ' + title, { body: body || '', icon: 'icon-192.png', badge: 'icon-192.png', tag: requestId || undefined, data: { url: 'index.html' + url } });
+    const n = new Notification('Nexus Crédit — ' + title, { body: body || '', icon: 'icon-192.png' });
+    n.onclick = () => { window.focus(); if (requestId) openNotif(requestId); };
+  } catch (_) {}
+}
+
+/* Abonnement push : notifications même appli fermée (clé publique VAPID dans Paramètres). */
+const b64ToBytes = (b64) => { const p = '='.repeat((4 - (b64.length % 4)) % 4); const s = atob((b64 + p).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(s, (c) => c.charCodeAt(0)); };
+async function subscribePush() {
+  if (!currentUser || !('PushManager' in window) || Notification.permission !== 'granted') return false;
+  try {
+    const s = await getSettings().catch(() => null);
+    const key = s && s.vapid_public_key;
+    if (!key) return false;
+    const reg = _swReg || await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToBytes(key) });
+    const j = sub.toJSON();
+    await rpc('push_subscribe', { p_endpoint: j.endpoint, p_p256dh: j.keys.p256dh, p_auth: j.keys.auth, p_ua: UA.slice(0, 300) });
+    return true;
+  } catch (e) { console.warn('[push]', e); return false; }
+}
+async function unsubscribePush() {
+  try {
+    const reg = _swReg || (navigator.serviceWorker && await navigator.serviceWorker.getRegistration());
+    const sub = reg && await reg.pushManager.getSubscription();
+    if (sub) { await rpc('push_unsubscribe', { p_endpoint: sub.endpoint }).catch(() => {}); await sub.unsubscribe(); }
+  } catch (_) {}
+}
+
+/* Bannière « Installer l'application » adaptée au téléphone */
+let _installPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); if (isIOS) return; // iPhone : installation uniquement via Safari → Partager
+  _installPrompt = e; renderInstallBanners(); });
+window.addEventListener('appinstalled', () => { _installPrompt = null; try { localStorage.setItem('nexusInstalled', '1'); } catch (_) {} renderInstallBanners(); toast('Application installée !'); });
+const installDismissed = () => { try { return Number(localStorage.getItem('nexusInstallHide') || 0) > Date.now(); } catch (_) { return false; } };
+function installHelpHtml() {
+  if (isIOS && !isIOSSafari) return `<ol class="howto"><li>Ouvrez ce site dans <strong>Safari</strong> (obligatoire sur iPhone).</li><li>Touchez <strong>Partager</strong> <span class="ios-share">⬆︎</span> en bas de l'écran.</li><li>Choisissez <strong>« Sur l'écran d'accueil »</strong> puis <strong>Ajouter</strong>.</li></ol>`;
+  if (isIOS) return `<ol class="howto"><li>Touchez <strong>Partager</strong> <span class="ios-share">⬆︎</span> en bas de Safari.</li><li>Faites défiler et choisissez <strong>« Sur l'écran d'accueil »</strong>.</li><li>Touchez <strong>Ajouter</strong> : l'icône NEXUS CRÉDIT apparaît sur votre écran.</li></ol>`;
+  if (isAndroid) return `<ol class="howto"><li>Touchez <strong>Installer</strong> ci-dessous.</li><li>Sinon : menu <strong>⋮</strong> de Chrome → <strong>« Installer l'application »</strong> ou « Ajouter à l'écran d'accueil ».</li></ol>`;
+  return `<ol class="howto"><li>Cliquez sur <strong>Installer</strong> ci-dessous,</li><li>ou sur l'icône d'installation <strong>⊕</strong> dans la barre d'adresse de Chrome / Edge.</li></ol>`;
+}
+function installBannerHtml(compact = false) {
+  if (isStandalone() || installDismissed()) return '';
+  const canPrompt = !!_installPrompt;
+  return `<div class="install-banner ${compact ? 'compact' : ''}">
+    <img src="icon-192.png" alt="" width="52" height="52">
+    <div class="ib-text"><strong>Installez l'application NEXUS CRÉDIT</strong>
+      <span class="muted">Accès en un geste, plein écran, notifications ${isIOS ? '(iPhone : iOS 16.4 ou plus récent)' : ''}.</span></div>
+    <div class="ib-actions">
+      ${canPrompt ? '<button class="btn btn-primary btn-sm" onclick="installApp()">📲 Installer</button>' : `<button class="btn btn-primary btn-sm" onclick="showInstallHelp()">📲 Comment installer ?</button>`}
+      <button class="icon-btn" title="Plus tard" aria-label="Masquer" onclick="hideInstallBanner()">✕</button>
+    </div>
+  </div>`;
+}
+function renderInstallBanners() {
+  document.querySelectorAll('[data-install-slot]').forEach((el) => { el.innerHTML = installBannerHtml(el.dataset.installSlot === 'compact'); });
+  const b = $('installBtn'); if (b) b.textContent = isStandalone() ? 'Installée ✔' : 'Installer';
+}
+function hideInstallBanner() { try { localStorage.setItem('nexusInstallHide', String(Date.now() + 7 * 86400000)); } catch (_) {} renderInstallBanners(); }
+function showInstallHelp() {
+  $('installHelpBody').innerHTML = `<div class="install-help">
+    <img src="icon-512.png" alt="Icône NEXUS CRÉDIT" width="96" height="96">
+    <p>${isIOS ? 'Sur <strong>iPhone</strong>' : isAndroid ? 'Sur <strong>Android</strong>' : 'Sur <strong>ordinateur</strong>'} :</p>
+    ${installHelpHtml()}
+    ${_installPrompt ? '<button class="btn btn-primary btn-block" onclick="installApp()">📲 Installer maintenant</button>' : ''}
+    <p class="muted" style="margin-top:12px;">Une fois installée, ouvrez l'appli depuis l'icône : elle s'affiche en plein écran, comme une vraie application, et fonctionne même avec une connexion faible.</p>
+  </div>`;
+  $('installModal').classList.add('show');
+}
+async function installApp() {
+  if (isStandalone()) return toast("L'application est déjà installée.", 'info');
+  if (_installPrompt) {
+    const p = _installPrompt; _installPrompt = null;
+    p.prompt();
+    const choice = await p.userChoice.catch(() => null);
+    if (choice && choice.outcome === 'accepted') toast('Installation en cours…');
+    renderInstallBanners();
+    $('installModal').classList.remove('show');
+    return;
+  }
+  showInstallHelp();
+}
+
+/* =====================================================================
+   HORS CONNEXION : dernières données consultées (lecture seule)
+   ===================================================================== */
+const OFFLINE_KEY = (k) => `nexusCache:${currentUser ? currentUser.id : 'x'}:${k}`;
+function cacheData(k, data) { try { localStorage.setItem(OFFLINE_KEY(k), JSON.stringify({ at: Date.now(), data })); } catch (_) {} }
+function cachedData(k) { try { return JSON.parse(localStorage.getItem(OFFLINE_KEY(k)) || 'null'); } catch (_) { return null; } }
+function clearUserCache() { try { Object.keys(localStorage).filter((k) => k.startsWith('nexusCache:') || k === 'nexusProfile').forEach((k) => localStorage.removeItem(k)); } catch (_) {} }
+/* Requête de liste avec repli sur le cache si la connexion est perdue. */
+let _servedFromCache = null;
+async function listWithCache(k, query) {
+  try {
+    const { data } = await q(query);
+    cacheData(k, data); _servedFromCache = null;
+    return data;
+  } catch (e) {
+    const c = cachedData(k);
+    if (c && !navigator.onLine) { _servedFromCache = c.at; return c.data; }
+    throw e;
+  }
+}
+const offlineNote = () => (_servedFromCache ? `<div class="note" style="margin-bottom:16px;">📡 Hors connexion — données du ${fmtDateTime(_servedFromCache)}. Les actions reprendront au retour d'internet.</div>` : '');
+
+/* =====================================================================
+   CALCULATRICE DE PRÊT (page d'accueil, sans compte)
+   ===================================================================== */
+function setupCalculator() {
+  const m = $('calcAmount'), r = $('calcRange'), out = $('calcOut');
+  if (!m || m.dataset.ready) return;
+  m.dataset.ready = '1';
+  let duree = 7;
+  const draw = () => {
+    const v = Math.min(500000, Math.max(0, parseInt(m.value, 10) || 0));
+    const taux = duree === 7 ? 0.25 : 0.35, frais = Math.round(v * taux), total = v + frais;
+    const due = new Date(); due.setDate(due.getDate() + duree);
+    const valid = v >= 5000 && v <= 500000;
+    out.innerHTML = valid ? `
+      <div class="calc-line"><span>Vous recevez</span><strong>${fcfa(v)}</strong></div>
+      <div class="calc-line"><span>Frais (${duree === 7 ? '+25 %' : '+35 %'})</span><strong>${fcfa(frais)}</strong></div>
+      <div class="calc-total"><span>Total à rembourser</span><strong>${fcfa(total)}</strong></div>
+      <div class="calc-line"><span>Date butoir (si demande aujourd'hui)</span><strong>${due.toLocaleDateString('fr-FR')}</strong></div>
+      <div class="muted" style="margin-top:8px;">En cas de retard : +${fcfa(PENALTY_PER_DAY)} par jour ; totalité exigible à partir du 4e jour.</div>`
+      : '<div class="muted">Montant entre 5 000 et 500 000 FCFA.</div>';
+  };
+  m.oninput = () => { const v = parseInt(m.value, 10); if (v >= 5000 && v <= 500000) r.value = v; draw(); };
+  r.oninput = () => { m.value = r.value; draw(); };
+  document.querySelectorAll('[data-calc-duree]').forEach((b) => {
+    b.onclick = () => { duree = Number(b.dataset.calcDuree); document.querySelectorAll('[data-calc-duree]').forEach((x) => x.classList.toggle('active', x === b)); draw(); };
+  });
+  draw();
+}
+
+/* =====================================================================
+   CLIENT : historique résumé + note de satisfaction
+   ===================================================================== */
+function historySummary(reqs) {
+  const done = reqs.filter((r) => r.status === 'done');
+  if (!reqs.length) return '';
+  const onTime = done.filter((r) => r.repaid_at && parseDay(r.repaid_at) <= parseDay(r.date_remboursement)).length;
+  const borrowed = reqs.filter((r) => ['paid', 'repayment_requested', 'done'].includes(r.status)).reduce((t, r) => t + (r.paid_amount || r.montant || 0), 0);
+  return `<div class="kpis kpis-3">
+    <div class="kpi"><div class="kpi-label">Total emprunté</div><div class="kpi-value">${borrowed.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
+    <div class="kpi"><div class="kpi-label">Prêts remboursés</div><div class="kpi-value">${done.length}</div><div class="kpi-sub">sur ${reqs.length} demande(s)</div></div>
+    <div class="kpi"><div class="kpi-label">À l'heure</div><div class="kpi-value">${done.length ? Math.round(onTime * 100 / done.length) + ' %' : '—'}</div><div class="kpi-sub">${onTime}/${done.length} remboursés avant l'échéance</div></div>
+  </div>`;
+}
+
+async function ratingCardHtml(r) {
+  if (r.status !== 'done') return '';
+  let existing = null;
+  try { ({ data: existing } = await q(sb.from('loan_ratings').select('rating,comment').eq('request_id', r.id).maybeSingle())); } catch (_) {}
+  const cur = existing ? existing.rating : 0;
+  return `<div class="card" style="margin-bottom:20px;" id="ratingCard">
+    <div class="card-title">⭐ ${existing ? 'Votre note' : 'Notez votre expérience'}</div>
+    <div class="stars" role="radiogroup" aria-label="Note de 1 à 5">${[1, 2, 3, 4, 5].map((n) =>
+      `<button type="button" class="star ${n <= cur ? 'on' : ''}" data-star="${n}" role="radio" aria-checked="${n === cur}" aria-label="${n} étoile${n > 1 ? 's' : ''}">★</button>`).join('')}</div>
+    <div class="field" style="margin-top:12px;"><label for="rateComment">Un commentaire ? (facultatif)</label>
+      <textarea id="rateComment" rows="2" maxlength="500" placeholder="Rapidité, accueil, clarté…">${esc(existing ? existing.comment || '' : '')}</textarea></div>
+    <button class="btn btn-primary btn-block-m" id="rateBtn">${existing ? 'Mettre à jour ma note' : 'Envoyer ma note'}</button>
+  </div>`;
+}
+function bindRating(r) {
+  const card = $('ratingCard'); if (!card) return;
+  let val = card.querySelectorAll('.star.on').length;
+  card.querySelectorAll('.star').forEach((s) => s.onclick = () => {
+    val = Number(s.dataset.star);
+    card.querySelectorAll('.star').forEach((x) => { const on = Number(x.dataset.star) <= val; x.classList.toggle('on', on); x.setAttribute('aria-checked', String(Number(x.dataset.star) === val)); });
+  });
+  $('rateBtn').onclick = () => once('rate-' + r.id, async () => {
+    if (!val) return toast('Choisissez une note de 1 à 5 étoiles.', 'error');
+    const btn = $('rateBtn'); busy(btn, true, 'Envoi…');
+    try { await rpc('rate_loan', { p_request: r.id, p_rating: val, p_comment: $('rateComment').value.trim() }); $('content').dataset.dirty = ''; toast('Merci pour votre avis !'); }
+    catch (e) { toast(e.message, 'error'); } finally { busy(btn, false); }
+  });
+}
+
+/* =====================================================================
+   ADMIN : fiche de fiabilité du client
+   ===================================================================== */
+async function reliabilityHtml(r) {
+  let all = [];
+  try { ({ data: all } = await q(sb.from('requests').select('id,status,montant,total,date_remboursement,paid_at,repaid_at,created_at').eq('client_id', r.client_id).order('created_at', { ascending: false }).limit(100))); } catch (_) { return ''; }
+  const others = all.filter((x) => x.id !== r.id);
+  const done = all.filter((x) => x.status === 'done');
+  const late = done.filter((x) => x.repaid_at && parseDay(x.repaid_at) > parseDay(x.date_remboursement));
+  const lateNow = all.filter((x) => x.status === 'paid' && (daysLeft(x) ?? 0) < 0);
+  const rejected = all.filter((x) => x.status === 'rejected').length;
+  let score = 'Nouveau client', cls = 'ok';
+  if (done.length) {
+    const pct = Math.round((done.length - late.length) * 100 / done.length);
+    score = `${pct} % à l'heure`; cls = pct >= 90 ? 'ok' : pct >= 60 ? 'soon' : 'late';
+  }
+  if (lateNow.length) { score = `En retard actuellement`; cls = 'late'; }
+  return `<div class="card" style="margin-bottom:20px;">
+    <div class="card-title">🛡️ Fiabilité du client <span class="due-chip ${cls}" style="margin-left:6px;">${esc(score)}</span></div>
+    <div class="kpis kpis-4">
+      <div class="kpi"><div class="kpi-label">Demandes</div><div class="kpi-value">${all.length}</div></div>
+      <div class="kpi"><div class="kpi-label">Remboursés</div><div class="kpi-value">${done.length}</div></div>
+      <div class="kpi"><div class="kpi-label">Avec retard</div><div class="kpi-value" style="color:${late.length ? 'var(--red)' : 'var(--green)'}">${late.length}</div></div>
+      <div class="kpi"><div class="kpi-label">Refusées</div><div class="kpi-value">${rejected}</div></div>
+    </div>
+    ${others.length ? `<div class="muted" style="margin-bottom:6px;">Autres demandes :</div>${others.slice(0, 6).map((x) =>
+      `<div class="due-row"><span>${fmtDate(x.created_at)} · ${fcfa(x.montant)}</span><span>${statusBadge(x.status)} <a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(x.id)}">Voir</a></span></div>`).join('')}` : '<p class="muted">Première demande de ce client.</p>'}
+  </div>`;
+}
+
+/* =====================================================================
+   ADMIN : statistiques
+   ===================================================================== */
+async function renderAdminStats() {
+  const paint = painter();
+  const [reqs, ratingsRes] = await Promise.all([
+    listWithCache('admin-stats', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(5000)),
+    q(sb.from('loan_ratings').select('rating')).catch(() => ({ data: [] })),
+  ]);
+  if (!paint()) return;
+  const ratings = ratingsRes.data || [];
+  const disbursed = reqs.filter((r) => ['paid', 'repayment_requested', 'done'].includes(r.status));
+  const done = reqs.filter((r) => r.status === 'done');
+  const lent = disbursed.reduce((t, r) => t + (r.paid_amount || r.montant || 0), 0);
+  const collected = done.reduce((t, r) => t + (r.repayment_amount || r.total || 0), 0);
+  const interest = done.reduce((t, r) => t + Math.max(0, (r.repayment_amount || r.total || 0) - (r.paid_amount || r.montant || 0)), 0);
+  const outstanding = reqs.filter((r) => ['paid', 'repayment_requested'].includes(r.status));
+  const late = outstanding.filter((r) => r.status === 'paid' && (daysLeft(r) ?? 0) < 0);
+  const onTime = done.filter((r) => r.repaid_at && parseDay(r.repaid_at) <= parseDay(r.date_remboursement)).length;
+  const closedDue = done.length + late.length;
+  const repayRate = closedDue ? Math.round(done.length * 100 / closedDue) : null;
+  const avg = disbursed.length ? Math.round(lent / disbursed.length) : 0;
+  const avgRating = ratings.length ? (ratings.reduce((t, x) => t + x.rating, 0) / ratings.length).toFixed(1) : '—';
+  const decided = reqs.filter((r) => r.status !== 'pending' && r.status !== 'guarantee_received');
+  const acceptRate = decided.length ? Math.round(decided.filter((r) => r.status !== 'rejected').length * 100 / decided.length) : null;
+  // 6 derniers mois
+  const months = [];
+  for (let i = 5; i >= 0; i--) { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i); months.push([d.getFullYear(), d.getMonth()]); }
+  const per = months.map(([y, m]) => {
+    const inM = (dt) => { if (!dt) return false; const x = new Date(dt); return x.getFullYear() === y && x.getMonth() === m; };
+    return { label: new Date(y, m, 1).toLocaleDateString('fr-FR', { month: 'short' }), lent: disbursed.filter((r) => inM(r.paid_at)).reduce((t, r) => t + (r.paid_amount || r.montant || 0), 0),
+      back: done.filter((r) => inM(r.repaid_at)).reduce((t, r) => t + (r.repayment_amount || r.total || 0), 0) };
+  });
+  const max = Math.max(1, ...per.map((p) => Math.max(p.lent, p.back)));
+  $('content').innerHTML = `
+    ${offlineNote()}
+    <div class="page-head"><div><h1 class="page-title">📈 Statistiques</h1><p class="page-subtitle">${reqs.length} demande(s) au total.</p></div>
+      <button class="btn btn-secondary" onclick="exportCsv()">⬇️ Exporter (Excel / CSV)</button></div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Montant total prêté</div><div class="kpi-value">${lent.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA · ${disbursed.length} prêt(s) · moyenne ${fcfa(avg)}</div></div>
+      <div class="kpi"><div class="kpi-label">Encaissé</div><div class="kpi-value">${collected.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA · dont ${fcfa(interest)} de frais et majorations</div></div>
+      <div class="kpi"><div class="kpi-label">Encours</div><div class="kpi-value">${outstanding.reduce((t, r) => t + amountDue(r), 0).toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA · ${outstanding.length} prêt(s) à rembourser</div></div>
+      <div class="kpi"><div class="kpi-label">Taux de remboursement</div><div class="kpi-value" style="color:${repayRate === null || repayRate >= 90 ? 'var(--green)' : repayRate >= 70 ? 'var(--gold)' : 'var(--red)'}">${repayRate === null ? '—' : repayRate + ' %'}</div><div class="kpi-sub">${onTime} remboursé(s) à l'heure sur ${done.length}</div></div>
+      <div class="kpi"><div class="kpi-label">Clients en retard</div><div class="kpi-value" style="color:${late.length ? 'var(--red)' : 'var(--green)'}">${late.length}</div><div class="kpi-sub">${fcfa(late.reduce((t, r) => t + amountDue(r), 0))} majorations comprises</div></div>
+      <div class="kpi"><div class="kpi-label">Satisfaction</div><div class="kpi-value">${avgRating}${ratings.length ? '<small>/5</small>' : ''}</div><div class="kpi-sub">${ratings.length} avis · acceptation ${acceptRate === null ? '—' : acceptRate + ' %'}</div></div>
+    </div>
+    <div class="card" style="margin-bottom:20px;"><div class="card-title">📊 6 derniers mois</div>
+      <div class="chart">${per.map((p) => `<div class="chart-col" title="${esc(p.label)} : prêté ${fcfa(p.lent)}, remboursé ${fcfa(p.back)}">
+        <div class="chart-bars"><div class="bar lent" style="height:${Math.round(p.lent * 100 / max)}%"></div><div class="bar back" style="height:${Math.round(p.back * 100 / max)}%"></div></div>
+        <div class="chart-label">${esc(p.label)}</div></div>`).join('')}</div>
+      <div class="chart-legend"><span><i class="lent"></i>Prêté</span><span><i class="back"></i>Remboursé</span></div>
+    </div>
+    ${late.length ? `<div class="card"><div class="card-title">⚠️ Clients en retard</div>${adminTable(late.sort((a, b) => daysLeft(a) - daysLeft(b)), true)}</div>` : ''}`;
+}
+
+/* Export CSV (ouvre dans Excel, séparateur « ; », accents conservés) */
+async function exportCsv() {
+  await once('csv', async () => {
+    let rows;
+    try { ({ data: rows } = await q(sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(5000))); }
+    catch (e) { return toast(e.message, 'error'); }
+    const cols = [['Date', (r) => fmtDate(r.created_at)], ['Client', (r) => r.guarantee_name || r.nom], ['Téléphone', (r) => r.telephone], ['Wave', (r) => r.wave_number],
+      ['Passeport', (r) => r.passeport], ['Garantie', (r) => r.garantie], ['Montant', (r) => r.montant], ['Durée (j)', (r) => r.duree], ['Total', (r) => r.total],
+      ['Majorations', (r) => penaltyOf(r)], ['Échéance', (r) => fmtDue(r.date_remboursement)], ['Statut', (r) => STATUS[r.status]?.label || r.status],
+      ['Payé le', (r) => fmtDate(r.paid_at)], ['N° reçu', (r) => r.receipt_number], ['Remboursé le', (r) => fmtDate(r.repaid_at)], ['Montant remboursé', (r) => r.repayment_amount]];
+    const cell = (v) => { let s = String(v ?? '').replace(/"/g, '""'); if (/^[=+\-@]/.test(s)) s = "'" + s; return `"${s}"`; }; // protège Excel des formules
+    const csv = '﻿' + [cols.map((c) => cell(c[0])).join(';'), ...rows.map((r) => cols.map((c) => cell(c[1](r) === '—' ? '' : c[1](r))).join(';'))].join('\r\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a'); a.href = url; a.download = `nexus-credit-demandes-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+    toast(`${rows.length} demande(s) exportée(s).`);
+  });
 }
 
 /* =====================================================================
@@ -2198,6 +2611,8 @@ $('sidebarOverlay').addEventListener('click', closeSidebar);
 $('pdfModalClose').addEventListener('click', closeDoc);
 $('pdfModal').addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closeDoc(); });
 $('contractClose').addEventListener('click', closeContractViewer);
+$('installClose').addEventListener('click', () => $('installModal').classList.remove('show'));
+$('installModal').addEventListener('click', (e) => { if (e.target.id === 'installModal') $('installModal').classList.remove('show'); });
 $('contractModal').addEventListener('click', (e) => { if (e.target.id === 'contractModal') closeContractViewer(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeDoc(); closeContractViewer(); $('notifPanel').classList.remove('show'); } });
 window.addEventListener('hashchange', route);
@@ -2226,8 +2641,10 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // Fonctions appelées depuis les attributs onclick
-Object.assign(window, { copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route, installApp, goNewRequest });
+Object.assign(window, { copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route, installApp, goNewRequest,
+  showInstallHelp, hideInstallBanner, exportCsv });
 
+registerSW();
 (async () => {
   await loadProfile();
   if (currentUser && ['', '#/home', '#/login', '#/register'].includes(location.hash)) location.hash = '#' + homeOf(currentUser);
