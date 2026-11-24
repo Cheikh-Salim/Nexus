@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <style>
 :root, [data-theme="dark"] {
@@ -198,6 +200,32 @@ canvas { display: block; width: 100%; height: auto; background: #fff; cursor: cr
 .mobile-menu-btn { display: none; background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text); border-radius: 10px; padding: 10px 14px; cursor: pointer; font-size: 18px; }
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 150; backdrop-filter: blur(4px); }
 .sidebar-overlay.show { display: block; }
+/* ---- Garanties Yango / paiements Wave ---- */
+.g-map { height: 300px; border-radius: 12px; border: 1px solid var(--border-2); margin-bottom: 8px; z-index: 1; }
+.g-hint { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.g-steps { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0; }
+.g-step { flex: 1; min-width: 105px; padding: 10px 8px; border-radius: 10px; background: var(--surface-2); font-size: 11px; font-weight: 800; color: var(--muted); text-align: center; border: 1px solid transparent; }
+.g-step.done { background: var(--green-dim); color: var(--green); border-color: var(--green); }
+.g-step.now { background: var(--gold-dim); color: var(--gold); border-color: var(--gold); }
+.g-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin: 14px 0; }
+.g-big { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 900; color: var(--green); }
+.g-wave { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 900; color: var(--blue); }
+.g-photo { max-width: 160px; max-height: 120px; border-radius: 10px; border: 1px solid var(--border-2); cursor: zoom-in; object-fit: cover; }
+.g-item { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
+.g-item.alert { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-dim); }
+.g-meta { font-size: 12.5px; color: var(--muted); }
+.g-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+.g-actions input { padding: 9px 12px; border-radius: 8px; border: 1px solid var(--border-2); background: var(--input-bg); color: var(--text); font-family: inherit; font-size: 13px; min-width: 150px; flex: 1; }
+.g-note { font-size: 12.5px; background: var(--surface-2); border-left: 3px solid var(--gold); padding: 8px 12px; border-radius: 8px; margin-top: 10px; }
+.g-note.err { border-left-color: var(--red); color: var(--red); }
+.g-note.ok { border-left-color: var(--green); }
+.sb-badge { margin-left: auto; background: var(--gold); color: #1a1206; border-radius: 999px; font-size: 11px; font-weight: 900; padding: 1px 8px; display: none; }
+.sb-badge.show { display: inline-block; }
+.badge-g-wait { background: var(--gold-dim); color: var(--gold); }
+.badge-g-move { background: rgba(96,165,250,0.15); color: var(--blue); }
+.badge-g-check { background: var(--gold); color: #1a1206; }
+.badge-g-ok { background: var(--green-dim); color: var(--green); }
+.badge-g-ko { background: rgba(248,113,113,0.15); color: var(--red); }
 </style>
 </head>
 <body>
@@ -310,6 +338,9 @@ canvas { display: block; width: 100%; height: auto; background: #fff; cursor: cr
         <div class="sb-role" style="color:var(--gold)">🛡️ Administrateur</div>
         <a class="sb-link" data-route="/admin/dashboard" onclick="navigate('/admin/dashboard')"><span class="sb-icon">📊</span>Tableau de bord</a>
         <a class="sb-link" data-route="/admin/requests" onclick="navigate('/admin/requests')"><span class="sb-icon">📋</span>Demandes</a>
+        <a class="sb-link" data-route="/admin/garanties" onclick="navigate('/admin/garanties')"><span class="sb-icon">📦</span>Garanties<span class="sb-badge" id="gBadge">0</span></a>
+        <a class="sb-link" data-route="/admin/remboursements" onclick="navigate('/admin/remboursements')"><span class="sb-icon">💰</span>Remboursements<span class="sb-badge" id="rBadge">0</span></a>
+        <a class="sb-link" data-route="/admin/parametres" onclick="navigate('/admin/parametres')"><span class="sb-icon">⚙️</span>Paramètres</a>
         <div class="sb-footer">
           <button class="theme-toggle" id="themeBtnAdmin" style="width:100%">🌙 Thème</button>
           <button class="btn btn-ghost btn-sm" onclick="logout()">🚪 Déconnexion</button>
@@ -419,7 +450,10 @@ const ROUTES = {
   '/client/requests': { view: 'client', role: 'client', render: renderClientRequests },
   '/client/requests/new': { view: 'client', role: 'client', render: renderClientNewRequest },
   '/admin/dashboard': { view: 'admin', role: 'admin', render: renderAdminDashboard },
-  '/admin/requests': { view: 'admin', role: 'admin', render: renderAdminRequests }
+  '/admin/requests': { view: 'admin', role: 'admin', render: renderAdminRequests },
+  '/admin/garanties': { view: 'admin', role: 'admin', render: renderAdminGuarantees },
+  '/admin/remboursements': { view: 'admin', role: 'admin', render: renderAdminRepayments },
+  '/admin/parametres': { view: 'admin', role: 'admin', render: renderAdminSettings }
 };
 
 function navigate(path) {
@@ -430,6 +464,8 @@ function navigate(path) {
 async function route() {
   let path = location.hash.replace(/^#/, '') || '/home';
   if (!ROUTES[path]) {
+    const mg = path.match(/^\/client\/requests\/([^/]+)\/garantie$/);
+    if (mg && currentUser?.role === 'client') { showView('client'); startLiveUpdates(); renderGuaranteeForm(mg[1]); return; }
     const m1 = path.match(/^\/client\/requests\/([^/]+)$/);
     if (m1 && currentUser?.role === 'client') { showView('client'); renderClientRequestDetail(m1[1]); return; }
     const m2 = path.match(/^\/admin\/requests\/([^/]+)$/);
@@ -448,6 +484,8 @@ async function route() {
   }
   showView(r.view);
   updateSidebarActive(r.view, path);
+  startLiveUpdates();
+  refreshAdminBadges();
   if (r.render) r.render();
 }
 
@@ -555,6 +593,7 @@ document.getElementById('doRegister').addEventListener('click', async () => {
 
 async function logout() {
   if (!confirm('Se déconnecter ?')) return;
+  if (_liveChannel) { sb.removeChannel(_liveChannel); _liveChannel = null; }
   await sb.auth.signOut();
   currentUser = null;
   currentSession = null;
@@ -765,7 +804,12 @@ async function renderClientRequestDetail(id) {
         </div>
       ` : '<p style="color:var(--muted);font-size:13px;">PDF non disponible.</p>'}
     </div>
+    <div class="card" style="margin-top:20px;" id="garantieCard"><div class="card-title">📦 Garantie</div><p class="g-meta">Chargement…</p></div>
+    <div class="card" style="margin-top:20px;" id="rembCard" ${['approved','ongoing','done'].includes(r.status) ? '' : 'hidden'}></div>
   `;
+  startLiveUpdates();
+  loadClientGuaranteeCard(r);
+  loadClientRepaymentCard(r);
 }
 
 async function renderClientNewRequest() {
@@ -953,6 +997,7 @@ async function renderAdminDashboard() {
       <div class="kpi"><div class="kpi-label">Encaissement attendu</div><div class="kpi-value">${totalDue.toLocaleString('fr-FR')}</div><div class="kpi-sub">FCFA</div></div>
       <div class="kpi"><div class="kpi-label">📄 PDF disponibles</div><div class="kpi-value">${pdfCount}</div><div class="kpi-sub">Sur ${reqs.length}</div></div>
     </div>
+    <div id="gDashBanner"></div>
     <div class="card">
       <div class="card-title">📋 Demandes récentes</div>
       ${recent.length ? recent.map(r => `
@@ -968,6 +1013,7 @@ async function renderAdminDashboard() {
       `).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande.</div>`}
     </div>
   `;
+  refreshAdminBadges();
 }
 
 async function renderAdminRequests() {
@@ -1048,6 +1094,10 @@ async function renderAdminRequestDetail(id) {
       </div>
     </div>
   `;
+  const gWrap = document.createElement('div');
+  gWrap.style.marginTop = '20px';
+  document.getElementById('adminContent').appendChild(gWrap);
+  loadAdminGuaranteesInto(gWrap, { requestId: r.id });
 }
 
 async function adminAction(id, status) {
@@ -1066,6 +1116,623 @@ async function adminReject(id) {
   toast('Demande refusée.', 'info');
   renderAdminRequestDetail(id);
 }
+
+/* ============================================================
+   GARANTIES PAR COURSIER YANGO + PAIEMENTS SUR LE WAVE ADMIN
+   (version sans API : l'admin commande le Yango depuis son appli
+    et confirme les paiements reçus sur son numéro Wave)
+   ============================================================ */
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fcfa = (n) => (Number(n) || 0).toLocaleString('fr-FR') + ' FCFA';
+const fmtPhone = (p) => String(p || '').replace(/\D/g, '').replace(/^221/, '').replace(/(\d{2})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+const DAKAR = [14.7167, -17.4677];
+
+let _settings = null;
+async function getSettings(force) {
+  if (_settings && !force) return _settings;
+  const { data, error } = await sb.from('app_settings').select('*').eq('id', 1).single();
+  if (error) throw new Error('Paramètres introuvables (script SQL installé ?)');
+  _settings = data;
+  return data;
+}
+function distanceKm(a, b, c, d) {
+  const R = 6371, t = x => x * Math.PI / 180;
+  const h = Math.sin(t(c - a) / 2) ** 2 + Math.cos(t(a)) * Math.cos(t(c)) * Math.sin(t(d - b) / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+// Même formule que dans la base (la base recalcule de toute façon le prix).
+function estimateFee(s, lat, lon) {
+  const km = distanceKm(lat, lon, s.receiver_lat, s.receiver_lon) * 1.3;
+  return { km, fee: Math.ceil(Math.max(s.fee_min, s.fee_base + Math.ceil(km) * s.fee_per_km) / 100) * 100 };
+}
+async function rpc(name, args) {
+  const { data, error } = await sb.rpc(name, args);
+  if (error) throw new Error(error.message);
+  return data;
+}
+function copyText(t) {
+  navigator.clipboard?.writeText(t).then(() => toast('Copié !', 'info'), () => toast('Copie impossible : notez-le à la main.', 'error'));
+}
+function waveBox(s, amount, label) {
+  return `<div class="g-box">
+    <div style="font-weight:800;margin-bottom:6px;">${label}</div>
+    <div class="g-big">${fcfa(amount)}</div>
+    <div class="g-meta" style="margin:10px 0 4px;">Envoyez exactement ce montant par <strong>Wave</strong> au numéro :</div>
+    <div class="g-wave">📱 ${esc(fmtPhone(s.wave_number))}
+      <button type="button" class="btn btn-ghost btn-sm" onclick="copyText('${esc(String(s.wave_number).replace(/\D/g, ''))}')">📋 Copier</button></div>
+    <div class="g-meta" style="margin-top:4px;">Nom affiché dans Wave : ${esc(s.wave_name)}</div>
+    <div class="g-meta" style="margin-top:8px;">Après l'envoi, Wave vous donne une <strong>référence de transaction</strong> (dans l'historique, sur le reçu). Recopiez-la ci-dessous.</div>
+  </div>`;
+}
+
+const G_STATUS = {
+  awaiting_payment: { label: 'Livraison à payer', cls: 'g-wait' },
+  payment_declared: { label: 'Paiement en vérification', cls: 'g-wait' },
+  payment_rejected: { label: 'Paiement non reçu', cls: 'g-ko' },
+  paid:             { label: 'Payé — coursier bientôt commandé', cls: 'g-move' },
+  courier_assigned: { label: 'Coursier en route vers le client', cls: 'g-move' },
+  picked_up:        { label: 'Garantie en route vers Nexus', cls: 'g-move' },
+  delivered:        { label: 'Garantie reçue — à vérifier', cls: 'g-check' },
+  validated:        { label: 'Garantie validée', cls: 'g-ok' },
+  rejected:         { label: 'Garantie refusée', cls: 'g-ko' },
+  cancelled:        { label: 'Annulé', cls: 'g-ko' },
+};
+const gBadge = (st) => `<span class="badge badge-${(G_STATUS[st] || {}).cls || 'pending'}">${esc((G_STATUS[st] || {}).label || st)}</span>`;
+function gTimeline(st) {
+  const order = ['awaiting_payment', 'payment_declared', 'paid', 'courier_assigned', 'picked_up', 'delivered', 'validated'];
+  const steps = [['payment_declared', '💳 Payée'], ['paid', '✔️ Confirmée'], ['courier_assigned', '🛵 Coursier'],
+                 ['picked_up', '📦 Remise'], ['delivered', '🏁 Reçue'], ['validated', '✅ Validée']];
+  const idx = order.indexOf(st);
+  if (idx < 0) return '';
+  return `<div class="g-steps">${steps.map(([k, label]) => {
+    const i = order.indexOf(k);
+    const cls = idx > i || st === 'validated' ? 'done' : (idx === i ? 'now' : '');
+    return `<div class="g-step ${cls}">${label}</div>`;
+  }).join('')}</div>`;
+}
+
+/* ---------- CLIENT : carte "Garantie" ---------- */
+async function loadClientGuaranteeCard(r) {
+  const box = document.getElementById('garantieCard');
+  if (!box) return;
+  const [{ data: list }, s] = await Promise.all([
+    sb.from('guarantee_shipments').select('*').eq('request_id', r.id).order('created_at', { ascending: false }).limit(1),
+    getSettings().catch(() => null),
+  ]);
+  const g = list && list[0];
+  const canSend = ['pending', 'approved'].includes(r.status);
+  const newBtn = `<button class="btn btn-primary" onclick="navigate('/client/requests/${r.id}/garantie')">🛵 Envoyer ma garantie par coursier Yango</button>`;
+  const head = '<div class="card-title">📦 Garantie</div>';
+
+  if (!g || g.status === 'cancelled') {
+    box.innerHTML = head + (canSend
+      ? `<p class="g-meta" style="margin-bottom:14px;">Pas besoin de vous déplacer : un coursier Yango vient chercher votre garantie chez vous et nous l'apporte. Vous payez seulement la livraison, par Wave.</p>${newBtn}`
+      : '<p class="g-meta">Aucune garantie envoyée.</p>');
+    return;
+  }
+
+  let body = '';
+  if (['awaiting_payment', 'payment_rejected'].includes(g.status) && s) {
+    body = `${g.status === 'payment_rejected' ? `<div class="g-note err">Nous n'avons pas trouvé votre paiement${g.admin_note ? ' : ' + esc(g.admin_note) : ''}. Vérifiez la référence et réessayez.</div>` : ''}
+      ${waveBox(s, g.delivery_fee, '🛵 Frais de livraison Yango')}
+      <div class="form-grid">
+        <div class="field"><label>Référence de la transaction Wave <span class="req">*</span></label><input id="gp-ref" placeholder="Ex : T_ABCD1234EFGH"></div>
+        <div class="field"><label>Numéro Wave qui a payé</label><input id="gp-phone" type="tel" value="${esc(g.contact_phone)}"></div>
+      </div>
+      <div class="g-actions">
+        <button class="btn btn-primary" onclick="declareGuaranteePayment('${g.id}')">✅ J'ai payé</button>
+        <button class="btn btn-ghost btn-sm" onclick="cancelGuarantee('${g.id}')">Annuler cet envoi</button>
+      </div>`;
+  } else if (g.status === 'payment_declared') {
+    body = `<div class="g-note">⏳ Paiement déclaré (réf. ${esc(g.wave_ref)}). Nous vérifions sa réception, puis nous commandons votre coursier.</div>`;
+  } else if (g.status === 'paid') {
+    body = `<div class="g-note ok">✔️ Paiement confirmé. Nous commandons votre coursier Yango — restez joignable au ${esc(fmtPhone(g.contact_phone))}.</div>`;
+  } else if (g.status === 'courier_assigned') {
+    body = `<div class="g-note ok">🛵 Un coursier Yango arrive pour récupérer votre garantie.${g.courier_name ? `<br>Coursier : <strong>${esc(g.courier_name)}</strong>` : ''}${g.courier_phone ? ` — <a style="color:var(--green)" href="tel:${esc(g.courier_phone)}">${esc(fmtPhone(g.courier_phone))}</a>` : ''}</div>
+      <div class="g-actions">
+        ${g.tracking_url ? `<a class="btn btn-secondary btn-sm" href="${esc(g.tracking_url)}" target="_blank" rel="noopener">🗺️ Suivre le coursier</a>` : ''}
+        <button class="btn btn-primary btn-sm" onclick="confirmHandover('${g.id}')">📦 J'ai remis ma garantie au coursier</button>
+      </div>`;
+  } else if (g.status === 'picked_up') {
+    body = `<div class="g-note">📦 Votre garantie est en route vers Nexus Crédit.</div>
+      ${g.tracking_url ? `<div class="g-actions"><a class="btn btn-secondary btn-sm" href="${esc(g.tracking_url)}" target="_blank" rel="noopener">🗺️ Suivre le coursier</a></div>` : ''}`;
+  } else if (g.status === 'delivered') {
+    body = `<div class="g-note">🏁 Garantie bien reçue. Nous la vérifions.</div>`;
+  } else if (g.status === 'validated') {
+    body = `<div class="g-note ok">✅ Garantie vérifiée et validée.</div>`;
+  } else if (g.status === 'rejected') {
+    body = `<div class="g-note err">Garantie refusée${g.admin_note ? ' : ' + esc(g.admin_note) : ''}. Nous vous contactons pour sa restitution.</div>`;
+  }
+
+  box.innerHTML = `${head}
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">${gBadge(g.status)}</div>
+    ${gTimeline(g.status)}
+    <div class="g-meta">📍 Ramassage : ${esc(g.pickup_address)}${g.pickup_details ? ' — ' + esc(g.pickup_details) : ''}</div>
+    <div class="g-meta">🏁 Livraison : ${esc(g.dest_address)}</div>
+    <div class="g-meta">🛵 Livraison : ${fcfa(g.delivery_fee)} (~${esc(g.distance_km)} km)</div>
+    ${body}`;
+}
+
+async function declareGuaranteePayment(id) {
+  const ref = document.getElementById('gp-ref').value.trim();
+  const phone = document.getElementById('gp-phone').value.trim();
+  if (ref.length < 4) return toast('Recopiez la référence de la transaction Wave.', 'error');
+  try { await rpc('guarantee_declare_payment', { p_id: id, p_ref: ref, p_phone: phone }); toast('Merci ! Nous vérifions votre paiement.'); }
+  catch (e) { toast(esc(e.message), 'error'); }
+  route();
+}
+async function cancelGuarantee(id) {
+  if (!confirm('Annuler cet envoi de garantie ?')) return;
+  try { await rpc('guarantee_cancel', { p_id: id }); toast('Envoi annulé.', 'info'); }
+  catch (e) { toast(esc(e.message), 'error'); }
+  route();
+}
+async function confirmHandover(id) {
+  if (!confirm('Confirmez-vous avoir remis votre garantie au coursier Yango ?')) return;
+  try { await rpc('guarantee_confirm_handover', { p_id: id }); toast('Merci ! Votre garantie est en route.'); }
+  catch (e) { toast(esc(e.message), 'error'); }
+  route();
+}
+
+/* ---------- CLIENT : formulaire d'envoi ---------- */
+let _gMap = null, _gMarker = null, _gPhoto = null;
+
+async function renderGuaranteeForm(requestId) {
+  const user = requireRole('client'); if (!user) return;
+  const [{ data: r }, s] = await Promise.all([
+    sb.from('requests').select('*').eq('id', requestId).eq('client_id', user.id).single(),
+    getSettings(true).catch(e => { toast(esc(e.message), 'error'); return null; }),
+  ]);
+  if (!r || !s) { if (!r) toast('Demande introuvable.', 'error'); return navigate('/client/requests'); }
+  _gPhoto = null;
+
+  document.getElementById('clientContent').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="navigate('/client/requests/${r.id}')">← Retour à la demande</button>
+    <div class="page-head" style="margin-top:16px;"><div>
+      <h1 class="page-title">🛵 Envoyer ma garantie</h1>
+      <p class="page-subtitle">Un coursier Yango vient la chercher chez vous et nous l'apporte.</p>
+    </div></div>
+    <div class="card" style="max-width:900px;">
+      <div class="banner-warn">1) Indiquez où récupérer la garantie · 2) Payez la livraison par Wave · 3) Nous commandons le coursier · 4) Remettez-lui la garantie.</div>
+      <div class="card-title" style="font-size:1rem;">📍 Ramassage (chez vous)</div>
+      <div class="form-grid">
+        <div class="field"><label>Nom complet <span class="req">*</span></label><input id="g-name" value="${esc(user.full_name || r.nom || '')}"></div>
+        <div class="field"><label>Téléphone (le coursier vous appellera) <span class="req">*</span></label><input id="g-phone" type="tel" value="${esc(r.telephone || user.phone || '')}" placeholder="77 123 45 67"></div>
+        <div class="field full"><label>Adresse exacte de ramassage <span class="req">*</span></label><input id="g-address" placeholder="Ex : Parcelles Assainies U17, villa 245"></div>
+        <div class="field full"><label>Précisions pour le coursier</label><input id="g-details" placeholder="Étage, porte, point de repère"></div>
+      </div>
+      <div class="field"><label>Point exact sur la carte <span class="req">*</span></label></div>
+      <div id="gMap" class="g-map"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><button type="button" class="btn btn-ghost btn-sm" id="g-locate">📍 Utiliser ma position</button></div>
+      <div class="g-hint" id="g-coords">Touchez la carte pour placer le point de ramassage.</div>
+
+      <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison (Nexus Crédit)</div>
+      <div class="g-box" style="margin-top:0;">
+        <div style="font-weight:700;">${esc(s.receiver_name)}</div>
+        <div class="g-meta">${esc(s.receiver_address)}</div>
+        <div class="g-meta">📞 ${esc(fmtPhone(s.receiver_phone))}</div>
+      </div>
+
+      <div class="field"><label>Description de la garantie</label><textarea id="g-desc" rows="2" placeholder="Ex : téléphone Samsung A15 dans sa boîte">${esc(r.garantie || '')}</textarea></div>
+      <div class="field"><label>Photo de la garantie (facultatif)</label><input id="g-photo" type="file" accept="image/*" capture="environment"></div>
+      <div id="g-photo-preview" style="margin-bottom:16px;"></div>
+
+      <div id="g-fee" class="g-box" style="display:none;"></div>
+      <button class="btn btn-primary btn-block" id="g-submit" style="padding:16px;">Continuer vers le paiement Wave →</button>
+    </div>`;
+
+  if (_gMap) { _gMap.remove(); _gMap = null; _gMarker = null; }
+  _gMap = L.map('gMap').setView(DAKAR, 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(_gMap);
+  L.marker([s.receiver_lat, s.receiver_lon]).addTo(_gMap).bindTooltip('Nexus Crédit');
+  setTimeout(() => _gMap && _gMap.invalidateSize(), 400);
+
+  const place = (lat, lon) => {
+    if (_gMarker) _gMarker.setLatLng([lat, lon]);
+    else { _gMarker = L.marker([lat, lon], { draggable: true }).addTo(_gMap); _gMarker.on('dragend', () => { const p = _gMarker.getLatLng(); place(p.lat, p.lng); }); }
+    document.getElementById('g-coords').textContent = 'Point placé ✔ — vous pouvez le déplacer si besoin.';
+    const { km, fee } = estimateFee(s, lat, lon);
+    const f = document.getElementById('g-fee');
+    f.style.display = 'block';
+    f.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;"><div><div style="font-weight:800;">🛵 Livraison Yango</div><div class="g-meta">~${km.toFixed(1)} km</div></div><div class="g-big">${fcfa(fee)}</div></div>`;
+  };
+  _gMap.on('click', e => place(e.latlng.lat, e.latlng.lng));
+  document.getElementById('g-locate').onclick = () => {
+    if (!navigator.geolocation) return toast('Géolocalisation indisponible.', 'error');
+    navigator.geolocation.getCurrentPosition(
+      p => { place(p.coords.latitude, p.coords.longitude); _gMap.setView([p.coords.latitude, p.coords.longitude], 17); },
+      () => toast('Position refusée. Placez le point à la main.', 'error'), { enableHighAccuracy: true, timeout: 10000 });
+  };
+  document.getElementById('g-photo').onchange = async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      _gPhoto = await shrinkImage(f, 1600, 0.8);
+      document.getElementById('g-photo-preview').innerHTML = `<img class="g-photo" src="${URL.createObjectURL(_gPhoto)}" alt="Garantie">`;
+    } catch (_) { toast('Image illisible.', 'error'); _gPhoto = null; }
+  };
+
+  document.getElementById('g-submit').onclick = async () => {
+    const pos = _gMarker && _gMarker.getLatLng();
+    const row = {
+      request_id: r.id, client_id: currentUser.id,
+      contact_name: document.getElementById('g-name').value.trim(),
+      contact_phone: document.getElementById('g-phone').value.trim(),
+      pickup_address: document.getElementById('g-address').value.trim(),
+      pickup_details: document.getElementById('g-details').value.trim() || null,
+      description: document.getElementById('g-desc').value.trim() || null,
+      pickup_lat: pos && pos.lat, pickup_lon: pos && pos.lng,
+    };
+    if (row.contact_name.length < 2) return toast('Indiquez votre nom.', 'error');
+    if (row.contact_phone.replace(/\D/g, '').length < 9) return toast('Téléphone invalide.', 'error');
+    if (row.pickup_address.length < 5) return toast('Indiquez l\'adresse exacte.', 'error');
+    if (!pos) return toast('Placez le point de ramassage sur la carte.', 'error');
+    const btn = document.getElementById('g-submit');
+    btn.disabled = true; btn.textContent = 'Enregistrement…';
+    try {
+      if (_gPhoto) {
+        const path = `${currentUser.id}/${Date.now()}.jpg`;
+        const { error } = await sb.storage.from('guarantees').upload(path, _gPhoto, { contentType: 'image/jpeg' });
+        if (error) throw new Error('Envoi de la photo impossible : ' + error.message);
+        row.photo_path = path;
+      }
+      const { error } = await sb.from('guarantee_shipments').insert(row);
+      if (error) throw new Error(error.code === '23505' ? 'Un envoi de garantie est déjà en cours pour cette demande.' : error.message);
+      toast('Envoi enregistré. Payez maintenant la livraison par Wave.');
+      navigate('/client/requests/' + r.id);
+    } catch (e) {
+      toast(esc(e.message), 'error');
+      btn.disabled = false; btn.textContent = 'Continuer vers le paiement Wave →';
+    }
+  };
+}
+
+function shrinkImage(file, max, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => b ? resolve(b) : reject(new Error('conversion')), 'image/jpeg', quality);
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+/* ---------- CLIENT : rembourser son prêt sur le Wave admin ---------- */
+async function loadClientRepaymentCard(r) {
+  const box = document.getElementById('rembCard');
+  if (!box || box.hidden) return;
+  const [{ data: list }, s] = await Promise.all([
+    sb.from('loan_repayments').select('*').eq('request_id', r.id).order('created_at', { ascending: false }),
+    getSettings().catch(() => null),
+  ]);
+  const confirmed = (list || []).filter(x => x.status === 'confirmed').reduce((t, x) => t + x.amount, 0);
+  const pending = (list || []).filter(x => x.status === 'declared').reduce((t, x) => t + x.amount, 0);
+  const remaining = Math.max(0, (r.total || 0) - confirmed);
+  const pct = r.total ? Math.min(100, Math.round(confirmed * 100 / r.total)) : 0;
+  const lab = { declared: '⏳ en vérification', confirmed: '✅ reçu', rejected: '❌ non trouvé' };
+
+  box.innerHTML = `<div class="card-title">💰 Remboursement du prêt</div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Remboursé : <strong>${fcfa(confirmed)}</strong></span><span>Total : <strong>${fcfa(r.total)}</strong></span></div>
+    <div class="progress"><div style="width:${pct}%"></div></div>
+    <div class="g-meta" style="margin-top:6px;">Reste à payer : <strong style="color:var(--gold)">${fcfa(remaining)}</strong>${pending ? ` · ${fcfa(pending)} en vérification` : ''} · Échéance : ${esc(r.date_remboursement)}</div>
+    ${remaining > 0 && ['approved', 'ongoing'].includes(r.status) && s ? `
+      ${waveBox(s, remaining - pending > 0 ? remaining - pending : remaining, '💰 Montant restant à rembourser')}
+      <div class="form-grid">
+        <div class="field"><label>Montant envoyé (FCFA) <span class="req">*</span></label><input id="rp-amount" type="number" min="100" step="100" value="${Math.max(0, remaining - pending) || remaining}"></div>
+        <div class="field"><label>Référence de la transaction Wave <span class="req">*</span></label><input id="rp-ref" placeholder="Ex : T_ABCD1234EFGH"></div>
+        <div class="field full"><label>Numéro Wave qui a payé</label><input id="rp-phone" type="tel" value="${esc(r.telephone || '')}"></div>
+      </div>
+      <button class="btn btn-primary" onclick="declareRepayment('${r.id}')">✅ J'ai envoyé mon remboursement</button>` : ''}
+    ${remaining === 0 ? '<div class="g-note ok">🎉 Prêt entièrement remboursé. Merci !</div>' : ''}
+    ${(list || []).length ? `<div style="margin-top:16px;">${list.map(x => `<div class="g-meta" style="padding:6px 0;border-bottom:1px solid var(--border-2);">${new Date(x.created_at).toLocaleDateString('fr-FR')} · <strong>${fcfa(x.amount)}</strong> · réf. ${esc(x.wave_ref)} · ${lab[x.status]}${x.admin_note ? ' — ' + esc(x.admin_note) : ''}</div>`).join('')}</div>` : ''}`;
+}
+
+async function declareRepayment(requestId) {
+  const amount = parseInt(document.getElementById('rp-amount').value, 10);
+  const ref = document.getElementById('rp-ref').value.trim();
+  const phone = document.getElementById('rp-phone').value.trim();
+  if (!amount || amount <= 0) return toast('Indiquez le montant envoyé.', 'error');
+  if (ref.length < 4) return toast('Recopiez la référence de la transaction Wave.', 'error');
+  try { await rpc('repayment_declare', { p_request: requestId, p_amount: amount, p_ref: ref, p_phone: phone }); toast('Merci ! Nous vérifions la réception.'); }
+  catch (e) { toast(esc(e.message), 'error'); }
+  route();
+}
+
+/* ---------- ADMIN : Garanties ---------- */
+async function renderAdminGuarantees() {
+  const user = requireRole('admin'); if (!user) return;
+  const perm = ('Notification' in window) ? Notification.permission : 'unsupported';
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head">
+      <div><h1 class="page-title">📦 Garanties</h1><p class="page-subtitle">Paiements des livraisons, coursiers Yango et vérification.</p></div>
+      ${perm === 'default' ? `<button class="btn btn-secondary btn-sm" onclick="enableBrowserNotifications()">🔔 Activer les notifications</button>` : ''}
+    </div>
+    <div id="gAdminList"><p class="g-meta">Chargement…</p></div>`;
+  loadAdminGuaranteesInto(document.getElementById('gAdminList'), {});
+}
+
+async function loadAdminGuaranteesInto(container, { requestId }) {
+  let q = sb.from('guarantee_shipments')
+    .select('*, requests(id, montant, total, nom, telephone, status)')
+    .order('updated_at', { ascending: false });
+  q = requestId ? q.eq('request_id', requestId) : q.neq('status', 'cancelled');
+  const { data: list, error } = await q;
+  if (error) { container.innerHTML = `<div class="g-note err">${esc(error.message)}</div>`; return; }
+  if (!list.length) { container.innerHTML = requestId ? '' : `<div class="empty"><div class="empty-icon">📭</div>Aucun envoi de garantie.</div>`; return; }
+  const prio = (g) => ({ payment_declared: 0, delivered: 1, picked_up: 2, paid: 3, courier_assigned: 4 }[g.status] ?? 9);
+  list.sort((a, b) => prio(a) - prio(b));
+  container.innerHTML = (requestId ? '<div class="card-title">📦 Garantie (coursier Yango)</div>' : '') + list.map(adminGuaranteeHtml).join('');
+  for (const g of list.filter(x => x.photo_path)) {
+    const { data } = await sb.storage.from('guarantees').createSignedUrl(g.photo_path, 3600);
+    const img = document.getElementById('gph-' + g.id);
+    if (img && data) { img.src = data.signedUrl; img.onclick = () => window.open(data.signedUrl, '_blank'); }
+  }
+}
+
+function adminGuaranteeHtml(g) {
+  const r = g.requests || {};
+  const maps = `https://www.google.com/maps?q=${g.pickup_lat},${g.pickup_lon}`;
+  const yangoText = `${g.pickup_address}${g.pickup_details ? ' (' + g.pickup_details + ')' : ''} — ${g.contact_name} ${g.contact_phone}`;
+  let actions = '';
+  if (g.status === 'payment_declared') {
+    actions = `<div class="g-note">💳 Le client dit avoir envoyé <strong>${fcfa(g.delivery_fee)}</strong> sur votre Wave — réf. <strong>${esc(g.wave_ref)}</strong>${g.payer_phone ? ' depuis le ' + esc(fmtPhone(g.payer_phone)) : ''}. Vérifiez dans votre appli Wave.</div>
+      <div class="g-actions">
+        <button class="btn btn-success" onclick="adminG('${g.id}','pay_ok')">✅ Paiement reçu</button>
+        <button class="btn btn-danger btn-sm" onclick="adminG('${g.id}','pay_ko')">❌ Paiement introuvable</button>
+      </div>`;
+  } else if (g.status === 'paid') {
+    actions = `<div class="g-note">🛵 Commandez une <strong>livraison Yango</strong> depuis votre appli : ramassage chez le client, livraison chez vous. Puis renseignez le coursier.</div>
+      <div class="g-actions">
+        <a class="btn btn-secondary btn-sm" href="${maps}" target="_blank" rel="noopener">🗺️ Position du client</a>
+        <button class="btn btn-ghost btn-sm" onclick="copyText(${esc(JSON.stringify(yangoText))})">📋 Copier adresse + téléphone</button>
+      </div>
+      <div class="g-actions">
+        <input id="gc-name-${g.id}" placeholder="Nom du coursier (facultatif)">
+        <input id="gc-phone-${g.id}" type="tel" placeholder="Téléphone du coursier (facultatif)">
+        <input id="gc-url-${g.id}" placeholder="Lien de suivi Yango (facultatif)">
+        <button class="btn btn-primary" onclick="adminG('${g.id}','ordered')">🛵 Coursier commandé</button>
+      </div>`;
+  } else if (['courier_assigned', 'picked_up'].includes(g.status)) {
+    actions = `<div class="g-actions">
+        ${g.status === 'courier_assigned' ? `<button class="btn btn-ghost btn-sm" onclick="adminG('${g.id}','picked')">📦 Garantie récupérée par le coursier</button>` : ''}
+        <button class="btn btn-success" onclick="adminG('${g.id}','delivered')">🏁 Garantie reçue</button>
+      </div>`;
+  } else if (g.status === 'delivered') {
+    actions = `<div class="g-actions">
+        <button class="btn btn-success" onclick="adminG('${g.id}','validate')">✅ Garantie conforme — valider</button>
+        <button class="btn btn-danger btn-sm" onclick="adminG('${g.id}','reject')">❌ Non conforme</button>
+      </div>`;
+  }
+  return `<div class="g-item ${['payment_declared', 'delivered', 'picked_up'].includes(g.status) ? 'alert' : ''}">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;">
+      <div>
+        <div style="font-weight:800;font-size:15px;">${esc(g.contact_name)} · prêt ${fcfa(r.montant)}</div>
+        <div class="g-meta">📞 <a style="color:var(--green)" href="tel:${esc(g.contact_phone)}">${esc(fmtPhone(g.contact_phone))}</a> · <a style="color:var(--green)" href="#/admin/requests/${g.request_id}">voir la demande</a></div>
+      </div>
+      ${gBadge(g.status)}
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;">
+      ${g.photo_path ? `<img class="g-photo" id="gph-${g.id}" alt="Photo de la garantie">` : ''}
+      <div style="flex:1;min-width:220px;">
+        <div class="g-meta">📍 ${esc(g.pickup_address)}${g.pickup_details ? ' — ' + esc(g.pickup_details) : ''} · <a style="color:var(--green)" href="${maps}" target="_blank" rel="noopener">carte</a></div>
+        ${g.description ? `<div style="margin-top:6px;font-size:13.5px;">📝 ${esc(g.description)}</div>` : ''}
+        <div class="g-meta" style="margin-top:6px;">🛵 Livraison : ${fcfa(g.delivery_fee)} (~${esc(g.distance_km)} km)${g.payment_confirmed_at ? ' · payée ✔' : ''}${g.wave_ref ? ' · réf. Wave ' + esc(g.wave_ref) : ''}</div>
+        ${g.courier_name || g.courier_phone ? `<div class="g-meta">👤 ${esc(g.courier_name || '')} ${g.courier_phone ? '· ' + esc(fmtPhone(g.courier_phone)) : ''}</div>` : ''}
+        ${g.handed_at ? `<div class="g-meta">📦 Remise au coursier : ${new Date(g.handed_at).toLocaleString('fr-FR')}</div>` : ''}
+        ${g.delivered_at ? `<div class="g-meta">🏁 Reçue le ${new Date(g.delivered_at).toLocaleString('fr-FR')}</div>` : ''}
+      </div>
+    </div>
+    ${g.admin_note ? `<div class="g-note ${['rejected', 'payment_rejected'].includes(g.status) ? 'err' : ''}">${esc(g.admin_note)}</div>` : ''}
+    ${g.status === 'rejected' ? `<div class="g-note">↩️ Retour de la garantie au client à organiser manuellement.</div>` : ''}
+    ${actions}
+  </div>`;
+}
+
+async function adminG(id, action) {
+  const now = new Date().toISOString();
+  let patch;
+  if (action === 'pay_ok') patch = { status: 'paid', payment_confirmed_at: now, admin_note: null };
+  else if (action === 'pay_ko') {
+    const note = prompt('Message pour le client :', 'Paiement introuvable dans notre Wave.');
+    if (note === null) return;
+    patch = { status: 'payment_rejected', admin_note: note };
+  } else if (action === 'ordered') {
+    patch = {
+      status: 'courier_assigned', ordered_at: now,
+      courier_name: document.getElementById('gc-name-' + id).value.trim() || null,
+      courier_phone: document.getElementById('gc-phone-' + id).value.trim() || null,
+      tracking_url: (document.getElementById('gc-url-' + id).value.trim().match(/^https?:\/\/\S+$/) || [null])[0],
+    };
+  } else if (action === 'picked') patch = { status: 'picked_up', handed_at: now };
+  else if (action === 'delivered') patch = { status: 'delivered', delivered_at: now };
+  else if (action === 'validate') {
+    if (!confirm('Valider cette garantie comme conforme ?')) return;
+    patch = { status: 'validated', verified_at: now };
+  } else if (action === 'reject') {
+    const note = prompt('Motif du refus (visible par le client) :', 'Garantie non conforme');
+    if (note === null) return;
+    patch = { status: 'rejected', verified_at: now, admin_note: note };
+  }
+  const { data, error } = await sb.from('guarantee_shipments').update(patch).eq('id', id).select('request_id, requests(status)').single();
+  if (error) return toast(esc(error.message), 'error');
+  // Garantie validée : la demande "En attente" passe automatiquement à "Approuvée".
+  if (action === 'validate' && data?.requests?.status === 'pending') {
+    await sb.from('requests').update({ status: 'approved' }).eq('id', data.request_id);
+  }
+  toast('Mis à jour.');
+  route();
+}
+
+/* ---------- ADMIN : Remboursements ---------- */
+async function renderAdminRepayments() {
+  const user = requireRole('admin'); if (!user) return;
+  const { data: list, error } = await sb.from('loan_repayments')
+    .select('*, requests(id, nom, total, telephone, status, date_remboursement)').order('created_at', { ascending: false });
+  const box = document.getElementById('adminContent');
+  if (error) { box.innerHTML = `<div class="g-note err">${esc(error.message)}</div>`; return; }
+  const lab = { declared: '<span class="badge badge-g-check">À vérifier</span>', confirmed: '<span class="badge badge-g-ok">Reçu</span>', rejected: '<span class="badge badge-g-ko">Refusé</span>' };
+  list.sort((a, b) => (a.status === 'declared' ? 0 : 1) - (b.status === 'declared' ? 0 : 1));
+  box.innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">💰 Remboursements</h1><p class="page-subtitle">Paiements déclarés par les clients sur votre Wave.</p></div></div>
+    ${list.length ? list.map(x => `
+      <div class="g-item ${x.status === 'declared' ? 'alert' : ''}">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:800;font-size:15px;">${esc(x.requests?.nom)} · ${fcfa(x.amount)}</div>
+            <div class="g-meta">Réf. Wave <strong>${esc(x.wave_ref)}</strong>${x.payer_phone ? ' · depuis le ' + esc(fmtPhone(x.payer_phone)) : ''} · ${new Date(x.created_at).toLocaleString('fr-FR')}</div>
+            <div class="g-meta">Prêt : total ${fcfa(x.requests?.total)} · échéance ${esc(x.requests?.date_remboursement)} · <a style="color:var(--green)" href="#/admin/requests/${x.request_id}">voir la demande</a></div>
+          </div>
+          ${lab[x.status]}
+        </div>
+        ${x.admin_note ? `<div class="g-note">${esc(x.admin_note)}</div>` : ''}
+        ${x.status === 'declared' ? `<div class="g-actions">
+          <button class="btn btn-success" onclick="reviewRepayment('${x.id}', true)">✅ Reçu sur mon Wave</button>
+          <button class="btn btn-danger btn-sm" onclick="reviewRepayment('${x.id}', false)">❌ Introuvable</button></div>` : ''}
+      </div>`).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucun remboursement déclaré.</div>`}`;
+}
+
+async function reviewRepayment(id, ok) {
+  let note = null;
+  if (!ok) { note = prompt('Message pour le client :', 'Paiement introuvable dans notre Wave.'); if (note === null) return; }
+  try {
+    const res = await rpc('repayment_review', { p_id: id, p_ok: ok, p_note: note });
+    toast(res === 'done' ? '🎉 Prêt entièrement remboursé — demande terminée.' : 'Mis à jour.');
+  } catch (e) { toast(esc(e.message), 'error'); }
+  route();
+}
+
+/* ---------- ADMIN : Paramètres ---------- */
+async function renderAdminSettings() {
+  const user = requireRole('admin'); if (!user) return;
+  let s;
+  try { s = await getSettings(true); } catch (e) { document.getElementById('adminContent').innerHTML = `<div class="g-note err">${esc(e.message)}</div>`; return; }
+  document.getElementById('adminContent').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">⚙️ Paramètres</h1><p class="page-subtitle">Numéro Wave, adresse de livraison des garanties et tarifs.</p></div></div>
+    <div class="card" style="max-width:900px;">
+      <div class="card-title" style="font-size:1rem;">📱 Wave (paiements des clients)</div>
+      <div class="form-grid">
+        <div class="field"><label>Votre numéro Wave</label><input id="st-wave" value="${esc(s.wave_number)}"></div>
+        <div class="field"><label>Nom affiché dans Wave</label><input id="st-wave-name" value="${esc(s.wave_name)}"></div>
+      </div>
+      <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison des garanties</div>
+      <div class="form-grid">
+        <div class="field"><label>Nom de réception</label><input id="st-rname" value="${esc(s.receiver_name)}"></div>
+        <div class="field"><label>Téléphone de réception</label><input id="st-rphone" value="${esc(s.receiver_phone)}"></div>
+        <div class="field full"><label>Adresse</label><input id="st-raddr" value="${esc(s.receiver_address)}"></div>
+      </div>
+      <div id="stMap" class="g-map"></div>
+      <div class="g-hint">Touchez la carte (ou déplacez le marqueur) pour placer exactement votre adresse. Position : <span id="st-pos">${s.receiver_lat.toFixed(5)}, ${s.receiver_lon.toFixed(5)}</span></div>
+      <div class="card-title" style="font-size:1rem;">🛵 Tarif de livraison facturé au client</div>
+      <div class="form-grid">
+        <div class="field"><label>Prise en charge (FCFA)</label><input id="st-base" type="number" value="${s.fee_base}"></div>
+        <div class="field"><label>Par km (FCFA)</label><input id="st-km" type="number" value="${s.fee_per_km}"></div>
+        <div class="field"><label>Minimum (FCFA)</label><input id="st-min" type="number" value="${s.fee_min}"></div>
+      </div>
+      <div class="g-hint">Calcul : max(minimum, prise en charge + km × tarif), arrondi aux 100 FCFA. Ajustez-le d'après les prix réels de vos courses Yango.</div>
+      <button class="btn btn-primary" id="st-save">💾 Enregistrer</button>
+    </div>`;
+  let lat = s.receiver_lat, lon = s.receiver_lon;
+  const map = L.map('stMap').setView([lat, lon], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
+  const mk = L.marker([lat, lon], { draggable: true }).addTo(map);
+  const set = (a, b) => { lat = a; lon = b; mk.setLatLng([a, b]); document.getElementById('st-pos').textContent = `${a.toFixed(5)}, ${b.toFixed(5)}`; };
+  map.on('click', e => set(e.latlng.lat, e.latlng.lng));
+  mk.on('dragend', () => { const p = mk.getLatLng(); set(p.lat, p.lng); });
+  setTimeout(() => map.invalidateSize(), 400);
+  document.getElementById('st-save').onclick = async () => {
+    const v = id => document.getElementById(id).value.trim();
+    const patch = {
+      wave_number: v('st-wave'), wave_name: v('st-wave-name'),
+      receiver_name: v('st-rname'), receiver_phone: v('st-rphone'), receiver_address: v('st-raddr'),
+      receiver_lat: lat, receiver_lon: lon,
+      fee_base: parseInt(v('st-base'), 10) || 0, fee_per_km: parseInt(v('st-km'), 10) || 0, fee_min: parseInt(v('st-min'), 10) || 0,
+      updated_at: new Date().toISOString(),
+    };
+    if (patch.wave_number.replace(/\D/g, '').length < 9) return toast('Numéro Wave invalide.', 'error');
+    const { error } = await sb.from('app_settings').update(patch).eq('id', 1);
+    if (error) return toast(esc(error.message), 'error');
+    _settings = null;
+    toast('Paramètres enregistrés.');
+  };
+}
+
+/* ---------- Temps réel : suivi client + notifications admin ---------- */
+let _liveChannel = null;
+const _seen = new Set(JSON.parse(localStorage.getItem('nexusSeen') || '[]'));
+function seenOnce(key) {
+  if (_seen.has(key)) return false;
+  _seen.add(key);
+  try { localStorage.setItem('nexusSeen', JSON.stringify([..._seen].slice(-300))); } catch (_) {}
+  return true;
+}
+
+function startLiveUpdates() {
+  if (_liveChannel || !currentUser) return;
+  const onChange = (table) => (payload) => {
+    const row = payload.new || {};
+    const hash = location.hash;
+    if (currentUser?.role === 'admin') {
+      if (table === 'guarantee_shipments') {
+        const msg = { payment_declared: '💳 Paiement de livraison à vérifier', picked_up: '📦 Garantie remise au coursier — en route', delivered: '🏁 Garantie arrivée — à vérifier' }[row.status];
+        if (msg && seenOnce(row.id + ':' + row.status)) notifyAdmin(msg, row.contact_name);
+      } else if (table === 'loan_repayments' && row.status === 'declared' && seenOnce(row.id)) {
+        notifyAdmin('💰 Remboursement déclaré : ' + fcfa(row.amount), 'À vérifier dans votre Wave');
+      }
+      refreshAdminBadges();
+      if (['#/admin/garanties', '#/admin/remboursements', '#/admin/dashboard'].includes(hash) || hash.startsWith('#/admin/requests/')) route();
+    } else if (hash === '#/client/requests/' + row.request_id) {
+      route();
+    }
+  };
+  _liveChannel = sb.channel('live-' + currentUser.id)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'guarantee_shipments' }, onChange('guarantee_shipments'))
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'loan_repayments' }, onChange('loan_repayments'))
+    .subscribe();
+}
+
+async function refreshAdminBadges() {
+  if (currentUser?.role !== 'admin') return;
+  const [g, rp] = await Promise.all([
+    sb.from('guarantee_shipments').select('id', { count: 'exact', head: true }).in('status', ['payment_declared', 'picked_up', 'delivered']),
+    sb.from('loan_repayments').select('id', { count: 'exact', head: true }).eq('status', 'declared'),
+  ]);
+  const set = (id, n) => { const b = document.getElementById(id); if (b) { b.textContent = n || 0; b.classList.toggle('show', !!n); } };
+  set('gBadge', g.count); set('rBadge', rp.count);
+  const banner = document.getElementById('gDashBanner');
+  if (banner) banner.innerHTML = [
+    g.count ? `<div class="banner-warn" style="cursor:pointer" onclick="navigate('/admin/garanties')">📦 <strong>${g.count} garantie(s)</strong> demandent votre action — cliquez pour traiter.</div>` : '',
+    rp.count ? `<div class="banner-warn" style="cursor:pointer" onclick="navigate('/admin/remboursements')">💰 <strong>${rp.count} remboursement(s)</strong> à vérifier dans votre Wave.</div>` : '',
+  ].join('');
+}
+
+function notifyAdmin(title, body) {
+  toast(esc(title) + (body ? ' — ' + esc(body) : ''), 'info');
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(); const v = ctx.createGain();
+    o.frequency.value = 880; o.connect(v); v.connect(ctx.destination);
+    v.gain.setValueAtTime(0.2, ctx.currentTime); v.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+    o.start(); o.stop(ctx.currentTime + 0.6);
+  } catch (_) {}
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const n = new Notification('Nexus Crédit — ' + title, { body: body || '' });
+    n.onclick = () => { window.focus(); };
+  }
+}
+
+async function enableBrowserNotifications() {
+  if (!('Notification' in window)) return toast('Notifications non prises en charge.', 'error');
+  const p = await Notification.requestPermission();
+  toast(p === 'granted' ? 'Notifications activées.' : 'Notifications refusées.', p === 'granted' ? 'success' : 'error');
+  route();
+}
+
+Object.assign(window, { copyText, declareGuaranteePayment, cancelGuarantee, confirmHandover, declareRepayment,
+  adminG, reviewRepayment, enableBrowserNotifications });
 
 /* ---------- HELPERS ---------- */
 function statusLabel(s) {
