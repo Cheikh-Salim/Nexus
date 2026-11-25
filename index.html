@@ -2,6 +2,7 @@
 <html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<script>try{var h=location.hash;if((!h||h==="#/home"||h==="#/")&&!Object.keys(localStorage).some(function(k){return /^sb-.*-auth-token$/.test(k)}))document.documentElement.classList.add("boot-home")}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Nexus Crédit — Prêt rapide au Sénégal</title>
 <meta name="description" content="Prêt rapide au Sénégal : demande en ligne, garantie envoyée par Yango, argent reçu sur Wave.">
@@ -9,19 +10,21 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@500;700&display=swap"></noscript>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://qhdvrrpiqtfvppnaxelj.supabase.co wss://qhdvrrpiqtfvppnaxelj.supabase.co; img-src 'self' data: blob:; worker-src 'self'; manifest-src 'self'; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="preconnect" href="https://qhdvrrpiqtfvppnaxelj.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Nexus Crédit">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="Nexus Crédit">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
 <style>
 :root, [data-theme="dark"] {
   --bg: #070b08; --bg-1: #0a140e; --surface: #0f1611; --surface-2: #16201a; --surface-3: #1e2b23;
@@ -476,6 +479,96 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
   .app-update { bottom: calc(90px + env(safe-area-inset-bottom)); width: calc(100% - 24px); justify-content: space-between; }
   .chart { height: 150px; gap: 6px; }
 }
+/* ===== v10 : badge de fiabilité, signature, SMS ===== */
+.trust { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 800; white-space: nowrap; vertical-align: middle; margin-left: 6px; font-family: 'Manrope', sans-serif; letter-spacing: 0; }
+.trust.green { background: rgba(34,197,94,.14); color: #16a34a; border: 1px solid rgba(34,197,94,.35); }
+.trust.orange { background: rgba(245,158,11,.14); color: #d97706; border: 1px solid rgba(245,158,11,.4); }
+.trust.red { background: rgba(239,68,68,.13); color: #dc2626; border: 1px solid rgba(239,68,68,.4); }
+.rtable .cell .trust { margin: 3px 0 2px; align-self: flex-start; }
+.page-title .trust { font-size: 13px; }
+.canvas-wrap { position: relative; }
+#sigCanvas { touch-action: none; cursor: crosshair; display: block; }
+.sig-guide { position: absolute; left: 16px; right: 16px; bottom: 34px; border-bottom: 1.5px dashed #c7cdd4; color: #9aa3ad; font-size: 13px; pointer-events: none; padding-bottom: 4px; transition: opacity .2s; }
+.sig-guide span { font-weight: 800; margin-right: 8px; color: #6b7580; }
+.canvas-wrap.signed .sig-guide { opacity: .35; }
+.ct-sign { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 22px 0 10px; text-align: center; }
+.ct-sign > div { border-top: 1px solid #ccc; padding-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; min-height: 90px; }
+.ct-sign img { max-width: 100%; height: 60px; object-fit: contain; }
+.ct-sign span { font-size: 12px; color: #666; }
+.sig-proof { background: #fff; border: 1px solid var(--border-2); border-radius: 12px; padding: 8px; max-width: 420px; }
+.sig-proof img { width: 100%; display: block; }
+.mono.hash, .detail-val.hash { word-break: break-all; font-size: 12px; }
+.switch-row { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border: 1px solid var(--border-2); border-radius: 12px; cursor: pointer; }
+.switch-row input { width: 22px; height: 22px; accent-color: var(--green); flex-shrink: 0; margin-top: 2px; }
+.switch-row .muted { display: block; margin-top: 2px; }
+.inline-form { display: flex; gap: 8px; flex-wrap: wrap; }
+.inline-form input { flex: 1; min-width: 200px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--input-bg); color: var(--text); font: inherit; }
+@media (max-width: 860px) { .inline-form .btn { width: 100%; } .ct-sign { gap: 8px; } }
+/* Affichage immédiat de l'accueil, avant même le chargement des scripts */
+.boot-home #view-home { display: block; animation: none; }
+/* ===== v11 : contact et messagerie ===== */
+.btn-wa { background: #25d366; color: #fff; border: none; }
+.btn-wa:hover { background: #1ebe5a; color: #fff; }
+.contact-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.contact-card .contact-actions .btn { flex: 1 1 180px; justify-content: center; }
+.home-contact { max-width: 1100px; margin: 0 auto; padding: 0 24px 48px; }
+.contact-fab { position: fixed; right: 18px; bottom: 22px; z-index: 900; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.contact-fab[hidden] { display: none !important; }
+.fab-btn { position: relative; width: 58px; height: 58px; border-radius: 50%; border: none; background: linear-gradient(135deg, #25d366, #16a34a); color: #fff; font-size: 26px; box-shadow: 0 10px 28px rgba(0,0,0,.28); cursor: pointer; transition: transform .15s; }
+.fab-btn:active { transform: scale(.94); }
+.fab-dot { position: absolute; top: 4px; right: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--red); border: 2px solid #fff; }
+.contact-panel { width: min(320px, calc(100vw - 36px)); background: var(--surface); border: 1px solid var(--border-2); border-radius: 18px; padding: 16px; box-shadow: var(--shadow-lg); animation: viewIn .2s var(--ease-out); }
+.contact-panel .cp-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.contact-panel .cp-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.contact-panel .cp-actions .btn { justify-content: center; min-height: 46px; }
+.nav-badge { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--red); color: #fff; font-size: 11px; font-weight: 800; margin-left: 6px; }
+.bn-icon { position: relative; }
+.bn-icon .nav-badge { position: absolute; top: -6px; right: -12px; margin: 0; }
+.msg-alert { display: block; text-decoration: none; margin-bottom: 16px; font-weight: 700; }
+.help-card { display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.help-card .muted { display: block; }
+.msg-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+.chat-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.thread { max-height: min(60vh, 560px); min-height: 260px; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 10px; background: var(--surface-2); }
+.msg { max-width: 80%; padding: 10px 13px; border-radius: 16px; font-size: 14.5px; line-height: 1.45; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.msg.mine { align-self: flex-end; background: var(--green-dark); color: #fff; border-bottom-right-radius: 5px; }
+.msg.theirs { align-self: flex-start; background: var(--surface); border: 1px solid var(--border-2); border-bottom-left-radius: 5px; }
+.msg-body { white-space: pre-wrap; word-break: break-word; }
+.msg-meta { font-size: 11px; opacity: .75; margin-top: 4px; text-align: right; }
+.msg-cat { font-size: 11.5px; font-weight: 800; opacity: .9; margin-bottom: 3px; }
+.msg-day { align-self: center; font-size: 11.5px; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; text-transform: capitalize; }
+.composer { padding: 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+.composer-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.composer select, .composer textarea { flex: 1 1 200px; padding: 11px 12px; border-radius: 12px; border: 1px solid var(--border-2); background: var(--input-bg); color: var(--text); font: inherit; min-height: 44px; }
+.composer textarea { resize: vertical; min-height: 80px; }
+.composer-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.quick-replies { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--border-2); background: var(--surface-2); color: var(--text); border-radius: 999px; padding: 7px 12px; font: inherit; font-size: 12.5px; cursor: pointer; min-height: 36px; }
+.chip:hover { border-color: var(--green); }
+.conv-list { padding: 6px; }
+.conv { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 12px; text-decoration: none; color: inherit; }
+.conv + .conv { border-top: 1px solid var(--border); }
+.conv:hover { background: var(--surface-2); }
+.conv.unread .conv-last { font-weight: 700; color: var(--text); }
+.conv-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--green-dim); color: var(--green); display: grid; place-items: center; font-weight: 900; flex-shrink: 0; }
+.conv-main { flex: 1; min-width: 0; }
+.conv-top { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.conv-time { margin-left: auto; font-size: 12px; color: var(--muted); }
+.conv-last { color: var(--muted); font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conv-unread { background: var(--green); color: #fff; border-radius: 999px; min-width: 24px; height: 24px; display: grid; place-items: center; font-size: 12px; font-weight: 800; padding: 0 6px; }
+@media (max-width: 860px) {
+  .contact-fab { right: 14px; bottom: calc(86px + env(safe-area-inset-bottom)); }
+  .fab-btn { width: 54px; height: 54px; font-size: 24px; }
+  .msg-layout { grid-template-columns: 1fr; }
+  .thread { max-height: 55vh; }
+  .msg { max-width: 88%; }
+  .composer-foot .btn { flex: 1; }
+  .help-card .contact-actions { width: 100%; }
+  .help-card .contact-actions .btn { flex: 1; }
+  .home-contact { padding: 0 16px 100px; }
+}
+.composer > textarea { flex: none; }
+.contact-panel .cp-actions .btn { white-space: normal; text-align: center; line-height: 1.25; }
 </style>
 </head>
 <body>
@@ -518,10 +611,11 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
             <div><div style="font-size:11px;color:var(--muted);">7 jours</div><div class="rate-val" style="color:var(--green)">+25%</div></div>
             <div><div style="font-size:11px;color:var(--muted);">14 jours</div><div class="rate-val" style="color:var(--gold)">+35%</div></div>
           </div>
-          <div style="font-size:12px;color:var(--muted);margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2);">📞 Contact : <strong style="color:var(--text)">78 664 90 62</strong></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:14px;padding-top:14px;border-top:1px solid var(--border-2);">📞 Contact : <strong style="color:var(--text)">78 632 52 75</strong></div>
         </div>
       </div>
     </div>
+    <div class="home-contact" data-contact-slot></div>
   </div>
 
   <!-- CONNEXION -->
@@ -625,6 +719,10 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
     <div class="contract-actions"><button class="btn btn-primary btn-block" id="contractRead">✅ J'ai lu le contrat</button></div>
   </div>
 </div>
+<div class="contact-fab" id="contactFab" hidden>
+  <div class="contact-panel" id="contactPanel" role="dialog" aria-label="Nous contacter" hidden></div>
+  <button class="fab-btn" id="contactFabBtn" type="button" aria-expanded="false" aria-controls="contactPanel" aria-label="Nous contacter" onclick="toggleContactPanel()">💬<span class="fab-dot" id="fabDot" hidden></span></button>
+</div>
 <div class="modal-overlay" id="installModal" role="dialog" aria-modal="true" aria-labelledby="installTitle">
   <div class="modal-pdf install-modal">
     <div class="modal-pdf-head"><h3 id="installTitle">📲 Installer l'application</h3><button class="modal-close" id="installClose" aria-label="Fermer">✕</button></div>
@@ -654,6 +752,7 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
 <script>
 'use strict';
 /* =====================================================================
@@ -739,7 +838,7 @@ async function once(key, fn) {
   if (_locks.has(key)) return;
   _locks.add(key);
   document.body.classList.add('is-busy');
-  try { return await fn(); } finally { _locks.delete(key); if (!_locks.size) document.body.classList.remove('is-busy'); }
+  try { return await fn(); } finally { invalidateData(); _locks.delete(key); if (!_locks.size) document.body.classList.remove('is-busy'); }
 }
 /* Signale un champ invalide : bordure rouge, focus, message. */
 function invalid(el, msg) {
@@ -837,7 +936,7 @@ sb.auth.onAuthStateChange((event) => {
 });
 
 function teardownSession() {
-  currentUser = null; _settings = null; _adminSearch = ''; _adminFilter = 'todo'; _activeLoan = null;
+  currentUser = null; _settings = null; _msgUnread = 0; _threadRefresh = null; _adminSearch = ''; _adminFilter = 'todo'; _activeLoan = null;
   if (_notifChannel && _notifChannel !== 'starting') sb.removeChannel(_notifChannel);
   _notifChannel = null;
   _notifs = []; renderBell();
@@ -861,13 +960,16 @@ const ROUTES = [
   { re: /^\/admin\/settings$/, role: 'admin', render: renderAdminSettings },
   { re: /^\/admin\/dues$/, role: 'admin', render: renderAdminDues },
   { re: /^\/admin\/stats$/, role: 'admin', render: renderAdminStats },
+  { re: /^\/client\/messages$/, role: 'client', render: renderClientMessages },
+  { re: /^\/admin\/messages$/, role: 'admin', render: renderAdminMessages },
+  { re: /^\/admin\/messages\/([\w-]+)$/, role: 'admin', render: renderAdminThread },
   { re: /^\/profile$/, role: '*', render: renderProfile },
 ];
 // [chemin, icône, libellé, libellé court (barre du bas sur téléphone)]
 const NAV = {
   client: [['/client/dashboard', '🏠', 'Tableau de bord', 'Accueil'], ['/client/requests', '📋', 'Mes demandes', 'Demandes'],
-    ['/client/new', '➕', 'Nouvelle demande', 'Demander'], ['/profile', '👤', 'Mon profil', 'Profil']],
-  admin: [['/admin/dashboard', '📊', 'Tableau de bord', 'Accueil'], ['/admin/requests', '📋', 'Demandes', 'Demandes'],
+    ['/client/new', '➕', 'Nouvelle demande', 'Demander'], ['/client/messages', '💬', 'Messages', 'Messages'], ['/profile', '👤', 'Mon profil', 'Profil']],
+  admin: [['/admin/dashboard', '📊', 'Tableau de bord', 'Accueil'], ['/admin/requests', '📋', 'Demandes', 'Demandes'], ['/admin/messages', '💬', 'Messages', 'Messages'],
     ['/admin/dues', '📅', 'Échéancier', 'Échéances'], ['/admin/stats', '📈', 'Statistiques', 'Stats'], ['/admin/settings', '⚙️', 'Paramètres', 'Réglages'], ['/profile', '👤', 'Mon profil', 'Profil']],
 };
 const homeOf = (u) => (u?.role === 'admin' ? '/admin/dashboard' : '/client/dashboard');
@@ -885,6 +987,7 @@ const painter = () => { const seq = _routeSeq; return () => seq === _routeSeq; }
 async function route() {
   const seq = ++_routeSeq;
   hideUpdateBar();
+  renderContactFab();
   const path = location.hash.replace(/^#/, '') || '/home';
   if (/access_token=|error_description=/.test(path)) return; // lien reçu par email : traité par Supabase
   let match = null, params = [];
@@ -898,7 +1001,7 @@ async function route() {
     updateHomeNav();
     showView(match.view);
     if (match.view === 'home') setupCalculator();
-    renderInstallBanners();
+    renderInstallBanners(); paintContactSlots(); renderContactFab();
     return;
   }
   if (!currentUser) await loadProfile();
@@ -915,7 +1018,8 @@ async function route() {
   const content = $('content');
   content.dataset.dirty = '';
   content.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
-  try { await match.render(...params); renderInstallBanners(); }
+  _threadRefresh = null;
+  try { await match.render(...params); renderInstallBanners(); paintContactSlots(); }
   catch (e) {
     console.error(e);
     if (seq !== _routeSeq) return;
@@ -931,6 +1035,7 @@ function updateHomeNav() {
 }
 
 function showView(name) {
+  document.documentElement.classList.remove('boot-home');
   document.querySelectorAll('.view').forEach((v) => v.classList.toggle('active', v.id === 'view-' + name));
   window.scrollTo({ top: 0, behavior: 'instant' });
   closeSidebar();
@@ -938,15 +1043,17 @@ function showView(name) {
 
 function buildNav(path) {
   setTimeout(applyBlockState, 0);
+  setTimeout(paintMsgBadge, 0);
   const role = currentUser.role;
   $('sbRole').textContent = role === 'admin' ? '🛡️ Administrateur' : 'Espace client';
   $('sbRole').style.color = role === 'admin' ? 'var(--gold)' : '';
-  const active = (p) => path === p || (p.endsWith('requests') && path.startsWith(p + '/'));
+  const active = (p) => path === p || ((p.endsWith('requests') || p.endsWith('messages')) && path.startsWith(p + '/'));
+  const badge = (p) => (p.endsWith('/messages') ? '<span class="nav-badge" data-msg-badge hidden></span>' : '');
   $('sbNav').innerHTML = NAV[role].map(([p, icon, label]) =>
-    `<a class="sb-link ${active(p) ? 'active' : ''}" href="#${p}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="sb-icon">${icon}</span>${label}</a>`).join('');
-  const items = role === 'admin' ? NAV.admin.filter(([p]) => p !== '/profile' && p !== '/admin/settings') : NAV.client;
+    `<a class="sb-link ${active(p) ? 'active' : ''}" href="#${p}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="sb-icon">${icon}</span>${label}${badge(p)}</a>`).join('');
+  const items = role === 'admin' ? NAV.admin.filter(([p]) => !['/profile', '/admin/settings', '/admin/stats'].includes(p)) : NAV.client;
   $('bottomNav').innerHTML = items.map(([p, icon, , short]) =>
-    `<a class="bn-item ${active(p) ? 'active' : ''} ${p === '/client/new' ? 'bn-main' : ''}" href="#${p}" aria-label="${short}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="bn-icon">${icon}</span><span>${short}</span></a>`).join('')
+    `<a class="bn-item ${active(p) ? 'active' : ''} ${p === '/client/new' ? 'bn-main' : ''}" href="#${p}" aria-label="${short}" ${p === '/client/new' ? 'data-new-request' : ''}><span class="bn-icon">${icon}${badge(p)}</span><span>${short}</span></a>`).join('')
     + (role === 'admin' ? `<a class="bn-item ${path === '/profile' ? 'active' : ''}" href="#/profile" aria-label="Profil"><span class="bn-icon">👤</span><span>Profil</span></a>` : '');
 }
 
@@ -1054,7 +1161,7 @@ let _notifs = [], _notifChannel = null;
 async function loadNotifications() {
   if (!currentUser) return;
   try {
-    const { data } = await q(sb.from('notifications').select('id,request_id,title,body,read_at,created_at')
+    const { data } = await q(sb.from('notifications').select('id,request_id,title,body,read_at,created_at,link')
       .eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(30));
     _notifs = data || [];
     renderBell();
@@ -1066,6 +1173,7 @@ async function startNotifications() {
   await loadNotifications();
   if (!currentUser) { _notifChannel = null; return; }
   subscribePush();
+  refreshMsgBadge();
   _notifChannel = sb.channel('notif-' + currentUser.id)
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${currentUser.id}` }, (p) => {
       const n = p.new;
@@ -1074,7 +1182,8 @@ async function startNotifications() {
       renderBell();
       toast(`${n.title} — ${n.body || ''}`, 'info');
       beep();
-      if (document.hidden) systemNotify(n.title, n.body, n.request_id);
+      if (document.hidden) systemNotify(n.title, n.body, n.request_id, n.link);
+      if (n.link && n.link.includes('/messages')) { refreshMsgBadge(); if (refreshMessages(n.link)) return; }
       refreshIfRelevant(n.request_id);
     })
     .subscribe();
@@ -1087,6 +1196,7 @@ function isEditing() {
   return c.dataset.dirty === '1' || (a && c.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.id !== 'adminSearch');
 }
 function refreshIfRelevant(requestId) {
+  invalidateData();
   const h = location.hash;
   const lists = ['#/admin/dashboard', '#/admin/requests', '#/client/dashboard', '#/client/requests'];
   if (!(lists.includes(h) || (requestId && h.endsWith('/' + requestId)))) return;
@@ -1104,7 +1214,7 @@ function renderBell() {
     <div class="notif-head"><strong>🔔 Notifications</strong>
       ${perm === 'default' ? '<button class="btn btn-ghost btn-sm" onclick="enablePush()">Activer sur ce téléphone</button>' : ''}</div>
     ${_notifs.length ? _notifs.map((n) => `
-      <div class="notif-item ${n.read_at ? '' : 'unread'}" onclick="openNotif(${jsArg(n.request_id || '')})">
+      <div class="notif-item ${n.read_at ? '' : 'unread'}" onclick="openNotif(${jsArg(n.request_id || '')}, ${jsArg(n.link || '')})">
         <div class="t">${esc(n.title)}</div><div class="b">${esc(n.body)}</div><div class="d">${fmtDateTime(n.created_at)}</div>
       </div>`).join('') : '<div class="notif-item"><div class="b">Aucune notification pour le moment.</div></div>'}`;
 }
@@ -1119,8 +1229,9 @@ async function toggleNotifPanel(force) {
     setTimeout(() => { _notifs.forEach((n) => { n.read_at = n.read_at || now; }); renderBell(); }, 1500);
   }
 }
-function openNotif(requestId) {
+function openNotif(requestId, link) {
   toggleNotifPanel(false);
+  if (link && /^\/[\w/-]+$/.test(link) && currentUser) return navigate(link);
   if (requestId && currentUser) navigate(`/${currentUser.role === 'admin' ? 'admin' : 'client'}/requests/${requestId}`);
 }
 async function enablePush() {
@@ -1342,6 +1453,10 @@ function contractHtmlView(r, dateText) {
       blocks.map(([type, text], i) => type === 'li'
         ? `${i === 0 || blocks[i - 1][0] !== 'li' ? '<ul>' : ''}<li>${esc(text)}</li>${i === blocks.length - 1 || blocks[i + 1][0] !== 'li' ? '</ul>' : ''}`
         : `<p>${esc(text)}</p>`).join('')}</section>`).join('')}
+    <div class="ct-sign">
+      <div><strong>Le Bailleur</strong><span>NEXUS CRÉDIT</span></div>
+      <div><strong>L'Emprunteur</strong>${r.signature_preview ? `<img src="${r.signature_preview}" alt="Votre signature">` : '<em class="muted">Signature à apposer dans le formulaire</em>'}<span>Lu et approuvé${r.nom ? ' — ' + esc(r.nom) : ''}</span></div>
+    </div>
     <div class="ct-foot"><p>${esc(CONTRACT.footer(dateText))}</p><p>${esc(CONTRACT.legal)}</p></div>
   </div>`;
 }
@@ -1478,6 +1593,17 @@ function buildContract(doc, r) {
   if (sig) { try { doc.addImage(sig, 'PNG', W - 14 - colW + (colW - 60) / 2, y + 8, 60, 18); } catch (_) {} }
   doc.text(pdfTxt(`Lu et approuvé - signé électroniquement par ${r.nom}`), W - 14 - colW / 2, y + 31, { align: 'center' });
   doc.text(pdfTxt(`le ${signDate}${r.contract_version ? ' (contrat ' + r.contract_version + ')' : ''}`), W - 14 - colW / 2, y + 36, { align: 'center' });
+  if (r.signature_sha256) {
+    y += 44; ensure(30);
+    doc.setDrawColor(200, 200, 200); doc.setFillColor(248, 248, 248); doc.roundedRect(14, y, W - 28, 24, 2, 2, 'FD');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor(40, 40, 40);
+    doc.text(pdfTxt('Preuve de signature électronique'), 18, y + 5.5);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.6); doc.setTextColor(80, 80, 80);
+    const at = new Date(r.signed_at || r.contract_accepted_at);
+    doc.text(pdfTxt(`Signé le ${at.toLocaleDateString('fr-FR')} à ${at.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })} (horodatage du serveur)   -   Adresse IP : ${r.signed_ip || 'non disponible'}   -   Appareil : ${deviceOf(r.signed_ua)}`), 18, y + 10.5);
+    doc.text(pdfTxt(`Empreinte SHA-256 de la signature : ${r.signature_sha256}`), 18, y + 15.5);
+    doc.text(pdfTxt('Toute modification de la signature changerait cette empreinte. La signature et le contrat ne peuvent plus être modifiés après l\'envoi.'), 18, y + 20.5);
+  }
   // Pied de page sur chaque page : mention + date du jour + valeur légale + pagination
   const n = doc.getNumberOfPages();
   const today = new Date().toLocaleDateString('fr-FR');
@@ -1514,7 +1640,7 @@ function buildReceipt(doc, r) {
   pdfFooter(doc, `Reçu généré automatiquement - Nexus Crédit - contrat ${contractRef(r)}`);
 }
 
-const DOC_COLS = LIST_COLS + ',signature_data_url';
+const DOC_COLS = LIST_COLS + ',signature_data_url,signed_at,signature_sha256,signed_ip,signed_ua';
 async function openDoc(kind, id) { return once('doc-' + kind + id, () => buildDoc(kind, id)); }
 async function buildDoc(kind, id) {
   toast(kind === 'receipt' ? 'Préparation du reçu…' : 'Préparation du contrat…', 'info');
@@ -1591,7 +1717,8 @@ async function renderClientDashboard() {
     </div>
     <div class="card"><div class="card-title">📋 Demandes récentes</div>
       ${reqs.length ? reqs.slice(0, 5).map(clientRow).join('') : `<div class="empty"><div class="empty-icon">📭</div>Aucune demande pour l'instant.<br><br>${newRequestBtn().replace('➕ Nouvelle demande', 'Faire ma première demande')}</div>`}
-    </div>`;
+    </div>
+    <div data-contact-slot style="margin-top:20px;"></div>`;
   setActiveLoan(reqs);
 }
 
@@ -1631,6 +1758,14 @@ async function renderClientRequest(id) {
     ${steps(r.status)}
     ${countdownCard(r)}
     <div class="card next-card" style="margin-bottom:20px;" id="nextStep">${clientNextStep(r, settings)}</div>
+    <div class="card help-card" style="margin-bottom:20px;">
+      <div><strong>💬 Une question sur ce prêt ?</strong><span class="muted">Nous répondons dans l'appli, par WhatsApp ou par téléphone.</span></div>
+      <div class="contact-actions">
+        ${r.status === 'paid' ? `<button class="btn btn-secondary btn-sm" onclick="contactAbout(${jsArg(r.id)}, 'remboursement_anticipe')">💰 Rembourser plus tôt</button>` : ''}
+        <button class="btn btn-ghost btn-sm" onclick="contactAbout(${jsArg(r.id)}, 'question')">💬 Nous écrire</button>
+        <a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="${esc(waLink(_contact.whatsapp, `Bonjour Nexus Crédit, j'ai une question sur mon prêt de ${fcfa(r.montant)} (réf. ${contractRef(r)}).`))}">🟢 WhatsApp</a>
+      </div>
+    </div>
     ${await ratingCardHtml(r)}
     <div class="card" style="margin-bottom:20px;">
       <div class="card-title">📄 Mes documents</div>
@@ -1818,7 +1953,8 @@ async function renderNewRequest() {
         </div>
         <div class="card" style="background:var(--surface-2);margin:16px 0;">
           <div style="font-weight:800;margin-bottom:12px;color:var(--gold);">✍️ Signature</div>
-          <div class="canvas-wrap"><canvas id="sigCanvas" height="180" aria-label="Zone de signature"></canvas></div>
+          <div class="canvas-wrap"><canvas id="sigCanvas" height="180" aria-label="Zone de signature"></canvas><div class="sig-guide" aria-hidden="true"><span>✗</span>Signez ici</div></div>
+          <p class="muted" style="margin:-4px 0 10px;">Votre signature, la date et l'heure, et une empreinte numérique sont enregistrées : elles prouvent votre accord au contrat.</p>
           <button type="button" class="btn btn-ghost btn-sm" id="clearSig" style="margin-bottom:12px;">🗑️ Effacer</button>
           <label style="display:flex;align-items:center;gap:10px;font-size:13px;">
             <input type="checkbox" id="sigCheck" style="width:18px;height:18px;accent-color:var(--green);">
@@ -1843,7 +1979,7 @@ async function renderNewRequest() {
   let contractOpened = false;
   const formData = () => ({ nom: $('r-nom').value.trim(), telephone: $('r-tel').value.trim(), passeport: $('r-pass').value.toUpperCase().replace(/[^A-Z0-9]/g, ''),
     garantie: $('r-guar').value.trim(), montant: Number($('r-montant').value) || null, duree: parseInt($('r-duree').value, 10) || null });
-  $('viewContractBtn').onclick = () => openContractViewer(formData(), () => {
+  $('viewContractBtn').onclick = () => openContractViewer({ ...formData(), signature_preview: sig.problem() ? null : sig.toDataURL() }, () => {
     contractOpened = true;
     $('contractCheck').disabled = false;
     $('contractHint').textContent = 'Contrat consulté. Cochez la case pour l\'accepter.';
@@ -1885,12 +2021,13 @@ async function renderNewRequest() {
     if (row.passeport.length < 5 || row.passeport.length > 20) return invalid($('r-pass'), 'Numéro de passeport invalide (5 à 20 lettres ou chiffres) : il est obligatoire en garantie.');
     if (!Number.isInteger(montant) || montant < 5000 || montant > 500000) return invalid(inputM, 'Montant entre 5 000 et 500 000 FCFA (nombre entier).');
     if (![7, 14].includes(row.duree)) return invalid(dureeEl, 'Choisissez une durée de remboursement.');
-    if (sig.isEmpty()) { $('sigCanvas').scrollIntoView({ block: 'center' }); return invalid(null, 'Signez dans le cadre blanc (un trait suffisamment long).'); }
+    if (sig.problem()) { $('sigCanvas').scrollIntoView({ block: 'center' }); return invalid(null, sig.problem()); }
     if (!$('sigCheck').checked) return invalid($('sigCheck'), 'Cochez la case pour certifier votre signature.');
     if (!contractOpened) { $('viewContractBtn').scrollIntoView({ block: 'center' }); return invalid($('viewContractBtn'), 'Lisez le contrat avant d\'envoyer votre demande (bouton « Voir le contrat »).'); }
     if (!$('contractCheck').checked) return invalid($('contractCheck'), 'Cochez « J\'ai lu et j\'accepte les conditions du contrat » pour envoyer votre demande.');
     row.contract_version = CONTRACT_VERSION;
     row.signature_data_url = sig.toDataURL();
+    row.signed_ua = navigator.userAgent.slice(0, 300); // preuve : appareil utilisé (la date, l'IP et l'empreinte sont ajoutées par le serveur)
 
     const btn = $('newReqBtn');
     await once('new-request', async () => {
@@ -1911,13 +2048,13 @@ async function renderNewRequest() {
 /* Signature : garde le dessin quand l'écran change de taille (clavier mobile…) */
 function setupSignature(canvas) {
   const ctx = canvas.getContext('2d');
-  let drawing = false, dirty = false, lastW = 0, points = 0;
+  let drawing = false, lastW = 0, pts = [], ink = 0, box = null, strokes = 0, samples = 0;
   const paintBg = () => { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); };
-  const style = () => { ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; };
+  const style = () => { ctx.strokeStyle = '#0b1f3a'; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; };
   const fit = () => {
     const w = Math.max(200, Math.min(600, canvas.parentElement.clientWidth - 4));
     if (w === lastW) return;
-    const snapshot = dirty ? canvas.toDataURL() : null;
+    const snapshot = ink ? canvas.toDataURL() : null;
     canvas.width = w; canvas.height = 180; lastW = w;
     paintBg(); style();
     if (snapshot) { const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = snapshot; }
@@ -1925,19 +2062,48 @@ function setupSignature(canvas) {
   fit();
   const ro = new ResizeObserver(fit); ro.observe(canvas.parentElement);
   const pos = (e) => {
-    const r = canvas.getBoundingClientRect(), p = e.touches ? e.touches[0] : e;
-    return { x: (p.clientX - r.left) * (canvas.width / r.width), y: (p.clientY - r.top) * (canvas.height / r.height) };
+    const r = canvas.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * (canvas.width / r.width), y: (e.clientY - r.top) * (canvas.height / r.height), t: e.timeStamp,
+      p: e.pointerType === 'pen' && e.pressure ? e.pressure : 0.5 };
   };
-  const start = (e) => { e.preventDefault(); drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y); ctx.stroke(); dirty = true; };
-  const move = (e) => { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); points++; };
-  const end = () => { drawing = false; };
-  canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move);
-  canvas.addEventListener('mouseup', end); canvas.addEventListener('mouseleave', end);
-  canvas.addEventListener('touchstart', start, { passive: false }); canvas.addEventListener('touchmove', move, { passive: false });
-  canvas.addEventListener('touchend', end);
+  const grow = (p) => { box = box ? { x0: Math.min(box.x0, p.x), y0: Math.min(box.y0, p.y), x1: Math.max(box.x1, p.x), y1: Math.max(box.y1, p.y) } : { x0: p.x, y0: p.y, x1: p.x, y1: p.y }; };
+  const start = (e) => {
+    if (e.button > 0) return;
+    e.preventDefault(); canvas.setPointerCapture?.(e.pointerId);
+    drawing = true; strokes++; const p = pos(e); pts = [p]; grow(p);
+    ctx.beginPath(); ctx.arc(p.x, p.y, 1.1, 0, Math.PI * 2); ctx.fillStyle = '#0b1f3a'; ctx.fill();
+    canvas.parentElement.classList.add('signed');
+  };
+  const move = (e) => {
+    if (!drawing) return; e.preventDefault();
+    const list = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    for (const ev of list.length ? list : [e]) {
+      const p = pos(ev), a = pts[pts.length - 1];
+      const d = Math.hypot(p.x - a.x, p.y - a.y); if (d < 0.8) continue;
+      ink += d; samples++; grow(p);
+      // Trait plus fin quand on va vite, comme un vrai stylo ; lissage par courbes
+      const speed = d / Math.max(1, p.t - a.t);
+      const w = Math.max(1.2, Math.min(3.2, 3.4 - speed * 1.1)) * (0.6 + p.p * 0.8);
+      ctx.lineWidth = w;
+      const mid = { x: (a.x + p.x) / 2, y: (a.y + p.y) / 2 };
+      const prevMid = pts.length > 1 ? { x: (pts[pts.length - 2].x + a.x) / 2, y: (pts[pts.length - 2].y + a.y) / 2 } : a;
+      ctx.beginPath(); ctx.moveTo(prevMid.x, prevMid.y); ctx.quadraticCurveTo(a.x, a.y, mid.x, mid.y); ctx.stroke();
+      pts.push(p); if (pts.length > 3) pts.shift();
+    }
+  };
+  const end = () => { drawing = false; pts = []; };
+  canvas.addEventListener('pointerdown', start);
+  canvas.addEventListener('pointermove', move);
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => canvas.addEventListener(t, end));
   return {
-    clear() { paintBg(); style(); dirty = false; points = 0; },
-    isEmpty: () => !dirty || points < 8,
+    clear() { paintBg(); style(); ink = 0; box = null; strokes = 0; samples = 0; canvas.parentElement.classList.remove('signed'); },
+    /* Une vraie signature : un tracé assez long et assez large (pas un point ni un petit trait). */
+    problem() {
+      if (!ink) return 'Signez dans le cadre blanc avec votre doigt (ou la souris).';
+      if (ink < 80 || samples < 8 || !box || box.x1 - box.x0 < canvas.width * 0.15 || box.y1 - box.y0 < 12) return 'Signature trop courte : signez comme sur un document papier.';
+      return '';
+    },
+    isEmpty() { return !!this.problem(); },
     toDataURL: () => canvas.toDataURL('image/png'),
   };
 }
@@ -2011,7 +2177,7 @@ let _remindersRun = false;
 async function renderAdminDashboard() {
   const paint = painter();
   if (!_remindersRun) { _remindersRun = true; rpc('admin_run_reminders', {}).catch(() => { _remindersRun = false; }); }
-  const reqs = await listWithCache('admin-list', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
+  const [reqs] = await Promise.all([listWithCache('admin-list', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000)), loadScores()]);
   if (!paint()) return;
   const by = (st) => reqs.filter((r) => r.status === st);
   const lent = reqs.filter((r) => ['paid', 'repayment_requested', 'done'].includes(r.status)).reduce((s, r) => s + (r.paid_amount || r.montant || 0), 0);
@@ -2022,6 +2188,7 @@ async function renderAdminDashboard() {
   $('content').innerHTML = `${offlineNote()}
     <div class="page-head"><div><h1 class="page-title">🛡️ Vue d'ensemble</h1><p class="page-subtitle">${reqs.length} demande(s) au total.</p></div>
       <a class="btn btn-primary btn-sm" href="#/admin/requests">Toutes les demandes →</a></div>
+    ${_msgUnread ? `<a class="alert-due info msg-alert" href="#/admin/messages">💬 ${_msgUnread} message(s) client non lu(s) → Répondre</a>` : ''}
     <div class="kpis">
       <div class="kpi"><div class="kpi-label">À traiter</div><div class="kpi-value" style="color:var(--gold)">${todo.length}</div></div>
       <div class="kpi"><div class="kpi-label">En retard</div><div class="kpi-value" style="color:${lateN ? 'var(--red)' : 'var(--green)'}">${lateN}</div><div class="kpi-sub">${dueSoon.length - lateN} échéance(s) sous 2 jours</div></div>
@@ -2035,9 +2202,11 @@ async function renderAdminDashboard() {
 }
 
 let _adminFilter = 'todo', _adminSearch = '';
+const PAGE_SIZE = 50;
+let _adminPage = 1;
 async function renderAdminRequests() {
   const paint = painter();
-  const reqs = await listWithCache('admin-list', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000));
+  const [reqs] = await Promise.all([listWithCache('admin-list', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(1000)), loadScores()]);
   if (!paint()) return;
   const tabs = [['todo', '⚡ À traiter', NEEDS_ACTION], ['all', 'Toutes', () => true],
     ...Object.keys(STATUS).map((k) => [k, STATUS[k].label, (r) => r.status === k])];
@@ -2047,7 +2216,11 @@ async function renderAdminRequests() {
     const rows = reqs.filter(f[2]).filter((r) => !term
       || [r.nom, r.guarantee_name, r.passeport, r.receipt_number].some((v) => String(v || '').toLowerCase().includes(term))
       || (td.length >= 3 && [r.telephone, r.guarantee_phone, r.wave_number].some((v) => digits(v).includes(td))));
-    $('adminList').innerHTML = rows.length ? adminTable(rows) : `<div class="empty"><div class="empty-icon">📭</div>${term ? 'Aucun résultat pour cette recherche.' : 'Aucune demande dans cette catégorie.'}</div>`;
+    const shown = rows.slice(0, _adminPage * PAGE_SIZE);
+    $('adminList').innerHTML = rows.length ? adminTable(shown) + (rows.length > shown.length
+      ? `<button class="btn btn-secondary btn-block" id="moreRows" style="margin-top:12px;">Afficher plus (${rows.length - shown.length} restante${rows.length - shown.length > 1 ? 's' : ''})</button>` : '')
+      : `<div class="empty"><div class="empty-icon">📭</div>${term ? 'Aucun résultat pour cette recherche.' : 'Aucune demande dans cette catégorie.'}</div>`;
+    if ($('moreRows')) $('moreRows').onclick = () => { _adminPage++; draw(); };
     document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t.dataset.f === _adminFilter));
   };
   $('content').innerHTML = `${offlineNote()}
@@ -2055,9 +2228,30 @@ async function renderAdminRequests() {
       <input class="search" id="adminSearch" type="search" placeholder="🔎 Nom, téléphone, Wave, passeport, reçu" value="${esc(_adminSearch)}" aria-label="Rechercher une demande"></div>
     <div class="tabs">${tabs.map(([k, l, fn]) => `<button class="tab" data-f="${k}">${l}<span class="n">${reqs.filter(fn).length}</span></button>`).join('')}</div>
     <div id="adminList"></div>`;
-  document.querySelectorAll('.tab').forEach((t) => { t.onclick = () => { _adminFilter = t.dataset.f; draw(); }; });
-  let t; $('adminSearch').oninput = (e) => { _adminSearch = e.target.value; clearTimeout(t); t = setTimeout(draw, 120); };
+  document.querySelectorAll('.tab').forEach((t) => { t.onclick = () => { _adminFilter = t.dataset.f; _adminPage = 1; draw(); }; });
+  let t; $('adminSearch').oninput = (e) => { _adminSearch = e.target.value; _adminPage = 1; clearTimeout(t); t = setTimeout(draw, 120); };
   draw();
+}
+
+/* Badge de fiabilité : un seul appel pour tous les clients, gardé 60 s. */
+let _scores = new Map(), _scoresAt = 0;
+async function loadScores() {
+  if (Date.now() - _scoresAt < 60000) return _scores;
+  try { const rows = await rpc('admin_client_scores', {}); _scores = new Map((rows || []).map((x) => [x.client_id, x])); _scoresAt = Date.now(); }
+  catch (_) { /* hors ligne : on garde les derniers scores */ }
+  return _scores;
+}
+function trustLevel(sc) {
+  if (!sc) return null;
+  if (sc.late_now > 0) return ['red', '🔴 Risqué', 'En retard de paiement en ce moment'];
+  if (sc.very_late > 0 || sc.late_repaid >= 2) return ['red', '🔴 Risqué', `${sc.late_repaid} remboursement(s) en retard${sc.very_late ? ', dont ' + sc.very_late + ' de plus de 3 jours' : ''}`];
+  if (!sc.done) return ['orange', '🟠 Nouveau', 'Aucun prêt encore remboursé'];
+  if (sc.late_repaid === 1) return ['orange', '🟠 À surveiller', `1 retard sur ${sc.done} prêt(s) remboursé(s)`];
+  return ['green', '🟢 Fiable', `${sc.done} prêt(s) remboursé(s) à l'heure`];
+}
+function trustBadge(clientId) {
+  const t = trustLevel(_scores.get(clientId)); if (!t) return '';
+  return `<span class="trust ${t[0]}" title="${esc(t[2])}">${t[1]}</span>`;
 }
 
 function adminTable(rows, compact = false) {
@@ -2065,7 +2259,7 @@ function adminTable(rows, compact = false) {
     <thead><tr><th>Date</th><th>Client</th><th>Prêt</th><th>Wave du client</th><th>Statut</th><th>Action</th><th>Documents</th><th></th></tr></thead>
     <tbody>${rows.map((r) => `<tr>
       <td data-label="Date"><div class="cell">${fmtDate(r.created_at)}</div></td>
-      <td data-label="Client"><div class="cell"><strong>${esc(r.guarantee_name || r.nom)}</strong><span class="muted">${esc(fmtPhone(r.guarantee_phone || r.telephone))}</span></div></td>
+      <td data-label="Client"><div class="cell"><strong>${esc(r.guarantee_name || r.nom)}</strong>${trustBadge(r.client_id)}<span class="muted">${esc(fmtPhone(r.guarantee_phone || r.telephone))}</span></div></td>
       <td data-label="Prêt" class="mono"><div class="cell">${fcfa(r.montant)}<span class="muted">à rendre : ${fcfa(r.total)}</span>${penaltyOf(r) ? `<span class="muted" style="color:var(--red)">+ ${fcfa(penaltyOf(r))} de retard</span>` : ''}<span class="muted">échéance ${fmtDue(r.date_remboursement)}</span></div></td>
       <td data-label="Wave"><div class="cell">${waveCell(r.wave_number)}</div></td>
       <td data-label="Statut"><div class="cell">${statusBadge(r.status)} ${dueChip(r)}${r.status === 'pending' && r.guarantee_declared_at ? '<span class="muted">📦 garantie annoncée</span>' : ''}${r.status === 'repayment_requested' ? `<span class="muted">${fcfa(r.repayment_amount)} · réf. ${esc(r.repayment_ref)}</span>` : ''}</div></td>
@@ -2077,10 +2271,11 @@ function adminTable(rows, compact = false) {
 
 async function renderAdminRequest(id) {
   const paint = painter();
-  const { data: r } = await q(sb.from('requests').select(LIST_COLS + ',message').eq('id', id).maybeSingle());
+  const { data: r } = await q(sb.from('requests').select(LIST_COLS + ',message,signed_at,signature_sha256,signed_ip,signed_ua').eq('id', id).maybeSingle());
   if (!paint()) return;
   if (!r) { toast('Demande introuvable.', 'error'); return navigate('/admin/requests'); }
-  const reliability = await reliabilityHtml(r);
+  const [reliability, , smsRows] = await Promise.all([reliabilityHtml(r), loadScores(),
+    q(sb.from('sms_log').select('id,kind,phone,status,error,created_at,sent_at').eq('request_id', r.id).order('created_at', { ascending: false }).limit(20)).then((x) => x.data || []).catch(() => [])]);
   if (!paint()) return;
   const waMsg = {
     pending: `Bonjour ${r.nom}, votre demande de ${fcfa(r.montant)} est bien reçue. Envoyez votre garantie par Yango à l'adresse indiquée sur le site.`,
@@ -2094,7 +2289,7 @@ async function renderAdminRequest(id) {
   $('content').innerHTML = `
     <a class="btn btn-ghost btn-sm" href="#/admin/requests">← Demandes</a>
     <div class="page-head" style="margin-top:16px;">
-      <div><h1 class="page-title">${esc(r.nom)}</h1><p class="page-subtitle">Prêt de ${fcfa(r.montant)} · demande du ${fmtDate(r.created_at)}</p></div>
+      <div><h1 class="page-title">${esc(r.nom)} ${trustBadge(r.client_id)}</h1><p class="page-subtitle">Prêt de ${fcfa(r.montant)} · demande du ${fmtDate(r.created_at)}</p></div>
       ${statusBadge(r.status)}
     </div>
     ${steps(r.status)}
@@ -2104,7 +2299,7 @@ async function renderAdminRequest(id) {
       ${r.status === 'guarantee_received' && r.wave_number ? `<div class="copy-row"><div><div class="k">Envoyez depuis votre appli Wave</div><div class="v">${fcfa(r.montant)} → <span class="wave">${esc(fmtPhone(r.wave_number))}</span></div></div>${copyBtn(digits(r.wave_number), '📋 Copier le numéro')}</div>` : ''}
       ${r.status === 'repayment_requested' ? `<div class="note">Le client dit avoir envoyé <strong>${fcfa(r.repayment_amount)}</strong> (réf. <strong>${esc(r.repayment_ref)}</strong>) depuis <span class="wave">${esc(fmtPhone(r.wave_number))}</span>. Vérifiez dans votre appli Wave.</div>` : ''}
       <div class="row-actions" style="margin-top:12px;">${adminActionButtons(r) || '<span class="muted">Aucune action disponible.</span>'}</div>
-      ${waPhone.length >= 9 && waMsg ? `<div style="margin-top:12px;"><a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" href="https://wa.me/221${waPhone}?text=${encodeURIComponent(waMsg)}">📲 Écrire au client sur WhatsApp</a></div>` : ''}
+      <div class="row-actions" style="margin-top:12px;">${waPhone.length >= 9 && waMsg ? `<a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" href="https://wa.me/221${waPhone}?text=${encodeURIComponent(waMsg)}">📲 Écrire au client sur WhatsApp</a>` : ''}<a class="btn btn-ghost btn-sm" href="#/admin/messages/${esc(r.client_id)}">💬 Messages du client</a></div>
     </div>
     ${reliability}
     <div class="card" style="margin-bottom:20px;">
@@ -2120,7 +2315,81 @@ async function renderAdminRequest(id) {
       ${timelineHtml(r)}
       <div class="detail-row"><div class="detail-key">Total dû · échéance</div><div class="detail-val">${fcfa(r.total)} · ${fmtDue(r.date_remboursement)}${penaltyOf(r) ? ` · <span style="color:var(--red)">+ ${fcfa(penaltyOf(r))} de majorations</span>` : ''}</div></div>
       <div class="detail-row"><div class="detail-key">Documents</div><div class="detail-val"><div class="row-actions">${docButtons(r)}</div>${r.receipt_number ? `<span class="muted">Reçu N° ${esc(r.receipt_number)}</span>` : ''}</div></div>
-    </div>`;
+    </div>
+    ${signatureCardHtml(r)}
+    ${smsCardHtml(smsRows)}`;
+  bindSignatureCard(r);
+}
+
+/* ---------- Preuve de signature (admin) ---------- */
+function deviceOf(ua) {
+  if (!ua) return '—';
+  const os = /iphone|ipad/i.test(ua) ? 'iPhone/iPad' : /android/i.test(ua) ? 'Android' : /windows/i.test(ua) ? 'Windows' : /mac os/i.test(ua) ? 'Mac' : /linux/i.test(ua) ? 'Linux' : 'Autre';
+  const br = /edg\//i.test(ua) ? 'Edge' : /crios|chrome/i.test(ua) ? 'Chrome' : /fxios|firefox/i.test(ua) ? 'Firefox' : /safari/i.test(ua) ? 'Safari' : 'Navigateur';
+  return `${os} · ${br}`;
+}
+async function sha256Hex(text) {
+  if (!crypto.subtle) throw new AppError('Vérification impossible : ouvrez le site en https.');
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+function signatureCardHtml(r) {
+  const at = r.signed_at || r.contract_accepted_at;
+  return `<div class="card" style="margin-top:20px;" id="sigCard">
+    <div class="card-title">✍️ Signature électronique</div>
+    <div class="detail-row"><div class="detail-key">Signé le</div><div class="detail-val">${at ? esc(fmtDateTime(at)) + ' <span class="muted">(heure du serveur)</span>' : '—'}</div></div>
+    <div class="detail-row"><div class="detail-key">Contrat accepté</div><div class="detail-val">${esc(r.contract_version || '—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Adresse IP</div><div class="detail-val mono">${esc(r.signed_ip || '—')}</div></div>
+    <div class="detail-row"><div class="detail-key">Appareil</div><div class="detail-val" title="${esc(r.signed_ua || '')}">${esc(deviceOf(r.signed_ua))}</div></div>
+    <div class="detail-row"><div class="detail-key">Empreinte SHA-256</div><div class="detail-val mono hash">${esc(r.signature_sha256 || 'non disponible (demande antérieure à la v10)')}</div></div>
+    <div id="sigVerify" style="margin-top:12px;"><button class="btn btn-secondary btn-sm" id="sigVerifyBtn">🔍 Afficher et vérifier la signature</button></div>
+  </div>`;
+}
+function bindSignatureCard(r) {
+  const b = $('sigVerifyBtn'); if (!b) return;
+  b.onclick = () => once('sig-' + r.id, async () => {
+    busy(b, true, 'Vérification…');
+    try {
+      const { data } = await q(sb.from('requests').select('signature_data_url').eq('id', r.id).single());
+      const img = /^data:image\/png;base64,/.test(data?.signature_data_url || '') ? data.signature_data_url : null;
+      if (!img) { $('sigVerify').innerHTML = '<div class="note">Aucune signature enregistrée.</div>'; return; }
+      let verdict = '<span class="muted">Empreinte non enregistrée (ancienne demande).</span>';
+      if (r.signature_sha256) {
+        const h = await sha256Hex(img);
+        verdict = h === r.signature_sha256 ? '<span class="trust green">✅ Signature intacte : empreinte conforme</span>'
+          : '<span class="trust red">❌ Empreinte différente : signature modifiée</span>';
+      }
+      $('sigVerify').innerHTML = `<div class="sig-proof"><img src="${img}" alt="Signature du client"></div><div style="margin-top:8px;">${verdict}</div>`;
+    } catch (e) { toast(e.message, 'error'); busy(b, false); }
+  });
+}
+
+/* ---------- SMS (admin) ---------- */
+async function loadSmsLog() {
+  const el = $('smsLog'); if (!el) return;
+  try {
+    const { data } = await q(sb.from('sms_log').select('id,kind,phone,status,error,created_at,sent_at').order('created_at', { ascending: false }).limit(20));
+    if ($('smsLog')) $('smsLog').innerHTML = data.length ? smsRowsHtml(data, true) : '<p class="muted">Aucun SMS pour le moment.</p>';
+  } catch (e) { if ($('smsLog')) $('smsLog').innerHTML = `<p class="muted">${esc(e.message)}</p>`; }
+}
+const SMS_KIND = { paid: 'Argent envoyé', j2: 'Rappel J-2', j0: 'Rappel jour J', late1: 'Retard', late4: 'Retard +3 jours', test: 'Test' };
+const SMS_STATUS = { queued: ['soon', '⏳ En cours'], sent: ['ok', '✅ Envoyé'], failed: ['late', '❌ Échec'] };
+function smsRowsHtml(rows, withPhone = false) {
+  return rows.map((x) => `<div class="due-row">
+    <span><strong>${esc(SMS_KIND[x.kind] || x.kind)}</strong> <span class="muted">· ${esc(fmtDateTime(x.created_at))}${withPhone ? ' · ' + esc(fmtPhone(String(x.phone).replace(/^221/, ''))) : ''}</span>
+      ${x.error ? `<div class="muted" style="color:var(--red)">${esc(x.error)}</div>` : ''}</span>
+    <span><span class="due-chip ${SMS_STATUS[x.status]?.[0] || 'ok'}">${SMS_STATUS[x.status]?.[1] || esc(x.status)}</span>
+      ${x.status === 'failed' && x.phone !== '?' ? `<button class="btn btn-ghost btn-sm" onclick="resendSms(${Number(x.id)})">↻ Renvoyer</button>` : ''}</span>
+  </div>`).join('');
+}
+function smsCardHtml(rows) {
+  if (!rows.length) return '';
+  return `<div class="card" style="margin-top:20px;"><div class="card-title">📩 SMS envoyés au client</div>${smsRowsHtml(rows)}</div>`;
+}
+async function resendSms(id) {
+  await once('sms-' + id, async () => {
+    try { await rpc('admin_resend_sms', { p_id: id }); toast('SMS renvoyé.'); route(); } catch (e) { toast(e.message, 'error'); }
+  });
 }
 
 async function renderAdminSettings() {
@@ -2135,6 +2404,12 @@ async function renderAdminSettings() {
         <div class="field"><label for="st-wave">Numéro Wave</label><input id="st-wave" type="tel" inputmode="tel" maxlength="20" value="${esc(s.wave_number)}"></div>
         <div class="field"><label for="st-wname">Nom affiché dans Wave</label><input id="st-wname" maxlength="60" value="${esc(s.wave_name)}"></div>
       </div>
+      <div class="card-title" style="font-size:1rem;margin-top:10px;">📞 Vos coordonnées (affichées sur tout le site)</div>
+      <div class="form-grid">
+        <div class="field"><label for="st-cwa">Numéro WhatsApp</label><input id="st-cwa" type="tel" inputmode="tel" maxlength="20" value="${esc(s.contact_whatsapp || '786325275')}"></div>
+        <div class="field"><label for="st-cphone">Numéro pour les appels</label><input id="st-cphone" type="tel" inputmode="tel" maxlength="20" value="${esc(s.contact_phone || '786325275')}"></div>
+        <div class="field full"><label for="st-chours">Horaires (facultatif)</label><input id="st-chours" maxlength="80" value="${esc(s.contact_hours || '')}" placeholder="ex. Tous les jours, de 8 h à 21 h"></div>
+      </div>
       <div class="card-title" style="font-size:1rem;margin-top:10px;">🏁 Livraison des garanties (Yango)</div>
       <div class="form-grid">
         <div class="field"><label for="st-rname">Destinataire</label><input id="st-rname" maxlength="80" value="${esc(s.receiver_name)}"></div>
@@ -2145,13 +2420,51 @@ async function renderAdminSettings() {
       <div class="card-title" style="font-size:1rem;margin-top:10px;">🔔 Notifications push (appli fermée)</div>
       <div class="field"><label for="st-vapid">Clé publique VAPID</label><input id="st-vapid" value="${esc(s.vapid_public_key || '')}" maxlength="120" spellcheck="false" placeholder="Collez ici la « Public Key » (voir le guide)"></div>
       <p class="muted" style="margin-bottom:14px;">Laissez vide pour désactiver. La clé privée ne doit jamais être mise ici : elle reste dans les secrets Supabase.</p>
+      <div class="card-title" style="font-size:1rem;margin-top:10px;">📩 Rappels SMS automatiques</div>
+      <label class="switch-row"><input type="checkbox" id="st-sms" ${s.sms_enabled ? 'checked' : ''}>
+        <span><strong>Envoyer les SMS automatiquement</strong><span class="muted">Argent envoyé, rappel J-2, jour J, retard, retard de plus de 3 jours. Un seul SMS par étape et par prêt, chaque matin à 8 h.</span></span></label>
+      <div class="field" style="margin-top:10px;"><label for="st-smsname">Nom d'expéditeur (facultatif)</label><input id="st-smsname" maxlength="11" value="${esc(s.sms_sender_name || '')}" placeholder="ex. NEXUSCREDIT" spellcheck="false">
+        <span class="muted">11 caractères max, lettres et chiffres sans accent. Il doit d'abord être validé par Orange ; sinon laissez vide.</span></div>
       <button class="btn btn-primary" type="submit">💾 Enregistrer</button>
-    </form>`;
+    </form>
+    <div class="card" style="max-width:800px;margin-top:20px;">
+      <div class="card-title">🧪 Tester l'envoi de SMS</div>
+      <p class="muted" style="margin-bottom:10px;">Fonctionne même si les SMS automatiques sont désactivés. Voir le guide pour brancher Orange SMS API.</p>
+      <div class="inline-form"><input id="smsTestPhone" type="tel" inputmode="tel" maxlength="20" placeholder="Votre numéro, ex. 78 632 52 75" aria-label="Numéro pour le test" value="${esc(fmtPhone(s.wave_number) || '')}">
+        <button class="btn btn-secondary" id="smsTestBtn">📩 Envoyer un SMS de test</button></div>
+      <div id="smsTestResult" style="margin-top:10px;"></div>
+    </div>
+    <div class="card" style="max-width:800px;margin-top:20px;"><div class="card-title">📜 Derniers SMS</div><div id="smsLog"><p class="muted">Chargement…</p></div></div>`;
+  loadSmsLog();
+  $('smsTestBtn').onclick = () => once('sms-test', async () => {
+    const btn = $('smsTestBtn'); busy(btn, true, 'Envoi…');
+    try {
+      const id = await rpc('admin_test_sms', { p_phone: $('smsTestPhone').value });
+      $('smsTestResult').innerHTML = '<span class="due-chip soon">⏳ SMS en cours d\'envoi…</span>';
+      for (let i = 0; i < 10; i++) {
+        await new Promise((ok) => setTimeout(ok, 1500));
+        const { data } = await q(sb.from('sms_log').select('status,error').eq('id', id).maybeSingle());
+        if (data && data.status !== 'queued') {
+          $('smsTestResult').innerHTML = data.status === 'sent' ? '<span class="trust green">✅ SMS envoyé : vérifiez votre téléphone.</span>'
+            : `<span class="trust red">❌ Échec : ${esc(data.error || 'erreur inconnue')}</span>`;
+          loadSmsLog(); return;
+        }
+      }
+      $('smsTestResult').innerHTML = '<div class="note">Le SMS est toujours en attente : la fonction <strong>send-sms</strong> n\'est pas encore branchée (voir le guide, étape « Rappels SMS »).</div>';
+      loadSmsLog();
+    } catch (e) { invalid($('smsTestPhone'), e.message); }
+    finally { busy(btn, false); }
+  });
   $('settingsForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const v = (id) => $(id).value.trim();
     const patch = { wave_number: v('st-wave'), wave_name: v('st-wname'), receiver_name: v('st-rname'), receiver_phone: v('st-rphone'),
-      receiver_address: v('st-raddr'), receiver_note: v('st-rnote'), vapid_public_key: v('st-vapid'), updated_at: new Date().toISOString() };
+      receiver_address: v('st-raddr'), receiver_note: v('st-rnote'), vapid_public_key: v('st-vapid'),
+      sms_enabled: $('st-sms').checked, sms_sender_name: v('st-smsname'),
+      contact_whatsapp: v('st-cwa'), contact_phone: v('st-cphone'), contact_hours: v('st-chours'), updated_at: new Date().toISOString() };
+    if (!PHONE_OK(patch.contact_whatsapp)) return invalid($('st-cwa'), 'Numéro WhatsApp invalide.');
+    if (!PHONE_OK(patch.contact_phone)) return invalid($('st-cphone'), 'Numéro de téléphone invalide.');
+    if (patch.sms_sender_name && !/^[A-Za-z0-9 ]{2,11}$/.test(patch.sms_sender_name)) return invalid($('st-smsname'), "Nom d'expéditeur : 2 à 11 lettres ou chiffres, sans accent ni symbole.");
     if (patch.vapid_public_key && !/^[A-Za-z0-9_-]{80,100}$/.test(patch.vapid_public_key)) return invalid($('st-vapid'), 'Clé publique VAPID invalide (environ 87 caractères, sans espace).');
     if (!PHONE_OK(patch.wave_number)) return invalid($('st-wave'), 'Numéro Wave invalide.');
     if (patch.wave_name.length < 2) return invalid($('st-wname'), 'Indiquez le nom affiché dans Wave.');
@@ -2161,7 +2474,7 @@ async function renderAdminSettings() {
     const btn = e.target.querySelector('button[type=submit]');
     await once('settings', async () => {
       busy(btn, true, 'Enregistrement…');
-      try { await q(sb.from('app_settings').update(patch).eq('id', 1)); _settings = null; $('content').dataset.dirty = ''; toast('Paramètres enregistrés.'); }
+      try { await q(sb.from('app_settings').update(patch).eq('id', 1)); _settings = null; $('content').dataset.dirty = ''; toast('Paramètres enregistrés.'); loadContact(); }
       catch (err) { toast(err.message, 'error'); }
       finally { busy(btn, false); }
     });
@@ -2239,7 +2552,7 @@ async function renderProfile() {
    ===================================================================== */
 async function renderAdminDues() {
   const paint = painter();
-  const reqs = await listWithCache('admin-dues', sb.from('requests').select(LIST_COLS).in('status', ['paid', 'repayment_requested']).limit(1000));
+  const [reqs] = await Promise.all([listWithCache('admin-dues', sb.from('requests').select(LIST_COLS).in('status', ['paid', 'repayment_requested']).limit(1000)), loadScores()]);
   if (!paint()) return;
   const withD = reqs.map((r) => ({ r, d: daysLeft(r) ?? 0 })).sort((a, b) => a.d - b.d);
   const groups = [
@@ -2264,7 +2577,7 @@ async function renderAdminDues() {
       const rows = withD.filter(fn); if (!rows.length) return '';
       return `<div class="card due-group ${lvl}" style="margin-bottom:16px;"><div class="card-title">${title} <span class="muted">· ${rows.length} · ${fcfa(sum(rows))}</span></div>
         ${rows.map(({ r }) => `<div class="due-row">
-          <div class="due-main"><strong>${esc(r.guarantee_name || r.nom)}</strong> ${dueChip(r)}
+          <div class="due-main"><strong>${esc(r.guarantee_name || r.nom)}</strong> ${trustBadge(r.client_id)} ${dueChip(r)}
             <div class="muted">${fcfa(r.total)}${penaltyOf(r) ? ` + ${fcfa(penaltyOf(r))} de majorations = <strong>${fcfa(amountDue(r))}</strong>` : ''} · échéance ${fmtDue(r.date_remboursement)} · Wave ${esc(fmtPhone(r.wave_number))}</div></div>
           <div class="row-actions">${reminderLink(r)}${r.status === 'repayment_requested' ? `<button class="btn btn-success btn-sm" onclick="adminSet(${jsArg(r.id)}, 'done')">✅ Reçu</button>` : ''}<a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(r.id)}">Détails</a></div>
         </div>`).join('')}</div>`;
@@ -2305,14 +2618,14 @@ function showAppUpdate(worker) {
 }
 
 /* Notification système : passe par le service worker (obligatoire sur Android/iPhone en appli installée). */
-async function systemNotify(title, body, requestId) {
+async function systemNotify(title, body, requestId, link) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  const url = requestId && currentUser ? `#/${currentUser.role === 'admin' ? 'admin' : 'client'}/requests/${requestId}` : '';
+  const url = link ? '#' + link : requestId && currentUser ? `#/${currentUser.role === 'admin' ? 'admin' : 'client'}/requests/${requestId}` : '';
   try {
     const reg = _swReg || (navigator.serviceWorker && await navigator.serviceWorker.getRegistration());
     if (reg) return reg.showNotification('Nexus Crédit — ' + title, { body: body || '', icon: 'icon-192.png', badge: 'icon-192.png', tag: requestId || undefined, data: { url: 'index.html' + url } });
     const n = new Notification('Nexus Crédit — ' + title, { body: body || '', icon: 'icon-192.png' });
-    n.onclick = () => { window.focus(); if (requestId) openNotif(requestId); };
+    n.onclick = () => { window.focus(); openNotif(requestId, link); };
   } catch (_) {}
 }
 
@@ -2403,10 +2716,30 @@ function cachedData(k) { try { return JSON.parse(localStorage.getItem(OFFLINE_KE
 function clearUserCache() { try { Object.keys(localStorage).filter((k) => k.startsWith('nexusCache:') || k === 'nexusProfile').forEach((k) => localStorage.removeItem(k)); } catch (_) {} }
 /* Requête de liste avec repli sur le cache si la connexion est perdue. */
 let _servedFromCache = null;
+/* Cache mémoire : une page déjà vue s'affiche instantanément, puis se met à jour
+   en arrière-plan si les données ont changé (aucune donnée périmée ne reste affichée). */
+const _memo = new Map();
+const MEMO_FRESH = 4000;
+const sigOf = (rows) => (rows || []).map((r) => `${r.id}:${r.updated_at || ''}:${r.status || ''}`).join('|');
+function invalidateData() { _memo.clear(); _scoresAt = 0; }
 async function listWithCache(k, query) {
+  const m = _memo.get(k);
+  if (m && navigator.onLine) {
+    if (Date.now() - m.at < MEMO_FRESH) { _servedFromCache = null; return m.data; }
+    const shownOn = location.hash;
+    q(query).then(({ data }) => {
+      cacheData(k, data);
+      const changed = sigOf(data) !== sigOf(m.data);
+      _memo.set(k, { at: Date.now(), data });
+      if (changed && location.hash === shownOn) { if (isEditing()) showUpdateBar(); else route(); }
+    }).catch(() => {});
+    _servedFromCache = null;
+    return m.data;
+  }
   try {
     const { data } = await q(query);
     cacheData(k, data); _servedFromCache = null;
+    _memo.set(k, { at: Date.now(), data });
     return data;
   } catch (e) {
     const c = cachedData(k);
@@ -2484,7 +2817,11 @@ function bindRating(r) {
   $('rateBtn').onclick = () => once('rate-' + r.id, async () => {
     if (!val) return toast('Choisissez une note de 1 à 5 étoiles.', 'error');
     const btn = $('rateBtn'); busy(btn, true, 'Envoi…');
-    try { await rpc('rate_loan', { p_request: r.id, p_rating: val, p_comment: $('rateComment').value.trim() }); $('content').dataset.dirty = ''; toast('Merci pour votre avis !'); }
+    try {
+      await rpc('rate_loan', { p_request: r.id, p_rating: val, p_comment: $('rateComment').value.trim() });
+      $('content').dataset.dirty = ''; toast('Merci pour votre avis !');
+      card.querySelector('.card-title').textContent = '⭐ Votre note'; btn.dataset.label = 'Mettre à jour ma note';
+    }
     catch (e) { toast(e.message, 'error'); } finally { busy(btn, false); }
   });
 }
@@ -2507,7 +2844,7 @@ async function reliabilityHtml(r) {
   }
   if (lateNow.length) { score = `En retard actuellement`; cls = 'late'; }
   return `<div class="card" style="margin-bottom:20px;">
-    <div class="card-title">🛡️ Fiabilité du client <span class="due-chip ${cls}" style="margin-left:6px;">${esc(score)}</span></div>
+    <div class="card-title">🛡️ Fiabilité du client ${trustBadge(r.client_id)} <span class="due-chip ${cls}" style="margin-left:6px;">${esc(score)}</span></div>
     <div class="kpis kpis-4">
       <div class="kpi"><div class="kpi-label">Demandes</div><div class="kpi-value">${all.length}</div></div>
       <div class="kpi"><div class="kpi-label">Remboursés</div><div class="kpi-value">${done.length}</div></div>
@@ -2524,8 +2861,9 @@ async function reliabilityHtml(r) {
    ===================================================================== */
 async function renderAdminStats() {
   const paint = painter();
-  const [reqs, ratingsRes] = await Promise.all([
+  const [reqs, , ratingsRes] = await Promise.all([
     listWithCache('admin-stats', sb.from('requests').select(LIST_COLS).order('created_at', { ascending: false }).limit(5000)),
+    loadScores(),
     q(sb.from('loan_ratings').select('rating')).catch(() => ({ data: [] })),
   ]);
   if (!paint()) return;
@@ -2594,6 +2932,243 @@ async function exportCsv() {
 }
 
 /* =====================================================================
+   CONTACT (WhatsApp, appel) ET MESSAGERIE CLIENT ↔ ADMIN
+   ===================================================================== */
+const CONTACT_DEFAULT = { whatsapp: '786325275', phone: '786325275', hours: 'Tous les jours, de 8 h à 21 h' };
+let _contact = (() => { try { return { ...CONTACT_DEFAULT, ...JSON.parse(localStorage.getItem('nexusContact') || '{}') }; } catch (_) { return { ...CONTACT_DEFAULT }; } })();
+async function loadContact() {
+  try {
+    const rows = await rpc('public_contact', {});
+    const c = rows && rows[0];
+    if (c) {
+      _contact = { whatsapp: c.whatsapp || CONTACT_DEFAULT.whatsapp, phone: c.phone || CONTACT_DEFAULT.phone, hours: c.hours || '' };
+      try { localStorage.setItem('nexusContact', JSON.stringify(_contact)); } catch (_) {}
+    }
+  } catch (_) { /* hors ligne : dernier numéro connu */ }
+  renderContactFab(); paintContactSlots();
+}
+const intlPhone = (p) => { let d = digits(p); if (d.startsWith('00')) d = d.slice(2); return d.length === 9 ? '221' + d : d; };
+const waLink = (num, text) => `https://wa.me/${intlPhone(num)}?text=${encodeURIComponent(text || 'Bonjour Nexus Crédit, ')}`;
+const telLink = (num) => `tel:+${intlPhone(num)}`;
+function contactButtons(text) {
+  return `<a class="btn btn-wa" href="${esc(waLink(_contact.whatsapp, text))}" target="_blank" rel="noopener">🟢 Écrire sur WhatsApp</a>
+    <a class="btn btn-secondary" href="${esc(telLink(_contact.phone))}">📞 Appeler</a>`;
+}
+function contactCardHtml(title = '🤝 Une question ? Contactez-nous') {
+  return `<div class="card contact-card">
+    <div class="card-title">${title}</div>
+    <p class="muted" style="margin-bottom:12px;">WhatsApp <strong class="mono">${esc(fmtPhone(_contact.whatsapp))}</strong>${_contact.phone !== _contact.whatsapp ? ` · Téléphone <strong class="mono">${esc(fmtPhone(_contact.phone))}</strong>` : ''}${_contact.hours ? ` · ${esc(_contact.hours)}` : ''}</p>
+    <div class="contact-actions">${contactButtons()}${currentUser?.role === 'client' ? '<a class="btn btn-ghost" href="#/client/messages">💬 Message dans l\'appli</a>' : ''}</div>
+  </div>`;
+}
+function paintContactSlots() { document.querySelectorAll('[data-contact-slot]').forEach((el) => { el.innerHTML = contactCardHtml(); }); }
+
+/* Bouton de contact flottant, visible sur toutes les pages (sauf pour l'admin) */
+function renderContactFab() {
+  const fab = $('contactFab'); if (!fab) return;
+  const hide = currentUser?.role === 'admin' || /^#\/client\/messages/.test(location.hash);
+  fab.hidden = hide;
+  if (hide) { toggleContactPanel(false); return; }
+  $('contactPanel').innerHTML = `
+    <div class="cp-head"><strong>Besoin d'aide ?</strong><button class="icon-btn" aria-label="Fermer" onclick="toggleContactPanel(false)">✕</button></div>
+    <p class="muted">Nexus Crédit · <span class="mono">${esc(fmtPhone(_contact.whatsapp))}</span>${_contact.hours ? '<br>' + esc(_contact.hours) : ''}</p>
+    <div class="cp-actions">${contactButtons()}
+      ${currentUser?.role === 'client' ? '<a class="btn btn-primary" href="#/client/messages" onclick="toggleContactPanel(false)">💬 Message dans l\'appli</a>'
+        : '<a class="btn btn-ghost" href="#/login" onclick="toggleContactPanel(false)">Se connecter pour nous écrire ici</a>'}</div>`;
+}
+function toggleContactPanel(force) {
+  const panel = $('contactPanel'), btn = $('contactFabBtn'); if (!panel) return;
+  const show = force ?? panel.hidden;
+  panel.hidden = !show; btn.setAttribute('aria-expanded', String(show));
+}
+
+/* Messages non lus : pastille sur « Messages » et sur le bouton flottant */
+let _msgUnread = 0;
+async function refreshMsgBadge() {
+  if (!currentUser) return;
+  try {
+    const { count } = await q(sb.from('messages').select('id', { count: 'exact', head: true })
+      .eq('sender', currentUser.role === 'admin' ? 'client' : 'admin').is('read_at', null));
+    _msgUnread = count || 0;
+  } catch (_) {}
+  paintMsgBadge();
+}
+function paintMsgBadge() {
+  document.querySelectorAll('[data-msg-badge]').forEach((b) => { b.hidden = !_msgUnread; b.textContent = _msgUnread > 9 ? '9+' : _msgUnread; });
+  const dot = $('fabDot'); if (dot) dot.hidden = !_msgUnread;
+}
+
+const MSG_CATS = { question: '❓ Question', probleme: '⚠️ Problème', remboursement_anticipe: '💰 Remboursement anticipé', autre: '✉️ Autre' };
+let _msgPrefill = null;
+function contactAbout(requestId, category) { _msgPrefill = { request: requestId, category }; navigate('/client/messages'); }
+
+function bubblesHtml(msgs, me, reqLabel) {
+  if (!msgs.length) return `<div class="empty" style="padding:30px 10px;"><div class="empty-icon">💬</div>${me === 'client'
+    ? 'Aucun message pour le moment.<br>Posez votre question ci-dessous : nous vous répondons ici et vous recevez une notification.' : 'Aucun message avec ce client.'}</div>`;
+  let lastDay = '';
+  return msgs.map((m) => {
+    const day = new Date(m.created_at).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    const sep = day !== lastDay ? `<div class="msg-day">${esc(day)}</div>` : ''; lastDay = day;
+    const mine = m.sender === me;
+    return `${sep}<div class="msg ${mine ? 'mine' : 'theirs'}">
+      ${m.category && m.sender === 'client' && m.category !== 'question' ? `<div class="msg-cat">${esc(MSG_CATS[m.category] || '')}</div>` : ''}
+      ${m.request_id && reqLabel(m.request_id) ? `<div class="msg-cat">📋 ${esc(reqLabel(m.request_id))}</div>` : ''}
+      <div class="msg-body">${esc(m.body)}</div>
+      <div class="msg-meta">${m.sender === 'admin' ? 'Nexus Crédit · ' : ''}${new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}${mine && m.sender === 'client' ? (m.read_at ? ' · ✓✓ lu' : ' · ✓ envoyé') : ''}</div>
+    </div>`;
+  }).join('');
+}
+const scrollThread = () => { const t = $('thread'); if (t) t.scrollTop = t.scrollHeight; };
+let _threadRefresh = null; // rafraîchit seulement la conversation (le brouillon n'est jamais effacé)
+function refreshMessages(link) {
+  const h = location.hash.replace(/^#/, '');
+  if (_threadRefresh && (h === link || h === '/client/messages')) { _threadRefresh(); return true; }
+  if (h === '/admin/messages') { invalidateData(); route(); return true; }
+  return false;
+}
+
+async function renderClientMessages() {
+  const paint = painter();
+  const [msgsRes, reqs] = await Promise.all([
+    q(sb.from('messages').select('id,sender,category,request_id,body,created_at,read_at').eq('client_id', currentUser.id).order('created_at', { ascending: true }).limit(300)),
+    listWithCache('client-list', sb.from('requests').select(LIST_COLS).eq('client_id', currentUser.id).order('created_at', { ascending: false }).limit(200)).catch(() => []),
+  ]);
+  if (!paint()) return;
+  let msgs = msgsRes.data || [];
+  const reqLabel = (id) => { const r = reqs.find((x) => x.id === id); return r ? `Prêt de ${fcfa(r.montant)} du ${fmtDate(r.created_at)}` : ''; };
+  const pre = _msgPrefill || {}; _msgPrefill = null;
+  $('content').innerHTML = `${offlineNote()}
+    <div class="page-head"><div><h1 class="page-title">💬 Messages</h1><p class="page-subtitle">Écrivez-nous ici : vous recevez une notification dès que nous répondons.</p></div></div>
+    <div class="msg-layout">
+      <div class="card chat-card">
+        <div class="thread" id="thread" aria-live="polite">${bubblesHtml(msgs, 'client', reqLabel)}</div>
+        <form class="composer" id="msgForm" novalidate>
+          <div class="composer-row">
+            <select id="msgCat" aria-label="Sujet">${Object.entries(MSG_CATS).map(([k, l]) => `<option value="${k}" ${pre.category === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+            <select id="msgReq" aria-label="Demande concernée"><option value="">Aucune demande en particulier</option>${reqs.map((r) =>
+              `<option value="${esc(r.id)}" ${pre.request === r.id ? 'selected' : ''}>${esc(fcfa(r.montant))} · ${esc(fmtDate(r.created_at))} · ${esc(STATUS[r.status]?.label || r.status)}</option>`).join('')}</select>
+          </div>
+          <textarea id="msgBody" rows="3" maxlength="1000" placeholder="${pre.category === 'remboursement_anticipe' ? 'Ex. : je souhaite rembourser mon prêt dès aujourd\'hui, quel montant dois-je envoyer ?' : 'Votre message…'}" aria-label="Votre message"></textarea>
+          <div class="composer-foot"><span class="muted" id="msgCount">0 / 1000</span><button class="btn btn-primary" type="submit" id="msgSend">📤 Envoyer</button></div>
+        </form>
+      </div>
+      <div class="msg-side">${contactCardHtml('📞 Plus urgent ?')}</div>
+    </div>`;
+  scrollThread();
+  const body = $('msgBody');
+  body.oninput = () => { $('msgCount').textContent = `${body.value.length} / 1000`; };
+  if (pre.category) body.focus();
+  const markRead = () => { if (msgs.some((m) => m.sender === 'admin' && !m.read_at)) rpc('mark_messages_read', {}).then(() => { _msgUnread = 0; paintMsgBadge(); }).catch(() => {}); };
+  markRead();
+  _threadRefresh = async () => {
+    try {
+      const { data } = await q(sb.from('messages').select('id,sender,category,request_id,body,created_at,read_at').eq('client_id', currentUser.id).order('created_at', { ascending: true }).limit(300));
+      msgs = data || []; if ($('thread')) { $('thread').innerHTML = bubblesHtml(msgs, 'client', reqLabel); scrollThread(); markRead(); }
+    } catch (_) {}
+  };
+  $('msgForm').onsubmit = (e) => {
+    e.preventDefault();
+    const text = body.value.trim();
+    if (text.length < 2) return invalid(body, 'Écrivez votre message.');
+    once('msg-send', async () => {
+      const btn = $('msgSend'); busy(btn, true, 'Envoi…');
+      try {
+        await rpc('send_message', { p_body: text, p_category: $('msgCat').value, p_request: $('msgReq').value || null });
+        body.value = ''; body.oninput(); $('content').dataset.dirty = '';
+        toast('Message envoyé. Vous serez notifié de notre réponse.');
+        await _threadRefresh();
+      } catch (err) { toast(err.message, 'error'); }
+      finally { busy(btn, false); }
+    });
+  };
+}
+
+async function renderAdminMessages() {
+  const paint = painter();
+  const [convs] = await Promise.all([rpc('admin_conversations', {}), loadScores()]);
+  if (!paint()) return;
+  const unread = convs.reduce((t, c) => t + c.unread, 0);
+  $('content').innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">💬 Messages</h1><p class="page-subtitle">${convs.length} conversation(s)${unread ? ` · <strong style="color:var(--gold)">${unread} message(s) non lu(s)</strong>` : ''}</p></div></div>
+    ${convs.length ? `<div class="card conv-list">${convs.map((c) => `<a class="conv ${c.unread ? 'unread' : ''}" href="#/admin/messages/${esc(c.client_id)}">
+        <div class="conv-avatar">${esc((c.full_name || c.email || '?').trim().charAt(0).toUpperCase())}</div>
+        <div class="conv-main"><div class="conv-top"><strong>${esc(c.full_name || c.email || 'Client')}</strong>${trustBadge(c.client_id)}<span class="conv-time">${esc(fmtDateTime(c.last_at))}</span></div>
+          <div class="conv-last">${c.last_sender === 'admin' ? '<span class="muted">Vous : </span>' : ''}${esc(c.last_body)}</div></div>
+        ${c.unread ? `<span class="conv-unread">${c.unread}</span>` : ''}
+      </a>`).join('')}</div>`
+      : '<div class="empty"><div class="empty-icon">💬</div>Aucun message pour le moment. Les clients vous écrivent depuis la page « Messages » de leur espace.</div>'}`;
+}
+
+async function renderAdminThread(clientId) {
+  const paint = painter();
+  const [profRes, msgsRes, reqsRes, s] = await Promise.all([
+    q(sb.from('profiles').select('id,full_name,email,phone,role').eq('id', clientId).maybeSingle()),
+    q(sb.from('messages').select('id,sender,category,request_id,body,created_at,read_at').eq('client_id', clientId).order('created_at', { ascending: true }).limit(300)),
+    q(sb.from('requests').select(LIST_COLS).eq('client_id', clientId).order('created_at', { ascending: false }).limit(20)),
+    getSettings().catch(() => null), loadScores(),
+  ]);
+  if (!paint()) return;
+  const prof = profRes.data;
+  if (!prof || prof.role !== 'client') { toast('Client introuvable.', 'error'); return navigate('/admin/messages'); }
+  let msgs = msgsRes.data || [];
+  const reqs = reqsRes.data || [];
+  const reqLabel = (id) => { const r = reqs.find((x) => x.id === id); return r ? `Prêt de ${fcfa(r.montant)} du ${fmtDate(r.created_at)} · ${STATUS[r.status]?.label || ''}` : ''; };
+  const phone = prof.phone || reqs[0]?.telephone || '';
+  const active = reqs.find((r) => ['paid', 'repayment_requested'].includes(r.status));
+  const quick = [
+    'Bonjour, merci pour votre message. ',
+    active ? `Pour rembourser maintenant, envoyez ${fcfa(amountDue(active))} sur Wave au ${fmtPhone(s?.wave_number || '')}, puis touchez « J'ai remboursé » dans votre demande.` : null,
+    'C\'est bien reçu, merci !',
+    'Pouvez-vous m\'appeler quand vous êtes disponible ?',
+  ].filter(Boolean);
+  $('content').innerHTML = `
+    <a class="btn btn-ghost btn-sm" href="#/admin/messages">← Messages</a>
+    <div class="page-head" style="margin-top:16px;"><div><h1 class="page-title">${esc(prof.full_name || prof.email)} ${trustBadge(clientId)}</h1>
+      <p class="page-subtitle">${esc(prof.email || '')}${phone ? ' · ' + esc(fmtPhone(phone)) : ''}</p></div>
+      ${phone ? `<div class="contact-actions"><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="${esc(waLink(phone, 'Bonjour ' + (prof.full_name || '') + ', '))}">🟢 WhatsApp</a><a class="btn btn-secondary btn-sm" href="${esc(telLink(phone))}">📞 Appeler</a></div>` : ''}</div>
+    <div class="msg-layout">
+      <div class="card chat-card">
+        <div class="thread" id="thread" aria-live="polite">${bubblesHtml(msgs, 'admin', reqLabel)}</div>
+        <form class="composer" id="replyForm" novalidate>
+          <div class="quick-replies">${quick.map((t, i) => `<button type="button" class="chip" data-quick="${i}">${esc(t.length > 48 ? t.slice(0, 46) + '…' : t)}</button>`).join('')}</div>
+          <textarea id="replyBody" rows="3" maxlength="1000" placeholder="Votre réponse… (le client reçoit une notification)" aria-label="Votre réponse"></textarea>
+          <div class="composer-foot"><span class="muted" id="replyCount">0 / 1000</span><button class="btn btn-primary" type="submit" id="replySend">📤 Répondre</button></div>
+        </form>
+      </div>
+      <div class="msg-side"><div class="card"><div class="card-title">📋 Demandes du client</div>
+        ${reqs.length ? reqs.slice(0, 6).map((r) => `<div class="due-row"><span>${fcfa(r.montant)} · ${fmtDate(r.created_at)}</span><span>${statusBadge(r.status)} <a class="btn btn-ghost btn-sm" href="#/admin/requests/${esc(r.id)}">Voir</a></span></div>`).join('') : '<p class="muted">Aucune demande.</p>'}
+      </div></div>
+    </div>`;
+  scrollThread();
+  const body = $('replyBody');
+  body.oninput = () => { $('replyCount').textContent = `${body.value.length} / 1000`; };
+  document.querySelectorAll('[data-quick]').forEach((b) => { b.onclick = () => { body.value = (body.value ? body.value.trimEnd() + ' ' : '') + quick[Number(b.dataset.quick)]; body.oninput(); body.focus(); }; });
+  const markRead = () => { if (msgs.some((m) => m.sender === 'client' && !m.read_at)) rpc('mark_messages_read', { p_client: clientId }).then(refreshMsgBadge).catch(() => {}); };
+  markRead();
+  _threadRefresh = async () => {
+    try {
+      const { data } = await q(sb.from('messages').select('id,sender,category,request_id,body,created_at,read_at').eq('client_id', clientId).order('created_at', { ascending: true }).limit(300));
+      msgs = data || []; if ($('thread')) { $('thread').innerHTML = bubblesHtml(msgs, 'admin', reqLabel); scrollThread(); markRead(); }
+    } catch (_) {}
+  };
+  $('replyForm').onsubmit = (e) => {
+    e.preventDefault();
+    const text = body.value.trim();
+    if (!text) return invalid(body, 'Écrivez votre réponse.');
+    once('reply-' + clientId, async () => {
+      const btn = $('replySend'); busy(btn, true, 'Envoi…');
+      try {
+        await rpc('admin_reply', { p_client: clientId, p_body: text });
+        body.value = ''; body.oninput(); $('content').dataset.dirty = '';
+        toast('Réponse envoyée : le client est notifié.');
+        await _threadRefresh();
+      } catch (err) { toast(err.message, 'error'); }
+      finally { busy(btn, false); }
+    });
+  };
+}
+
+/* =====================================================================
    Événements globaux & démarrage
    ===================================================================== */
 document.addEventListener('click', (e) => {
@@ -2641,10 +3216,11 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // Fonctions appelées depuis les attributs onclick
-Object.assign(window, { copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route, installApp, goNewRequest,
+Object.assign(window, { toggleContactPanel, contactAbout, resendSms, copyText, openDoc, adminSet, markPaid, openNotif, enablePush, route, installApp, goNewRequest,
   showInstallHelp, hideInstallBanner, exportCsv });
 
 registerSW();
+loadContact();
 (async () => {
   await loadProfile();
   if (currentUser && ['', '#/home', '#/login', '#/register'].includes(location.hash)) location.hash = '#' + homeOf(currentUser);
