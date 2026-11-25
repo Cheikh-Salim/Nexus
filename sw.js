@@ -1,6 +1,6 @@
 /* Service worker Nexus Crédit : appli installable, ouverture hors connexion, notifications push.
    Changer VERSION à chaque mise en ligne d'un nouvel index.html. */
-const VERSION = 'nexus-v17-1';
+const VERSION = 'nexus-v18-1';
 const SHELL = `${VERSION}-shell`;
 const RUNTIME = `${VERSION}-runtime`;
 const PRECACHE = [
@@ -37,17 +37,17 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (isApi(url)) return; // données : toujours en direct, jamais en cache (sécurité)
 
-  // Pages : réseau d'abord (dernière version), sinon la copie en cache (hors connexion).
+    // Connexion lente : si le réseau ne répond pas en 1,2 s, la copie enregistrée s'affiche (la nouvelle est mise en cache pour la prochaine fois).
   if (req.mode === 'navigate') {
     event.respondWith((async () => {
-      try {
-        const res = await fetch(req);
-        const cache = await caches.open(SHELL);
-        cache.put('./index.html', res.clone());
+      const cached = (await caches.match('./index.html')) || (await caches.match('./'));
+      const network = fetch(req).then(async (res) => {
+        if (res && res.ok) (await caches.open(SHELL)).put('./index.html', res.clone());
         return res;
-      } catch (_) {
-        return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
-      }
+      });
+      if (!cached) return network.catch(() => Response.error());
+      event.waitUntil(network.catch(() => null));
+      return Promise.race([network.catch(() => cached), new Promise((ok) => setTimeout(() => ok(cached), 1200))]);
     })());
     return;
   }
