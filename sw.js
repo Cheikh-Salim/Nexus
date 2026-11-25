@@ -1,6 +1,6 @@
 /* Service worker Nexus Crédit : appli installable, ouverture hors connexion, notifications push.
    Changer VERSION à chaque mise en ligne d'un nouvel index.html. */
-const VERSION = 'nexus-v9-1';
+const VERSION = 'nexus-v11-1';
 const SHELL = `${VERSION}-shell`;
 const RUNTIME = `${VERSION}-runtime`;
 const PRECACHE = [
