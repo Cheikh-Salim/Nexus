@@ -11,8 +11,8 @@
     "minimal-ui"
   ],
   "orientation": "portrait",
-  "background_color": "#070b08",
-  "theme_color": "#15803d",
+  "background_color": "#07110f",
+  "theme_color": "#0d9488",
   "lang": "fr",
   "dir": "ltr",
   "categories": [
