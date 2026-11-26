@@ -1,7 +1,8 @@
 /* Service worker Nexus Crédit : appli installable, ouverture hors connexion, notifications push.
    Changer VERSION à chaque mise en ligne d'un nouvel index.html. */
-const VERSION = 'nexus-v19-1';
+const VERSION = 'nexus-v20-1';
 const SHELL = `${VERSION}-shell`;
+const isLegacy = (k) => /^nexus-v(1\d|[1-9])-/.test(k) || /^nexus-(?!v\d)/.test(k) && !k.startsWith('nexus-test');
 const RUNTIME = `${VERSION}-runtime`;
 const PRECACHE = [
   './', './index.html', './manifest.json',
@@ -14,14 +15,19 @@ self.addEventListener('install', (event) => {
     const cache = await caches.open(SHELL);
     // Une ressource indisponible ne doit pas empêcher l'installation.
     await Promise.all(PRECACHE.map((u) => cache.add(new Request(u, { cache: 'reload' })).catch(() => null)));
+    // Les anciennes versions (v19 et avant) ne savaient pas toujours appliquer une mise à jour : on s'installe directement.
+    if ((await caches.keys()).some(isLegacy)) self.skipWaiting();
   })());
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
+    const legacy = keys.some(isLegacy);
     await Promise.all(keys.filter((k) => !k.startsWith(VERSION)).map((k) => caches.delete(k)));
     await self.clients.claim();
+    // Une seule fois, au passage depuis une ancienne version : les pages ouvertes sont rechargées sur la nouvelle.
+    if (legacy) (await self.clients.matchAll({ type: 'window' })).forEach((c) => { try { c.navigate(c.url); } catch (_) {} });
   })());
 });
 
