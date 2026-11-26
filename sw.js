@@ -1,11 +1,11 @@
 /* Service worker Nexus Crédit : appli installable, ouverture hors connexion, notifications push.
    Changer VERSION à chaque mise en ligne d'un nouvel index.html. */
-const VERSION = 'nexus-v18-1';
+const VERSION = 'nexus-v19-1';
 const SHELL = `${VERSION}-shell`;
 const RUNTIME = `${VERSION}-runtime`;
 const PRECACHE = [
   './', './index.html', './manifest.json',
-  './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',
+  './icon-192.png', './icon-512.png', './icon-maskable-192.png', './icon-maskable-512.png', './apple-touch-icon.png',
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2',
 ];
 
